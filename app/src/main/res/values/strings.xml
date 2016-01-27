@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Abacus</string>
+    <string name="action_settings">Einstellungen</string>
+
+    <string name="settings_header">Brutto</string>
+    <string name="result_header">Netto</string>
+
+    <string name="format_string">dd. MMMM</string>
+    <string name="interval">%1$s bis %2$s</string>
+
+    <string name="stkl_prompt">Steuerklasse angeben</string>
+
+    <string-array name="stkl_array">
+        <item>I</item>
+        <item>II</item>
+        <item>III</item>
+        <item>IV</item>
+        <item>V</item>
+        <item>VI</item>
+    </string-array>
+
+    <string name="kist_prompt">Kirchensteuer</string>
+    <string name="kinder_prompt">Kinderfreibetrag</string>
+    <string name="krankenkassen_prompt">Krankenkasse angeben</string>
+    <string name="bundesland_prompt">Bundesland angeben</string>
+</resources>

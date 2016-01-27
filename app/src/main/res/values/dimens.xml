@@ -1,0 +1,18 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="textview_height">25dp</dimen>
+    <dimen name="textview_width">150dp</dimen>
+    <dimen name="textview_font_size">20sp</dimen>
+    <dimen name="textview_ball_radius">30dp</dimen>
+    <dimen name="textview_layout_marginTop">5dp</dimen>
+    <dimen name="textview_layout_marginBottom">10dp</dimen>
+    <dimen name="textview_layout_marginLeft">5dp</dimen>
+    <item name="textview_shadowRadius" format="float" type="dimen">1.5</item>
+    <item name="textview_shadowDx" format="float" type="dimen">3.0</item>
+    <item name="textview_shadowDy" format="float" type="dimen">3.0</item>
+    <item name="spinner_fontColor" format="float" type="dimen">3.0</item>
+</resources>

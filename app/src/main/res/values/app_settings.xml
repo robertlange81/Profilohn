@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="api_uri">http://10.59.3.139:8080/api/wage/calc</string>
+</resources>
