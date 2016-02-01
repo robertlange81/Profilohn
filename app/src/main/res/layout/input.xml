@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="sageone.abacus.InputActivity">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/layout_wage"
+            android:background="@drawable/shape"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/type_label"
+                android:text="@string/wagetype"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RadioGroup
+                android:id="@+id/type"
+                android:layout_below="@id/type_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/input_margin"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/type_netto"
+                    android:hint="@string/netwage"
+                    android:checked="true"
+                    android:width="0dp"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:id="@+id/type_brutto"
+                    android:hint="@string/grosswage"
+                    android:width="0dp"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/wage_label"
+                android:layout_below="@id/type"
+                android:text="@string/wage_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/wage"
+                android:layout_below="@id/wage_label"
+                android:layout_marginLeft="@dimen/textview_layout_marginLeft"
+                android:hint="@string/wage_default"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/wage_period_value"
+                style="@style/wage_period_value"
+                android:layout_below="@id/wage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Switch
+                android:id="@+id/wage_period"
+                android:layout_below="@id/wage"
+                android:contentDescription="@string/wage_period"
+                android:layout_marginBottom="@dimen/input_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/taxclass_label"
+            android:layout_below="@id/layout_wage"
+            android:text="@string/taxclass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/taxclass_value"
+            style="@style/taxclass_value"
+            android:layout_below="@id/taxclass_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <SeekBar
+            android:id="@+id/taxclass"
+            style="@style/taxclass_slider"
+            android:layout_below="@id/taxclass_label"
+            android:layout_alignRight="@id/taxclass_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/bundesland_label"
+            android:layout_below="@id/taxclass"
+            android:text="@string/state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Spinner
+            android:id="@+id/bundesland"
+            android:layout_below="@id/bundesland_label"
+            android:prompt="@string/bundesland_prompt"
+            android:layout_marginBottom="@dimen/input_margin"
+            android:contentDescription="@string/state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/krankenkasse_label"
+            android:layout_below="@id/bundesland"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/insurance" />
+
+        <Spinner
+            android:id="@+id/krankenkasse"
+            android:layout_below="@id/krankenkasse_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/input_margin"
+            android:contentDescription="@string/insurance"
+            android:prompt="@string/krankenkassen_prompt" />
+
+        <TextView
+            android:id="@+id/kist_label"
+            android:layout_below="@id/krankenkasse"
+            android:text="@string/church"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Switch
+            android:id="@+id/kist"
+            android:layout_below="@id/kist_label"
+            android:prompt="@string/kist_prompt"
+            android:contentDescription="@string/church"
+            android:layout_marginBottom="@dimen/input_margin"
+            android:layout_marginTop="-10pt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/kinder_label"
+            android:layout_below="@id/kist"
+            android:text="@string/children"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/kinder_value"
+            style="@style/children_value"
+            android:layout_below="@id/kinder_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <SeekBar
+            android:id="@+id/kinder"
+            style="@style/children_slider"
+            android:layout_below="@id/kinder_label"
+            android:layout_alignRight="@id/kinder_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/berechnen"
+            android:text="@string/calculate"
+            style="@style/calculate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

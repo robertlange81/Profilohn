@@ -119,9 +119,9 @@ public class ResultActivity extends Activity implements
         input.setAbrjahr(2015); //TODO;
         input.setAzwo(40f);
         input.setBerechnungsart("Bruttolohn");
-        String br = SettingsActivity.bruttolohn.getText().toString();
+        String br = InputActivity.bruttolohn.getText().toString();
         if (br.matches("[0-9]+([,.][0-9]{1,2})?")) {
-            input.setBrutto(Float.parseFloat(SettingsActivity.bruttolohn.getText().toString()));
+            input.setBrutto(Float.parseFloat(InputActivity.bruttolohn.getText().toString()));
         } else {
             AlertDialog alertDialog = new AlertDialog.Builder(ResultActivity.this).create();
             alertDialog.setTitle("Fehler");
@@ -135,23 +135,23 @@ public class ResultActivity extends Activity implements
             alertDialog.show();
             throw new Exception();
         }
-        if (SettingsActivity.bundesland.getSelectedItem().toString() == "Sachsen") {
+        if (InputActivity.bundesland.getSelectedItem().toString() == "Sachsen") {
             input.setBundesland(13); // TODO key values in spinner
         } else {
             input.setBundesland(1); // TODO key values in spinner
         }
 
         input.setGleit(false);
-        input.setKindFrei(Float.parseFloat(SettingsActivity.kinder.getSelectedItem().toString()));
+        input.setKindFrei(Float.parseFloat(InputActivity.kinder.getSelectedItem().toString()));
         input.setKindu23(input.getKindFrei() > 0);
-        input.setKirche(SettingsActivity.kist.getSelectedItem().toString() == "Ja");
+        //input.setKirche(InputActivity.kist.get
         input.setKkbetriebsnummer(1086312);
         input.setKv(true);
         input.setRv(true);
         input.setAv(true);
         input.setStfreibetrag(0f);
         input.setZeitraum("m");
-        input.setStkl(Integer.parseInt(SettingsActivity.stkl.getSelectedItem().toString()));
+        input.setStkl(Integer.parseInt(InputActivity.stkl.getSelectedItem().toString()));
 
         return input;
     }
@@ -204,7 +204,7 @@ public class ResultActivity extends Activity implements
 
         @Override
         protected String doInBackground(String... urls) {
-            if (SettingsActivity.relevantChange) {
+            if (InputActivity.relevantChange) {
 
                 try {
 

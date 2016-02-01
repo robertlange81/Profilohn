@@ -2,11 +2,17 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#CA2A60</color>
+    <color name="colorAccentLight">#FF448F</color>
 
-    <color name="text_shadow">#1F000000</color>
+    <color name="control">#666</color>
+    <color name="text_shadow">#1F0000</color>
     <color name="text_shadow_white">#FFFFFF</color>
     <color name="gradient_start">#AAAAFF</color>
     <color name="gradient_end">#0022FF</color>
-    <color name="spinner_fontColor">#FFFFFFFF</color>
+    <color name="spinner_fontColor">#FFFFFF</color>
+
+    <color name="black_overlay">#660000</color>
+
+    <color name="light_grey">#DDDDDD</color>
 </resources>

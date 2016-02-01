@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".SettingsActivity"
+    tools:context=".InputActivity"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -30,7 +30,6 @@
             android:elegantTextHeight="true"
             android:hint="Bruttolohn" />
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -163,17 +162,17 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
         <Spinner
-            android:textSize="20sp"
-            android:gravity="left"
-            android:textColor="@color/spinner_fontColor"
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:ems="5"
-            android:prompt="@string/kist_prompt"
-            android:id="@+id/kist"
-            android:contentDescription=""
-            android:theme="@android:style/Widget.DropDownItem.Spinner"
-            android:layout_marginTop="2dp" />
+        android:textSize="20sp"
+        android:gravity="left"
+        android:textColor="@color/spinner_fontColor"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:ems="5"
+        android:prompt="@string/kist_prompt"
+        android:id="@+id/kist"
+        android:contentDescription=""
+        android:theme="@android:style/Widget.DropDownItem.Spinner"
+        android:layout_marginTop="2dp" />
 
     </LinearLayout>
 

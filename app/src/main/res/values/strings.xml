@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">Abacus</string>
+    <string name="snackbar_label">Neue Berechnung starten ..</string>
+    <string name="snackbar_action_netto">Nettolohn</string>
+    <string name="snackbar_action_brutto">Bruttolohn</string>
+
+    <!-- menu actions -->
+    <string name="action_about">Über Sage</string>
+    <string name="action_check">Erneut prüfen</string>
+    <string name="action_quit">Beenden</string>
     <string name="action_settings">Einstellungen</string>
 
     <string name="settings_header">Brutto</string>
@@ -8,6 +16,7 @@
     <string name="format_string">dd. MMMM</string>
     <string name="interval">%1$s bis %2$s</string>
 
+    <!-- prompts -->
     <string name="stkl_prompt">Steuerklasse angeben</string>
 
     <string-array name="stkl_array">
@@ -23,4 +32,27 @@
     <string name="kinder_prompt">Kinderfreibetrag</string>
     <string name="krankenkassen_prompt">Krankenkasse angeben</string>
     <string name="bundesland_prompt">Bundesland angeben</string>
+
+    <!-- Service labels -->
+    <string name="service_no_network">Keine Internetverbindung</string>
+    <string name="empty">Not defined</string>
+
+    <string name="title_activity_about">AboutActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <!-- input labels -->
+    <string name="wage_amount">Höhe des Bezuges in €</string>
+    <string name="wage_default">2500</string>
+    <string name="wage_period">Jahresgehalt</string>
+    <string name="wagetype">Art der Berechnung</string>
+    <string name="netwage">Nettolohn</string>
+    <string name="grosswage">Bruttolohn</string>
+    <string name="taxclass">Steuerklasse</string>
+    <string name="state">Bundesland</string>
+    <string name="insurance">Krankenkasse</string>
+    <string name="church">Kirchensteuer</string>
+    <string name="children">Kinderfreibetrag</string>
+    <string name="calculate">Berechnung starten</string>
+
 </resources>

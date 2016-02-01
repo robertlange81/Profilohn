@@ -6,16 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
-        <!-- For the resting Spinner style -->
-        <item name="android:spinnerItemStyle">
-            @style/spinnerItemStyle
-        </item>
-
-        <!-- For each individual Spinner list item once clicked on -->
-        <item name="android:spinnerDropDownItemStyle">
-            @style/spinnerDropDownItemStyle
-        </item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -27,16 +17,60 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="spinnerItemStyle">
-        <item name="android:padding">10dp</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">#FFFFFF</item>
+    <style name="FullscreenTheme" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
     </style>
 
-    <style name="spinnerDropDownItemStyle">
-        <item name="android:padding">20dp</item>
-        <item name="android:textSize">30sp</item>
-        <item name="android:textColor">#FFFFFF</item>
+    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <!-- Input layout styles -->
+
+    <style name="wage_period_value">
+        <item name="android:text">als Jahresgehalt</item>
+        <item name="android:layout_marginLeft">@dimen/textview_layout_marginLeft_wage_period</item>
+        <item name="android:textColor">@color/control</item>
+        <item name="android:textSize">@dimen/textview_font_size</item>
+    </style>
+
+    <style name="taxclass_slider">
+        <item name="android:max">5</item>
+        <item name="android:progress">0</item>
+        <item name="android:layout_marginLeft">80px</item>
+        <item name="android:layout_marginTop">-8px</item>
+    </style>
+
+    <style name="taxclass_value">
+        <item name="android:text">1</item>
+        <item name="android:layout_marginLeft">@dimen/textview_layout_marginLeft</item>
+        <item name="android:textColor">@color/text_shadow</item>
+        <item name="android:textSize">@dimen/textview_font_size</item>
+    </style>
+
+    <style name="children_slider">
+        <item name="android:max">10</item>
+        <item name="android:progress">0</item>
+        <item name="android:layout_marginLeft">80px</item>
+        <item name="android:layout_marginTop">-8px</item>
+    </style>
+
+    <style name="children_value">
+        <item name="android:text">0.0</item>
+        <item name="android:layout_marginLeft">@dimen/textview_layout_marginLeft</item>
+        <item name="android:textColor">@color/text_shadow</item>
+        <item name="android:textSize">@dimen/textview_font_size</item>
+    </style>
+
+    <style name="calculate">
+        <item name="android:textColor">@color/text_shadow_white</item>
+        <item name="android:backgroundTint">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/textview_button_font_size</item>
+        <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
     </style>
 
 </resources>
