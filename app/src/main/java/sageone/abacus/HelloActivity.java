@@ -1,8 +1,5 @@
 package sageone.abacus;
 
-import sageone.abacus.ConnectivityHandler;
-
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -95,7 +92,7 @@ public class HelloActivity extends AppCompatActivity {
     public void showInputActivity(Integer type)
     {
         Log.d("Notice", type.toString());
-        Intent i = new Intent(this, InputActivity.class);
+        Intent i = new Intent(this, EmployeeActivity.class);
         startActivity(i);
     }
 

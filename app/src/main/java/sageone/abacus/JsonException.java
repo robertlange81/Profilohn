@@ -6,15 +6,15 @@ package sageone.abacus;
 
 import org.json.JSONObject;
 
-public class RestException extends Exception {
+public class JsonException extends Exception {
 
     private static final long serialVersionUID = 4491098305202657442L;
 
-    public RestException(String message){
+    public JsonException(String message){
         super(message);
     }
 
-    public RestException(JSONObject errorObject){
+    public JsonException(JSONObject errorObject){
         super(errorObject.toString());
     }
 

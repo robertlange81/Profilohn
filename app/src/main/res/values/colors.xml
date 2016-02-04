@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#CA2A60</color>
+    <color name="colorPrimary">#51534A</color>
+    <color name="colorPrimaryMedium">#8E8A86</color>
+    <color name="colorPrimaryDark">#2B2421</color>
+    <color name="colorLink">#4178BE</color>
+    <color name="colorTitle">#41A940</color>
+    <color name="colorAccent">#ED1C5F</color>
     <color name="colorAccentLight">#FF448F</color>
+    <color name="colorAccentBlue">#2A3456</color>
 
-    <color name="control">#666</color>
-    <color name="text_shadow">#1F0000</color>
-    <color name="text_shadow_white">#FFFFFF</color>
+    <color name="text_grey">#555</color>
+    <color name="text_middlegrey">#333</color>
+    <color name="text_darkgrey">#111111</color>
+    <color name="text_white">#FFF</color>
     <color name="gradient_start">#AAAAFF</color>
     <color name="gradient_end">#0022FF</color>
-    <color name="spinner_fontColor">#FFFFFF</color>
+    <color name="spinner_fontColor">#FFF</color>
 
     <color name="black_overlay">#660000</color>
 
-    <color name="light_grey">#DDDDDD</color>
+    <color name="light_grey">#DDD</color>
 </resources>

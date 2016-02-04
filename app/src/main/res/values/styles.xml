@@ -3,9 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorTitle</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorLink</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -29,13 +29,54 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <!-- Inline text styles -->
+    <style name="text_h2">
+        <item name="android:layout_marginTop">@dimen/text_margin_top_h2</item>
+        <item name="android:textColor">@color/text_grey</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
+    </style>
+
+    <style name="text_content">
+        <item name="android:layout_margin">@dimen/text_margin</item>
+        <item name="android:textColor">@color/text_grey</item>
+        <item name="android:textSize">@dimen/text_size_content</item>
+    </style>
+
+    <style name="text_hello_sage">
+        <item name="android:textColor">@color/text_white</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
+
+    <style name="text_link">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_content</item>
+        <item name="android:textColor">@color/colorLink</item>
+    </style>
+
+    <style name="text_input">
+        <item name="android:textColor">@color/text_darkgrey</item>
+        <item name="android:textSize">@dimen/text_size_input</item>
+    </style>
+
+    <style name="input_wage">
+        <item name="android:layout_marginLeft">4dp</item>
+    </style>
+
     <!-- Input layout styles -->
+
+    <style name="input_label">
+        <item name="android:textSize">@dimen/text_size_input</item>
+        <item name="android:layout_marginLeft">@dimen/input_margin</item>
+        <item name="android:layout_marginBottom">@dimen/text_margin_bottom</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 
     <style name="wage_period_value">
         <item name="android:text">als Jahresgehalt</item>
         <item name="android:layout_marginLeft">@dimen/textview_layout_marginLeft_wage_period</item>
-        <item name="android:textColor">@color/control</item>
-        <item name="android:textSize">@dimen/textview_font_size</item>
+        <item name="android:textColor">@color/text_grey</item>
+        <item name="android:textSize">@dimen/text_size_input</item>
     </style>
 
     <style name="taxclass_slider">
@@ -48,8 +89,8 @@
     <style name="taxclass_value">
         <item name="android:text">1</item>
         <item name="android:layout_marginLeft">@dimen/textview_layout_marginLeft</item>
-        <item name="android:textColor">@color/text_shadow</item>
-        <item name="android:textSize">@dimen/textview_font_size</item>
+        <item name="android:textColor">@color/text_grey</item>
+        <item name="android:textSize">@dimen/text_size_input</item>
     </style>
 
     <style name="children_slider">
@@ -62,15 +103,14 @@
     <style name="children_value">
         <item name="android:text">0.0</item>
         <item name="android:layout_marginLeft">@dimen/textview_layout_marginLeft</item>
-        <item name="android:textColor">@color/text_shadow</item>
-        <item name="android:textSize">@dimen/textview_font_size</item>
+        <item name="android:textColor">@color/text_darkgrey</item>
+        <item name="android:textSize">@dimen/text_size_input</item>
     </style>
 
     <style name="calculate">
-        <item name="android:textColor">@color/text_shadow_white</item>
-        <item name="android:backgroundTint">@color/colorAccent</item>
-        <item name="android:textSize">@dimen/textview_button_font_size</item>
-        <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
+        <item name="android:textColor">@color/text_white</item>
+        <item name="android:background">@color/colorLink</item>
+        <item name="android:textSize">@dimen/action_button_text_size</item>
     </style>
 
 </resources>

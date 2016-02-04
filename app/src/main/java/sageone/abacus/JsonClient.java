@@ -32,7 +32,7 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RestClient {
+public class JsonClient {
 
     // The client to use for requests
     DefaultHttpClient client = new DefaultHttpClient();
@@ -46,7 +46,7 @@ public class RestClient {
      * @param 	data		the data you want to pass to the URL, can be null
      * @return 	JSON		the JSONObject returned from the request
      */
-    public JSONObject request(String url, String method, Map<String, Object> data) throws RestException {
+    public JSONObject request(String url, String method, Map<String, Object> data) throws JsonException {
         if (method.matches("GET")) {
             return get(url);
         } else if (method.matches("POST")) {
@@ -56,7 +56,7 @@ public class RestClient {
         } else if (method.matches("DELETE")) {
             return delete(url);
         }
-        throw new RestException("Error! Incorrect method provided: " + method);
+        throw new JsonException("Error! Incorrect method provided: " + method);
     }
 
     /**
@@ -66,7 +66,7 @@ public class RestClient {
      * @param 	url		the url you wish to connect to
      * @return 	JSON	the JSON response from the call
      */
-    public JSONObject get(String url) throws RestException {
+    public JSONObject get(String url) throws JsonException {
         HttpGet request = new HttpGet(url);
         try {
             HttpResponse response = client.execute(request);
@@ -76,7 +76,7 @@ public class RestClient {
             }
             return new JSONObject(readInput(response.getEntity().getContent()));
         } catch (Exception e) {
-            throw new RestException(e.getMessage());
+            throw new JsonException(e.getMessage());
         }
     }
 
@@ -87,7 +87,7 @@ public class RestClient {
      * @param	data	the data object to post to the url
      * @return 	JSON	the JSON response from the call
      */
-    public JSONObject post(String url, Map<String, Object> data) throws RestException {
+    public JSONObject post(String url, Map<String, Object> data) throws JsonException {
         HttpPost request = new HttpPost(url);
         List<NameValuePair> nameValuePairs = setParams(data);
         try {
@@ -101,7 +101,7 @@ public class RestClient {
 
             return new JSONObject(readInput(response.getEntity().getContent()));
         } catch (Exception e) {
-            throw new RestException(e.getMessage());
+            throw new JsonException(e.getMessage());
         }
     }
 
@@ -112,7 +112,7 @@ public class RestClient {
      * @param	data	the data object to post to the url
      * @return 	JSON	the JSON response from the call
      */
-    public JSONObject put(String url, Map<String, Object> data) throws RestException {
+    public JSONObject put(String url, Map<String, Object> data) throws JsonException {
         HttpPut request = new HttpPut(url);
         List<NameValuePair> nameValuePairs = setParams(data);
         try {
@@ -126,7 +126,7 @@ public class RestClient {
 
             return new JSONObject(readInput(response.getEntity().getContent()));
         } catch (Exception e) {
-            throw new RestException(e.getMessage());
+            throw new JsonException(e.getMessage());
         }
     }
 
@@ -136,7 +136,7 @@ public class RestClient {
      * @param 	url		the url you wish to connect to
      * @return 	JSON	the JSON response from the call
      */
-    public JSONObject delete(String url) throws RestException {
+    public JSONObject delete(String url) throws JsonException {
         HttpDelete request = new HttpDelete(url);
         try {
             HttpResponse response = client.execute(request);
@@ -148,7 +148,7 @@ public class RestClient {
 
             return new JSONObject(readInput(response.getEntity().getContent()));
         } catch (Exception e) {
-            throw new RestException(e.getMessage());
+            throw new JsonException(e.getMessage());
         }
     }
 
@@ -187,7 +187,7 @@ public class RestClient {
     /**
      * Helper method for creating an error object for better reporting. Not needed,
      * but has proven useful before and can be used to pass objects to the error
-     * class RestException.
+     * class JsonException.
      *
      * @param 	keys		a list of keys
      * @param 	values		a list of values

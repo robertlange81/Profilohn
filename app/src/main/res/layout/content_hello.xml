@@ -1,19 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".HelloActivity"
     tools:showIn="@layout/hello">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_weight="0.25"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Auf + klicken, um eine neue Berechnung zu starten." />
-</RelativeLayout>
+        android:background="@drawable/hello_welcome_shape"
+        android:orientation="vertical">
+
+        <!-- Welcome -->
+        <TextView
+            style="@style/text_h2"
+            android:textColor="@color/text_white"
+            android:text="@string/hello_welcome_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/text_content"
+            android:textColor="@color/text_white"
+            android:text="@string/hello_welcome_sub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_weight="0.75"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Advertisement -->
+        <TextView
+            style="@style/text_h2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hello_into_ad_head" />
+
+        <TextView
+            style="@style/text_content"
+            android:text="@string/hello_intro_ad_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/text_link"
+            android:layout_marginTop="10dp"
+            android:text="@string/hello_intro_ad_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:paddingLeft="10dp"
+        android:background="@color/text_middlegrey"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/text_hello_sage"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/hello_intro_ad_sage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -119,9 +119,9 @@ public class ResultActivity extends Activity implements
         input.setAbrjahr(2015); //TODO;
         input.setAzwo(40f);
         input.setBerechnungsart("Bruttolohn");
-        String br = InputActivity.bruttolohn.getText().toString();
+        String br = EmployeeActivity.wage.getText().toString();
         if (br.matches("[0-9]+([,.][0-9]{1,2})?")) {
-            input.setBrutto(Float.parseFloat(InputActivity.bruttolohn.getText().toString()));
+            input.setBrutto(Float.parseFloat(EmployeeActivity.wage.getText().toString()));
         } else {
             AlertDialog alertDialog = new AlertDialog.Builder(ResultActivity.this).create();
             alertDialog.setTitle("Fehler");
@@ -135,23 +135,23 @@ public class ResultActivity extends Activity implements
             alertDialog.show();
             throw new Exception();
         }
-        if (InputActivity.bundesland.getSelectedItem().toString() == "Sachsen") {
+        if (EmployeeActivity.wage.getText() == "Sachsen") {
             input.setBundesland(13); // TODO key values in spinner
         } else {
             input.setBundesland(1); // TODO key values in spinner
         }
 
         input.setGleit(false);
-        input.setKindFrei(Float.parseFloat(InputActivity.kinder.getSelectedItem().toString()));
+        input.setKindFrei(Float.parseFloat(EmployeeActivity.children.getTag().toString()));
         input.setKindu23(input.getKindFrei() > 0);
-        //input.setKirche(InputActivity.kist.get
+        //input.setKirche(EmployeeActivity.kist.get
         input.setKkbetriebsnummer(1086312);
         input.setKv(true);
         input.setRv(true);
         input.setAv(true);
         input.setStfreibetrag(0f);
         input.setZeitraum("m");
-        input.setStkl(Integer.parseInt(InputActivity.stkl.getSelectedItem().toString()));
+        input.setStkl(Integer.parseInt(EmployeeActivity.taxclass.getTag().toString()));
 
         return input;
     }
@@ -189,7 +189,7 @@ public class ResultActivity extends Activity implements
 
     public class FuelServiceAccessTask extends AsyncTask<String, Void, String> {
 
-        private final RestClient rest = new RestClient();
+        private final JsonClient rest = new JsonClient();
 
         private LinearLayout linlaHeaderProgress = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
         private LinearLayout resultPanel = (LinearLayout) findViewById(R.id.resultPanel);
@@ -204,7 +204,7 @@ public class ResultActivity extends Activity implements
 
         @Override
         protected String doInBackground(String... urls) {
-            if (InputActivity.relevantChange) {
+            if (EmployeeActivity.relevantChange) {
 
                 try {
 
@@ -238,7 +238,7 @@ public class ResultActivity extends Activity implements
             isWorking = false;
         }
 
-        private CalculationOutput GetData(CalculationInput input) throws RestException, JSONException, ParseException {
+        private CalculationOutput GetData(CalculationInput input) throws JsonException, JSONException, ParseException {
 
             CalculationOutput retval = new CalculationOutput();
 

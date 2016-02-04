@@ -22,7 +22,7 @@ public class ConnectivityHandler {
     public ConnectivityHandler(Context context)
     {
         _cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        _serviceUri = String.valueOf(R.string.api_uri);
+        _serviceUri = String.valueOf(R.string.api_uri_test);
     }
 
     /**

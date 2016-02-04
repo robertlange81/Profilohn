@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Abacus</string>
+    <string name="app_name">Sage Abacus</string>
     <string name="snackbar_label">Neue Berechnung starten ..</string>
     <string name="snackbar_action_netto">Nettolohn</string>
     <string name="snackbar_action_brutto">Bruttolohn</string>
@@ -10,16 +11,13 @@
     <string name="action_quit">Beenden</string>
     <string name="action_settings">Einstellungen</string>
 
-    <string name="settings_header">Brutto</string>
-    <string name="result_header">Netto</string>
-
     <string name="format_string">dd. MMMM</string>
     <string name="interval">%1$s bis %2$s</string>
 
     <!-- prompts -->
     <string name="stkl_prompt">Steuerklasse angeben</string>
 
-    <string-array name="stkl_array">
+    <string-array name="taxclasses">
         <item>I</item>
         <item>II</item>
         <item>III</item>
@@ -27,6 +25,13 @@
         <item>V</item>
         <item>VI</item>
     </string-array>
+
+    <string name="taxclass_1">I</string>
+    <string name="taxclass_2">II</string>
+    <string name="taxclass_3">III</string>
+    <string name="taxclass_4">IV</string>
+    <string name="taxclass_5">V</string>
+    <string name="taxclass_6">VI</string>
 
     <string name="kist_prompt">Kirchensteuer</string>
     <string name="kinder_prompt">Kinderfreibetrag</string>
@@ -37,14 +42,18 @@
     <string name="service_no_network">Keine Internetverbindung</string>
     <string name="empty">Not defined</string>
 
-    <string name="title_activity_about">AboutActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
     <!-- input labels -->
-    <string name="wage_amount">Höhe des Bezuges in €</string>
-    <string name="wage_default">2500</string>
-    <string name="wage_period">Jahresgehalt</string>
+    <string name="label_yes">Ja</string>
+    <string name="label_no">Nein</string>
+    <string name="label_currency">in €</string>
+    <string name="label_church_yes">Wird abgeführt</string>
+    <string name="label_church_no">Keine</string>
+
+    <string name="wage_default">2500.00</string>
+    <string name="wage_period_year">Betrag ist Jahresgehalt</string>
+    <string name="wage_period_year_not">Jahresgehalt</string>
+    <string name="wage_period_month">Monatsgehalt</string>
+
     <string name="wagetype">Art der Berechnung</string>
     <string name="netwage">Nettolohn</string>
     <string name="grosswage">Bruttolohn</string>
@@ -54,5 +63,25 @@
     <string name="church">Kirchensteuer</string>
     <string name="children">Kinderfreibetrag</string>
     <string name="calculate">Berechnung starten</string>
+
+    <string-array name="states">
+        <item>Baden-Württemberg</item>
+        <item>Bayern</item>
+        <item>Berlin-Ost</item>
+        <item>Berlin-West</item>
+        <item>Brandenburg</item>
+        <item>Bremen</item>
+        <item>Hamburg</item>
+        <item>Hessen</item>
+        <item>Mecklenburg-Vorpommern</item>
+        <item>Niedersachsen</item>
+        <item>Nordrhein-Westfalen</item>
+        <item>Rheinland-Pfalz</item>
+        <item>Saarland</item>
+        <item>Sachsen</item>
+        <item>Sachsen-Anhalt</item>
+        <item>Schleswig-Holstein</item>
+        <item>Thüringen</item>
+    </string-array>
 
 </resources>
