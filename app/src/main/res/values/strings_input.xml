@@ -49,7 +49,7 @@
     <string name="label_church_yes">Wird abgeführt</string>
     <string name="label_church_no">Keine</string>
 
-    <string name="wage_default">2500.00</string>
+    <string name="wage_default">Ihr Lohn/Gehalt z.B. 2341.87</string>
     <string name="wage_period_year">Betrag ist Jahresgehalt</string>
     <string name="wage_period_year_not">Jahresgehalt</string>
     <string name="wage_period_month">Monatsgehalt</string>
@@ -60,6 +60,7 @@
     <string name="taxclass">Steuerklasse</string>
     <string name="state">Bundesland</string>
     <string name="insurance">Krankenkasse</string>
+    <string name="insurance_initi_value">Liste wird aktualisiert ..</string>
     <string name="church">Kirchensteuer</string>
     <string name="children">Kinderfreibetrag</string>
     <string name="calculate">Berechnung starten</string>

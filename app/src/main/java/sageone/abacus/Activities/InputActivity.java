@@ -17,7 +17,8 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import android.util.Log;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import sageone.abacus.EventHandler;
 import sageone.abacus.Exceptions.StatusCodeException;
@@ -45,10 +46,10 @@ public class InputActivity extends AppCompatActivity
 
     public static boolean  relevantChange;
 
-    private static double  wageDefaultValue = 2500;
     private ArrayAdapter<String> insurancesAdapter;
-    private String[] insurancesList = new String[] {"Bitte warten"};
+    private String[] insurancesList = new String[] {};
 
+    private NumberFormat numberFormat;
     private EventHandler eventHandler;
     private WebService webService;
 
@@ -61,6 +62,7 @@ public class InputActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.input);
 
+        numberFormat = NumberFormat.getCurrencyInstance(Locale.GERMANY);
         eventHandler = new EventHandler(this, getApplicationContext());
         webService = WebService.getInstance(getApplicationContext(), this);
 
@@ -127,7 +129,22 @@ public class InputActivity extends AppCompatActivity
      */
     private void _prepareWage()
     {
-        wage.setText(String.valueOf(wageDefaultValue));
+        wage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String cur = wage.getText().toString();
+                boolean hasComma = cur.contains(",");
+                int dec = hasComma ? 100 : 1;
+
+                if (0 == cur.length() || hasFocus) {
+                    return;
+                }
+
+                Double current = Double.valueOf(cur.replaceAll("\\D", ""));
+                String formatted = numberFormat.format(current / dec);
+                wage.setText(formatted);
+            }
+        });
     }
 
 
@@ -146,7 +163,6 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
             }
@@ -162,6 +178,7 @@ public class InputActivity extends AppCompatActivity
     private void _prepareInsurance()
     {
         _initInsurancesAdapter();
+        insuranceAc.setText(R.string.insurance_initi_value);
 
         try {
             webService.Insurances();
@@ -242,8 +259,6 @@ public class InputActivity extends AppCompatActivity
      */
     private void _prepareCalculate()
     {
-        wage = (TextView)findViewById(R.id.item_brutto);
-
         calculate = (Button)findViewById(R.id.calculate);
         calculate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -261,9 +276,7 @@ public class InputActivity extends AppCompatActivity
      */
     public void onWagePeriodClicked(View v)
     {
-        boolean on = findViewById(R.id.wage_period).isActivated();
         TextView label = (TextView) findViewById(R.id.wage_type_label);
-        Log.d("Notice", String.valueOf(on));
         label.setTextColor(Color.parseColor(String.valueOf(R.color.text_darkgrey)));
     }
 
