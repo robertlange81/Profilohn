@@ -1,4 +1,4 @@
-package sageone.abacus;
+package sageone.abacus.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.PopupMenu;
+
+import sageone.abacus.ConnectivityHandler;
+import sageone.abacus.R;
 
 public class HelloActivity extends AppCompatActivity {
 
@@ -92,7 +95,7 @@ public class HelloActivity extends AppCompatActivity {
     public void showInputActivity(Integer type)
     {
         Log.d("Notice", type.toString());
-        Intent i = new Intent(this, InputAdapter.class);
+        Intent i = new Intent(this, InputActivity.class);
         startActivity(i);
     }
 

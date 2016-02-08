@@ -4,12 +4,11 @@ import retrofit.Response;
 import sageone.abacus.Exceptions.StatusCodeException;
 import sageone.abacus.Exceptions.WebServiceFailureException;
 import sageone.abacus.Interfaces.AbacusApiInterface;
-import sageone.abacus.Interfaces.WebServiceListener;
+import sageone.abacus.Interfaces.ApiCallbackListener;
 import sageone.abacus.Models.CalculationData;
 import sageone.abacus.Models.Insurances;
 
 import android.content.Context;
-import android.util.Log;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -24,11 +23,9 @@ public class WebService
     private AbacusApiInterface apiService;
     private static WebService Instance;
     private Context context;
+    private ApiCallbackListener webserviceListener;
 
-    public Insurances insurancesResponse;
-    private WebServiceListener webserviceListener;
-
-    public static synchronized WebService getInstance(Context c, WebServiceListener listener)
+    public static synchronized WebService getInstance(Context c, ApiCallbackListener listener)
     {
         if (null == Instance) {
             Instance = new WebService(c, listener);
@@ -39,7 +36,7 @@ public class WebService
     /**
      * The constructor.
      */
-    private WebService(Context c, WebServiceListener listener)
+    private WebService(Context c, ApiCallbackListener listener)
     {
         context = c;
         webserviceListener = listener;
@@ -87,7 +84,6 @@ public class WebService
                 if (!response.isSuccess()) {
                     new StatusCodeException();
                 }
-                Log.d("API", "finish");
                 webserviceListener.responseFinishInsurances(response.body());
             }
 

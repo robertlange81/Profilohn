@@ -5,6 +5,7 @@ import sageone.abacus.Models.Insurances;
 /**
  * Created by otomaske on 04.02.2016.
  */
-public interface WebServiceListener {
+public interface ApiCallbackListener
+{
     void responseFinishInsurances(Insurances insurances);
 }

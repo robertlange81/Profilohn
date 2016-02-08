@@ -1,6 +1,5 @@
-package sageone.abacus;
+package sageone.abacus.Activities;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -20,16 +19,13 @@ import android.widget.TextView;
 
 import android.util.Log;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
+import sageone.abacus.EventHandler;
 import sageone.abacus.Exceptions.StatusCodeException;
 import sageone.abacus.Exceptions.WebServiceFailureException;
-import sageone.abacus.Interfaces.WebServiceListener;
+import sageone.abacus.Interfaces.ApiCallbackListener;
 import sageone.abacus.Models.Insurances;
-import sageone.abacus.Models.InsurancesData;
+import sageone.abacus.R;
+import sageone.abacus.WebService;
 
 /**
  *
@@ -37,8 +33,8 @@ import sageone.abacus.Models.InsurancesData;
  * @date 2016-01-25
  *
  */
-public class InputAdapter extends AppCompatActivity
-        implements CompoundButton.OnCheckedChangeListener, WebServiceListener {
+public class InputActivity extends AppCompatActivity
+        implements CompoundButton.OnCheckedChangeListener, ApiCallbackListener {
 
     public static TextView              wage;
     public static RadioGroup            taxclass;
@@ -55,6 +51,9 @@ public class InputAdapter extends AppCompatActivity
 
     private EventHandler eventHandler;
     private WebService webService;
+
+    private static final int INSURANCES_DEFAULT_SELECTION = 10;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -83,12 +82,12 @@ public class InputAdapter extends AppCompatActivity
      */
     private void _initializeElements()
     {
-        wage  = (TextView) findViewById(R.id.wage);
-        state = (Spinner) findViewById(R.id.state);
-        taxclass = (RadioGroup) findViewById(R.id.taxclass);
+        wage        = (TextView) findViewById(R.id.wage);
+        state       = (Spinner) findViewById(R.id.state);
+        taxclass    = (RadioGroup) findViewById(R.id.taxclass);
+        children    = (SeekBar) findViewById(R.id.children);
+        calculate   = (Button) findViewById(R.id.calculate);
         insuranceAc = (AutoCompleteTextView) findViewById(R.id.insuranceAc);
-        children = (SeekBar) findViewById(R.id.children);
-        calculate = (Button) findViewById(R.id.calculate);
     }
 
 
@@ -122,6 +121,7 @@ public class InputAdapter extends AppCompatActivity
 
     }
 
+
     /**
      * Prepares and handle the wage input.
      */
@@ -153,6 +153,7 @@ public class InputAdapter extends AppCompatActivity
         });
     }
 
+
     /**
      * Initializes the service call.
      * After that the listener responseFinishInsurances
@@ -171,6 +172,9 @@ public class InputAdapter extends AppCompatActivity
         }
     }
 
+    /**
+     * Actualizes the view adapter.
+     */
     private void _initInsurancesAdapter()
     {
         insurancesAdapter = new ArrayAdapter<String>(this,
@@ -179,6 +183,13 @@ public class InputAdapter extends AppCompatActivity
         insurancesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         insuranceAc.setAdapter(insurancesAdapter);
     }
+
+    private void _initInsurancesAdapter(int sel)
+    {
+        _initInsurancesAdapter();
+        insuranceAc.setText(this.insurancesList[sel]);
+    }
+
 
     @Override
     /**
@@ -191,8 +202,9 @@ public class InputAdapter extends AppCompatActivity
             newList[a] = i.data.get(a).name;
         }
         insurancesList = newList;
-        _initInsurancesAdapter();
+        _initInsurancesAdapter(INSURANCES_DEFAULT_SELECTION);
     }
+
 
     /**
      * Prepares and handles the children allowance input.
@@ -224,6 +236,7 @@ public class InputAdapter extends AppCompatActivity
         );
     }
 
+
     /**
      * Prepares and handle calculation button events.
      */
@@ -239,6 +252,7 @@ public class InputAdapter extends AppCompatActivity
             }
         });
     }
+
 
     /**
      * Handles the changement of wage period month and year.
