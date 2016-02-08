@@ -88,5 +88,6 @@
     </string-array>
 
     <string name="validation_error_wage">Bitte Lohn/Gehalt angeben.</string>
+    <string name="format_error">Allgemeiner Formatierungsfehler.</string>
 
 </resources>

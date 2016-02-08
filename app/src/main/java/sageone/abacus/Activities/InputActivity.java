@@ -1,5 +1,6 @@
 package sageone.abacus.Activities;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -28,6 +29,7 @@ import sageone.abacus.Exceptions.ValidationException;
 import sageone.abacus.Exceptions.WebServiceFailureException;
 import sageone.abacus.Helper.MessageHelper;
 import sageone.abacus.Interfaces.ApiCallbackListener;
+import sageone.abacus.Models.Calculation;
 import sageone.abacus.Models.CalculationData;
 import sageone.abacus.Models.Insurances;
 import sageone.abacus.R;
@@ -273,14 +275,8 @@ public class InputActivity extends AppCompatActivity
         calculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CalculationData calculationData = new CalculationData();
-                _setData(calculationData);
-
-                try {
-                    calculationData.validate();
-                } catch (ValidationException e) {
-                    _snackbar(e.getMessage());
-                }
+                wage.clearFocus();
+                _setData();
             }
         });
     }
@@ -288,11 +284,20 @@ public class InputActivity extends AppCompatActivity
 
     /**
      * Set all relevant data for calculation.
-     * @param data
      */
-    private void _setData(CalculationData data)
+    private void _setData()
     {
-        data.Netto = null;
+        CalculationData data = new CalculationData(this);
+        data.Netto = wage.getText().toString();
+
+        try {
+            data.validate();
+            data.format();
+        } catch (Exception e) {
+            _snackbar(e.getMessage());
+        }
+
+        Log.d("Data", data.Netto);
     }
 
 

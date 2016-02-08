@@ -19,12 +19,12 @@ public class MessageHelper extends Activity
      * @param activity
      * @param message
      */
-    public static void snackbar(Activity activity, String message)
+    public static void snackbar(Activity activity, String message, int action)
     {
         try {
             final View v = activity.findViewById(R.id.snackbarPosition);
             Snackbar errorSnackbar = Snackbar.make(v, message, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.action_ok, new View.OnClickListener() {
+                    .setAction(action, new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                         }
@@ -34,5 +34,10 @@ public class MessageHelper extends Activity
         } catch (Exception e) {
             Log.e("Snackbar", "Snackbar position not found.");
         }
+    }
+
+    public static void snackbar(Activity activity, String message)
+    {
+        snackbar(activity, message, R.string.action_ok);
     }
 }

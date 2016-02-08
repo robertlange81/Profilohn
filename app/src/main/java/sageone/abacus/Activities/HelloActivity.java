@@ -48,7 +48,7 @@ public class HelloActivity extends AppCompatActivity {
             }
         });
 
-        _buildSnackbar();
+        _snackbar();
         _checkConnectivity();
     }
 
@@ -77,9 +77,9 @@ public class HelloActivity extends AppCompatActivity {
     /**
      * Builds a snackbar and displays it.
      */
-    private void _buildSnackbar()
+    private void _snackbar()
     {
-        MessageHelper.snackbar(this, String.valueOf(R.string.action_check));
+        MessageHelper.snackbar(this, getResources().getString(R.string.service_no_network));
     }
 
     /**
