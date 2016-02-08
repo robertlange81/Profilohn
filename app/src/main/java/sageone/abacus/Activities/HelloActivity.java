@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.PopupMenu;
 
 import sageone.abacus.ConnectivityHandler;
+import sageone.abacus.Helper.MessageHelper;
 import sageone.abacus.R;
 
 public class HelloActivity extends AppCompatActivity {
@@ -20,14 +21,13 @@ public class HelloActivity extends AppCompatActivity {
     private static final Integer CALC_TYPE_NETTO  = 0;
     private static final Integer CALC_TYPE_BRUTTO = 1;
 
-    private Snackbar connectivitySnackbar = null;
+    private Snackbar connectivitySnackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.hello);
-        //setContentView(R.layout.input);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -74,16 +74,12 @@ public class HelloActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Builds a snackbar and displays it.
+     */
     private void _buildSnackbar()
     {
-        final View coordinatorLayoutView = findViewById(R.id.snackbarPosition);
-        this.connectivitySnackbar = Snackbar.make(coordinatorLayoutView, R.string.service_no_network, Snackbar.LENGTH_LONG)
-            .setAction(R.string.action_check, new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                }
-            });
+        MessageHelper.snackbar(this, String.valueOf(R.string.action_check));
     }
 
     /**

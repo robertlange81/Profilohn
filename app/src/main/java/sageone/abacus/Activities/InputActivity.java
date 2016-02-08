@@ -3,9 +3,11 @@ package sageone.abacus.Activities;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,8 +24,11 @@ import java.util.Locale;
 
 import sageone.abacus.EventHandler;
 import sageone.abacus.Exceptions.StatusCodeException;
+import sageone.abacus.Exceptions.ValidationException;
 import sageone.abacus.Exceptions.WebServiceFailureException;
+import sageone.abacus.Helper.MessageHelper;
 import sageone.abacus.Interfaces.ApiCallbackListener;
+import sageone.abacus.Models.CalculationData;
 import sageone.abacus.Models.Insurances;
 import sageone.abacus.R;
 import sageone.abacus.WebService;
@@ -52,6 +57,8 @@ public class InputActivity extends AppCompatActivity
     private NumberFormat numberFormat;
     private EventHandler eventHandler;
     private WebService webService;
+
+    private Snackbar errorSnackbar;
 
     private static final int INSURANCES_DEFAULT_SELECTION = 10;
 
@@ -133,15 +140,17 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 String cur = wage.getText().toString();
-                boolean hasComma = cur.contains(",");
-                int dec = hasComma ? 100 : 1;
 
                 if (0 == cur.length() || hasFocus) {
                     return;
                 }
 
+                boolean hasComma = cur.contains(",");
+                int dec = hasComma ? 100 : 1;
+
                 Double current = Double.valueOf(cur.replaceAll("\\D", ""));
                 String formatted = numberFormat.format(current / dec);
+
                 wage.setText(formatted);
             }
         });
@@ -163,6 +172,7 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
             }
@@ -263,9 +273,26 @@ public class InputActivity extends AppCompatActivity
         calculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CalculationData calculationData = new CalculationData();
+                _setData(calculationData);
 
+                try {
+                    calculationData.validate();
+                } catch (ValidationException e) {
+                    _snackbar(e.getMessage());
+                }
             }
         });
+    }
+
+
+    /**
+     * Set all relevant data for calculation.
+     * @param data
+     */
+    private void _setData(CalculationData data)
+    {
+        data.Netto = null;
     }
 
 
@@ -278,6 +305,15 @@ public class InputActivity extends AppCompatActivity
     {
         TextView label = (TextView) findViewById(R.id.wage_type_label);
         label.setTextColor(Color.parseColor(String.valueOf(R.color.text_darkgrey)));
+    }
+
+    /**
+     * Shows a failed validation
+     * @param message
+     */
+    private void _snackbar(String message)
+    {
+        MessageHelper.snackbar(this, message);
     }
 
 

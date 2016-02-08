@@ -10,6 +10,8 @@
     <string name="action_check">Erneut prüfen</string>
     <string name="action_quit">Beenden</string>
     <string name="action_settings">Einstellungen</string>
+    <string name="action_ok">OK</string>
+    <string name="action_close">Schließen</string>
 
     <string name="format_string">dd. MMMM</string>
     <string name="interval">%1$s bis %2$s</string>
@@ -84,5 +86,7 @@
         <item>Schleswig-Holstein</item>
         <item>Thüringen</item>
     </string-array>
+
+    <string name="validation_error_wage">Bitte Lohn/Gehalt angeben.</string>
 
 </resources>

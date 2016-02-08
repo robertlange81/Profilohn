@@ -1,5 +1,7 @@
 package sageone.abacus.Models;
 
+import sageone.abacus.Exceptions.ValidationException;
+
 /**
  * Created by otomaske on 04.02.2016.
  */
@@ -27,5 +29,14 @@ public class CalculationData {
     public String Sozialabgaben;
     public int BruttoDecimal;
     public sageone.abacus.Models.Trace Trace;
+
+    public boolean validate() throws ValidationException
+    {
+        if (null == Netto) {
+            throw new ValidationException("No valid wage value");
+        }
+
+        return true;
+    }
 
 }
