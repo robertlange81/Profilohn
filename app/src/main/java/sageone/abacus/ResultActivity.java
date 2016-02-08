@@ -119,9 +119,9 @@ public class ResultActivity extends Activity implements
         input.setAbrjahr(2015); //TODO;
         input.setAzwo(40f);
         input.setBerechnungsart("Bruttolohn");
-        String br = EmployeeActivity.wage.getText().toString();
+        String br = InputAdapter.wage.getText().toString();
         if (br.matches("[0-9]+([,.][0-9]{1,2})?")) {
-            input.setBrutto(Float.parseFloat(EmployeeActivity.wage.getText().toString()));
+            input.setBrutto(Float.parseFloat(InputAdapter.wage.getText().toString()));
         } else {
             AlertDialog alertDialog = new AlertDialog.Builder(ResultActivity.this).create();
             alertDialog.setTitle("Fehler");
@@ -135,23 +135,23 @@ public class ResultActivity extends Activity implements
             alertDialog.show();
             throw new Exception();
         }
-        if (EmployeeActivity.wage.getText() == "Sachsen") {
+        if (InputAdapter.wage.getText() == "Sachsen") {
             input.setBundesland(13); // TODO key values in spinner
         } else {
             input.setBundesland(1); // TODO key values in spinner
         }
 
         input.setGleit(false);
-        input.setKindFrei(Float.parseFloat(EmployeeActivity.children.getTag().toString()));
+        input.setKindFrei(Float.parseFloat(InputAdapter.children.getTag().toString()));
         input.setKindu23(input.getKindFrei() > 0);
-        //input.setKirche(EmployeeActivity.kist.get
+        //input.setKirche(InputAdapter.kist.get
         input.setKkbetriebsnummer(1086312);
         input.setKv(true);
         input.setRv(true);
         input.setAv(true);
         input.setStfreibetrag(0f);
         input.setZeitraum("m");
-        input.setStkl(Integer.parseInt(EmployeeActivity.taxclass.getTag().toString()));
+        input.setStkl(Integer.parseInt(InputAdapter.taxclass.getTag().toString()));
 
         return input;
     }
@@ -204,7 +204,7 @@ public class ResultActivity extends Activity implements
 
         @Override
         protected String doInBackground(String... urls) {
-            if (EmployeeActivity.relevantChange) {
+            if (InputAdapter.relevantChange) {
 
                 try {
 

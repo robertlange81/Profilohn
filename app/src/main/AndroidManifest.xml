@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AboutActivity" />
-        <activity android:name=".EmployeeActivity" />
+        <activity android:name=".InputAdapter" />
     </application>
 
 </manifest>

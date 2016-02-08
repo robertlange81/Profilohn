@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".EmployeeActivity"
+    tools:context=".InputAdapter"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -202,8 +202,8 @@
             android:layout_height="wrap_content"
             android:text="@string/insurance" />
 
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/insurance"
+        <android.support.v7.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/insuranceAc"
             android:layout_below="@id/insurance_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -214,7 +214,7 @@
         <TextView
             android:id="@+id/church_label"
             android:text="@string/church"
-            android:layout_below="@id/insurance"
+            android:layout_below="@id/insuranceAc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

@@ -92,7 +92,7 @@ public class HelloActivity extends AppCompatActivity {
     public void showInputActivity(Integer type)
     {
         Log.d("Notice", type.toString());
-        Intent i = new Intent(this, EmployeeActivity.class);
+        Intent i = new Intent(this, InputAdapter.class);
         startActivity(i);
     }
 

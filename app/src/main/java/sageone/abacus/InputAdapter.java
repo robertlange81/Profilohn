@@ -10,6 +10,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
@@ -36,22 +37,21 @@ import sageone.abacus.Models.InsurancesData;
  * @date 2016-01-25
  *
  */
-public class EmployeeActivity extends AppCompatActivity
+public class InputAdapter extends AppCompatActivity
         implements CompoundButton.OnCheckedChangeListener, WebServiceListener {
 
-    public static TextView   wage;
-    public static RadioGroup taxclass;
-    public static Spinner    state;
-    public static Spinner    insurance;
-    public static SeekBar    children;
-    public static Button     calculate;
+    public static TextView              wage;
+    public static RadioGroup            taxclass;
+    public static Spinner               state;
+    public static SeekBar               children;
+    public static Button                calculate;
+    public static AutoCompleteTextView  insuranceAc;
 
     public static boolean  relevantChange;
 
     private static double  wageDefaultValue = 2500;
     private ArrayAdapter<String> insurancesAdapter;
     private String[] insurancesList = new String[] {"Bitte warten"};
-    private HashMap<String,Integer> insurancesMap = new HashMap<String, Integer>();
 
     private EventHandler eventHandler;
     private WebService webService;
@@ -86,7 +86,7 @@ public class EmployeeActivity extends AppCompatActivity
         wage  = (TextView) findViewById(R.id.wage);
         state = (Spinner) findViewById(R.id.state);
         taxclass = (RadioGroup) findViewById(R.id.taxclass);
-        insurance = (Spinner) findViewById(R.id.insurance);
+        insuranceAc = (AutoCompleteTextView) findViewById(R.id.insuranceAc);
         children = (SeekBar) findViewById(R.id.children);
         calculate = (Button) findViewById(R.id.calculate);
     }
@@ -160,8 +160,6 @@ public class EmployeeActivity extends AppCompatActivity
      */
     private void _prepareInsurance()
     {
-        // initialize the view
-        insurance = (Spinner) findViewById(R.id.insurance);
         _initInsurancesAdapter();
 
         try {
@@ -176,12 +174,16 @@ public class EmployeeActivity extends AppCompatActivity
     private void _initInsurancesAdapter()
     {
         insurancesAdapter = new ArrayAdapter<String>(this,
-                R.layout.support_simple_spinner_dropdown_item, this.insurancesList);
+                android.R.layout.simple_dropdown_item_1line, this.insurancesList);
+
         insurancesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        insurance.setAdapter(insurancesAdapter);
+        insuranceAc.setAdapter(insurancesAdapter);
     }
 
     @Override
+    /**
+     *  Callback for insurances api call.
+     */
     public void responseFinishInsurances(Insurances i)
     {
         String[] newList = new String[i.data.size()];
