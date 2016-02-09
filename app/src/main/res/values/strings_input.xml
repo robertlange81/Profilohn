@@ -62,7 +62,7 @@
     <string name="taxclass">Steuerklasse</string>
     <string name="state">Bundesland</string>
     <string name="insurance">Krankenkasse</string>
-    <string name="insurance_initi_value">Liste wird aktualisiert ..</string>
+    <string name="insurance_init_value">Liste wird aktualisiert ..</string>
     <string name="church">Kirchensteuer</string>
     <string name="children">Kinderfreibetrag</string>
     <string name="calculate">Berechnung starten</string>

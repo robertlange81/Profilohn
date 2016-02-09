@@ -1,10 +1,7 @@
 package sageone.abacus.Activities;
 
-import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 
@@ -15,22 +12,22 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
+import java.util.HashMap;
 import java.util.Locale;
 
-import sageone.abacus.EventHandler;
+import sageone.abacus.Helper.EventHandler;
 import sageone.abacus.Exceptions.StatusCodeException;
-import sageone.abacus.Exceptions.ValidationException;
 import sageone.abacus.Exceptions.WebServiceFailureException;
 import sageone.abacus.Helper.MessageHelper;
 import sageone.abacus.Interfaces.ApiCallbackListener;
-import sageone.abacus.Models.Calculation;
-import sageone.abacus.Models.CalculationData;
+import sageone.abacus.Models.CalculationInputData;
 import sageone.abacus.Models.Insurances;
 import sageone.abacus.R;
 import sageone.abacus.WebService;
@@ -44,29 +41,39 @@ import sageone.abacus.WebService;
 public class InputActivity extends AppCompatActivity
         implements CompoundButton.OnCheckedChangeListener, ApiCallbackListener {
 
+    public static RadioGroup            calcType;
     public static TextView              wage;
+    public static SwitchCompat          wagePeriod;
     public static RadioGroup            taxclass;
     public static Spinner               state;
     public static SeekBar               children;
     public static Button                calculate;
     public static AutoCompleteTextView  insuranceAc;
+    public static SwitchCompat          churchTax;
 
-    public static boolean  relevantChange;
+    private Long selectedInsuranceId;
+    private Double selectedWage;
+    private String selectedWageType = CalculationInputData.WAGE_TYPE_NET;
+    private String selectedWagePeriod = CalculationInputData.WAGE_PERIOD_MONTH;
+    private Boolean selectedChurchTax = false;
+    private String selectedTaxClass = "I";
+    private String selectedState;
+    private Double selectedChildAmount = 0.0;
 
     private ArrayAdapter<String> insurancesAdapter;
     private String[] insurancesList = new String[] {};
+    private HashMap<String, String> insurancesMap = new HashMap<String, String>();
 
     private NumberFormat numberFormat;
     private EventHandler eventHandler;
     private WebService webService;
-
-    private Snackbar errorSnackbar;
+    private CalculationInputData calculationInputData;
 
     private static final int INSURANCES_DEFAULT_SELECTION = 10;
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
+    protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.input);
@@ -74,14 +81,12 @@ public class InputActivity extends AppCompatActivity
         numberFormat = NumberFormat.getCurrencyInstance(Locale.GERMANY);
         eventHandler = new EventHandler(this, getApplicationContext());
         webService = WebService.getInstance(getApplicationContext(), this);
+        calculationInputData = new CalculationInputData(this);
 
         _initializeElements();
 
-        this._prepareWage();
         this._prepareState();
         this._prepareInsurance();
-        this._prepareChildAllowance();
-        this._prepareCalculate();
 
         this._initializeListener();
     }
@@ -93,12 +98,15 @@ public class InputActivity extends AppCompatActivity
      */
     private void _initializeElements()
     {
+        calcType    = (RadioGroup) findViewById(R.id.type);
         wage        = (TextView) findViewById(R.id.wage);
+        wagePeriod  = (SwitchCompat) findViewById(R.id.wage_period);
         state       = (Spinner) findViewById(R.id.state);
         taxclass    = (RadioGroup) findViewById(R.id.taxclass);
         children    = (SeekBar) findViewById(R.id.children);
         calculate   = (Button) findViewById(R.id.calculate);
         insuranceAc = (AutoCompleteTextView) findViewById(R.id.insuranceAc);
+        churchTax   = (SwitchCompat) findViewById(R.id.church);
     }
 
 
@@ -107,37 +115,27 @@ public class InputActivity extends AppCompatActivity
 
 
     /**
-     * Initializes all switches a.s.o.
+     * Initializes user input event listeners for:
+     * - calculation type
+     * - wage period
+     * - tax class
+     * - state
+     * - insurance
+     * - church
+     * - child amount
      */
     private void _initializeListener()
     {
-        // switches
-        SwitchCompat wageSwitch = (SwitchCompat) findViewById(R.id.wage_period);
-
-        wageSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        // wage type
+        calcType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                eventHandler.OnSwitchWageType(isChecked);
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                selectedWageType = (R.id.type_net == checkedId)
+                        ? CalculationInputData.WAGE_TYPE_NET : CalculationInputData.WAGE_TYPE_GROSS;
             }
         });
 
-        SwitchCompat churchSwitch = (SwitchCompat) findViewById(R.id.church);
-
-        churchSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                eventHandler.OnSwitchChurchType(isChecked);
-            }
-        });
-
-    }
-
-
-    /**
-     * Prepares and handle the wage input.
-     */
-    private void _prepareWage()
-    {
+        // wage amount
         wage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -154,8 +152,88 @@ public class InputActivity extends AppCompatActivity
                 String formatted = numberFormat.format(current / dec);
 
                 wage.setText(formatted);
+                selectedWage = current;
             }
         });
+
+        // wage period
+        wagePeriod.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                eventHandler.OnSwitchWageType(isChecked);
+                selectedWagePeriod = isChecked
+                        ? CalculationInputData.WAGE_PERIOD_YEAR : CalculationInputData.WAGE_PERIOD_MONTH;
+            }
+        });
+
+        // tax class
+        taxclass.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton taxClassButton = (RadioButton) findViewById(checkedId);
+                selectedTaxClass = taxClassButton.getText().toString();
+            }
+        });
+
+        // states
+        state.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedState = state.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        // health insurance
+        insuranceAc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView t = (TextView) view;
+                String value = t.getText().toString();
+                String companyNumber = insurancesMap.get(value);
+                selectedInsuranceId = Long.valueOf(companyNumber);
+            }
+        });
+
+        // church switch
+        churchTax.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                eventHandler.OnSwitchChurchType(isChecked);
+                selectedChurchTax = isChecked;
+            }
+        });
+
+        // child amount
+        final TextView childrenValue = (TextView) findViewById(R.id.children_value);
+        children.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                selectedChildAmount = Double.valueOf(progress) / 2;
+                childrenValue.setText(String.valueOf(selectedChildAmount));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        // calculate button
+        calculate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                wage.clearFocus();
+                _setData();
+            }
+        });
+
     }
 
 
@@ -170,15 +248,6 @@ public class InputActivity extends AppCompatActivity
                 android.R.layout.simple_spinner_item, states);
         statesDataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         state.setAdapter(statesDataAdapter);
-        state.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-            }
-        });
     }
 
 
@@ -190,7 +259,7 @@ public class InputActivity extends AppCompatActivity
     private void _prepareInsurance()
     {
         _initInsurancesAdapter();
-        insuranceAc.setText(R.string.insurance_initi_value);
+        insuranceAc.setText(R.string.insurance_init_value);
 
         try {
             webService.Insurances();
@@ -200,6 +269,7 @@ public class InputActivity extends AppCompatActivity
             e.printStackTrace();
         }
     }
+
 
     /**
      * Actualizes the view adapter.
@@ -213,10 +283,16 @@ public class InputActivity extends AppCompatActivity
         insuranceAc.setAdapter(insurancesAdapter);
     }
 
+
+    /**
+     * Init the adapter with a preset.
+     * @param sel
+     */
     private void _initInsurancesAdapter(int sel)
     {
         _initInsurancesAdapter();
         insuranceAc.setText(this.insurancesList[sel]);
+        selectedInsuranceId = Long.valueOf(insurancesMap.get(this.insurancesList[sel]));
     }
 
 
@@ -226,59 +302,13 @@ public class InputActivity extends AppCompatActivity
      */
     public void responseFinishInsurances(Insurances i)
     {
-        String[] newList = new String[i.data.size()];
         for (int a = 0; a < i.data.size(); a++) {
-            newList[a] = i.data.get(a).name;
+            insurancesMap.put(i.data.get(a).name, i.data.get(a).number);
         }
-        insurancesList = newList;
+
+        // set the list for binding the array adapter
+        insurancesList = insurancesMap.keySet().toArray(new String[]{});
         _initInsurancesAdapter(INSURANCES_DEFAULT_SELECTION);
-    }
-
-
-    /**
-     * Prepares and handles the children allowance input.
-     */
-    private void _prepareChildAllowance()
-    {
-        SeekBar childrenSeekBar = (SeekBar) findViewById(R.id.children);
-        final TextView childrenValue = (TextView) findViewById(R.id.children_value);
-        childrenSeekBar.setOnSeekBarChangeListener(
-                new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
-                        float p = (float) progressValue / 2;
-                        childrenValue.setText(String.valueOf(p));
-                    }
-
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-                        // When user starts working with control
-                        // Save the progress if initial value is needed.
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-                        // When user stops interacting
-                        // Add your own logic here
-                    }
-                }
-        );
-    }
-
-
-    /**
-     * Prepares and handle calculation button events.
-     */
-    private void _prepareCalculate()
-    {
-        calculate = (Button)findViewById(R.id.calculate);
-        calculate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                wage.clearFocus();
-                _setData();
-            }
-        });
     }
 
 
@@ -287,30 +317,40 @@ public class InputActivity extends AppCompatActivity
      */
     private void _setData()
     {
-        CalculationData data = new CalculationData(this);
-        data.Netto = wage.getText().toString();
+        // calc type
+        calculationInputData.Berechnungsart = selectedWageType;
+        // wage
+        calculationInputData.Brutto = selectedWage;
+        // wage period
+        calculationInputData.Zeitraum = selectedWagePeriod;
+        // tax class
+        calculationInputData.setStKl(selectedTaxClass);
+        // state
+        calculationInputData.setBundesland(selectedState);
+        // insurance
+        calculationInputData.KKBetriebsnummer = selectedInsuranceId;
+        // church
+        calculationInputData.Kirche = selectedChurchTax;
+        // children
+        calculationInputData.setKindFrei(selectedChildAmount);
 
         try {
-            data.validate();
-            data.format();
+            calculationInputData.validate();
+            calculationInputData.format();
         } catch (Exception e) {
             _snackbar(e.getMessage());
         }
 
-        Log.d("Data", data.Netto);
+        Log.d("Berechnungsart", String.valueOf(calculationInputData.Berechnungsart));
+        Log.d("Brutto", String.valueOf(calculationInputData.Brutto));
+        Log.d("Zeitraum", String.valueOf(calculationInputData.Zeitraum));
+        Log.d("StKl", String.valueOf(calculationInputData.StKl));
+        Log.d("Bundesland", String.valueOf(calculationInputData.Bundesland));
+        Log.d("KK", String.valueOf(calculationInputData.KKBetriebsnummer));
+        Log.d("Kirche", String.valueOf(calculationInputData.Kirche));
+        Log.d("KindFrei", String.valueOf(calculationInputData.KindFrei));
     }
 
-
-    /**
-     * Handles the changement of wage period month and year.
-     * @param v
-     * @return
-     */
-    public void onWagePeriodClicked(View v)
-    {
-        TextView label = (TextView) findViewById(R.id.wage_type_label);
-        label.setTextColor(Color.parseColor(String.valueOf(R.color.text_darkgrey)));
-    }
 
     /**
      * Shows a failed validation
@@ -319,16 +359,6 @@ public class InputActivity extends AppCompatActivity
     private void _snackbar(String message)
     {
         MessageHelper.snackbar(this, message);
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (relevantChange) {
-            relevantChange = false;
-            return;
-        }
     }
 
 }

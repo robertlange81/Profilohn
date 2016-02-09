@@ -21,9 +21,9 @@ public class WebService
 {
     private RetrofitRestClient retrofitClient;
     private AbacusApiInterface apiService;
+    private ApiCallbackListener webserviceListener;
     private static WebService Instance;
     private Context context;
-    private ApiCallbackListener webserviceListener;
 
     public static synchronized WebService getInstance(Context c, ApiCallbackListener listener)
     {
@@ -80,7 +80,6 @@ public class WebService
         call.enqueue(new Callback<Insurances>() {
             @Override
             public void onResponse(Response<Insurances> response, Retrofit retrofit) {
-                int statusCode = response.code();
                 if (!response.isSuccess()) {
                     new StatusCodeException();
                 }

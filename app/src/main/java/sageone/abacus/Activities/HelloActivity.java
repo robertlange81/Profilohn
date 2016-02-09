@@ -12,7 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.PopupMenu;
 
-import sageone.abacus.ConnectivityHandler;
+import sageone.abacus.Helper.ConnectivityHandler;
 import sageone.abacus.Helper.MessageHelper;
 import sageone.abacus.R;
 

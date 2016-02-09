@@ -1,4 +1,4 @@
-package sageone.abacus;
+package sageone.abacus.Helper;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -6,6 +6,8 @@ import android.net.ConnectivityManager;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+
+import sageone.abacus.R;
 
 /**
  * Created by otomaske on 01.02.2016.

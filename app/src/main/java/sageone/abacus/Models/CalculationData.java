@@ -1,13 +1,9 @@
 package sageone.abacus.Models;
 
-import android.app.Activity;
-
-import sageone.abacus.Exceptions.FormatException;
-import sageone.abacus.Exceptions.ValidationException;
-import sageone.abacus.R;
-
 /**
  * Created by otomaske on 04.02.2016.
+ *
+ * The calculation result data class.
  */
 public class CalculationData {
 
@@ -33,35 +29,5 @@ public class CalculationData {
     public String Sozialabgaben;
     public int BruttoDecimal;
     public sageone.abacus.Models.Trace Trace;
-
-    private Activity a;
-
-    public CalculationData(Activity activity)
-    {
-        a = activity;
-    }
-
-    public void validate() throws ValidationException
-    {
-        if (_nullOrEmpty(Netto)) {
-            throw new ValidationException(a.getResources().getString(R.string.validation_error_wage));
-        }
-
-    }
-
-    private boolean _nullOrEmpty(String data)
-    {
-        return (null == data || 0 == data.length());
-    }
-
-    public void format() throws FormatException
-    {
-        try {
-            Netto = String.valueOf(Double.valueOf(Netto.replaceAll("\\D", "")) / 100);
-
-        } catch (Exception e) {
-            throw new FormatException(String.valueOf(R.string.format_error));
-        }
-    }
 
 }

@@ -1,14 +1,14 @@
-package sageone.abacus;
+package sageone.abacus.Helper;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import android.util.Log;
+
+import sageone.abacus.R;
 
 /**
  * Created by otomaske on 02.02.2016.
