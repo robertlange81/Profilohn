@@ -22,11 +22,13 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Locale;
 
+import sageone.abacus.Helper.CalculationHelper;
 import sageone.abacus.Helper.EventHandler;
 import sageone.abacus.Exceptions.StatusCodeException;
 import sageone.abacus.Exceptions.WebServiceFailureException;
 import sageone.abacus.Helper.MessageHelper;
 import sageone.abacus.Interfaces.ApiCallbackListener;
+import sageone.abacus.Models.Calculation;
 import sageone.abacus.Models.CalculationInputData;
 import sageone.abacus.Models.Insurances;
 import sageone.abacus.R;
@@ -53,8 +55,8 @@ public class InputActivity extends AppCompatActivity
 
     private Long selectedInsuranceId;
     private Double selectedWage;
-    private String selectedWageType = CalculationInputData.WAGE_TYPE_NET;
-    private String selectedWagePeriod = CalculationInputData.WAGE_PERIOD_MONTH;
+    private String selectedWageType = CalculationHelper.WAGE_TYPE_NET;
+    private String selectedWagePeriod = CalculationHelper.WAGE_PERIOD_MONTH;
     private Boolean selectedChurchTax = false;
     private String selectedTaxClass = "I";
     private String selectedState;
@@ -67,7 +69,7 @@ public class InputActivity extends AppCompatActivity
     private NumberFormat numberFormat;
     private EventHandler eventHandler;
     private WebService webService;
-    private CalculationInputData calculationInputData;
+    private CalculationInputData data;
 
     private static final int INSURANCES_DEFAULT_SELECTION = 10;
 
@@ -81,7 +83,7 @@ public class InputActivity extends AppCompatActivity
         numberFormat = NumberFormat.getCurrencyInstance(Locale.GERMANY);
         eventHandler = new EventHandler(this, getApplicationContext());
         webService = WebService.getInstance(getApplicationContext(), this);
-        calculationInputData = new CalculationInputData(this);
+        data = new CalculationInputData();
 
         _initializeElements();
 
@@ -149,7 +151,7 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 selectedWageType = (R.id.type_net == checkedId)
-                        ? CalculationInputData.WAGE_TYPE_NET : CalculationInputData.WAGE_TYPE_GROSS;
+                        ? CalculationHelper.WAGE_TYPE_NET : CalculationHelper.WAGE_TYPE_GROSS;
             }
         });
 
@@ -180,7 +182,7 @@ public class InputActivity extends AppCompatActivity
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 eventHandler.OnSwitchWageType(isChecked);
                 selectedWagePeriod = isChecked
-                        ? CalculationInputData.WAGE_PERIOD_YEAR : CalculationInputData.WAGE_PERIOD_MONTH;
+                        ? CalculationHelper.WAGE_PERIOD_YEAR : CalculationHelper.WAGE_PERIOD_MONTH;
             }
         });
 
@@ -249,6 +251,7 @@ public class InputActivity extends AppCompatActivity
             public void onClick(View v) {
                 wage.clearFocus();
                 _setData();
+                webService.Calculate(data);
             }
         });
 
@@ -330,43 +333,54 @@ public class InputActivity extends AppCompatActivity
     }
 
 
+    @Override
+    /**
+     * What we do if calculation finished.
+     */
+    public void responseFinishCalculation(Calculation calculation)
+    {
+        Log.d("Calculation", "finished !!!");
+    }
+
+
     /**
      * Set all relevant data for calculation.
      */
     private void _setData()
     {
+        CalculationHelper helper = new CalculationHelper(this, data);
         // calc type
-        calculationInputData.Berechnungsart = selectedWageType;
+        helper.data.Berechnungsart = selectedWageType;
         // wage
-        calculationInputData.Brutto = selectedWage;
+        helper.data.Brutto = selectedWage;
         // wage period
-        calculationInputData.Zeitraum = selectedWagePeriod;
+        helper. data.Zeitraum = selectedWagePeriod;
         // tax class
-        calculationInputData.setStKl(selectedTaxClass);
+        helper.setStKl(selectedTaxClass);
         // state
-        calculationInputData.setBundesland(selectedState);
+        helper.setBundesland(selectedState);
         // insurance
-        calculationInputData.KKBetriebsnummer = selectedInsuranceId;
+        helper.data.KKBetriebsnummer = selectedInsuranceId;
         // church
-        calculationInputData.Kirche = selectedChurchTax;
+        helper.data.Kirche = selectedChurchTax;
         // children
-        calculationInputData.setKindFrei(selectedChildAmount);
+        helper.setKindFrei(selectedChildAmount);
 
         try {
-            calculationInputData.validate();
-            calculationInputData.format();
+            helper.validate();
+            helper.format();
         } catch (Exception e) {
             _snackbar(e.getMessage());
         }
 
-        Log.d("Berechnungsart", String.valueOf(calculationInputData.Berechnungsart));
-        Log.d("Brutto", String.valueOf(calculationInputData.Brutto));
-        Log.d("Zeitraum", String.valueOf(calculationInputData.Zeitraum));
-        Log.d("StKl", String.valueOf(calculationInputData.StKl));
-        Log.d("Bundesland", String.valueOf(calculationInputData.Bundesland));
-        Log.d("KK", String.valueOf(calculationInputData.KKBetriebsnummer));
-        Log.d("Kirche", String.valueOf(calculationInputData.Kirche));
-        Log.d("KindFrei", String.valueOf(calculationInputData.KindFrei));
+        Log.d("Berechnungsart", String.valueOf(data.Berechnungsart));
+        Log.d("Brutto", String.valueOf(data.Brutto));
+        Log.d("Zeitraum", String.valueOf(data.Zeitraum));
+        Log.d("StKl", String.valueOf(data.StKl));
+        Log.d("Bundesland", String.valueOf(data.Bundesland));
+        Log.d("KK", String.valueOf(data.KKBetriebsnummer));
+        Log.d("Kirche", String.valueOf(data.Kirche));
+        Log.d("KindFrei", String.valueOf(data.KindFrei));
     }
 
 

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_api_error">Fehler während des API-Aufrufs.</string>
+    <string name="app_connection_not_available"><b>Keine Netzwerkverbindung</b>\n\nEs wird auf eine gültige Internetverbindung gewartet ..</string>
 </resources>

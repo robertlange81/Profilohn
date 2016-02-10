@@ -1,19 +1,19 @@
 package sageone.abacus.Activities;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.PopupMenu;
 
 import sageone.abacus.Helper.ConnectivityHandler;
-import sageone.abacus.Helper.MessageHelper;
+import sageone.abacus.Helper.SystemHelper;
 import sageone.abacus.R;
 
 public class HelloActivity extends AppCompatActivity {
@@ -21,10 +21,13 @@ public class HelloActivity extends AppCompatActivity {
     private static final Integer CALC_TYPE_NETTO  = 0;
     private static final Integer CALC_TYPE_BRUTTO = 1;
 
-    private Snackbar connectivitySnackbar;
+    private FloatingActionButton fab;
+    private ConnectivityHandler connectivityHandler;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.hello);
@@ -32,7 +35,7 @@ public class HelloActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,19 +50,32 @@ public class HelloActivity extends AppCompatActivity {
                 p.show();
             }
         });
-
-        _snackbar();
-        _checkConnectivity();
+        
+        _registerConnectivityReceiver();
     }
 
-    private void _checkConnectivity()
+
+    /**
+     * Register some receiver and
+     * handle connectivity changements.
+     */
+    private void _registerConnectivityReceiver()
     {
-        ConnectivityHandler ch = new ConnectivityHandler(getApplicationContext());
-        if (!ch.isOnline()) {
-            connectivitySnackbar.show();
-        }
+        connectivityHandler = new ConnectivityHandler(this);
+        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+
+        registerReceiver(
+                connectivityHandler,
+                intentFilter
+        );
     }
 
+
+    /**
+     *
+     * @param item
+     * @return
+     */
     public boolean onMenuItemSelect(MenuItem item)
     {
         switch (item.getItemId()) {
@@ -73,14 +89,6 @@ public class HelloActivity extends AppCompatActivity {
         return false;
     }
 
-
-    /**
-     * Builds a snackbar and displays it.
-     */
-    private void _snackbar()
-    {
-        MessageHelper.snackbar(this, getResources().getString(R.string.service_no_network));
-    }
 
     /**
      * Select and display the
@@ -120,11 +128,11 @@ public class HelloActivity extends AppCompatActivity {
                 startActivity(i);
             break;
             case R.id.action_quit:
-                finish();
-                System.exit(0);
+                SystemHelper.finish(this);
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 }

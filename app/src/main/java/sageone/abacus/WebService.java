@@ -5,10 +5,19 @@ import sageone.abacus.Exceptions.StatusCodeException;
 import sageone.abacus.Exceptions.WebServiceFailureException;
 import sageone.abacus.Interfaces.AbacusApiInterface;
 import sageone.abacus.Interfaces.ApiCallbackListener;
+import sageone.abacus.Models.Calculation;
 import sageone.abacus.Models.CalculationData;
+import sageone.abacus.Models.CalculationInputData;
 import sageone.abacus.Models.Insurances;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
+
+import com.squareup.okhttp.ConnectionSpec;
+
+import java.lang.reflect.Array;
+import java.util.List;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -33,6 +42,7 @@ public class WebService
         return Instance;
     }
 
+
     /**
      * The constructor.
      */
@@ -44,6 +54,7 @@ public class WebService
         init();
     }
 
+
     /**
      * Initialize the rest client
      * and the instance web service.
@@ -54,18 +65,36 @@ public class WebService
 
         retrofitClient = new RetrofitRestClient();
         apiService = retrofitClient.RetrofitRestClient(apiUriBase).create(AbacusApiInterface.class);
-
     }
+
 
     /**
      * Calculates given data via web service call.
      *
      * @param data
      */
-    public void Calculate(CalculationData data)
+    public void Calculate(CalculationInputData data)
     {
+        Call<Calculation> call = apiService.Calc(data);
 
+        Log.d("ServiceCall", "Initialize calculation ..");
+        call.enqueue(new Callback<Calculation>() {
+            @Override
+            public void onResponse(Response<Calculation> response, Retrofit retrofit) {
+                if (!response.isSuccess()) {
+                    new StatusCodeException();
+                }
+                webserviceListener.responseFinishCalculation(response.body());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e("ServiceError", "Failure on calculation. " + t.getMessage().toString());
+                new WebServiceFailureException();
+            }
+        });
     }
+
 
     /**
      * Fetch all available Health Insurances

@@ -1,5 +1,6 @@
 package sageone.abacus.Interfaces;
 
+import sageone.abacus.Models.Calculation;
 import sageone.abacus.Models.Insurances;
 
 /**
@@ -8,4 +9,5 @@ import sageone.abacus.Models.Insurances;
 public interface ApiCallbackListener
 {
     void responseFinishInsurances(Insurances insurances);
+    void responseFinishCalculation(Calculation calculation);
 }

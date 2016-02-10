@@ -5,6 +5,7 @@ import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import sageone.abacus.Models.Calculation;
+import sageone.abacus.Models.CalculationInputData;
 import sageone.abacus.Models.Insurances;
 
 /**
@@ -19,5 +20,5 @@ public interface AbacusApiInterface
     Call<Calculation> Success();
 
     @POST("calc")
-    Call<Calculation> Calc(@Body Calculation data);
+    Call<Calculation> Calc(@Body CalculationInputData data);
 }

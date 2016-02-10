@@ -18,26 +18,63 @@ public class MessageHelper extends Activity
      *
      * @param activity
      * @param message
+     * @param action
+     * @param duration
      */
-    public static void snackbar(Activity activity, String message, int action)
+    public static Snackbar snackbar(Activity activity, String message, int action, int duration)
     {
+        Snackbar sb = null;
+
         try {
             final View v = activity.findViewById(R.id.snackbarPosition);
-            Snackbar errorSnackbar = Snackbar.make(v, message, Snackbar.LENGTH_LONG)
+            sb = Snackbar.make(v, message, duration)
                     .setAction(action, new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                         }
                     });
-
-            errorSnackbar.show();
+            sb.show();
         } catch (Exception e) {
             Log.e("Snackbar", "Snackbar position not found.");
         }
+
+        return sb;
     }
 
+    /**
+     * Init easy snackbar.
+     *
+     * @param activity
+     * @param message
+     */
     public static void snackbar(Activity activity, String message)
     {
-        snackbar(activity, message, R.string.action_ok);
+        snackbar(activity, message, R.string.action_ok, Snackbar.LENGTH_SHORT);
     }
+
+    /**
+     * Init snackbar with duration.
+     *
+     * @param activity
+     * @param message
+     * @param duration
+     */
+    public static void snackbar(Activity activity, String message, int duration)
+    {
+        snackbar(activity, message, R.string.action_ok, duration);
+    }
+
+    /**
+     * Init snackbar with action and duration.
+     *
+     * @param activity
+     * @param message
+     * @param action
+     * @param duration
+     */
+    public static void snackbar(Activity activity, String message, String action, int duration)
+    {
+        snackbar(activity, message, action, duration);
+    }
+
 }

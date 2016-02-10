@@ -62,6 +62,10 @@
         <item name="android:layout_marginLeft">4dp</item>
     </style>
 
+    <style name="tax_radio">
+
+    </style>
+
     <!-- Input layout styles -->
 
     <style name="input_label">
