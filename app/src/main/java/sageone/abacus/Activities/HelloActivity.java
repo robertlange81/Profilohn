@@ -90,8 +90,8 @@ public class HelloActivity extends AppCompatActivity {
      */
     public void showInputActivity(Integer type)
     {
-        Log.d("Notice", type.toString());
         Intent i = new Intent(this, InputActivity.class);
+        i.putExtra("calc_type", type);
         startActivity(i);
     }
 

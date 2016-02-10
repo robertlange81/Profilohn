@@ -85,10 +85,28 @@ public class InputActivity extends AppCompatActivity
 
         _initializeElements();
 
-        this._prepareState();
-        this._prepareInsurance();
+        _prepareState();
+        _prepareInsurance();
 
-        this._initializeListener();
+        _initializeListener();
+        _initRequestedCalcType();
+    }
+
+
+    /**
+     * Select the requested cal type
+     * given by previous activity.
+     */
+    private void _initRequestedCalcType()
+    {
+        int c = getIntent().getExtras().getInt("calc_type");
+        switch (c) {
+            case 1:
+                calcType.check(R.id.type_gross);
+                break;
+            default:
+                calcType.check(R.id.type_net);
+        }
     }
 
 
