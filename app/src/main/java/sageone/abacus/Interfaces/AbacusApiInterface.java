@@ -1,10 +1,11 @@
 package sageone.abacus.Interfaces;
 
-import retrofit.Call;
-import retrofit.http.Body;
-import retrofit.http.GET;
-import retrofit.http.POST;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
 import sageone.abacus.Models.Calculation;
+import sageone.abacus.Models.CalculationInput;
 import sageone.abacus.Models.CalculationInputData;
 import sageone.abacus.Models.Insurances;
 
@@ -19,6 +20,6 @@ public interface AbacusApiInterface
     @GET("success")
     Call<Calculation> Success();
 
-    @POST("calc")
-    Call<Calculation> Calc(@Body CalculationInputData data);
+    @POST("success")
+    Call<Calculation> Calc(@Body CalculationInput data);
 }

@@ -1,7 +1,9 @@
 package sageone.abacus.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 
@@ -18,17 +20,20 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Locale;
 
-import sageone.abacus.Helper.CalculationHelper;
+import sageone.abacus.Helper.CalculationInputHelper;
 import sageone.abacus.Helper.EventHandler;
 import sageone.abacus.Exceptions.StatusCodeException;
 import sageone.abacus.Exceptions.WebServiceFailureException;
 import sageone.abacus.Helper.MessageHelper;
 import sageone.abacus.Interfaces.ApiCallbackListener;
 import sageone.abacus.Models.Calculation;
+import sageone.abacus.Models.CalculationInput;
 import sageone.abacus.Models.CalculationInputData;
 import sageone.abacus.Models.Insurances;
 import sageone.abacus.R;
@@ -55,8 +60,8 @@ public class InputActivity extends AppCompatActivity
 
     private Long selectedInsuranceId;
     private Double selectedWage;
-    private String selectedWageType = CalculationHelper.WAGE_TYPE_NET;
-    private String selectedWagePeriod = CalculationHelper.WAGE_PERIOD_MONTH;
+    private String selectedWageType = CalculationInputHelper.WAGE_TYPE_NET;
+    private String selectedWagePeriod = CalculationInputHelper.WAGE_PERIOD_MONTH;
     private Boolean selectedChurchTax = false;
     private String selectedTaxClass = "I";
     private String selectedState;
@@ -151,7 +156,7 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 selectedWageType = (R.id.type_net == checkedId)
-                        ? CalculationHelper.WAGE_TYPE_NET : CalculationHelper.WAGE_TYPE_GROSS;
+                        ? CalculationInputHelper.WAGE_TYPE_NET : CalculationInputHelper.WAGE_TYPE_GROSS;
             }
         });
 
@@ -182,7 +187,7 @@ public class InputActivity extends AppCompatActivity
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 eventHandler.OnSwitchWageType(isChecked);
                 selectedWagePeriod = isChecked
-                        ? CalculationHelper.WAGE_PERIOD_YEAR : CalculationHelper.WAGE_PERIOD_MONTH;
+                        ? CalculationInputHelper.WAGE_PERIOD_YEAR : CalculationInputHelper.WAGE_PERIOD_MONTH;
             }
         });
 
@@ -251,7 +256,8 @@ public class InputActivity extends AppCompatActivity
             public void onClick(View v) {
                 wage.clearFocus();
                 _setData();
-                webService.Calculate(data);
+                CalculationInput ci = new CalculationInput(data);
+                webService.Calculate(ci);
             }
         });
 
@@ -339,7 +345,12 @@ public class InputActivity extends AppCompatActivity
      */
     public void responseFinishCalculation(Calculation calculation)
     {
-        Log.d("Calculation", "finished !!!");
+        Log.v("WebService", "Calculation successfully finished. Start result view ..");
+
+        Intent i = new Intent(this, ResultActivity.class);
+        i.putExtra("Calculation", calculation);
+
+        startActivity(i);
     }
 
 
@@ -348,7 +359,7 @@ public class InputActivity extends AppCompatActivity
      */
     private void _setData()
     {
-        CalculationHelper helper = new CalculationHelper(this, data);
+        CalculationInputHelper helper = new CalculationInputHelper(this, data);
         // calc type
         helper.data.Berechnungsart = selectedWageType;
         // wage

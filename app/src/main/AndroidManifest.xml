@@ -17,11 +17,13 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".Activities.AboutActivity" />
         <activity android:name=".Activities.InputActivity" />
+        <activity android:name=".Activities.ResultActivity" />
     </application>
 
 </manifest>

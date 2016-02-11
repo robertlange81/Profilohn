@@ -1,6 +1,6 @@
 package sageone.abacus.Models;
 
-import sageone.abacus.Helper.CalculationHelper;
+import sageone.abacus.Helper.CalculationInputHelper;
 
 /**
  * Created by otomaske on 09.02.2016.
@@ -9,8 +9,8 @@ import sageone.abacus.Helper.CalculationHelper;
  */
 public class CalculationInputData {
 
-    public String Berechnungsart = CalculationHelper.WAGE_TYPE_NET;
-    public String Zeitraum = CalculationHelper.WAGE_PERIOD_MONTH;
+    public String Berechnungsart = CalculationInputHelper.WAGE_TYPE_NET;
+    public String Zeitraum = CalculationInputHelper.WAGE_PERIOD_MONTH;
     public int StKl = 1;
     public int Bundesland = 1;
     public Long KKBetriebsnummer;

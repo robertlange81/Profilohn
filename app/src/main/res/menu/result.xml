@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="sageone.abacus.Activities.ResultActivity">
+    <item
+        android:id="@+id/result_menu_action_employee"
+        android:orderInCategory="50"
+        android:title="@string/result_menu_action_employee"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/result_menu_action_employer"
+        android:orderInCategory="100"
+        android:title="@string/result_menu_action_employer"
+        app:showAsAction="never" />
+</menu>

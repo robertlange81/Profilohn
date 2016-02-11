@@ -32,7 +32,7 @@
             <RadioButton
                 style="@style/text_input"
                 android:id="@+id/type_net"
-                android:hint="@string/netwage"
+                android:hint="@string/grosswage"
                 android:checked="true"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
@@ -41,7 +41,7 @@
             <RadioButton
                 style="@style/text_input"
                 android:id="@+id/type_gross"
-                android:hint="@string/grosswage"
+                android:hint="@string/netwage"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

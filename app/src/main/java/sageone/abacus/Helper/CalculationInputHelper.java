@@ -12,7 +12,7 @@ import sageone.abacus.R;
 /**
  * Created by otomaske on 10.02.2016.
  */
-public class CalculationHelper
+public class CalculationInputHelper
 {
     private Activity a;
     public CalculationInputData data;
@@ -22,7 +22,7 @@ public class CalculationHelper
     public static final String WAGE_PERIOD_YEAR  = "y";
     public static final String WAGE_PERIOD_MONTH = "m";
 
-    public CalculationHelper (Activity a, CalculationInputData data)
+    public CalculationInputHelper(Activity a, CalculationInputData data)
     {
         this.a = a;
         this.data = data;

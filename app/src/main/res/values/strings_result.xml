@@ -1,0 +1,8 @@
+<resources>
+    <string name="title_activity_result_employee">Be-/Abzüge für Arbeitnehmer</string>
+    <string name="title_activity_result_employer">Aufwendungen für Arbeitgeber</string>
+    <string name="title_activity_result_sage">Sage Software</string>
+
+    <string name="result_menu_action_employee">Arbeitnehmer</string>
+    <string name="result_menu_action_employer">Arbeitgeber</string>
+</resources>

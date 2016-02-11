@@ -1,27 +1,19 @@
 package sageone.abacus;
 
-import retrofit.Response;
+import retrofit2.Response;
 import sageone.abacus.Exceptions.StatusCodeException;
 import sageone.abacus.Exceptions.WebServiceFailureException;
 import sageone.abacus.Interfaces.AbacusApiInterface;
 import sageone.abacus.Interfaces.ApiCallbackListener;
 import sageone.abacus.Models.Calculation;
-import sageone.abacus.Models.CalculationData;
+import sageone.abacus.Models.CalculationInput;
 import sageone.abacus.Models.CalculationInputData;
 import sageone.abacus.Models.Insurances;
-
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
-import com.squareup.okhttp.ConnectionSpec;
-
-import java.lang.reflect.Array;
-import java.util.List;
-
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 /**
  * Created by otomaske on 27.01.2016.
@@ -73,23 +65,23 @@ public class WebService
      *
      * @param data
      */
-    public void Calculate(CalculationInputData data)
+    public void Calculate(CalculationInput data)
     {
         Call<Calculation> call = apiService.Calc(data);
 
-        Log.d("ServiceCall", "Initialize calculation ..");
+        Log.v("ServiceCall", "Initialize calculation ..");
+
         call.enqueue(new Callback<Calculation>() {
             @Override
-            public void onResponse(Response<Calculation> response, Retrofit retrofit) {
+            public void onResponse(Call<Calculation> call, Response<Calculation> response) {
                 if (!response.isSuccess()) {
                     new StatusCodeException();
                 }
                 webserviceListener.responseFinishCalculation(response.body());
             }
-
             @Override
-            public void onFailure(Throwable t) {
-                Log.e("ServiceError", "Failure on calculation. " + t.getMessage().toString());
+            public void onFailure(Call<Calculation> call, Throwable t) {
+                Log.e("WebService", "Failure on calculation. " + t.getMessage().toString());
                 new WebServiceFailureException();
             }
         });
@@ -108,15 +100,17 @@ public class WebService
 
         call.enqueue(new Callback<Insurances>() {
             @Override
-            public void onResponse(Response<Insurances> response, Retrofit retrofit) {
+            public void onResponse(Call<Insurances> call, Response<Insurances> response) {
                 if (!response.isSuccess()) {
                     new StatusCodeException();
                 }
                 webserviceListener.responseFinishInsurances(response.body());
+                Log.i("WebService", "Fetch insurances successfully finished");
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<Insurances> call, Throwable t) {
+                Log.e("WebService", "Failure on fetch insurances. " + t.getMessage().toString());
                 new WebServiceFailureException();
             }
         });

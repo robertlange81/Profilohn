@@ -1,0 +1,5 @@
+<resources>
+    <string name="result_employee_title">Arbeitnehmer</string>
+    <string name="result_employee_wage_net">Netto</string>
+    <string name="result_employee_wage_gross">Brutto</string>
+</resources>
