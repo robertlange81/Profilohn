@@ -5,4 +5,9 @@ package sageone.abacus.Exceptions;
  */
 public class StatusCodeException extends Exception {
 
+    public StatusCodeException(String s)
+    {
+        super(s);
+    }
+
 }

@@ -1,9 +1,9 @@
 package sageone.abacus.Activities;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 
@@ -20,8 +20,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
+import java.net.SocketTimeoutException;
 import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Locale;
@@ -37,7 +36,7 @@ import sageone.abacus.Models.CalculationInput;
 import sageone.abacus.Models.CalculationInputData;
 import sageone.abacus.Models.Insurances;
 import sageone.abacus.R;
-import sageone.abacus.WebService;
+import sageone.abacus.Models.WebService;
 
 /**
  *
@@ -78,6 +77,8 @@ public class InputActivity extends AppCompatActivity
 
     private static final int INSURANCES_DEFAULT_SELECTION = 10;
 
+    public static InputActivity instance = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -97,6 +98,8 @@ public class InputActivity extends AppCompatActivity
 
         _initializeListener();
         _initRequestedCalcType();
+
+        instance = this;
     }
 
 
@@ -286,15 +289,9 @@ public class InputActivity extends AppCompatActivity
     private void _prepareInsurance()
     {
         _initInsurancesAdapter();
-        insuranceAc.setText(R.string.insurance_init_value);
+        insuranceAc.setText(getString(R.string.insurance_init_value));
 
-        try {
-            webService.Insurances();
-        } catch (StatusCodeException e) {
-            e.printStackTrace();
-        } catch (WebServiceFailureException e) {
-            e.printStackTrace();
-        }
+        webService.Insurances();
     }
 
 

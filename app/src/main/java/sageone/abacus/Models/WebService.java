@@ -1,19 +1,22 @@
-package sageone.abacus;
+package sageone.abacus.Models;
 
 import retrofit2.Response;
+import sageone.abacus.Activities.InputActivity;
 import sageone.abacus.Exceptions.StatusCodeException;
 import sageone.abacus.Exceptions.WebServiceFailureException;
+import sageone.abacus.Extensions.RetrofitRestClient;
+import sageone.abacus.Helper.MessageHelper;
+import sageone.abacus.Helper.SystemHelper;
 import sageone.abacus.Interfaces.AbacusApiInterface;
 import sageone.abacus.Interfaces.ApiCallbackListener;
-import sageone.abacus.Models.Calculation;
-import sageone.abacus.Models.CalculationInput;
-import sageone.abacus.Models.CalculationInputData;
-import sageone.abacus.Models.Insurances;
+
+import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import sageone.abacus.R;
 
 /**
  * Created by otomaske on 27.01.2016.
@@ -53,10 +56,12 @@ public class WebService
      */
     private void init()
     {
-        String apiUriBase = context.getResources().getString(R.string.api_uri_base);
+        String apiUriBase  = context.getResources().getString(R.string.api_uri_base);
+        String credentials = context.getResources().getString(R.string.basic_credentials);
 
         retrofitClient = new RetrofitRestClient();
-        apiService = retrofitClient.RetrofitRestClient(apiUriBase).create(AbacusApiInterface.class);
+        apiService = retrofitClient.RetrofitRestClient(apiUriBase, credentials, context.getResources().getInteger(R.integer.api_connection_timeout))
+                .create(AbacusApiInterface.class);
     }
 
 
@@ -75,14 +80,14 @@ public class WebService
             @Override
             public void onResponse(Call<Calculation> call, Response<Calculation> response) {
                 if (!response.isSuccess()) {
-                    new StatusCodeException();
+                    new StatusCodeException(context.getResources().getString(R.string.exception_status_code));
                 }
                 webserviceListener.responseFinishCalculation(response.body());
             }
             @Override
             public void onFailure(Call<Calculation> call, Throwable t) {
                 Log.e("WebService", "Failure on calculation. " + t.getMessage().toString());
-                new WebServiceFailureException();
+                new WebServiceFailureException(t.getMessage().toString());
             }
         });
     }
@@ -94,26 +99,52 @@ public class WebService
      *
      * @throws StatusCodeException
      */
-    public void Insurances() throws StatusCodeException, WebServiceFailureException
+    public void Insurances()
     {
         Call<Insurances> call = apiService.Insurances();
 
         call.enqueue(new Callback<Insurances>() {
             @Override
             public void onResponse(Call<Insurances> call, Response<Insurances> response) {
-                if (!response.isSuccess()) {
-                    new StatusCodeException();
+
+                int code = response.code();
+                String message = null;
+
+                switch (code) {
+                    case 200:
+                        webserviceListener.responseFinishInsurances(response.body());
+                        break;
+                    case 401:
+                        Log.e("WebService", "Status code " + code);
+                        message = context.getResources().getString(R.string.exception_http_auth);
+                        ThrowsAlertDialog(message, String.valueOf(code), false);
+                        break;
+                    default:
+                        Log.e("WebService", "Status code " + code);
+                        message = context.getResources().getString(R.string.exception_status_code);
+                        ThrowsAlertDialog(message, String.valueOf(code), false);
+                        break;
                 }
-                webserviceListener.responseFinishInsurances(response.body());
+
                 Log.i("WebService", "Fetch insurances successfully finished");
             }
 
             @Override
             public void onFailure(Call<Insurances> call, Throwable t) {
-                Log.e("WebService", "Failure on fetch insurances. " + t.getMessage().toString());
-                new WebServiceFailureException();
+                String err = t.getMessage().toString();
+                Log.e("WebService", err);
+                String message = context.getResources().getString(R.string.exception_status_code);
+                ThrowsAlertDialog(message, err, true);
+                SystemHelper.finish(InputActivity.instance);
             }
         });
+    }
+
+
+    private void ThrowsAlertDialog(String message, String code, boolean modal)
+    {
+        AlertDialog d = MessageHelper.dialog(InputActivity.instance, modal, message + "\n\nCode: " + code);
+        d.show();
     }
 
 }

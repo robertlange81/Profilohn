@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="api_uri_ip">10.59.3.98</string>
-    <string name="api_uri_base">http://10.59.3.98:8080/api/wage/</string>
-    <string name="api_uri_test">http://10.59.3.98:8080/api/wage/success</string>
-    <string name="api_uri_calc">http://10.59.3.98:8080/api/wage/calc</string>
-    <string name="api_uri_insurances">http://10.59.3.98:8080/api/wage/insurances</string>
+
+    <integer name="api_connection_timeout">3000</integer>
+
+    <string name="api_uri_host">10.59.3.95</string>
+    <string name="api_uri_base">http://10.59.3.95:8080/api/wage/</string>
+    <string name="api_uri_test">http://10.59.3.95:8080/api/wage/success</string>
+    <string name="api_uri_calc">http://10.59.3.95:8080/api/wage/calc</string>
+    <string name="api_uri_insurances">http://10.59.3.95:8080/api/wage/insurances</string>
+
+    <string name="basic_credentials">test:test</string>
+
 </resources>

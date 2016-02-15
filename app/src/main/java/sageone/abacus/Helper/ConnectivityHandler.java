@@ -35,19 +35,7 @@ public class ConnectivityHandler extends BroadcastReceiver {
 
         cm = (ConnectivityManager) activity.getSystemService(activity.CONNECTIVITY_SERVICE);
         serviceURI = URI.create(activity.getResources().getString(R.string.api_uri_test));
-
-        dialog = new AlertDialog.Builder(activity)
-                .setNegativeButton(
-                        activity.getResources().getString(android.R.string.cancel)
-                        , new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                SystemHelper.finish(activity);
-                            }
-                        }
-                )
-                .setCancelable(false)
-                .create();
+        dialog = MessageHelper.dialog(activity, true);
     }
 
 
