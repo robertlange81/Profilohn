@@ -48,7 +48,7 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        finish();
+        Log.d("MenuItem", item.toString());
         return true;
     }
 

@@ -169,7 +169,10 @@ public class InputActivity extends AppCompatActivity
             public void onFocusChange(View v, boolean hasFocus) {
                 String cur = wage.getText().toString();
 
-                if (0 == cur.length() || hasFocus) {
+                if (hasFocus) {
+                    return;
+                } else if (0 == cur.length()) {
+                    selectedWage = 0.0;
                     return;
                 }
 
@@ -177,7 +180,8 @@ public class InputActivity extends AppCompatActivity
                 int dec = hasComma ? 100 : 1;
 
                 Double current = Double.valueOf(cur.replaceAll("\\D", ""));
-                String formatted = numberFormat.format(current / dec);
+                current = current / dec;
+                String formatted = numberFormat.format(current);
 
                 wage.setText(formatted);
                 selectedWage = current;
@@ -260,7 +264,7 @@ public class InputActivity extends AppCompatActivity
                 wage.clearFocus();
                 _setData();
                 CalculationInput ci = new CalculationInput(data);
-                webService.Calculate(ci);
+                //webService.Calculate(ci);
             }
         });
 
@@ -362,7 +366,7 @@ public class InputActivity extends AppCompatActivity
         // wage
         helper.data.Brutto = selectedWage;
         // wage period
-        helper. data.Zeitraum = selectedWagePeriod;
+        helper.data.Zeitraum = selectedWagePeriod;
         // tax class
         helper.setStKl(selectedTaxClass);
         // state
@@ -376,7 +380,6 @@ public class InputActivity extends AppCompatActivity
 
         try {
             helper.validate();
-            helper.format();
         } catch (Exception e) {
             _snackbar(e.getMessage());
         }

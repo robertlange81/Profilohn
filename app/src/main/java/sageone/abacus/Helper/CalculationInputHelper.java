@@ -22,6 +22,7 @@ public class CalculationInputHelper
     public static final String WAGE_PERIOD_YEAR  = "y";
     public static final String WAGE_PERIOD_MONTH = "m";
 
+
     public CalculationInputHelper(Activity a, CalculationInputData data)
     {
         this.a = a;
@@ -29,6 +30,11 @@ public class CalculationInputHelper
     }
 
 
+    /**
+     * Validates the inputs.
+     *
+     * @throws ValidationException
+     */
     public void validate() throws ValidationException
     {
         if (_nullOrEmpty(data.Brutto)) {
@@ -39,23 +45,23 @@ public class CalculationInputHelper
     }
 
 
+    /**
+     * Checks data if bigger then null and 0.
+     *
+     * @param data
+     * @return
+     */
     private boolean _nullOrEmpty(Double data)
     {
         return (null == data || 0.0 == data);
     }
 
 
-    public void format() throws FormatException
-    {
-        try {
-            data.Brutto = data.Brutto / 100;
-
-        } catch (Exception e) {
-            throw new FormatException(String.valueOf(R.string.format_error));
-        }
-    }
-
-
+    /**
+     * Prepares the child u23 boolean value.
+     *
+     * @param value
+     */
     public void setKindFrei(Double value)
     {
         data.KindFrei = value;
@@ -63,12 +69,23 @@ public class CalculationInputHelper
     }
 
 
+    /**
+     * Sets the tax class.
+     *
+     * @param taxClass
+     */
     public void setStKl(String taxClass)
     {
         data.StKl = this.translateTaxClass(taxClass);
     }
 
 
+    /**
+     * Internal tax class translator.
+     *
+     * @param taxClass
+     * @return
+     */
     private int translateTaxClass(String taxClass)
     {
         HashMap<String, Integer> taxClasses = new HashMap<String, Integer>();
@@ -82,12 +99,24 @@ public class CalculationInputHelper
         return taxClasses.get(taxClass);
     }
 
+    /**
+     * Help function for translate
+     * the states.
+     *
+     * @param state
+     */
     public void setBundesland(String state)
     {
         data.Bundesland = this.translateState(state);
     }
 
 
+    /**
+     * States translator.
+     *
+     * @param state
+     * @return
+     */
     private int translateState(String state)
     {
         HashMap<String, Integer> states = new HashMap<String, Integer>();
