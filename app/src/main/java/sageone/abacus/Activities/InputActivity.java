@@ -21,8 +21,12 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.net.SocketTimeoutException;
 import java.text.NumberFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -376,6 +380,10 @@ public class InputActivity extends AppCompatActivity
         helper.data.Brutto = selectedWage;
         // wage period
         helper.data.Zeitraum = selectedWagePeriod;
+        // calc year
+        helper.data.AbrJahr = Calendar.getInstance().get(Calendar.YEAR);
+        // tax free
+        helper.data.StFreibetrag = 0.0;
         // tax class
         helper.setStKl(selectedTaxClass);
         // state
@@ -393,14 +401,7 @@ public class InputActivity extends AppCompatActivity
             _snackbar(e.getMessage());
         }
 
-        Log.d("Berechnungsart", String.valueOf(data.Berechnungsart));
-        Log.d("Brutto", String.valueOf(data.Brutto));
-        Log.d("Zeitraum", String.valueOf(data.Zeitraum));
-        Log.d("StKl", String.valueOf(data.StKl));
-        Log.d("Bundesland", String.valueOf(data.Bundesland));
-        Log.d("KK", String.valueOf(data.KKBetriebsnummer));
-        Log.d("Kirche", String.valueOf(data.Kirche));
-        Log.d("KindFrei", String.valueOf(data.KindFrei));
+        Log.d("Data", new Gson().toJson(data));
     }
 
 

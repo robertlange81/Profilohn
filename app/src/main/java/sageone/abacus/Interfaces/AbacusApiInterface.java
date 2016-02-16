@@ -20,6 +20,6 @@ public interface AbacusApiInterface
     @GET("success")
     Call<Calculation> Success();
 
-    @POST("success")
+    @POST("calc")
     Call<Calculation> Calc(@Body CalculationInput data);
 }

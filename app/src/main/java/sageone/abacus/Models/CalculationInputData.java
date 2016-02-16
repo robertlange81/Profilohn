@@ -1,5 +1,7 @@
 package sageone.abacus.Models;
 
+import java.util.Date;
+
 import sageone.abacus.Helper.CalculationInputHelper;
 
 /**
@@ -18,4 +20,11 @@ public class CalculationInputData {
     public boolean Kirche = false;
     public Double KindFrei = 0.0;
     public boolean KindU23 = false;
+    public Double StFreibetrag = 0.0;
+    public int AbrJahr = 1970;
+    public int KV = 1;
+    public int RV = 1;
+    public int AV = 1;
+    public boolean Gleit = false;
+    public float AzWo = 40;
 }
