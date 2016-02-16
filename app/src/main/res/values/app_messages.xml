@@ -3,7 +3,7 @@
     <string name="app_api_error">Fehler während des API-Aufrufs.</string>
     <string name="app_connection_not_available"><b>Keine Netzwerkverbindung</b>\n\nEs wird auf eine gültige Internetverbindung gewartet ..</string>
 
-    <string name="exception_status_code">Die Web-API ist momentan nicht erreichbar. Bitte versuchen Sie es später erneut.</string>
+    <string name="exception_status_code">Web-API Fehler. Bitte versuchen Sie es später erneut.</string>
     <string name="exception_socket_timeout">Die Web-API ist momentan nicht erreichbar. Bitte versuchen Sie es später erneut.</string>
     <string name="exception_http_auth">Die API-Authentifizierung konnte nicht durchgeführt werden. Bitte aktualisieren Sie die Anwendung.</string>
 </resources>

@@ -29,6 +29,11 @@ public class WebService
     private static WebService Instance;
     private Context context;
 
+    private int status = 0;
+    private Throwable throwable;
+    private Response<Calculation> response;
+
+
     public static synchronized WebService getInstance(Context c, ApiCallbackListener listener)
     {
         if (null == Instance) {
@@ -72,24 +77,38 @@ public class WebService
      */
     public void Calculate(CalculationInput data)
     {
+        status = -1;
         Call<Calculation> call = apiService.Calc(data);
-
         Log.v("ServiceCall", "Initialize calculation ..");
 
         call.enqueue(new Callback<Calculation>() {
             @Override
             public void onResponse(Call<Calculation> call, Response<Calculation> response) {
-                if (!response.isSuccess()) {
-                    new StatusCodeException(context.getResources().getString(R.string.exception_status_code));
+                if (response.isSuccess()) {
+                    status = 0;
                 }
-                webserviceListener.responseFinishCalculation(response.body());
             }
+
             @Override
             public void onFailure(Call<Calculation> call, Throwable t) {
-                Log.e("WebService", "Failure on calculation. " + t.getMessage().toString());
-                new WebServiceFailureException(t.getMessage().toString());
+                throwable = t;
+                status = 1;
             }
         });
+
+        switch (status) {
+            case -1:
+                Log.e("WebService", "Calculation failed with NOT SUCCESS.");
+                webserviceListener.responseFailedCalculation(context.getResources().getString(R.string.exception_status_code));
+                break;
+            case 1:
+                Log.e("WebService", "Failure on calculation. " + throwable.getMessage().toString());
+                webserviceListener.responseFailedCalculation(throwable.getMessage().toString());
+                break;
+            default:
+                Log.v("WebService", "Calculation successfully finished. Start result view ..");
+                webserviceListener.responseFinishCalculation(response.body());
+        }
     }
 
 

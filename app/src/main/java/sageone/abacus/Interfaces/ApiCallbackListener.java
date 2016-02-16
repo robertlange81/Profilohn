@@ -10,4 +10,5 @@ public interface ApiCallbackListener
 {
     void responseFinishInsurances(Insurances insurances);
     void responseFinishCalculation(Calculation calculation);
+    void responseFailedCalculation(String message);
 }

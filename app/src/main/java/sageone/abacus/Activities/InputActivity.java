@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 
@@ -325,10 +326,10 @@ public class InputActivity extends AppCompatActivity
 
 
     @Override
-    /**
-     *  Callback for insurances api call.
-     */
-    public void responseFinishInsurances(Insurances i)
+      /**
+       *  Callback for insurances api call.
+       */
+      public void responseFinishInsurances(Insurances i)
     {
         for (int a = 0; a < i.data.size(); a++) {
             insurancesMap.put(i.data.get(a).name, i.data.get(a).number);
@@ -346,12 +347,20 @@ public class InputActivity extends AppCompatActivity
      */
     public void responseFinishCalculation(Calculation calculation)
     {
-        Log.v("WebService", "Calculation successfully finished. Start result view ..");
-
         Intent i = new Intent(this, ResultActivity.class);
         i.putExtra("Calculation", calculation);
 
         startActivity(i);
+    }
+
+
+    @Override
+    /**
+     * What we do if calculation failed.
+     */
+    public void responseFailedCalculation(String message)
+    {
+        MessageHelper.snackbar(this, message, Snackbar.LENGTH_INDEFINITE);
     }
 
 
