@@ -1,5 +1,19 @@
 <resources>
     <string name="result_employee_title">Arbeitnehmer</string>
-    <string name="result_employee_wage_net">Netto</string>
-    <string name="result_employee_wage_gross">Brutto</string>
+
+    <string name="result_employee_btn_again">Nochmal</string>
+    <string name="result_employee_wage_net">Nettogehalt</string>
+    <string name="result_employee_wage_gross">Bruttogehalt</string>
+
+    <string name="result_employee_tax">Steuern</string>
+    <string name="result_employee_wagetax">Lohnsteuer</string>
+    <string name="result_employee_solidarity">Solidaritätszuschlag</string>
+    <string name="result_employee_churchtax">Kirchensteuer</string>
+
+    <string name="result_employee_social_contribution">Sozialabgaben</string>
+    <string name="result_employee_insurance_pension">Rentenversicherung</string>
+    <string name="result_employee_insurance_unemployment">Arbeitslosenversicherung</string>
+    <string name="result_employee_insurance_care">Pflegeversicherung</string>
+    <string name="result_employee_insurance_health">Krankenversicherung</string>
+
 </resources>

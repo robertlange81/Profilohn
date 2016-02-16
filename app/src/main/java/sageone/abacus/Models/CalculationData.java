@@ -30,8 +30,7 @@ public class CalculationData implements Parcelable {
     public String AGAnteil;
     public String IGU;
     public String Sozialabgaben;
-    public Double BruttoDecimal;
-    public sageone.abacus.Models.Trace Trace;
+    public String Steuern;
 
     protected CalculationData(Parcel in) {
         LohnsteuerPflBrutto = in.readString();
@@ -54,6 +53,8 @@ public class CalculationData implements Parcelable {
         AGAnteil = in.readString();
         IGU = in.readString();
         Sozialabgaben = in.readString();
+
+        _summarizeTaxes();
     }
 
     public static final Creator<CalculationData> CREATOR = new Creator<CalculationData>() {
@@ -95,5 +96,18 @@ public class CalculationData implements Parcelable {
         dest.writeString(AGAnteil);
         dest.writeString(IGU);
         dest.writeString(Sozialabgaben);
+        dest.writeString(Steuern);
+    }
+
+    private void _summarizeTaxes()
+    {
+        Double taxWage   = Double.parseDouble(Lohnsteuer.replace(",", "."));
+        Double taxSoli   = Double.parseDouble(Soli.replace(",", "."));
+        Double taxChurch = Double.parseDouble(Kirchensteuer.replace(",", "."));
+
+        Double tax = taxChurch + taxSoli + taxWage;
+        String strTax = tax.toString().replace(".", ",");
+
+        Steuern = strTax;
     }
 }

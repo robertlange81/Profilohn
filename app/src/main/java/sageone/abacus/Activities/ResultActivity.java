@@ -23,6 +23,7 @@ import sageone.abacus.R;
 public class ResultActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    public static ResultActivity instance;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -43,6 +44,8 @@ public class ResultActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        instance = this;
     }
 
     @Override

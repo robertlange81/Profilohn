@@ -77,7 +77,7 @@ public class InputActivity extends AppCompatActivity
 
     private static final int INSURANCES_DEFAULT_SELECTION = 10;
 
-    public static InputActivity instance = null;
+    public static InputActivity instance;
 
 
     @Override
@@ -264,7 +264,7 @@ public class InputActivity extends AppCompatActivity
                 wage.clearFocus();
                 _setData();
                 CalculationInput ci = new CalculationInput(data);
-                //webService.Calculate(ci);
+                webService.Calculate(ci);
             }
         });
 

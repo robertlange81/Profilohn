@@ -135,15 +135,21 @@ public class WebService
                 Log.e("WebService", err);
                 String message = context.getResources().getString(R.string.exception_status_code);
                 ThrowsAlertDialog(message, err, true);
-                SystemHelper.finish(InputActivity.instance);
             }
         });
     }
 
-
+    /**
+     * Alerts a (modal) dialog and
+     * attaches the error code.
+     *
+     * @param message
+     * @param code
+     * @param modal
+     */
     private void ThrowsAlertDialog(String message, String code, boolean modal)
     {
-        AlertDialog d = MessageHelper.dialog(InputActivity.instance, modal, message + "\n\nCode: " + code);
+        AlertDialog d = MessageHelper.dialog(InputActivity.instance, modal, message + "\n\nDetails:\n " + code);
         d.show();
     }
 
