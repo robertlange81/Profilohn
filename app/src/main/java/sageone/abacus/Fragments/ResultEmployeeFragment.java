@@ -4,11 +4,17 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
+
+import sageone.abacus.Exceptions.FormatException;
+import sageone.abacus.Helper.FormatHelper;
+import sageone.abacus.Helper.MessageHelper;
 import sageone.abacus.Models.Calculation;
 import sageone.abacus.R;
 
@@ -49,7 +55,6 @@ public class ResultEmployeeFragment extends Fragment
 
         _initViews(view);
         _setViewData(data);
-        _postfixValues();
         _initializeListener(view);
 
         return view;
@@ -123,30 +128,30 @@ public class ResultEmployeeFragment extends Fragment
      */
     private void _setViewData(Calculation data)
     {
-        txtTitle.setText(data.data.Netto);
-        txtWageGross.setText(data.data.LohnsteuerPflBrutto);
-        txtWageNet.setText(data.data.Netto);
-        txtTax.setText(data.data.Steuern);
-        txtWageTax.setText(data.data.Lohnsteuer);
-        txtSolidarity.setText(data.data.Soli);
-        txtChurchTax.setText(data.data.Kirchensteuer);
-        txtSocial.setText(data.data.Sozialabgaben);
-        txtPension.setText(data.data.RentenversicherungAN);
-        txtUnemployment.setText(data.data.ArbeitslosenversicherungAN);
-        txtCare.setText(data.data.PflegeversicherungAN);
-        txtHealth.setText(data.data.KrankenversicherungAN);
+        txtTitle.setText(_formatCurrency(data.data.Netto));
+        txtWageGross.setText(_formatCurrency(data.data.LohnsteuerPflBrutto));
+        txtWageNet.setText(_formatCurrency(data.data.Netto));
+        txtTax.setText(_formatCurrency(data.data.Steuern));
+        txtWageTax.setText(_formatCurrency(data.data.Lohnsteuer));
+        txtSolidarity.setText(_formatCurrency(data.data.Soli));
+        txtChurchTax.setText(_formatCurrency(data.data.Kirchensteuer));
+        txtSocial.setText(_formatCurrency(data.data.Sozialabgaben));
+        txtPension.setText(_formatCurrency(data.data.Rentenversicherung_AN));
+        txtUnemployment.setText(_formatCurrency(data.data.Arbeitslosenversicherung_AN));
+        txtCare.setText(_formatCurrency(data.data.Pflegeversicherung_AN));
+        txtHealth.setText(_formatCurrency(data.data.Krankenversicherung_AN));
     }
 
 
-    /**
-     * Postfix all view values with currency Euro (€).
-     */
-    private void _postfixValues()
+    private String _formatCurrency(String text)
     {
-        TextView views[] = {txtTitle, txtWageGross, txtWageNet, txtTax};
+        try {
+            return FormatHelper.currency(text.toString());
+        } catch (FormatException e) {
+            Log.e("FormatHelperError", "");
+        }
 
-        for (int i = 0; i < views.length; i++)
-            views[i].setText(views[i].getText() + "€");
+        return "FormatError";
     }
 
 }

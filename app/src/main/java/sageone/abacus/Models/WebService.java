@@ -89,8 +89,8 @@ public class WebService
 
             @Override
             public void onFailure(Call<Calculation> call, Throwable throwable) {
-                Log.e("WebService", "Failure on calculation. " + throwable.getMessage().toString());
-                webserviceListener.responseFailedCalculation(throwable.getMessage().toString());
+                Log.e("WebService", "Failure on calculation. " + throwable.getStackTrace().toString());
+                webserviceListener.responseFailedCalculation(context.getResources().getString(R.string.app_api_error));
             }
         });
 

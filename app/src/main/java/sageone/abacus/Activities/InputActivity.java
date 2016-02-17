@@ -398,20 +398,10 @@ public class InputActivity extends AppCompatActivity
         try {
             helper.validate();
         } catch (Exception e) {
-            _snackbar(e.getMessage());
+            MessageHelper.snackbar(this, e.getMessage());
         }
 
         Log.d("Data", new Gson().toJson(data));
-    }
-
-
-    /**
-     * Shows a failed validation
-     * @param message
-     */
-    private void _snackbar(String message)
-    {
-        MessageHelper.snackbar(this, message);
     }
 
 }

@@ -6,4 +6,6 @@
     <string name="exception_status_code">Web-API Fehler. Bitte versuchen Sie es später erneut.</string>
     <string name="exception_socket_timeout">Die Web-API ist momentan nicht erreichbar. Bitte versuchen Sie es später erneut.</string>
     <string name="exception_http_auth">Die API-Authentifizierung konnte nicht durchgeführt werden. Bitte aktualisieren Sie die Anwendung.</string>
+
+    <string name="exception_format">Unerwarteter Formatierungfehler.</string>
 </resources>

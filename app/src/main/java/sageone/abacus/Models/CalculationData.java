@@ -3,6 +3,16 @@ package sageone.abacus.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
+
+import sageone.abacus.Exceptions.FormatException;
+import sageone.abacus.Helper.FormatHelper;
+import sageone.abacus.Helper.MessageHelper;
+import sageone.abacus.R;
+
 /**
  * Created by otomaske on 04.02.2016.
  *
@@ -15,14 +25,14 @@ public class CalculationData implements Parcelable {
     public String Lohnsteuer;
     public String Soli;
     public String Kirchensteuer;
-    public String KrankenversicherungAN;
-    public String RentenversicherungAN;
-    public String ArbeitslosenversicherungAN;
-    public String PflegeversicherungAN;
-    public String KrankenversicherungAG;
-    public String RentenversicherungAG;
-    public String ArbeitslosenversicherungAG;
-    public String PflegeversicherungAG;
+    public String Krankenversicherung_AN;
+    public String Rentenversicherung_AN;
+    public String Arbeitslosenversicherung_AN;
+    public String Pflegeversicherung_AN;
+    public String Krankenversicherung_AG;
+    public String Rentenversicherung_AG;
+    public String Arbeitslosenversicherung_AG;
+    public String Pflegeversicherung_AG;
     public String Umlage1;
     public String Umlage2;
     public String Netto;
@@ -38,14 +48,14 @@ public class CalculationData implements Parcelable {
         Lohnsteuer = in.readString();
         Soli = in.readString();
         Kirchensteuer = in.readString();
-        KrankenversicherungAN = in.readString();
-        RentenversicherungAN = in.readString();
-        ArbeitslosenversicherungAN = in.readString();
-        PflegeversicherungAN = in.readString();
-        KrankenversicherungAG = in.readString();
-        RentenversicherungAG = in.readString();
-        ArbeitslosenversicherungAG = in.readString();
-        PflegeversicherungAG = in.readString();
+        Krankenversicherung_AN = in.readString();
+        Rentenversicherung_AN = in.readString();
+        Arbeitslosenversicherung_AN = in.readString();
+        Pflegeversicherung_AN = in.readString();
+        Krankenversicherung_AG = in.readString();
+        Rentenversicherung_AG = in.readString();
+        Arbeitslosenversicherung_AG = in.readString();
+        Pflegeversicherung_AG = in.readString();
         Umlage1 = in.readString();
         Umlage2 = in.readString();
         Netto = in.readString();
@@ -81,14 +91,14 @@ public class CalculationData implements Parcelable {
         dest.writeString(Lohnsteuer);
         dest.writeString(Soli);
         dest.writeString(Kirchensteuer);
-        dest.writeString(KrankenversicherungAN);
-        dest.writeString(RentenversicherungAN);
-        dest.writeString(ArbeitslosenversicherungAN);
-        dest.writeString(PflegeversicherungAN);
-        dest.writeString(KrankenversicherungAG);
-        dest.writeString(RentenversicherungAG);
-        dest.writeString(ArbeitslosenversicherungAG);
-        dest.writeString(PflegeversicherungAG);
+        dest.writeString(Krankenversicherung_AN);
+        dest.writeString(Rentenversicherung_AN);
+        dest.writeString(Arbeitslosenversicherung_AN);
+        dest.writeString(Pflegeversicherung_AN);
+        dest.writeString(Krankenversicherung_AG);
+        dest.writeString(Rentenversicherung_AG);
+        dest.writeString(Arbeitslosenversicherung_AG);
+        dest.writeString(Pflegeversicherung_AG);
         dest.writeString(Umlage1);
         dest.writeString(Umlage2);
         dest.writeString(Netto);
@@ -99,15 +109,16 @@ public class CalculationData implements Parcelable {
         dest.writeString(Steuern);
     }
 
+    /**
+     *
+     */
     private void _summarizeTaxes()
     {
-        Double taxWage   = Double.parseDouble(Lohnsteuer.replace(",", "."));
-        Double taxSoli   = Double.parseDouble(Soli.replace(",", "."));
-        Double taxChurch = Double.parseDouble(Kirchensteuer.replace(",", "."));
+        Double taxWage   = Double.parseDouble(Lohnsteuer.replace(".", "").replace(",", "."));
+        Double taxSoli   = Double.parseDouble(Soli.replace(".", "").replace(",", "."));
+        Double taxChurch = Double.parseDouble(Kirchensteuer.replace(".", "").replace(",", "."));
 
         Double tax = taxChurch + taxSoli + taxWage;
-        String strTax = tax.toString().replace(".", ",");
-
-        Steuern = strTax;
+        Steuern = tax.toString();
     }
 }
