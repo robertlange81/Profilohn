@@ -135,7 +135,7 @@ public class ResultEmployeeFragment extends Fragment
         txtWageTax.setText(_formatCurrency(data.data.Lohnsteuer));
         txtSolidarity.setText(_formatCurrency(data.data.Soli));
         txtChurchTax.setText(_formatCurrency(data.data.Kirchensteuer));
-        txtSocial.setText(_formatCurrency(data.data.Sozialabgaben));
+        txtSocial.setText(_formatCurrency(data.data.AGAnteil));
         txtPension.setText(_formatCurrency(data.data.Rentenversicherung_AN));
         txtUnemployment.setText(_formatCurrency(data.data.Arbeitslosenversicherung_AN));
         txtCare.setText(_formatCurrency(data.data.Pflegeversicherung_AN));

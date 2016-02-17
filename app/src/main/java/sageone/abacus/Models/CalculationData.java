@@ -3,16 +3,6 @@ package sageone.abacus.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Locale;
-
-import sageone.abacus.Exceptions.FormatException;
-import sageone.abacus.Helper.FormatHelper;
-import sageone.abacus.Helper.MessageHelper;
-import sageone.abacus.R;
-
 /**
  * Created by otomaske on 04.02.2016.
  *
@@ -38,9 +28,10 @@ public class CalculationData implements Parcelable {
     public String Netto;
     public String Auszahlung;
     public String AGAnteil;
-    public String IGU;
-    public String Sozialabgaben;
+    public String ANAnteil;
     public String Steuern;
+    public String Sozialabgaben_AG;
+    public String IGU;
 
     protected CalculationData(Parcel in) {
         LohnsteuerPflBrutto = in.readString();
@@ -62,9 +53,8 @@ public class CalculationData implements Parcelable {
         Auszahlung = in.readString();
         AGAnteil = in.readString();
         IGU = in.readString();
-        Sozialabgaben = in.readString();
-
-        _summarizeTaxes();
+        ANAnteil = in.readString();
+        Steuern = in.readString();
     }
 
     public static final Creator<CalculationData> CREATOR = new Creator<CalculationData>() {
@@ -105,20 +95,7 @@ public class CalculationData implements Parcelable {
         dest.writeString(Auszahlung);
         dest.writeString(AGAnteil);
         dest.writeString(IGU);
-        dest.writeString(Sozialabgaben);
+        dest.writeString(ANAnteil);
         dest.writeString(Steuern);
-    }
-
-    /**
-     *
-     */
-    private void _summarizeTaxes()
-    {
-        Double taxWage   = Double.parseDouble(Lohnsteuer.replace(".", "").replace(",", "."));
-        Double taxSoli   = Double.parseDouble(Soli.replace(".", "").replace(",", "."));
-        Double taxChurch = Double.parseDouble(Kirchensteuer.replace(".", "").replace(",", "."));
-
-        Double tax = taxChurch + taxSoli + taxWage;
-        Steuern = tax.toString();
     }
 }
