@@ -17,7 +17,7 @@
             android:id="@+id/result_employer_title_wage_label"
             style="@style/text_content"
             android:textColor="@color/text_white"
-            android:text="Sie erhalten"
+            android:text="Sie bezahlen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -28,7 +28,9 @@
             android:textColor="@color/text_white"
             android:layout_width="match_parent"
             android:text="0.00€"
-            android:layout_height="wrap_content" />
+            android:gravity="right"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/result_employer_btn_again" />
 
         <android.support.v7.widget.AppCompatButton
             style="@style/result_btn_again"
@@ -124,6 +126,43 @@
             </LinearLayout>
 
             <View style="@style/hr" android:layout_width="match_parent" />
+
+            <!-- contribution cat -->
+            <LinearLayout
+                style="@style/result_data_row">
+                <TextView
+                    style="@style/result_cat_label"
+                    android:text="@string/result_employer_contribution" />
+
+                <TextView
+                    style="@style/result_cat_value"
+                    android:id="@+id/result_employer_contribution" />
+            </LinearLayout>
+
+            <!-- U1 -->
+            <LinearLayout
+                style="@style/result_data_row">
+                <TextView
+                    style="@style/result_data_label"
+                    android:text="@string/result_employer_contribution1" />
+
+                <TextView
+                    style="@style/result_data_value"
+                    android:id="@+id/result_employer_contribution1" />
+            </LinearLayout>
+
+            <!-- U2 -->
+            <LinearLayout
+                style="@style/result_data_row">
+                <TextView
+                    style="@style/result_data_label"
+                    android:text="@string/result_employer_contribution2" />
+
+                <TextView
+                    style="@style/result_data_value"
+                    android:id="@+id/result_employer_contribution2" />
+            </LinearLayout>
+
 
             <!-- net wage -->
             <LinearLayout

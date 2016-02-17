@@ -29,6 +29,10 @@ public class ResultEmployerFragment extends Fragment
     TextView txtCareEmployer;
     TextView txtHealthEmployer;
 
+    TextView txtContribution;
+    TextView txtContribution1;
+    TextView txtContribution2;
+
     public ResultEmployerFragment() { }
 
     @Override
@@ -103,6 +107,10 @@ public class ResultEmployerFragment extends Fragment
         txtCareEmployer = (TextView) view.findViewById(R.id.result_employer_insurance_care);
         txtHealthEmployer = (TextView) view.findViewById(R.id.result_employer_insurance_health);
 
+        txtContribution  = (TextView) view.findViewById(R.id.result_employer_contribution);
+        txtContribution1 = (TextView) view.findViewById(R.id.result_employer_contribution1);
+        txtContribution2 = (TextView) view.findViewById(R.id.result_employer_contribution2);
+
         txtCumCat = (TextView) view.findViewById(R.id.result_employer_cum_cat);
     }
 
@@ -114,14 +122,18 @@ public class ResultEmployerFragment extends Fragment
      */
     private void _setViewData(Calculation data)
     {
-        txtTitle.setText(data.data.Netto);
+        txtTitle.setText(data.data.Abgaben_AG);
         txtWageGross.setText(data.data.LohnsteuerPflBrutto);
-        txtCumCat.setText(data.data.Sozialabgaben_AG);
+        txtCumCat.setText(data.data.Abgaben_AG);
         txtSocialEmployer.setText(data.data.AGAnteil);
         txtPensionEmployer.setText(data.data.Rentenversicherung_AG);
         txtUnemploymentEmployer.setText(data.data.Arbeitslosenversicherung_AG);
         txtCareEmployer.setText(data.data.Pflegeversicherung_AG);
         txtHealthEmployer.setText(data.data.Krankenversicherung_AG);
+
+        txtContribution.setText(data.data.Umlagen_AG);
+        txtContribution1.setText(data.data.Umlage1);
+        txtContribution2.setText(data.data.Umlage2);
     }
 
 

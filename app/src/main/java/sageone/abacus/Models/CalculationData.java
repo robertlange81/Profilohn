@@ -3,6 +3,10 @@ package sageone.abacus.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
+
 /**
  * Created by otomaske on 04.02.2016.
  *
@@ -32,6 +36,8 @@ public class CalculationData implements Parcelable {
     public String Steuern;
     public String Sozialabgaben_AG;
     public String IGU;
+    public String Umlagen_AG;
+    public String Abgaben_AG;
 
     protected CalculationData(Parcel in) {
         LohnsteuerPflBrutto = in.readString();
@@ -55,6 +61,7 @@ public class CalculationData implements Parcelable {
         IGU = in.readString();
         ANAnteil = in.readString();
         Steuern = in.readString();
+        Umlagen_AG = in.readString();
     }
 
     public static final Creator<CalculationData> CREATOR = new Creator<CalculationData>() {
@@ -97,5 +104,40 @@ public class CalculationData implements Parcelable {
         dest.writeString(IGU);
         dest.writeString(ANAnteil);
         dest.writeString(Steuern);
+        dest.writeString(Umlagen_AG);
+        dest.writeString(Abgaben_AG);
+    }
+
+    private void _summarizeEmployerCats()
+    {
+
+        Double contribution1   = 0.00;
+        Double contribution2   = 0.00;
+        Double contributionSum = 0.00;
+        Double sumSocial       = 0.00;
+        Double sumEmployer     = 0.00;
+
+        try {
+            contribution1   = parse(Umlage1);
+            contribution2   = parse(Umlage2);
+            sumSocial       = parse(AGAnteil);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        contributionSum = contribution1 + contribution2;
+        sumEmployer     = contributionSum + sumSocial;
+
+        Umlagen_AG  = contributionSum.toString();
+        Abgaben_AG  = sumEmployer.toString();
+    }
+
+    private static NumberFormat format;
+    private static Double parse(String value) throws ParseException {
+        if(format == null) {
+            format = NumberFormat.getInstance(Locale.GERMANY);
+        }
+
+        return format.parse(value).doubleValue();
     }
 }
