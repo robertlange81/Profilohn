@@ -4,10 +4,10 @@
     <integer name="api_connection_timeout">3000</integer>
 
     <string name="api_uri_host">10.59.3.95</string>
-    <string name="api_uri_base">http://10.59.3.95:8080/api/wage/</string>
-    <string name="api_uri_test">http://10.59.3.95:8080/api/wage/success/</string>
-    <string name="api_uri_calc">http://10.59.3.95:8080/api/wage/calc</string>
-    <string name="api_uri_insurances">http://10.59.3.95:8080/api/wage/insurances</string>
+    <string name="api_uri_base">http://10.59.3.122:81/api/wage/</string>
+    <string name="api_uri_test">http://10.59.3.122:81/api/wage/success</string>
+    <string name="api_uri_calc">http://10.59.3.122:81/api/wage/calc</string>
+    <string name="api_uri_insurances">http://10.59.3.122:81/api/wage/insurances</string>
 
     <string name="basic_credentials">test:test</string>
 

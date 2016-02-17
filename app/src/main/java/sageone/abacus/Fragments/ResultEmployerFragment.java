@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import sageone.abacus.Exceptions.FormatException;
+import sageone.abacus.Helper.FormatHelper;
 import sageone.abacus.Models.Calculation;
 import sageone.abacus.R;
 
@@ -122,18 +125,18 @@ public class ResultEmployerFragment extends Fragment
      */
     private void _setViewData(Calculation data)
     {
-        txtTitle.setText(data.data.Abgaben_AG);
-        txtWageGross.setText(data.data.LohnsteuerPflBrutto);
-        txtCumCat.setText(data.data.Abgaben_AG);
-        txtSocialEmployer.setText(data.data.AGAnteil);
-        txtPensionEmployer.setText(data.data.Rentenversicherung_AG);
-        txtUnemploymentEmployer.setText(data.data.Arbeitslosenversicherung_AG);
-        txtCareEmployer.setText(data.data.Pflegeversicherung_AG);
-        txtHealthEmployer.setText(data.data.Krankenversicherung_AG);
+        txtTitle.setText(_formatCurrency(data.data.Abgaben_AG));
+        txtWageGross.setText(_formatCurrency(data.data.LohnsteuerPflBrutto));
+        txtCumCat.setText(_formatCurrency(data.data.Abgaben_AG));
+        txtSocialEmployer.setText(_formatCurrency(data.data.AGAnteil));
+        txtPensionEmployer.setText(_formatCurrency(data.data.Rentenversicherung_AG));
+        txtUnemploymentEmployer.setText(_formatCurrency(data.data.Arbeitslosenversicherung_AG));
+        txtCareEmployer.setText(_formatCurrency(data.data.Pflegeversicherung_AG));
+        txtHealthEmployer.setText(_formatCurrency(data.data.Krankenversicherung_AG));
 
-        txtContribution.setText(data.data.Umlagen_AG);
-        txtContribution1.setText(data.data.Umlage1);
-        txtContribution2.setText(data.data.Umlage2);
+        txtContribution.setText(_formatCurrency(data.data.Umlagen_AG));
+        txtContribution1.setText(_formatCurrency(data.data.Umlage1));
+        txtContribution2.setText(_formatCurrency(data.data.Umlage2));
     }
 
 
@@ -142,10 +145,25 @@ public class ResultEmployerFragment extends Fragment
      */
     private void _postfixValues()
     {
-        TextView views[] = {txtTitle, txtWageGross, txtCumCat};
+        TextView views[] = {txtTitle, txtWageGross};
 
-        for (int i = 0; i < views.length; i++)
-            views[i].setText(views[i].getText() + "€");
+        for (int i = 0; i < views.length; i++) {
+            CharSequence text = views[i].getText();
+            if(text.charAt(text.length() -1 ) != '€') {
+                views[i].setText(text + "€");
+            }
+        }
+    }
+
+    private String _formatCurrency(String text)
+    {
+        try {
+            return FormatHelper.currency(text.toString());
+        } catch (FormatException e) {
+            Log.e("FormatHelperError", "");
+        }
+
+        return "FormatError";
     }
 
 

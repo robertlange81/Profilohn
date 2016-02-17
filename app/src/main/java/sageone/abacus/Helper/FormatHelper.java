@@ -14,6 +14,8 @@ public class FormatHelper
     public final static String currency(String text) throws FormatException
     {
         try {
+            deDE.setMinimumFractionDigits(2);
+            deDE.setMaximumFractionDigits(2);
             Double d = Double.valueOf(text.replace(".", "").replace(",", "."));
             return deDE.format(d);
         } catch (Exception e) {

@@ -39,6 +39,8 @@ public class CalculationData implements Parcelable {
     public String Umlagen_AG;
     public String Abgaben_AG;
 
+    private static NumberFormat format;
+
     protected CalculationData(Parcel in) {
         LohnsteuerPflBrutto = in.readString();
         SVPflBrutto = in.readString();
@@ -62,6 +64,8 @@ public class CalculationData implements Parcelable {
         ANAnteil = in.readString();
         Steuern = in.readString();
         Umlagen_AG = in.readString();
+
+        _summarizeEmployerCats();
     }
 
     public static final Creator<CalculationData> CREATOR = new Creator<CalculationData>() {
@@ -110,29 +114,24 @@ public class CalculationData implements Parcelable {
 
     private void _summarizeEmployerCats()
     {
-
-        Double contribution1   = 0.00;
-        Double contribution2   = 0.00;
+        Double grossPayEmpl    = 0.00;
         Double contributionSum = 0.00;
         Double sumSocial       = 0.00;
         Double sumEmployer     = 0.00;
 
         try {
-            contribution1   = parse(Umlage1);
-            contribution2   = parse(Umlage2);
+            grossPayEmpl    = parse(LohnsteuerPflBrutto);
+            contributionSum = parse(Umlagen_AG);
             sumSocial       = parse(AGAnteil);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        contributionSum = contribution1 + contribution2;
-        sumEmployer     = contributionSum + sumSocial;
+        sumEmployer = grossPayEmpl + contributionSum + sumSocial;
 
-        Umlagen_AG  = contributionSum.toString();
-        Abgaben_AG  = sumEmployer.toString();
+        Abgaben_AG  = format.format(sumEmployer);
     }
 
-    private static NumberFormat format;
     private static Double parse(String value) throws ParseException {
         if(format == null) {
             format = NumberFormat.getInstance(Locale.GERMANY);

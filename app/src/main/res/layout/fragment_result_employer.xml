@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
+
     <!-- Main pane -->
     <RelativeLayout
         android:id="@+id/summarize"
@@ -23,14 +24,12 @@
 
         <TextView
             style="@style/text_h1"
-            android:layout_below="@+id/result_employee_title_wage_label"
+            android:layout_below="@+id/result_employer_title_wage_label"
             android:id="@+id/result_employer_title_wage"
             android:textColor="@color/text_white"
             android:layout_width="match_parent"
             android:text="0.00€"
-            android:gravity="right"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/result_employer_btn_again" />
+            android:layout_height="wrap_content" />
 
         <android.support.v7.widget.AppCompatButton
             style="@style/result_btn_again"
@@ -163,6 +162,7 @@
                     android:id="@+id/result_employer_contribution2" />
             </LinearLayout>
 
+            <View style="@style/hr" android:layout_width="match_parent" />
 
             <!-- net wage -->
             <LinearLayout
