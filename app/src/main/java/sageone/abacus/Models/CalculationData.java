@@ -34,7 +34,6 @@ public class CalculationData implements Parcelable {
     public String AGAnteil;
     public String ANAnteil;
     public String Steuern;
-    public String Sozialabgaben_AG;
     public String IGU;
     public String Umlagen_AG;
     public String Abgaben_AG;

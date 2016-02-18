@@ -73,7 +73,7 @@ public class WebService
     public void Calculate(CalculationInput data)
     {
         Log.v("ServiceCall", "Initialize calculation ..");
-        Call<Calculation> call = apiService.Success();
+        Call<Calculation> call = apiService.Calc(data);
 
         call.enqueue(new Callback<Calculation>() {
             @Override
