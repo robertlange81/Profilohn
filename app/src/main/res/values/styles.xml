@@ -17,6 +17,21 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="ResultButtonStyle" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorAccent</item>
+        <item name="android:textColor">@color/text_white</item>
+    </style>
+
+    <style name="ResultButtonStyle1" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorAccentLight</item>
+        <item name="android:textColor">@color/text_white</item>
+    </style>
+
+    <style name="ResultButtonStyle2" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorAccentBlue</item>
+        <item name="android:textColor">@color/text_white</item>
+    </style>
+
     <style name="FullscreenTheme" parent="AppTheme">
         <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
         <item name="android:windowActionBarOverlay">true</item>
@@ -56,6 +71,11 @@
     <style name="text_input">
         <item name="android:textColor">@color/text_darkgrey</item>
         <item name="android:textSize">@dimen/text_size_input</item>
+    </style>
+
+    <style name="text_input_small">
+        <item name="android:textColor">@color/text_darkgrey</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
     </style>
 
     <style name="input_wage">
@@ -194,10 +214,8 @@
         <item name="android:layout_gravity">right</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/button_calc</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_alignParentRight">true</item>
-        <item name="android:textColor">@color/text_white</item>
         <item name="android:textSize">@dimen/text_size_result_small</item>
     </style>
 

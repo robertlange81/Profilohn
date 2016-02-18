@@ -1,9 +1,0 @@
-<resources>
-    <string name="result_home_title">Berechnung erfolgreich</string>
-    <string name="result_home_thank">Vielen Dank, dass Sie mit Sage Abacus Brutto- / Nettolohn-Rechner Ihren Lohn berechnet haben.</string>
-    <string name="result_home_intro">
-        Auf den folgenden Seiten finden Sie eine Auflistung für:
-        \n\n- der Bezüge bzw. Belastungen des Arbeitnehmers
-        \n- der Belastungen für den Arbeitnehmer
-    </string>
-</resources>

@@ -30,18 +30,18 @@
             android:orientation="horizontal" >
 
             <RadioButton
-                style="@style/text_input"
+                style="@style/text_input_small"
                 android:id="@+id/type_net"
-                android:hint="@string/grosswage"
-                android:checked="true"
+                android:hint="@string/netwage"
                 android:layout_weight="1"
+                android:checked="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <RadioButton
-                style="@style/text_input"
+                style="@style/text_input_small"
                 android:id="@+id/type_gross"
-                android:hint="@string/netwage"
+                android:hint="@string/grosswage"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

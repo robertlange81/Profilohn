@@ -23,6 +23,7 @@ import sageone.abacus.R;
  */
 public class ResultEmployeeFragment extends Fragment
 {
+    public static ResultEmployeeFragment instance;
     private Activity activity;
 
     TextView txtTitle;
@@ -40,14 +41,15 @@ public class ResultEmployeeFragment extends Fragment
     TextView txtCare;
     TextView txtHealth;
 
+
     public ResultEmployeeFragment() { }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         activity = getActivity();
-        activity.setTitle(R.string.title_activity_result_employee);
         View view = inflater.inflate(R.layout.fragment_result_employee, container, false);
 
         // get the calculation result from the activity
@@ -62,18 +64,34 @@ public class ResultEmployeeFragment extends Fragment
 
 
     /**
-     * Instantiates new fragment
-     * of result employee.
+     * Instantiates a ResultEmployeeFragment.
      *
      * @param args
      * @return
      */
-    public static ResultEmployeeFragment newInstance(Bundle args)
+    public static ResultEmployeeFragment getInstance(Bundle args)
     {
-        ResultEmployeeFragment fragment = new ResultEmployeeFragment();
-        fragment.setArguments(args);
+        if (null == instance) {
+            instance = new ResultEmployeeFragment();
+        }
+        instance.setArguments(args);
 
-        return fragment;
+        return instance;
+    }
+
+
+    /**
+     * Callback to get the visibility
+     * status of this fragment.
+     *
+     * @param v
+     */
+    public void setUserVisibleHint(boolean v)
+    {
+        super.setUserVisibleHint(v);
+        if (v) {
+            instance.getActivity().setTitle(getResources().getString(R.string.result_employee_title));
+        }
     }
 
 

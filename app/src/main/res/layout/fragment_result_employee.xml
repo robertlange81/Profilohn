@@ -33,6 +33,7 @@
 
         <android.support.v7.widget.AppCompatButton
             style="@style/result_btn_again"
+            android:theme="@style/ResultButtonStyle"
             android:id="@+id/result_employee_btn_again"
             android:text="@string/result_employee_btn_again" />
 

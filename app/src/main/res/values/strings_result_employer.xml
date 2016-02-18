@@ -1,5 +1,5 @@
 <resources>
-    <string name="result_employer_title">Arbeitnehmer</string>
+    <string name="result_employer_title">Arbeitgeber</string>
     <string name="result_employer_cum_cat">Gesamtbelastung</string>
     <string name="result_employer_wage_gross">Bruttogehalt</string>
 

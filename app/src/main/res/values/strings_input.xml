@@ -56,9 +56,9 @@
     <string name="wage_period_year_not">Jahresgehalt</string>
     <string name="wage_period_month">Monatsgehalt</string>
 
-    <string name="wagetype">Was möchten Sie berechnen?</string>
-    <string name="netwage">Nettolohn</string>
-    <string name="grosswage">Bruttolohn</string>
+    <string name="wagetype">Was soll berechnet werden?</string>
+    <string name="netwage">Nettolohn aus Bruttogehalt</string>
+    <string name="grosswage">Bruttolohn aus Nettogehalt</string>
     <string name="taxclass">Steuerklasse</string>
     <string name="state">Bundesland</string>
     <string name="insurance">Krankenkasse</string>
