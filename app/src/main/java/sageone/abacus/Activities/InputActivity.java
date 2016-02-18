@@ -1,6 +1,7 @@
 package sageone.abacus.Activities;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -83,6 +84,7 @@ public class InputActivity extends AppCompatActivity
     private static final int INSURANCES_DEFAULT_SELECTION = 10;
 
     public static InputActivity instance;
+    public Dialog dialog;
 
 
     @Override
@@ -267,6 +269,10 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 wage.clearFocus();
+                dialog = MessageHelper.dialog(instance, true,
+                        getResources().getString(R.string.calculation_started));
+                dialog.show();
+
                 _setData();
                 CalculationInput ci = new CalculationInput(data);
                 webService.Calculate(ci);
@@ -353,6 +359,7 @@ public class InputActivity extends AppCompatActivity
     {
         Intent i = new Intent(this, ResultActivity.class);
         i.putExtra("Calculation", calculation);
+        dialog.hide();
 
         startActivity(i);
     }
@@ -364,6 +371,7 @@ public class InputActivity extends AppCompatActivity
      */
     public void responseFailedCalculation(String message)
     {
+        dialog.hide();
         MessageHelper.snackbar(this, message, Snackbar.LENGTH_INDEFINITE);
     }
 

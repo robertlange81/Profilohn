@@ -89,5 +89,6 @@
 
     <string name="validation_error_wage">Bitte Lohn/Gehalt angeben.</string>
     <string name="format_error">Allgemeiner Formatierungsfehler.</string>
+    <string name="calculation_started">Die Berechnung wird durchgeführt ..</string>
 
 </resources>
