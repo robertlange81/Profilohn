@@ -53,8 +53,7 @@
 
     <string name="wage_default">Ihr Lohn/Gehalt z.B. 2341.87</string>
     <string name="wage_period_year">Betrag ist Jahresgehalt</string>
-    <string name="wage_period_year_not">Jahresgehalt</string>
-    <string name="wage_period_month">Monatsgehalt</string>
+    <string name="wage_period_year_not">Betrag ist Monatsgehalt</string>
 
     <string name="wagetype">Was soll berechnet werden?</string>
     <string name="netwage">Nettolohn aus Bruttogehalt</string>

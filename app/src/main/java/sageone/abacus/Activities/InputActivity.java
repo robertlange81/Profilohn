@@ -65,7 +65,7 @@ public class InputActivity extends AppCompatActivity
 
     private Long selectedInsuranceId;
     private Double selectedWage;
-    private String selectedWageType = CalculationInputHelper.WAGE_TYPE_NET;
+    private String selectedWageType = CalculationInputHelper.WAGE_TYPE_GROSS;
     private String selectedWagePeriod = CalculationInputHelper.WAGE_PERIOD_MONTH;
     private Boolean selectedChurchTax = false;
     private String selectedTaxClass = "I";
@@ -165,8 +165,12 @@ public class InputActivity extends AppCompatActivity
         calcType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                selectedWageType = (R.id.type_net == checkedId)
-                        ? CalculationInputHelper.WAGE_TYPE_NET : CalculationInputHelper.WAGE_TYPE_GROSS;
+                int index = group.indexOfChild(findViewById(group.getCheckedRadioButtonId()));
+                if(index == 1) {
+                    selectedWageType = CalculationInputHelper.WAGE_TYPE_NET;
+                } else {
+                    selectedWageType = CalculationInputHelper.WAGE_TYPE_GROSS;
+                }
             }
         });
 
