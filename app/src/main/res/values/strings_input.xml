@@ -87,6 +87,7 @@
     </string-array>
 
     <string name="validation_error_wage">Bitte Lohn/Gehalt angeben.</string>
+    <string name="validation_error_insurance">Bitte eine gültige Krankenkasse angeben.</string>
     <string name="format_error">Allgemeiner Formatierungsfehler.</string>
     <string name="calculation_started">Die Berechnung wird durchgeführt ..</string>
 

@@ -1,6 +1,5 @@
 package sageone.abacus.Activities;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,18 +22,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import java.net.SocketTimeoutException;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import sageone.abacus.Helper.CalculationInputHelper;
 import sageone.abacus.Helper.EventHandler;
-import sageone.abacus.Exceptions.StatusCodeException;
-import sageone.abacus.Exceptions.WebServiceFailureException;
 import sageone.abacus.Helper.MessageHelper;
 import sageone.abacus.Interfaces.ApiCallbackListener;
 import sageone.abacus.Models.Calculation;
@@ -73,15 +72,15 @@ public class InputActivity extends AppCompatActivity
     private Double selectedChildAmount = 0.0;
 
     private ArrayAdapter<String> insurancesAdapter;
-    private String[] insurancesList = new String[] {};
-    private HashMap<String, String> insurancesMap = new HashMap<String, String>();
+    private List<String> insurancesList = new ArrayList<String>();
+    private SortedMap<String, Integer> insurancesMap = new TreeMap<String, Integer>();
 
     private NumberFormat numberFormat;
     private EventHandler eventHandler;
     private WebService webService;
     private CalculationInputData data;
 
-    private static final int INSURANCES_DEFAULT_SELECTION = 10;
+    private static final String INSURANCES_DEFAULT_VALUE = "AOK Baden-Württemberg";
 
     public static InputActivity instance;
     public Dialog dialog;
@@ -166,7 +165,7 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 selectedWageType = (R.id.type_net == checkedId) ?
-                        CalculationInputHelper.WAGE_TYPE_GROSS : CalculationInputHelper.WAGE_TYPE_NET;
+                        CalculationInputHelper.WAGE_TYPE_NET : CalculationInputHelper.WAGE_TYPE_GROSS;
             }
         });
 
@@ -232,8 +231,8 @@ public class InputActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView t = (TextView) view;
                 String value = t.getText().toString();
-                String companyNumber = insurancesMap.get(value);
-                selectedInsuranceId = Long.valueOf(companyNumber);
+                Integer companyNumber = insurancesMap.get(value);
+                selectedInsuranceId = companyNumber != null ? Long.valueOf(companyNumber) : -1;
             }
         });
 
@@ -298,8 +297,6 @@ public class InputActivity extends AppCompatActivity
 
     /**
      * Initializes the service call.
-     * After that the listener responseFinishInsurances
-     * was triggered.
      */
     private void _prepareInsurance()
     {
@@ -330,8 +327,8 @@ public class InputActivity extends AppCompatActivity
     private void _initInsurancesAdapter(int sel)
     {
         _initInsurancesAdapter();
-        insuranceAc.setText(this.insurancesList[sel]);
-        selectedInsuranceId = Long.valueOf(insurancesMap.get(this.insurancesList[sel]));
+        insuranceAc.setText(this.insurancesList.get(sel));
+        selectedInsuranceId = Long.valueOf(insurancesMap.get(this.insurancesList.get(sel)));
     }
 
 
@@ -342,12 +339,14 @@ public class InputActivity extends AppCompatActivity
       public void responseFinishInsurances(Insurances i)
     {
         for (int a = 0; a < i.data.size(); a++) {
-            insurancesMap.put(i.data.get(a).name, i.data.get(a).number);
+            if(!insurancesMap.containsKey(i.data.get(a).name.replaceAll("\\s+$", "")))
+                insurancesMap.put(i.data.get(a).name.replaceAll("\\s+$", ""), i.data.get(a).id);
         }
 
         // set the list for binding the array adapter
-        insurancesList = insurancesMap.keySet().toArray(new String[]{});
-        _initInsurancesAdapter(INSURANCES_DEFAULT_SELECTION);
+        insurancesList = new ArrayList<String>(insurancesMap.keySet());
+        int startValue = insurancesList.indexOf(INSURANCES_DEFAULT_VALUE);
+        _initInsurancesAdapter(startValue);
     }
 
 

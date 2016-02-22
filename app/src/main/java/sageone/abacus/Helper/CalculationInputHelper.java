@@ -41,7 +41,10 @@ public class CalculationInputHelper
             String message = a.getResources().getString(R.string.validation_error_wage);
             throw new ValidationException(message);
         }
-
+        if (data.KKBetriebsnummer == -1) {
+            String message = a.getResources().getString(R.string.validation_error_insurance);
+            throw new ValidationException(message);
+        }
     }
 
 
