@@ -165,12 +165,8 @@ public class InputActivity extends AppCompatActivity
         calcType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                int index = group.indexOfChild(findViewById(group.getCheckedRadioButtonId()));
-                if(index == 1) {
-                    selectedWageType = CalculationInputHelper.WAGE_TYPE_NET;
-                } else {
-                    selectedWageType = CalculationInputHelper.WAGE_TYPE_GROSS;
-                }
+                selectedWageType = (R.id.type_net == checkedId) ?
+                        CalculationInputHelper.WAGE_TYPE_GROSS : CalculationInputHelper.WAGE_TYPE_NET;
             }
         });
 
