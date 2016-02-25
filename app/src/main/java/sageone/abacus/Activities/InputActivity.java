@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -32,6 +33,7 @@ import java.util.Locale;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import sageone.abacus.Exceptions.ValidationException;
 import sageone.abacus.Helper.CalculationInputHelper;
 import sageone.abacus.Helper.EventHandler;
 import sageone.abacus.Helper.MessageHelper;
@@ -54,7 +56,7 @@ public class InputActivity extends AppCompatActivity
 
     public static RadioGroup            calcType;
     public static TextView              wage;
-    public static SwitchCompat          wagePeriod;
+    public static CheckBox              wagePeriod;
     public static RadioGroup            taxclass;
     public static Spinner               state;
     public static SeekBar               children;
@@ -62,7 +64,7 @@ public class InputActivity extends AppCompatActivity
     public static AutoCompleteTextView  insuranceAc;
     public static SwitchCompat          churchTax;
 
-    private Long selectedInsuranceId;
+    private Integer selectedInsuranceId = -1;
     private Double selectedWage;
     private String selectedWageType = CalculationInputHelper.WAGE_TYPE_GROSS;
     private String selectedWagePeriod = CalculationInputHelper.WAGE_PERIOD_MONTH;
@@ -79,8 +81,6 @@ public class InputActivity extends AppCompatActivity
     private EventHandler eventHandler;
     private WebService webService;
     private CalculationInputData data;
-
-    private static final String INSURANCES_DEFAULT_VALUE = "AOK Baden-Württemberg";
 
     public static InputActivity instance;
     public Dialog dialog;
@@ -134,7 +134,7 @@ public class InputActivity extends AppCompatActivity
     {
         calcType    = (RadioGroup) findViewById(R.id.type);
         wage        = (TextView) findViewById(R.id.wage);
-        wagePeriod  = (SwitchCompat) findViewById(R.id.wage_period);
+        wagePeriod  = (CheckBox) findViewById(R.id.wage_period);
         state       = (Spinner) findViewById(R.id.state);
         taxclass    = (RadioGroup) findViewById(R.id.taxclass);
         children    = (SeekBar) findViewById(R.id.children);
@@ -198,7 +198,6 @@ public class InputActivity extends AppCompatActivity
         wagePeriod.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                eventHandler.OnSwitchWageType(isChecked);
                 selectedWagePeriod = isChecked
                         ? CalculationInputHelper.WAGE_PERIOD_YEAR : CalculationInputHelper.WAGE_PERIOD_MONTH;
             }
@@ -232,7 +231,7 @@ public class InputActivity extends AppCompatActivity
                 TextView t = (TextView) view;
                 String value = t.getText().toString();
                 Integer companyNumber = insurancesMap.get(value);
-                selectedInsuranceId = companyNumber != null ? Long.valueOf(companyNumber) : -1;
+                selectedInsuranceId = companyNumber != null ? Integer.valueOf(companyNumber) : -1;
             }
         });
 
@@ -268,11 +267,12 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 wage.clearFocus();
+                if (!_setAndValidateData()) {
+                    return;
+                }
                 dialog = MessageHelper.dialog(instance, true,
                         getResources().getString(R.string.calculation_started));
                 dialog.show();
-
-                _setData();
                 CalculationInput ci = new CalculationInput(data);
                 webService.Calculate(ci);
             }
@@ -300,9 +300,10 @@ public class InputActivity extends AppCompatActivity
      */
     private void _prepareInsurance()
     {
-        _initInsurancesAdapter();
-        insuranceAc.setText(getString(R.string.insurance_init_value));
-
+        // disable and await response ..
+        insuranceAc.setHint(getString(R.string.insurance_init_value));
+        insuranceAc.setEnabled(false);
+        //_initInsurancesAdapter();
         webService.Insurances();
     }
 
@@ -313,7 +314,7 @@ public class InputActivity extends AppCompatActivity
     private void _initInsurancesAdapter()
     {
         insurancesAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, this.insurancesList);
+            android.R.layout.simple_dropdown_item_1line, this.insurancesList);
 
         insurancesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         insuranceAc.setAdapter(insurancesAdapter);
@@ -328,7 +329,7 @@ public class InputActivity extends AppCompatActivity
     {
         _initInsurancesAdapter();
         insuranceAc.setText(this.insurancesList.get(sel));
-        selectedInsuranceId = Long.valueOf(insurancesMap.get(this.insurancesList.get(sel)));
+        selectedInsuranceId = Integer.valueOf(insurancesMap.get(this.insurancesList.get(sel)));
     }
 
 
@@ -345,8 +346,10 @@ public class InputActivity extends AppCompatActivity
 
         // set the list for binding the array adapter
         insurancesList = new ArrayList<String>(insurancesMap.keySet());
-        int startValue = insurancesList.indexOf(INSURANCES_DEFAULT_VALUE);
-        _initInsurancesAdapter(startValue);
+        _initInsurancesAdapter();
+
+        insuranceAc.setHint(getString(R.string.insurance_hint));
+        insuranceAc.setEnabled(true);
     }
 
 
@@ -378,37 +381,27 @@ public class InputActivity extends AppCompatActivity
     /**
      * Set all relevant data for calculation.
      */
-    private void _setData()
+    private boolean _setAndValidateData()
     {
         CalculationInputHelper helper = new CalculationInputHelper(this, data);
-        // calc type
         helper.data.Berechnungsart = selectedWageType;
-        // wage
         helper.data.Brutto = selectedWage;
-        // wage period
         helper.data.Zeitraum = selectedWagePeriod;
-        // calc year
         helper.data.AbrJahr = Calendar.getInstance().get(Calendar.YEAR);
-        // tax free
         helper.data.StFreibetrag = 0.0;
-        // tax class
         helper.setStKl(selectedTaxClass);
-        // state
         helper.setBundesland(selectedState);
-        // insurance
         helper.data.KKBetriebsnummer = selectedInsuranceId;
-        // church
         helper.data.Kirche = selectedChurchTax;
-        // children
         helper.setKindFrei(selectedChildAmount);
 
         try {
             helper.validate();
-        } catch (Exception e) {
+            return true;
+        } catch (ValidationException e) {
             MessageHelper.snackbar(this, e.getMessage());
+            return false;
         }
-
-        Log.d("Data", new Gson().toJson(data));
     }
 
 }

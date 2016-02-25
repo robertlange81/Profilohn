@@ -56,11 +56,12 @@
     <string name="wage_period_year_not">Betrag ist Monatsgehalt</string>
 
     <string name="wagetype">Was soll berechnet werden?</string>
-    <string name="netwage">Nettolohn aus Bruttogehalt</string>
-    <string name="grosswage">Bruttolohn aus Nettogehalt</string>
+    <string name="netwage">Nettolohn berechnen</string>
+    <string name="grosswage">Bruttolohn berechnen</string>
     <string name="taxclass">Steuerklasse</string>
     <string name="state">Bundesland</string>
     <string name="insurance">Krankenkasse</string>
+    <string name="insurance_hint">Name der Krankenkasse ..</string>
     <string name="insurance_init_value">Liste wird aktualisiert ..</string>
     <string name="church">Kirchensteuer</string>
     <string name="children">Kinderfreibetrag</string>
@@ -87,7 +88,7 @@
     </string-array>
 
     <string name="validation_error_wage">Bitte Lohn/Gehalt angeben.</string>
-    <string name="validation_error_insurance">Bitte eine gültige Krankenkasse angeben.</string>
+    <string name="validation_error_insurance">Bitte Krankenkasse wählen.</string>
     <string name="format_error">Allgemeiner Formatierungsfehler.</string>
     <string name="calculation_started">Die Berechnung wird durchgeführt ..</string>
 

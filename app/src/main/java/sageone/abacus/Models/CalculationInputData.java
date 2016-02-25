@@ -15,7 +15,7 @@ public class CalculationInputData {
     public String Zeitraum = CalculationInputHelper.WAGE_PERIOD_MONTH;
     public int StKl = 1;
     public int Bundesland = 1;
-    public Long KKBetriebsnummer;
+    public Integer KKBetriebsnummer;
     public Double Brutto = 0.0;
     public boolean Kirche = false;
     public Double KindFrei = 0.0;

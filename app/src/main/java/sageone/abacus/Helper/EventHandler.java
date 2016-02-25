@@ -24,25 +24,6 @@ public class EventHandler extends AppCompatActivity {
         _context = context;
     }
 
-    /**
-     * Switch the wage period text value.
-     *
-     * @param isChecked
-     */
-    public void OnSwitchWageType(boolean isChecked)
-    {
-        TextView l = (TextView) _activity.findViewById(R.id.wage_period_label);
-
-        if (isChecked) {
-            Log.i("Checked", isChecked + "");
-            l.setTextColor(ContextCompat.getColor(_context, R.color.text_darkgrey));
-            l.setText(R.string.wage_period_year);
-        } else {
-            Log.i("Checked", isChecked + "");
-            l.setTextColor(ContextCompat.getColor(_context, R.color.text_grey));
-            l.setText(R.string.wage_period_year_not);
-        }
-    }
 
     /**
      * Displays the church value text field

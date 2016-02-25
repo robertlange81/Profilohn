@@ -72,18 +72,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/wage_period_label"
-                style="@style/input_label"
-                android:layout_below="@id/wage"
-                android:text="@string/wage_period_year_not" />
-
-            <android.support.v7.widget.SwitchCompat
+            <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/wage_period"
-                android:layout_below="@id/wage"
-                android:layout_marginBottom="@dimen/input_margin"
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
+                android:layout_below="@+id/wage"
+                android:text="@string/wage_period_year"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </RelativeLayout>
@@ -102,23 +95,6 @@
         android:text="@string/taxclass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
-        <!--
-        <TextView
-            android:id="@+id/taxclass_value"
-            style="@style/taxclass_value"
-            android:layout_below="@id/taxclass_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <android.support.v7.widget.AppCompatSeekBar
-            android:id="@+id/taxclass"
-            style="@style/taxclass_slider"
-            android:layout_below="@id/taxclass_label"
-            android:layout_alignRight="@id/taxclass_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        -->
 
         <RadioGroup
             android:id="@+id/taxclass"
@@ -204,6 +180,7 @@
 
         <android.support.v7.widget.AppCompatAutoCompleteTextView
             android:id="@+id/insuranceAc"
+            android:hint=""
             android:layout_below="@id/insurance_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
