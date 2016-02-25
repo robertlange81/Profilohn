@@ -90,74 +90,112 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-        android:id="@+id/taxclass_label"
-        android:text="@string/taxclass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-        <RadioGroup
-            android:id="@+id/taxclass"
-            android:layout_below="@id/taxclass_label"
+        <LinearLayout
+            android:id="@+id/lineargrid1"
+            android:orientation="horizontal"
+            android:weightSum="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/input_margin"
-            android:orientation="horizontal" >
+            android:layout_height="wrap_content">
 
-            <RadioButton
-                style="@style/text_input"
-                android:checked="true"
-                android:text="@string/taxclass_1"
-                android:id="@+id/taxclass_1"
-                android:layout_weight="1"
+            <LinearLayout
+                android:layout_marginRight="10dp"
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content" >
 
-            <RadioButton
-                style="@style/text_input"
-                android:text="@string/taxclass_2"
-                android:id="@+id/taxclass_2"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/taxclass_label"
+                    android:text="@string/taxclass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-            <RadioButton
-                style="@style/text_input"
-                android:text="@string/taxclass_3"
-                android:id="@+id/taxclass_3"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <RadioGroup
+                    android:id="@+id/taxclass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/input_margin"
+                    android:orientation="horizontal" >
 
-            <RadioButton
-                style="@style/text_input"
-                android:text="@string/taxclass_4"
-                android:id="@+id/taxclass_4"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                    <RadioButton
+                        style="@style/text_input"
+                        android:checked="true"
+                        android:text="@string/taxclass_1"
+                        android:id="@+id/taxclass_1"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-            <RadioButton
-                style="@style/text_input"
-                android:text="@string/taxclass_5"
-                android:id="@+id/taxclass_5"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                    <RadioButton
+                        style="@style/text_input"
+                        android:text="@string/taxclass_2"
+                        android:id="@+id/taxclass_2"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-            <RadioButton
-                style="@style/text_input"
-                android:text="@string/taxclass_6"
-                android:id="@+id/taxclass_6"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                    <RadioButton
+                        style="@style/text_input"
+                        android:text="@string/taxclass_3"
+                        android:id="@+id/taxclass_3"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-        </RadioGroup>
+                    <RadioButton
+                        style="@style/text_input"
+                        android:text="@string/taxclass_4"
+                        android:id="@+id/taxclass_4"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <RadioButton
+                        style="@style/text_input"
+                        android:text="@string/taxclass_5"
+                        android:id="@+id/taxclass_5"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <RadioButton
+                        style="@style/text_input"
+                        android:text="@string/taxclass_6"
+                        android:id="@+id/taxclass_6"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/taxfree_label"
+                    android:text="@string/taxfree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/tax_free"
+                    android:inputType="numberDecimal"
+                    android:gravity="right"
+                    android:maxLength="9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/state_label"
-            android:layout_below="@id/taxclass"
+            android:layout_below="@id/lineargrid1"
             android:text="@string/state"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

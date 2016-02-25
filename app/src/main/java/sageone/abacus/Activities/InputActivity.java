@@ -8,7 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 
-import android.util.Log;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,18 +16,16 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.SortedMap;
@@ -35,6 +33,7 @@ import java.util.TreeMap;
 
 import sageone.abacus.Exceptions.ValidationException;
 import sageone.abacus.Helper.CalculationInputHelper;
+import sageone.abacus.Helper.DecimalDigitsInputHelper;
 import sageone.abacus.Helper.EventHandler;
 import sageone.abacus.Helper.MessageHelper;
 import sageone.abacus.Interfaces.ApiCallbackListener;
@@ -55,9 +54,10 @@ public class InputActivity extends AppCompatActivity
         implements CompoundButton.OnCheckedChangeListener, ApiCallbackListener {
 
     public static RadioGroup            calcType;
-    public static TextView              wage;
+    public static EditText              wage;
     public static CheckBox              wagePeriod;
     public static RadioGroup            taxclass;
+    public static EditText              taxFree;
     public static Spinner               state;
     public static SeekBar               children;
     public static Button                calculate;
@@ -66,6 +66,7 @@ public class InputActivity extends AppCompatActivity
 
     private Integer selectedInsuranceId = -1;
     private Double selectedWage;
+    private Double selectedTaxFree;
     private String selectedWageType = CalculationInputHelper.WAGE_TYPE_GROSS;
     private String selectedWagePeriod = CalculationInputHelper.WAGE_PERIOD_MONTH;
     private Boolean selectedChurchTax = false;
@@ -85,6 +86,8 @@ public class InputActivity extends AppCompatActivity
     public static InputActivity instance;
     public Dialog dialog;
 
+    private CalculationInputHelper helper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -95,6 +98,7 @@ public class InputActivity extends AppCompatActivity
         numberFormat = NumberFormat.getCurrencyInstance(Locale.GERMANY);
         eventHandler = new EventHandler(this, getApplicationContext());
         webService = WebService.getInstance(getApplicationContext(), this);
+        helper = new CalculationInputHelper(this, data);
         data = new CalculationInputData();
 
         _initializeElements();
@@ -104,6 +108,7 @@ public class InputActivity extends AppCompatActivity
 
         _initializeListener();
         _initRequestedCalcType();
+
 
         instance = this;
     }
@@ -133,16 +138,19 @@ public class InputActivity extends AppCompatActivity
     private void _initializeElements()
     {
         calcType    = (RadioGroup) findViewById(R.id.type);
-        wage        = (TextView) findViewById(R.id.wage);
+        wage        = (EditText) findViewById(R.id.wage);
         wagePeriod  = (CheckBox) findViewById(R.id.wage_period);
         state       = (Spinner) findViewById(R.id.state);
         taxclass    = (RadioGroup) findViewById(R.id.taxclass);
+        taxFree     = (EditText) findViewById(R.id.tax_free);
         children    = (SeekBar) findViewById(R.id.children);
         calculate   = (Button) findViewById(R.id.calculate);
         insuranceAc = (AutoCompleteTextView) findViewById(R.id.insuranceAc);
         churchTax   = (SwitchCompat) findViewById(R.id.church);
-    }
 
+        wage.setFilters(new InputFilter[]{new DecimalDigitsInputHelper(2)});
+        taxFree.setFilters(new InputFilter[]{new DecimalDigitsInputHelper(2)});
+    }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) { }
@@ -191,6 +199,31 @@ public class InputActivity extends AppCompatActivity
 
                 wage.setText(formatted);
                 selectedWage = current;
+            }
+        });
+
+        // tax free amount
+        taxFree.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String cur = taxFree.getText().toString();
+
+                if (hasFocus) {
+                    return;
+                } else if (0 == cur.length()) {
+                    selectedTaxFree = 0.0;
+                    return;
+                }
+
+                boolean hasComma = cur.contains(",");
+                int dec = hasComma ? 100 : 1;
+
+                Double current = Double.valueOf(cur.replaceAll("\\D", ""));
+                current = current / dec;
+                String formatted = numberFormat.format(current);
+
+                taxFree.setText(formatted);
+                selectedTaxFree = current;
             }
         });
 
@@ -303,7 +336,6 @@ public class InputActivity extends AppCompatActivity
         // disable and await response ..
         insuranceAc.setHint(getString(R.string.insurance_init_value));
         insuranceAc.setEnabled(false);
-        //_initInsurancesAdapter();
         webService.Insurances();
     }
 
@@ -383,12 +415,11 @@ public class InputActivity extends AppCompatActivity
      */
     private boolean _setAndValidateData()
     {
-        CalculationInputHelper helper = new CalculationInputHelper(this, data);
         helper.data.Berechnungsart = selectedWageType;
         helper.data.Brutto = selectedWage;
         helper.data.Zeitraum = selectedWagePeriod;
         helper.data.AbrJahr = Calendar.getInstance().get(Calendar.YEAR);
-        helper.data.StFreibetrag = 0.0;
+        helper.data.StFreibetrag = selectedTaxFree;
         helper.setStKl(selectedTaxClass);
         helper.setBundesland(selectedState);
         helper.data.KKBetriebsnummer = selectedInsuranceId;

@@ -1,11 +1,8 @@
 package sageone.abacus.Helper;
 
 import android.app.Activity;
-import android.util.Log;
-
 import java.util.HashMap;
 
-import sageone.abacus.Exceptions.FormatException;
 import sageone.abacus.Exceptions.ValidationException;
 import sageone.abacus.Models.CalculationInputData;
 import sageone.abacus.R;
@@ -144,4 +141,5 @@ public class CalculationInputHelper
 
         return states.get(state);
     }
+
 }

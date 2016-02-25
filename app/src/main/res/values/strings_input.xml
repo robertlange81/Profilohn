@@ -59,6 +59,7 @@
     <string name="netwage">Nettolohn berechnen</string>
     <string name="grosswage">Bruttolohn berechnen</string>
     <string name="taxclass">Steuerklasse</string>
+    <string name="taxfree">Freibetrag in €</string>
     <string name="state">Bundesland</string>
     <string name="insurance">Krankenkasse</string>
     <string name="insurance_hint">Name der Krankenkasse ..</string>
