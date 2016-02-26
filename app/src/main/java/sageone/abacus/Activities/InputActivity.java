@@ -66,7 +66,7 @@ public class InputActivity extends AppCompatActivity
 
     private Integer selectedInsuranceId = -1;
     private Double selectedWage;
-    private Double selectedTaxFree;
+    private Double selectedTaxFree = 0.0;
     private String selectedWageType = CalculationInputHelper.WAGE_TYPE_GROSS;
     private String selectedWagePeriod = CalculationInputHelper.WAGE_PERIOD_MONTH;
     private Boolean selectedChurchTax = false;
@@ -98,8 +98,8 @@ public class InputActivity extends AppCompatActivity
         numberFormat = NumberFormat.getCurrencyInstance(Locale.GERMANY);
         eventHandler = new EventHandler(this, getApplicationContext());
         webService = WebService.getInstance(getApplicationContext(), this);
-        helper = new CalculationInputHelper(this, data);
         data = new CalculationInputData();
+        helper = new CalculationInputHelper(this, data);
 
         _initializeElements();
 
@@ -426,10 +426,14 @@ public class InputActivity extends AppCompatActivity
         helper.data.Kirche = selectedChurchTax;
         helper.setKindFrei(selectedChildAmount);
 
+        if(helper.data.StFreibetrag == null) {
+            helper.data.StFreibetrag = 0.0;
+        }
+
         try {
             helper.validate();
             return true;
-        } catch (ValidationException e) {
+        } catch (Exception e) {
             MessageHelper.snackbar(this, e.getMessage());
             return false;
         }
