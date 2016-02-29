@@ -4,6 +4,7 @@ import android.app.Activity;
 import java.util.HashMap;
 
 import sageone.abacus.Exceptions.ValidationException;
+import sageone.abacus.Exceptions.ValidationInsuranceException;
 import sageone.abacus.Models.CalculationInputData;
 import sageone.abacus.R;
 
@@ -41,7 +42,7 @@ public class CalculationInputHelper
         }
         if (data.KKBetriebsnummer == -1) {
             String message = a.getResources().getString(R.string.validation_error_insurance);
-            throw new ValidationException(message);
+            throw new ValidationInsuranceException(message);
         }
     }
 

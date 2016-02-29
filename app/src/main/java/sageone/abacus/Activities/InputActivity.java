@@ -33,6 +33,8 @@ import java.util.Locale;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import sageone.abacus.Exceptions.ValidationException;
+import sageone.abacus.Exceptions.ValidationInsuranceException;
 import sageone.abacus.Helper.CalculationInputHelper;
 import sageone.abacus.Helper.DecimalDigitsInputHelper;
 import sageone.abacus.Helper.EventHandler;
@@ -440,13 +442,21 @@ public class InputActivity extends AppCompatActivity
         helper.data.Kirche = selectedChurchTax;
         helper.setKindFrei(selectedChildAmount);
 
+        String message;
+
         try {
             helper.validate();
             return true;
-        } catch (Exception e) {
-            MessageHelper.snackbar(this, e.getMessage());
-            return false;
+        } catch (ValidationInsuranceException e) {
+            insuranceAc.requestFocus();
+            message = e.getMessage();
+
+        } catch (ValidationException e) {
+            message = e.getMessage();
         }
+
+        MessageHelper.snackbar(this, message);
+        return false;
     }
 
 }
