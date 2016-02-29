@@ -20,4 +20,7 @@
 
     <string name="menu_employee">Ich bin Arbeitnehmer</string>
     <string name="menu_employer">Ich bin Arbeitgeber</string>
+
+    <string name="btn_calc_gross"><b>Brutto</b>lohn berechnen</string>
+    <string name="btn_calc_net"><b>Netto</b>lohn berechnen</string>
 </resources>

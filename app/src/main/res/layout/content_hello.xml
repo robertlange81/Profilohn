@@ -7,59 +7,43 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Activities.HelloActivity"
-    tools:showIn="@layout/hello">
+    tools:showIn="@layout/hello"
+    android:weightSum="3">
 
     <LinearLayout
-        android:padding="10dp"
-        android:layout_weight="0.25"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/hello_welcome_shape"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <!-- Welcome -->
-        <TextView
-            style="@style/text_h2"
-            android:textColor="@color/text_white"
-            android:text="@string/hello_welcome_head"
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            style="@style/text_content"
-            android:textColor="@color/text_white"
-            android:text="@string/hello_welcome_sub"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            style="@style/HelloHeaderImage" />
 
     </LinearLayout>
 
     <LinearLayout
         android:padding="10dp"
-        android:layout_weight="0.75"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_weight="2">
 
-        <!-- Advertisement -->
-        <TextView
-            style="@style/text_h2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/hello_into_ad_head" />
-
-        <TextView
-            style="@style/text_content"
-            android:text="@string/hello_intro_ad_content"
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/hello_start_calculation_net"
+            android:theme="@style/StartCalculation1"
+            android:text="@string/btn_calc_net"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_weight="0.5"
+            android:layout_height="0dp" />
 
-        <TextView
-            style="@style/text_link"
-            android:layout_marginTop="10dp"
-            android:text="@string/hello_intro_ad_link"
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/hello_start_calculation_gross"
+            android:theme="@style/StartCalculation1"
+            android:text="@string/btn_calc_gross"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_weight="0.5"
+            android:layout_height="0dp" />
 
     </LinearLayout>
 

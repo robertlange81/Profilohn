@@ -4,13 +4,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.PopupMenu;
+import android.view.View;
+import android.widget.Button;
 
 import sageone.abacus.Helper.ConnectivityHandler;
 import sageone.abacus.Helper.SystemHelper;
@@ -21,7 +20,6 @@ public class HelloActivity extends AppCompatActivity {
     private static final Integer CALC_TYPE_NETTO  = 0;
     private static final Integer CALC_TYPE_BRUTTO = 1;
 
-    private FloatingActionButton fab;
     private ConnectivityHandler connectivityHandler;
 
 
@@ -35,23 +33,25 @@ public class HelloActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        _registerConnectivityReceiver();
+
+        Button startCalcNet = (Button) findViewById(R.id.hello_start_calculation_net);
+        Button startCalcGross = (Button) findViewById(R.id.hello_start_calculation_gross);
+
+        startCalcNet.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                PopupMenu p = new PopupMenu(HelloActivity.this, view);
-                p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        return onMenuItemSelect(item);
-                    }
-                });
-                p.inflate(R.menu.calculation_selection);
-                p.show();
+            public void onClick(View v) {
+                showInputActivity(CALC_TYPE_NETTO);
             }
         });
-        
-        _registerConnectivityReceiver();
+
+        startCalcGross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showInputActivity(CALC_TYPE_BRUTTO);
+            }
+        });
+
     }
 
 
@@ -68,25 +68,6 @@ public class HelloActivity extends AppCompatActivity {
                 connectivityHandler,
                 intentFilter
         );
-    }
-
-
-    /**
-     *
-     * @param item
-     * @return
-     */
-    public boolean onMenuItemSelect(MenuItem item)
-    {
-        switch (item.getItemId()) {
-            case R.id.item_netto:
-                showInputActivity(CALC_TYPE_NETTO);
-                return true;
-            case R.id.item_brutto:
-                showInputActivity(CALC_TYPE_BRUTTO);
-                return true;
-        }
-        return false;
     }
 
 

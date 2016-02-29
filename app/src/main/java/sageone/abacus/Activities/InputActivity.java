@@ -450,7 +450,6 @@ public class InputActivity extends AppCompatActivity
         } catch (ValidationInsuranceException e) {
             insuranceAc.requestFocus();
             message = e.getMessage();
-
         } catch (ValidationException e) {
             message = e.getMessage();
         }
