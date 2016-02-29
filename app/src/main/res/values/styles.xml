@@ -30,12 +30,13 @@
     <style name="ResultButtonStyle1" parent="Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">@color/colorAccentLight</item>
         <item name="android:textColor">@color/text_white</item>
-        <item name="android:background">@drawable/arrow_next</item>
-    </style>2566
+        <item name="android:drawableEnd">@drawable/arrow_next</item>
+    </style>
 
     <style name="ResultButtonStyle2" parent="Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">@color/colorAccentBlue</item>
         <item name="android:textColor">@color/text_white</item>
+        <item name="android:drawableEnd">@drawable/arrows_next</item>
     </style>
 
     <style name="FullscreenTheme" parent="AppTheme">
