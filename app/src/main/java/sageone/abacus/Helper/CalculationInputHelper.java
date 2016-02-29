@@ -71,36 +71,6 @@ public class CalculationInputHelper
 
 
     /**
-     * Sets the tax class.
-     *
-     * @param taxClass
-     */
-    public void setStKl(String taxClass)
-    {
-        data.StKl = this.translateTaxClass(taxClass);
-    }
-
-
-    /**
-     * Internal tax class translator.
-     *
-     * @param taxClass
-     * @return
-     */
-    private int translateTaxClass(String taxClass)
-    {
-        HashMap<String, Integer> taxClasses = new HashMap<String, Integer>();
-        taxClasses.put("I",   1);
-        taxClasses.put("II",  2);
-        taxClasses.put("III", 3);
-        taxClasses.put("IV",  4);
-        taxClasses.put("V",   5);
-        taxClasses.put("VI",  6);
-
-        return taxClasses.get(taxClass);
-    }
-
-    /**
      * Help function for translate
      * the states.
      *

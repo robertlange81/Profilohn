@@ -6,9 +6,12 @@ import android.os.Bundle;
 
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.SwitchCompat;
 
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,7 +20,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -31,7 +33,6 @@ import java.util.Locale;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import sageone.abacus.Exceptions.ValidationException;
 import sageone.abacus.Helper.CalculationInputHelper;
 import sageone.abacus.Helper.DecimalDigitsInputHelper;
 import sageone.abacus.Helper.EventHandler;
@@ -56,7 +57,7 @@ public class InputActivity extends AppCompatActivity
     public static RadioGroup            calcType;
     public static EditText              wage;
     public static CheckBox              wagePeriod;
-    public static RadioGroup            taxclass;
+    public static Spinner               taxClass;
     public static EditText              taxFree;
     public static Spinner               state;
     public static SeekBar               children;
@@ -65,14 +66,14 @@ public class InputActivity extends AppCompatActivity
     public static SwitchCompat          churchTax;
 
     private Integer selectedInsuranceId = -1;
-    private Double selectedWage;
-    private Double selectedTaxFree = 0.0;
-    private String selectedWageType = CalculationInputHelper.WAGE_TYPE_GROSS;
-    private String selectedWagePeriod = CalculationInputHelper.WAGE_PERIOD_MONTH;
+    private Double  selectedWage;
+    private Double  selectedTaxFree = 0.0;
+    private String  selectedWageType = CalculationInputHelper.WAGE_TYPE_GROSS;
+    private String  selectedWagePeriod = CalculationInputHelper.WAGE_PERIOD_MONTH;
     private Boolean selectedChurchTax = false;
-    private String selectedTaxClass = "I";
-    private String selectedState;
-    private Double selectedChildAmount = 0.0;
+    private Integer selectedTaxClass = 0;
+    private String  selectedState;
+    private Double  selectedChildAmount = 0.0;
 
     private ArrayAdapter<String> insurancesAdapter;
     private List<String> insurancesList = new ArrayList<String>();
@@ -141,7 +142,7 @@ public class InputActivity extends AppCompatActivity
         wage        = (EditText) findViewById(R.id.wage);
         wagePeriod  = (CheckBox) findViewById(R.id.wage_period);
         state       = (Spinner) findViewById(R.id.state);
-        taxclass    = (RadioGroup) findViewById(R.id.taxclass);
+        taxClass    = (Spinner) findViewById(R.id.tax_class);
         taxFree     = (EditText) findViewById(R.id.tax_free);
         children    = (SeekBar) findViewById(R.id.children);
         calculate   = (Button) findViewById(R.id.calculate);
@@ -150,6 +151,11 @@ public class InputActivity extends AppCompatActivity
 
         wage.setFilters(new InputFilter[]{new DecimalDigitsInputHelper(2)});
         taxFree.setFilters(new InputFilter[]{new DecimalDigitsInputHelper(2)});
+
+        ArrayAdapter<CharSequence> ta = ArrayAdapter.createFromResource(this,
+                R.array.taxclasses, android.R.layout.simple_spinner_dropdown_item);
+        ta.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        taxClass.setAdapter(ta);
     }
 
     @Override
@@ -182,7 +188,6 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 String cur = wage.getText().toString();
-
                 if (hasFocus) {
                     return;
                 } else if (0 == cur.length()) {
@@ -236,12 +241,14 @@ public class InputActivity extends AppCompatActivity
             }
         });
 
-        // tax class
-        taxclass.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        taxClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton taxClassButton = (RadioButton) findViewById(checkedId);
-                selectedTaxClass = taxClassButton.getText().toString();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedTaxClass = ++position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
 
@@ -285,21 +292,20 @@ public class InputActivity extends AppCompatActivity
                 selectedChildAmount = Double.valueOf(progress) / 2;
                 childrenValue.setText(String.valueOf(selectedChildAmount));
             }
-
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
+            public void onStartTrackingTouch(SeekBar seekBar) { }
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
+            public void onStopTrackingTouch(SeekBar seekBar) { }
         });
 
         // calculate button
         calculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // triggers the formatting listeners
                 wage.clearFocus();
+                taxFree.clearFocus();
+
                 if (!_setAndValidateData()) {
                     return;
                 }
@@ -378,7 +384,7 @@ public class InputActivity extends AppCompatActivity
 
         // set the list for binding the array adapter
         insurancesList = new ArrayList<String>(insurancesMap.keySet());
-        _initInsurancesAdapter();
+        _initInsurancesAdapter(1);
 
         insuranceAc.setHint(getString(R.string.insurance_hint));
         insuranceAc.setEnabled(true);
@@ -420,15 +426,11 @@ public class InputActivity extends AppCompatActivity
         helper.data.Zeitraum = selectedWagePeriod;
         helper.data.AbrJahr = Calendar.getInstance().get(Calendar.YEAR);
         helper.data.StFreibetrag = selectedTaxFree;
-        helper.setStKl(selectedTaxClass);
+        helper.data.StKl = selectedTaxClass;
         helper.setBundesland(selectedState);
         helper.data.KKBetriebsnummer = selectedInsuranceId;
         helper.data.Kirche = selectedChurchTax;
         helper.setKindFrei(selectedChildAmount);
-
-        if(helper.data.StFreibetrag == null) {
-            helper.data.StFreibetrag = 0.0;
-        }
 
         try {
             helper.validate();
