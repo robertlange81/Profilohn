@@ -83,6 +83,7 @@ public class InputActivity extends AppCompatActivity
     private EventHandler eventHandler;
     private WebService webService;
     private CalculationInputData data;
+    private TextView wageAmountLabel;
 
     public static InputActivity instance;
     public Dialog dialog;
@@ -110,7 +111,7 @@ public class InputActivity extends AppCompatActivity
         _initializeListener();
         _initRequestedCalcType();
 
-
+        wage.requestFocus();
         instance = this;
     }
 
@@ -149,6 +150,8 @@ public class InputActivity extends AppCompatActivity
         insuranceAc = (AutoCompleteTextView) findViewById(R.id.insuranceAc);
         churchTax   = (SwitchCompat) findViewById(R.id.church);
 
+        wageAmountLabel = (TextView) findViewById(R.id.wageamount_label);
+
         wage.setFilters(new InputFilter[]{new DecimalDigitsInputHelper(2)});
         taxFree.setFilters(new InputFilter[]{new DecimalDigitsInputHelper(2)});
 
@@ -178,8 +181,13 @@ public class InputActivity extends AppCompatActivity
         calcType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                selectedWageType = (R.id.type_net == checkedId) ?
-                        CalculationInputHelper.WAGE_TYPE_NET : CalculationInputHelper.WAGE_TYPE_GROSS;
+                if (R.id.type_net == checkedId) {
+                    selectedWageType = CalculationInputHelper.WAGE_TYPE_GROSS;
+                    wageAmountLabel.setText(R.string.wageamount_gross);
+                } else {
+                    selectedWageType = CalculationInputHelper.WAGE_TYPE_NET;
+                    wageAmountLabel.setText(R.string.wageamount_net);
+                }
             }
         });
 
@@ -372,10 +380,10 @@ public class InputActivity extends AppCompatActivity
 
 
     @Override
-      /**
-       *  Callback for insurances api call.
-       */
-      public void responseFinishInsurances(Insurances i)
+    /**
+     *  Callback for insurances api call.
+     */
+    public void responseFinishInsurances(Insurances i)
     {
         for (int a = 0; a < i.data.size(); a++) {
             if(!insurancesMap.containsKey(i.data.get(a).name.replaceAll("\\s+$", "")))
@@ -384,7 +392,7 @@ public class InputActivity extends AppCompatActivity
 
         // set the list for binding the array adapter
         insurancesList = new ArrayList<String>(insurancesMap.keySet());
-        _initInsurancesAdapter(1);
+        _initInsurancesAdapter();
 
         insuranceAc.setHint(getString(R.string.insurance_hint));
         insuranceAc.setEnabled(true);

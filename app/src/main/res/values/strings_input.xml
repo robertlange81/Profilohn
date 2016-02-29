@@ -51,13 +51,14 @@
     <string name="label_church_yes">Wird abgeführt</string>
     <string name="label_church_no">Keine</string>
 
-    <string name="wage_default">Ihr Lohn/Gehalt z.B. 2341.87</string>
+    <string name="wage_default">0,00 €</string>
     <string name="wage_period_year">Betrag ist Jahresgehalt</string>
-    <string name="wage_period_year_not">Betrag ist Monatsgehalt</string>
 
-    <string name="wagetype">Was soll berechnet werden?</string>
-    <string name="netwage">Nettolohn berechnen</string>
-    <string name="grosswage">Bruttolohn berechnen</string>
+    <string name="wagetype">Typ der Berechnung</string>
+    <string name="netwage">Nettolohn</string>
+    <string name="grosswage">Bruttolohn</string>
+    <string name="wageamount_gross">Ihr Bruttolohn</string>
+    <string name="wageamount_net">Ihr Nettolohn</string>
     <string name="taxclass">Steuerklasse</string>
     <string name="taxfree">Steuerfreibetrag in €</string>
     <string name="taxfree_hint">0,00 €</string>
