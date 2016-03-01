@@ -28,12 +28,19 @@
         <item>VI - Sechs (Zweiteinkommen, hoch versteuert)</item>
     </string-array>
 
-    <string name="taxclass_1">I</string>
-    <string name="taxclass_2">II</string>
-    <string name="taxclass_3">III</string>
-    <string name="taxclass_4">IV</string>
-    <string name="taxclass_5">V</string>
-    <string name="taxclass_6">VI</string>
+    <string-array name="childfree">
+        <item>Keiner</item>
+        <item>0.5</item>
+        <item>1.0</item>
+        <item>1.5</item>
+        <item>2.0</item>
+        <item>2.5</item>
+        <item>3.0</item>
+        <item>3.5</item>
+        <item>4.0</item>
+        <item>4.5</item>
+        <item>5.0</item>
+    </string-array>
 
     <string name="kist_prompt">Kirchensteuer</string>
     <string name="kinder_prompt">Kinderfreibetrag</string>
@@ -60,7 +67,7 @@
     <string name="wageamount_gross">Ihr Bruttolohn</string>
     <string name="wageamount_net">Ihr Nettolohn</string>
     <string name="taxclass">Steuerklasse</string>
-    <string name="taxfree">Steuerfreibetrag in €</string>
+    <string name="taxfree">Steuerfreibetrag (Jahr)</string>
     <string name="taxfree_hint">0,00 €</string>
     <string name="state">Bundesland</string>
     <string name="insurance">Krankenkasse</string>

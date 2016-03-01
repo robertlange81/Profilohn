@@ -6,8 +6,6 @@ import android.os.Bundle;
 
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatSpinner;
-import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.SwitchCompat;
 
 import android.text.InputFilter;
@@ -59,10 +57,10 @@ public class InputActivity extends AppCompatActivity
     public static RadioGroup            calcType;
     public static EditText              wage;
     public static CheckBox              wagePeriod;
-    public static Spinner               taxClass;
     public static EditText              taxFree;
+    public static Spinner               taxClass;
     public static Spinner               state;
-    public static SeekBar               children;
+    public static Spinner               children;
     public static Button                calculate;
     public static AutoCompleteTextView  insuranceAc;
     public static SwitchCompat          churchTax;
@@ -147,7 +145,7 @@ public class InputActivity extends AppCompatActivity
         state       = (Spinner) findViewById(R.id.state);
         taxClass    = (Spinner) findViewById(R.id.tax_class);
         taxFree     = (EditText) findViewById(R.id.tax_free);
-        children    = (SeekBar) findViewById(R.id.children);
+        children    = (Spinner) findViewById(R.id.children);
         calculate   = (Button) findViewById(R.id.calculate);
         insuranceAc = (AutoCompleteTextView) findViewById(R.id.insuranceAc);
         churchTax   = (SwitchCompat) findViewById(R.id.church);
@@ -157,10 +155,17 @@ public class InputActivity extends AppCompatActivity
         wage.setFilters(new InputFilter[]{new DecimalDigitsInputHelper(2)});
         taxFree.setFilters(new InputFilter[]{new DecimalDigitsInputHelper(2)});
 
+        // tax classes
         ArrayAdapter<CharSequence> ta = ArrayAdapter.createFromResource(this,
                 R.array.taxclasses, android.R.layout.simple_spinner_dropdown_item);
         ta.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         taxClass.setAdapter(ta);
+
+        // child free amount
+        ArrayAdapter<CharSequence> ca = ArrayAdapter.createFromResource(this,
+                R.array.childfree, android.R.layout.simple_spinner_dropdown_item);
+        ta.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        children.setAdapter(ca);
     }
 
     @Override
@@ -256,8 +261,10 @@ public class InputActivity extends AppCompatActivity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedTaxClass = ++position;
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
 
         // states
@@ -266,8 +273,10 @@ public class InputActivity extends AppCompatActivity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedState = state.getSelectedItem().toString();
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
 
         // health insurance
@@ -291,17 +300,13 @@ public class InputActivity extends AppCompatActivity
         });
 
         // child amount
-        final TextView childrenValue = (TextView) findViewById(R.id.children_value);
-        children.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        children.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                selectedChildAmount = Double.valueOf(progress) / 2;
-                childrenValue.setText(String.valueOf(selectedChildAmount));
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedChildAmount = Double.valueOf(position) / 2;
             }
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
 
         // calculate button

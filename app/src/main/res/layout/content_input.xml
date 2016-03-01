@@ -99,62 +99,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/lineargrid1"
-            android:orientation="horizontal"
+        <TextView
+            android:id="@+id/taxclass_label"
+            android:text="@string/taxclass"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" />
 
-            <LinearLayout
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/taxclass_label"
-                    android:text="@string/taxclass"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <android.support.v7.widget.AppCompatSpinner
-                    android:id="@+id/tax_class"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/taxfree_label"
-                    android:text="@string/taxfree"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/tax_free"
-                    android:hint="@string/taxfree_hint"
-                    android:inputType="numberDecimal"
-                    android:gravity="right"
-                    android:maxLength="9"
-                    android:selectAllOnFocus="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/tax_class"
+            android:layout_below="@id/taxclass_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/state_label"
-            android:layout_below="@id/lineargrid1"
+            android:layout_below="@id/tax_class"
             android:text="@string/state"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -185,6 +144,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_input"
             android:layout_marginBottom="@dimen/input_margin"
+            android:layout_marginLeft="@dimen/input_insurance_autocomplete"
             android:contentDescription="@string/insurance"
             android:selectAllOnFocus="true"
             android:prompt="@string/krankenkassen_prompt" />
@@ -211,27 +171,61 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/children_label"
+        <LinearLayout
             android:layout_below="@id/church"
-            android:text="@string/children"
+            android:layout_marginRight="10dp"
+            android:weightSum="2"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/children_value"
-            style="@style/children_value"
-            android:layout_below="@id/children_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginRight="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <android.support.v7.widget.AppCompatSeekBar
-            android:id="@+id/children"
-            style="@style/children_slider"
-            android:layout_below="@id/children_label"
-            android:layout_alignRight="@id/children_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/children_label"
+                    android:text="@string/children"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/children"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/taxfree_label"
+                    android:text="@string/taxfree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/tax_free"
+                    android:hint="@string/taxfree_hint"
+                    android:inputType="numberDecimal"
+                    android:gravity="right"
+                    android:maxLength="9"
+                    android:selectAllOnFocus="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </RelativeLayout>
 
