@@ -16,16 +16,18 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activities.HelloActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+        <activity android:name=".Activities.HelloActivity" />
         <activity android:name=".Activities.AboutActivity" />
         <activity android:name=".Activities.InputActivity" />
         <activity android:name=".Activities.ResultActivity" />
+        <activity
+            android:name=".Activities.CalculateActivity"
+            android:label="@string/title_activity_calculation"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

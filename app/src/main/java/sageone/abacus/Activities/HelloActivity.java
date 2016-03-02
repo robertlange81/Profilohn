@@ -5,14 +5,17 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
+import java.util.Calendar;
 
 import sageone.abacus.Helper.ConnectivityHandler;
 import sageone.abacus.Helper.SystemHelper;
+import sageone.abacus.Helper.FileStore;
 import sageone.abacus.R;
 
 public class HelloActivity extends AppCompatActivity {
@@ -22,18 +25,17 @@ public class HelloActivity extends AppCompatActivity {
 
     private ConnectivityHandler connectivityHandler;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.hello);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         _registerConnectivityReceiver();
+
+        // Delete the result object cache
+        FileStore f = new FileStore(this);
+        f.delete();
 
         Button startCalcNet = (Button) findViewById(R.id.hello_start_calculation_net);
         Button startCalcGross = (Button) findViewById(R.id.hello_start_calculation_gross);
@@ -52,6 +54,8 @@ public class HelloActivity extends AppCompatActivity {
             }
         });
 
+        TextView t = (TextView) findViewById(R.id.hello_credits);
+        t.setText(t.getText().toString().replace("YYYY", Calendar.getInstance().get(Calendar.YEAR) + ""));
     }
 
 

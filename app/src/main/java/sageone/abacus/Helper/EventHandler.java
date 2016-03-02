@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import android.util.Log;
@@ -43,6 +45,18 @@ public class EventHandler extends AppCompatActivity {
             Log.i("Checked", isChecked + "");
             l.setTextColor(ContextCompat.getColor(_context, R.color.text_grey));
             l.setText(R.string.label_church_no);
+        }
+    }
+
+
+    /**
+     * Hides the input keyboard.
+     */
+    public void hideKeyboardInput(InputMethodManager imm)
+    {
+        View view = _activity.getCurrentFocus();
+        if (view != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 }

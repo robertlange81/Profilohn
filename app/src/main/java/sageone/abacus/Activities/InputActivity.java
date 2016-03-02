@@ -1,6 +1,7 @@
 package sageone.abacus.Activities;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -9,8 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 
 import android.text.InputFilter;
-import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -18,8 +23,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.RadioGroup;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -41,6 +46,7 @@ import sageone.abacus.Interfaces.ApiCallbackListener;
 import sageone.abacus.Models.Calculation;
 import sageone.abacus.Models.CalculationInput;
 import sageone.abacus.Models.CalculationInputData;
+import sageone.abacus.Helper.FileStore;
 import sageone.abacus.Models.Insurances;
 import sageone.abacus.R;
 import sageone.abacus.Models.WebService;
@@ -86,7 +92,8 @@ public class InputActivity extends AppCompatActivity
     private TextView wageAmountLabel;
 
     public static InputActivity instance;
-    public Dialog dialog;
+    public PopupWindow calcPopup;
+    public Dialog calcDialog;
 
     private CalculationInputHelper helper;
 
@@ -313,16 +320,17 @@ public class InputActivity extends AppCompatActivity
         calculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // triggers the formatting listeners
+
                 wage.clearFocus();
                 taxFree.clearFocus();
 
                 if (!_setAndValidateData()) {
                     return;
                 }
-                dialog = MessageHelper.dialog(instance, true,
-                        getResources().getString(R.string.calculation_started));
-                dialog.show();
+
+                eventHandler.hideKeyboardInput((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE));
+
+                showCalculationOverlay();
                 CalculationInput ci = new CalculationInput(data);
                 webService.Calculate(ci);
             }
@@ -410,8 +418,8 @@ public class InputActivity extends AppCompatActivity
     {
         Intent i = new Intent(this, ResultActivity.class);
         i.putExtra("Calculation", calculation);
-        dialog.hide();
 
+        dismissCalculationOverlay();
         startActivity(i);
     }
 
@@ -422,7 +430,7 @@ public class InputActivity extends AppCompatActivity
      */
     public void responseFailedCalculation(String message)
     {
-        dialog.hide();
+        dismissCalculationOverlay();
         MessageHelper.snackbar(this, message, Snackbar.LENGTH_INDEFINITE);
     }
 
@@ -457,6 +465,69 @@ public class InputActivity extends AppCompatActivity
 
         MessageHelper.snackbar(this, message);
         return false;
+    }
+
+
+    /**
+     * Renders and displays a popup window
+     * with advertisement and cancel button.
+     */
+    public void showCalculatePopupWindow()
+    {
+        LayoutInflater li = (LayoutInflater) InputActivity.this
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View calculate = li.inflate(R.layout.calculate, (ViewGroup)findViewById(R.id.calculate_main));
+
+        calcPopup = new PopupWindow(calculate,
+                WindowManager.LayoutParams.MATCH_PARENT , WindowManager.LayoutParams.WRAP_CONTENT, true);
+
+        calcPopup.setTouchable(true);
+        calcPopup.setFocusable(true);
+
+        calcPopup.showAtLocation(calculate, Gravity.CENTER, 0, 0);
+        Button cancel = (Button) calcPopup.getContentView().findViewById(R.id.calculate_cancel);
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                webService.cancel();
+                calcPopup.dismiss();
+            }
+        });
+    }
+
+
+    /**
+     * Renders a modal calculation
+     * dialog or even a popup window.
+     */
+    private void showCalculationOverlay()
+    {
+        calcDialog = MessageHelper.dialog(instance, true,
+                getResources().getString(R.string.calculation_started));
+        calcDialog.show();
+
+        //showCalculatePopupWindow();
+    }
+
+
+    /**
+     * Dismiss all open dialog or popup windows.
+     */
+    private void dismissCalculationOverlay()
+    {
+        calcDialog.dismiss();
+        //calcPopup.dismiss();
+    }
+
+
+    /**
+     * Set the focus to wage input.
+     */
+    public void onResume()
+    {
+        calculate.requestFocus();
+        super.onResume();
     }
 
 }

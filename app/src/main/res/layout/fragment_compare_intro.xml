@@ -76,7 +76,7 @@
         android:layout_weight="0.7">
 
         <TextView
-            android:text="@string/result_intro_intro"
+            android:text="@string/compare_intro_intro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

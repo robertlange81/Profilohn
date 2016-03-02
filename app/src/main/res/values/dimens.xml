@@ -7,9 +7,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="input_insurance_autocomplete">4dp</dimen>
 
-    <dimen name="textview_height">25dp</dimen>
-    <dimen name="textview_width">150dp</dimen>
-
     <!-- Text sizes -->
     <dimen name="text_size_h1">30dp</dimen>
     <dimen name="text_size_h2">20dp</dimen>

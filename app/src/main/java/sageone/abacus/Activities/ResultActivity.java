@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import sageone.abacus.Fragments.ResultEmployeeFragment;
@@ -24,7 +23,7 @@ public class ResultActivity extends AppCompatActivity {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    private ViewPager mViewPager;
+    protected ViewPager mViewPager;
 
 
     @Override

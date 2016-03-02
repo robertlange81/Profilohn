@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/fragment_compare_employer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <!-- Main pane -->
+    <RelativeLayout
+        android:id="@+id/summarize"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/result_home_shape">
+
+        <TextView
+            android:id="@+id/result_employer_title_wage_label"
+            style="@style/text_content"
+            android:textColor="@color/text_white"
+            android:text="Sie bezahlen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/text_h1"
+            android:layout_below="@+id/result_employer_title_wage_label"
+            android:id="@+id/result_employer_title_wage"
+            android:textColor="@color/text_white"
+            android:layout_width="match_parent"
+            android:text="0.00€"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.AppCompatButton
+            style="@style/result_btn_again"
+            android:theme="@style/ResultButtonStyle"
+            android:id="@+id/result_employer_btn_again"
+            android:text="@string/result_employee_btn_again" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:background="@color/colorPrimaryLight"
+            android:layout_height="wrap_content">
+
+            <View style="@style/hr" android:layout_width="match_parent" />
+
+            <LinearLayout
+                style="@style/result_data_row">
+                <TextView
+                    style="@style/result_main_label"
+                    android:text="@string/result_employer_wage_gross" />
+
+                <TextView
+                    style="@style/result_main_value"
+                    android:id="@+id/result_employer_wage_gross" />
+            </LinearLayout>
+
+            <View style="@style/hr" android:layout_width="match_parent" />
+
+            <!-- social cat -->
+            <LinearLayout
+                style="@style/result_data_row">
+                <TextView
+                    style="@style/result_cat_label"
+                    android:text="@string/result_employer_social_contribution" />
+
+                <TextView
+                    style="@style/result_cat_value"
+                    android:id="@+id/result_employer_social_contribution" />
+            </LinearLayout>
+
+            <!-- pension insurance -->
+            <LinearLayout
+                style="@style/result_data_row">
+                <TextView
+                    style="@style/result_data_label"
+                    android:text="@string/result_employer_insurance_pension" />
+
+                <TextView
+                    style="@style/result_data_value"
+                    android:id="@+id/result_employer_insurance_pension" />
+            </LinearLayout>
+
+            <!-- insurance unemployment -->
+            <LinearLayout
+                style="@style/result_data_row">
+                <TextView
+                    style="@style/result_data_label"
+                    android:text="@string/result_employer_insurance_unemployment" />
+
+                <TextView
+                    style="@style/result_data_value"
+                    android:id="@+id/result_employer_insurance_unemployment" />
+            </LinearLayout>
+
+            <!-- insurance care -->
+            <LinearLayout
+                style="@style/result_data_row">
+                <TextView
+                    style="@style/result_data_label"
+                    android:text="@string/result_employer_insurance_care" />
+
+                <TextView
+                    style="@style/result_data_value"
+                    android:id="@+id/result_employer_insurance_care" />
+            </LinearLayout>
+
+            <!-- insurance health -->
+            <LinearLayout
+                style="@style/result_data_row">
+                <TextView
+                    style="@style/result_data_label"
+                    android:text="@string/result_employer_insurance_health" />
+
+                <TextView
+                    style="@style/result_data_value"
+                    android:id="@+id/result_employer_insurance_health" />
+            </LinearLayout>
+
+            <View style="@style/hr" android:layout_width="match_parent" />
+
+            <!-- contribution cat -->
+            <LinearLayout
+                style="@style/result_data_row">
+                <TextView
+                    style="@style/result_cat_label"
+                    android:text="@string/result_employer_contribution" />
+
+                <TextView
+                    style="@style/result_cat_value"
+                    android:id="@+id/result_employer_contribution" />
+            </LinearLayout>
+
+            <!-- U1 -->
+            <LinearLayout
+                style="@style/result_data_row">
+                <TextView
+                    style="@style/result_data_label"
+                    android:text="@string/result_employer_contribution1" />
+
+                <TextView
+                    style="@style/result_data_value"
+                    android:id="@+id/result_employer_contribution1" />
+            </LinearLayout>
+
+            <!-- U2 -->
+            <LinearLayout
+                style="@style/result_data_row">
+                <TextView
+                    style="@style/result_data_label"
+                    android:text="@string/result_employer_contribution2" />
+
+                <TextView
+                    style="@style/result_data_value"
+                    android:id="@+id/result_employer_contribution2" />
+            </LinearLayout>
+
+            <View style="@style/hr" android:layout_width="match_parent" />
+
+            <!-- net wage -->
+            <LinearLayout
+                style="@style/result_data_row">
+                <TextView
+                    style="@style/result_main_label"
+                    android:id="@+id/result_employee_wage_label"
+                    android:text="@string/result_employer_cum_cat" />
+                <TextView
+                    style="@style/result_main_value"
+                    android:id="@+id/result_employer_cum_cat" />
+            </LinearLayout>
+
+        </android.support.v7.widget.LinearLayoutCompat>
+
+    </ScrollView>
+</LinearLayout>

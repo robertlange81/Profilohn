@@ -13,7 +13,7 @@
         <u>Online Buchhaltung und Lohnabrechnung</u>
     </string>
 
-    <string name="hello_intro_ad_sage">powered by Sage Software GmbH</string>
+    <string name="hello_intro_ad_sage">Sage Abacus - \u00A9 YYYY Sage Software GmbH</string>
 
     <string name="menu_netwage">Neue Nettolohnberechnung</string>
     <string name="menu_grosswage">Neue Bruttolohnberechnung</string>

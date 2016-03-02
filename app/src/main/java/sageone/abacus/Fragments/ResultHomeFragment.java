@@ -3,13 +3,18 @@ package sageone.abacus.Fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import sageone.abacus.Activities.ResultActivity;
 import sageone.abacus.Models.Calculation;
+import sageone.abacus.Helper.FileStore;
 import sageone.abacus.R;
 
 /**
@@ -52,6 +57,41 @@ public class ResultHomeFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
+        View v;
+
+        // prepare the calculation data
+        Calculation data = (Calculation) getActivity().getIntent().getExtras().getParcelable("Calculation");
+        FileStore f = new FileStore(getContext());
+
+        v = _prepareResultLayout(inflater, data, container);
+
+        // try to fetch previous data and set compare layout if so ..
+        try {
+            Calculation dataCompare = f.read();
+            if (null != dataCompare)
+                v = _prepareCompareLayout(inflater, data, dataCompare, container);
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+        }
+
+        // Cache result for comparison
+        FileStore fs = new FileStore(getActivity());
+        fs.write(data);
+
+        return v;
+    }
+
+
+    /**
+     * Prepares the result layout.
+     *
+     * @param inflater
+     * @param data
+     * @param container
+     * @return
+     */
+    private View _prepareResultLayout(LayoutInflater inflater, Calculation data, ViewGroup container)
+    {
         View view = inflater.inflate(R.layout.fragment_result_intro, container, false);
 
         // listen on the button clicks
@@ -59,7 +99,7 @@ public class ResultHomeFragment extends Fragment
         btnEmployee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((ResultActivity)getActivity()).setCurrentPage(1, true);
+                ((ResultActivity) getActivity()).setCurrentPage(1, true);
             }
         });
 
@@ -67,18 +107,55 @@ public class ResultHomeFragment extends Fragment
         btnEmployer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((ResultActivity)getActivity()).setCurrentPage(2, true);
+                ((ResultActivity) getActivity()).setCurrentPage(2, true);
             }
         });
-
-        // set view data
-        Calculation data = (Calculation) getActivity().getIntent().getExtras().getParcelable("Calculation");
 
         wageGross = (TextView) view.findViewById(R.id.result_intro_wage_gross);
         wageNet = (TextView) view.findViewById(R.id.result_intro_wage_net);
 
         wageGross.setText(data.data.LohnsteuerPflBrutto);
         wageNet.setText(data.data.Netto);
+
+        return view;
+    }
+
+
+    /**
+     * Prepares the compare layout.
+     *
+     * @param inflater
+     * @param dataResult
+     * @param dataCompare
+     * @param container
+     * @return
+     */
+    private View _prepareCompareLayout(LayoutInflater inflater, Calculation dataResult, Calculation dataCompare, ViewGroup container)
+    {
+        View view = inflater.inflate(R.layout.fragment_compare_intro, container, false);
+
+        // listen on the button clicks
+        AppCompatButton btnEmployee = (AppCompatButton) view.findViewById(R.id.result_intro_btn_employee);
+        btnEmployee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ResultActivity) getActivity()).setCurrentPage(1, true);
+            }
+        });
+
+        AppCompatButton btnEmployer = (AppCompatButton) view.findViewById(R.id.result_intro_btn_employer);
+        btnEmployer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ResultActivity) getActivity()).setCurrentPage(2, true);
+            }
+        });
+
+        wageGross = (TextView) view.findViewById(R.id.result_intro_wage_gross);
+        wageNet = (TextView) view.findViewById(R.id.result_intro_wage_net);
+
+        wageGross.setText(dataResult.data.LohnsteuerPflBrutto);
+        wageNet.setText(dataCompare.data.Netto);
 
         return view;
     }

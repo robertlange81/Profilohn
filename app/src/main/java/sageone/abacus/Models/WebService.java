@@ -28,6 +28,7 @@ public class WebService
     private ApiCallbackListener webserviceListener;
     private static WebService Instance;
     private Context context;
+    private Call call;
 
     public static synchronized WebService getInstance(Context c, ApiCallbackListener listener)
     {
@@ -73,7 +74,7 @@ public class WebService
     public void Calculate(CalculationInput data)
     {
         Log.v("ServiceCall", "Initialize calculation ..");
-        Call<Calculation> call = apiService.Calc(data);
+        call = apiService.Calc(data);
 
         call.enqueue(new Callback<Calculation>() {
             @Override
@@ -155,6 +156,15 @@ public class WebService
     {
         AlertDialog d = MessageHelper.dialog(InputActivity.instance, modal, message + "\n\nDetails:\n " + code);
         d.show();
+    }
+
+
+    /**
+     * Cancel the active call.
+     */
+    public void cancel()
+    {
+        call.cancel();
     }
 
 }

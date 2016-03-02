@@ -10,6 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="sageone.abacus.Activities.SplashActivity"
-    tools:showIn="@layout/activity_splash">
+    tools:showIn="@layout/splash">
 
 </RelativeLayout>

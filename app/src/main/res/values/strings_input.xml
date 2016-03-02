@@ -67,7 +67,7 @@
     <string name="wageamount_gross">Ihr Bruttolohn</string>
     <string name="wageamount_net">Ihr Nettolohn</string>
     <string name="taxclass">Steuerklasse</string>
-    <string name="taxfree">Steuerfreibetrag (Jahr)</string>
+    <string name="taxfree">Steuerfreibetrag</string>
     <string name="taxfree_hint">0,00 €</string>
     <string name="state">Bundesland</string>
     <string name="insurance">Krankenkasse</string>
@@ -100,6 +100,6 @@
     <string name="validation_error_wage">Bitte Lohn/Gehalt angeben.</string>
     <string name="validation_error_insurance">Bitte Krankenkasse wählen.</string>
     <string name="format_error">Allgemeiner Formatierungsfehler.</string>
-    <string name="calculation_started">Die Berechnung wird durchgeführt ..</string>
+    <string name="calculation_started">Die Berechnung wird durchgeführt. Bitte warten ..</string>
 
 </resources>

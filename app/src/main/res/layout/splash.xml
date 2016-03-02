@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     tools:context="sageone.abacus.Activities.SplashActivity">
 
-    <ImageView
-        android:background="@drawable/splash_screen"
+    <android.support.v7.widget.AppCompatImageView
+        android:src="@drawable/splash_screen"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
-        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

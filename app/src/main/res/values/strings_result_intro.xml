@@ -4,7 +4,7 @@
     <string name="result_intro_title">Berechnung erfolgreich</string>
     <string name="result_intro_success">Die Brutto-/Nettolohnberechnung wurde erfolgreich abgeschlossen.</string>
 
-    <string name="result_intro_intro">Klicken Sie auf einen der folgenden Bereiche um die Ergebnisse zu sehen.</string>
+    <string name="result_intro_intro">Um sich die Ergebnisse anzusehen, klicken Sie auf einen der folgenden Bereiche.</string>
     <string name="result_intro_btn_employee">Ergebnisse Arbeitnehmer</string>
     <string name="result_intro_btn_employee_desc">Brutto, Netto, Steuern &amp; Sozialabgaben</string>
     <string name="result_intro_btn_employer">Ergebnisse Arbeitgeber</string>

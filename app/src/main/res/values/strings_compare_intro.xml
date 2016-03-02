@@ -1,0 +1,12 @@
+<resources>
+    <string name="compare_intro_text_wage_gross">Bruttolohn</string>
+    <string name="compare_intro_text_wage_net">Nettolohn</string>
+    <string name="compare_intro_title">Berechnung erfolgreich</string>
+    <string name="compare_intro_success">Die Brutto-/Nettolohnberechnung wurde erfolgreich abgeschlossen.</string>
+
+    <string name="compare_intro_intro">Sie können die Ergebinsse mit einem Klick auf einen der folgenden Bereichen miteinander vergleichen.</string>
+    <string name="compare_intro_btn_employee">Ergebnisse Arbeitnehmer</string>
+    <string name="compare_intro_btn_employee_desc">Brutto, Netto, Steuern &amp; Sozialabgaben</string>
+    <string name="compare_intro_btn_employer">Ergebnisse Arbeitgeber</string>
+    <string name="compare_intro_btn_employer_desc">Brutto, Sozialabgaben, Umlagen &amp; Gesamtbelastung</string>
+</resources>

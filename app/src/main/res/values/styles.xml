@@ -31,6 +31,7 @@
         <item name="colorButtonNormal">@color/colorAccentLight</item>
         <item name="android:textColor">@color/text_white</item>
         <item name="android:drawableEnd">@drawable/arrow_next</item>
+        <item name="android:maxHeight">100dp</item>
     </style>
 
     <style name="ResultButtonStyle2" parent="Widget.AppCompat.Button.Colored">
