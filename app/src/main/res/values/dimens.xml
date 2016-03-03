@@ -9,7 +9,9 @@
 
     <!-- Text sizes -->
     <dimen name="text_size_h1">30dp</dimen>
+    <dimen name="text_size_h1.5">25dp</dimen>
     <dimen name="text_size_h2">20dp</dimen>
+    <dimen name="text_size_h3">15dp</dimen>
     <dimen name="text_size_content">16dp</dimen>
     <dimen name="text_size_small">12dp</dimen>
     <dimen name="textview_button_font_size">10dp</dimen>

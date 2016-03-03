@@ -10,7 +10,7 @@
     <style name="result_intro_text_wage_value">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/text_white</item>
-        <item name="android:textSize">@dimen/text_size_h1</item>
+        <item name="android:textSize">@dimen/text_size_h1.5</item>
     </style>
 
 </resources>

@@ -11,8 +11,10 @@ import android.widget.TextView;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.Normalizer;
 
 import sageone.abacus.Activities.ResultActivity;
+import sageone.abacus.Helper.FormatHelper;
 import sageone.abacus.Models.Calculation;
 import sageone.abacus.Helper.FileStore;
 import sageone.abacus.R;
@@ -27,6 +29,9 @@ public class ResultHomeFragment extends Fragment
     private TextView wageGross;
     private TextView wageNet;
 
+    private TextView compareWageGross;
+    private TextView compareWageNet;
+
     public ResultHomeFragment() { }
 
     public static ResultHomeFragment getInstance()
@@ -37,6 +42,7 @@ public class ResultHomeFragment extends Fragment
 
         return instance;
     }
+
 
     /**
      * Instantiates a new Fragment.
@@ -57,21 +63,18 @@ public class ResultHomeFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View v;
+        View v = null;
 
         // prepare the calculation data
         Calculation data = (Calculation) getActivity().getIntent().getExtras().getParcelable("Calculation");
         FileStore f = new FileStore(getContext());
 
-        v = _prepareResultLayout(inflater, data, container);
-
         // try to fetch previous data and set compare layout if so ..
         try {
             Calculation dataCompare = f.read();
-            if (null != dataCompare)
-                v = _prepareCompareLayout(inflater, data, dataCompare, container);
-        } catch (FileNotFoundException e) {
-        } catch (IOException e) {
+            v = _prepareCompareLayout(inflater, data, dataCompare, container);
+        } catch (Exception e) {
+            v = _prepareResultLayout(inflater, data, container);
         }
 
         // Cache result for comparison
@@ -90,32 +93,22 @@ public class ResultHomeFragment extends Fragment
      * @param container
      * @return
      */
-    private View _prepareResultLayout(LayoutInflater inflater, Calculation data, ViewGroup container)
+    private View _prepareResultLayout(LayoutInflater inflater,
+                                      Calculation data, ViewGroup container)
     {
         View view = inflater.inflate(R.layout.fragment_result_intro, container, false);
+        _initListener(view);
 
-        // listen on the button clicks
-        AppCompatButton btnEmployee = (AppCompatButton) view.findViewById(R.id.result_intro_btn_employee);
-        btnEmployee.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((ResultActivity) getActivity()).setCurrentPage(1, true);
-            }
-        });
-
-        AppCompatButton btnEmployer = (AppCompatButton) view.findViewById(R.id.result_intro_btn_employer);
-        btnEmployer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((ResultActivity) getActivity()).setCurrentPage(2, true);
-            }
-        });
-
+        // result data
         wageGross = (TextView) view.findViewById(R.id.result_intro_wage_gross);
         wageNet = (TextView) view.findViewById(R.id.result_intro_wage_net);
 
-        wageGross.setText(data.data.LohnsteuerPflBrutto);
-        wageNet.setText(data.data.Netto);
+        try {
+            wageGross.setText(
+                    FormatHelper.currency(data.data.LohnsteuerPflBrutto));
+            wageNet.setText(
+                    FormatHelper.currency(data.data.Netto));
+        } catch (Exception e) {}
 
         return view;
     }
@@ -130,10 +123,40 @@ public class ResultHomeFragment extends Fragment
      * @param container
      * @return
      */
-    private View _prepareCompareLayout(LayoutInflater inflater, Calculation dataResult, Calculation dataCompare, ViewGroup container)
+    private View _prepareCompareLayout(LayoutInflater inflater, Calculation dataResult,
+                                       Calculation dataCompare, ViewGroup container)
     {
         View view = inflater.inflate(R.layout.fragment_compare_intro, container, false);
+        _initListener(view);
 
+        // result data
+        wageGross = (TextView) view.findViewById(R.id.result_intro_wage_gross);
+        wageNet = (TextView) view.findViewById(R.id.result_intro_wage_net);
+        // compare data
+        compareWageGross = (TextView) view.findViewById(R.id.compare_intro_wage_gross);
+        compareWageNet = (TextView) view.findViewById(R.id.compare_intro_wage_net);
+        try {
+            wageGross.setText(
+                    FormatHelper.currency(dataResult.data.LohnsteuerPflBrutto));
+            wageNet.setText(
+                    FormatHelper.currency(dataResult.data.Netto));
+            compareWageGross.setText(
+                    FormatHelper.currency(dataCompare.data.LohnsteuerPflBrutto));
+            compareWageNet.setText(
+                    FormatHelper.currency(dataCompare.data.Netto));
+        } catch (Exception e) {}
+
+        return view;
+    }
+
+
+    /**
+     * Initialize the on click events.
+     *
+     * @param view
+     */
+    private void _initListener(View view)
+    {
         // listen on the button clicks
         AppCompatButton btnEmployee = (AppCompatButton) view.findViewById(R.id.result_intro_btn_employee);
         btnEmployee.setOnClickListener(new View.OnClickListener() {
@@ -150,14 +173,6 @@ public class ResultHomeFragment extends Fragment
                 ((ResultActivity) getActivity()).setCurrentPage(2, true);
             }
         });
-
-        wageGross = (TextView) view.findViewById(R.id.result_intro_wage_gross);
-        wageNet = (TextView) view.findViewById(R.id.result_intro_wage_net);
-
-        wageGross.setText(dataResult.data.LohnsteuerPflBrutto);
-        wageNet.setText(dataCompare.data.Netto);
-
-        return view;
     }
 
 

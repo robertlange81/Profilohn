@@ -1,13 +1,11 @@
 package sageone.abacus.Helper;
 
 import android.content.Context;
-import android.graphics.AvoidXfermode;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,13 +23,9 @@ import sageone.abacus.Models.Calculation;
  */
 public class FileStore {
 
-    private String cachePath;
-    private File cacheFile;
+    private final File cacheFile;
     private static final String FILENAME = "last_result";
-    private Gson gson;
-
-    private Context c;
-    private boolean ready = false;
+    private final Gson gson;
 
 
     /**
@@ -40,8 +34,8 @@ public class FileStore {
      */
     public FileStore(Context c)
     {
-        this.c = c;
-        cachePath = c.getCacheDir().getAbsolutePath();
+        Context c1 = c;
+        String cachePath = c.getCacheDir().getAbsolutePath();
         cacheFile = new File(cachePath, FILENAME);
         gson = new GsonBuilder().create();
     }
@@ -76,7 +70,7 @@ public class FileStore {
      *
      * @return
      */
-    public Calculation read() throws FileNotFoundException, IOException
+    public Calculation read() throws IOException
     {
         if (cacheFile.exists()) {
             FileInputStream fis = new FileInputStream(cacheFile);
@@ -88,8 +82,11 @@ public class FileStore {
             }
             fis.close();
 
-            Calculation c = gson.fromJson(json, Calculation.class);
-            return c;
+            if (0 == json.length()) {
+                throw new FileNotFoundException("No data found");
+            }
+
+            return gson.fromJson(json, Calculation.class);
         } else {
             throw new FileNotFoundException();
         }
@@ -104,7 +101,7 @@ public class FileStore {
     public boolean delete()
     {
         try {
-            String[] cmd = { "/system/bin/sh", "-c", "rm -Rf " + cacheFile.getPath().toString() };
+            String[] cmd = { "/system/bin/sh", "-c", "rm -Rf " + cacheFile.getPath()};
             Runtime.getRuntime().exec(cmd);
             return true;
         } catch (IOException e) {
@@ -121,7 +118,7 @@ public class FileStore {
      * @return
      * @throws Exception
      */
-    public static String convertStreamToString(InputStream is) throws IOException
+    private static String convertStreamToString(InputStream is) throws IOException
     {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();

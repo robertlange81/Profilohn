@@ -10,11 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.text.NumberFormat;
-
 import sageone.abacus.Exceptions.FormatException;
 import sageone.abacus.Helper.FormatHelper;
-import sageone.abacus.Helper.MessageHelper;
 import sageone.abacus.Models.Calculation;
 import sageone.abacus.R;
 
@@ -46,14 +43,13 @@ public class ResultEmployeeFragment extends Fragment
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         activity = getActivity();
         View view = inflater.inflate(R.layout.fragment_result_employee, container, false);
 
         // get the calculation result from the activity
-        Calculation data = (Calculation) activity.getIntent().getExtras().getParcelable("Calculation");
+        Calculation data = activity.getIntent().getExtras().getParcelable("Calculation");
 
         _initViews(view);
         _setViewData(data);

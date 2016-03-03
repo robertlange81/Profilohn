@@ -1,6 +1,7 @@
 <resources>
     <string name="result_employee_title">Arbeitnehmer</string>
 
+    <string name="result_employee_wage_label">Sie erhalten</string>
     <string name="result_employee_btn_again">Nochmal</string>
     <string name="result_employee_wage_net">Nettogehalt</string>
     <string name="result_employee_wage_gross">Bruttogehalt</string>

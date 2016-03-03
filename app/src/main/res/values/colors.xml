@@ -10,6 +10,7 @@
     <color name="colorAccentLight">#FF448F</color>
     <color name="colorAccentBlue">#4178BE</color>
 
+    <color name="text_lightgray">#CCC</color>
     <color name="text_grey">#555</color>
     <color name="text_middlegrey">#333</color>
     <color name="text_darkgrey">#111111</color>
@@ -19,6 +20,6 @@
     <color name="spinner_fontColor">#FFF</color>
 
     <color name="black_overlay">#660000</color>
-
     <color name="light_grey">#DDD</color>
+
 </resources>

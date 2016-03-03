@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="compare_intro_text_wage_label">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_lightgray</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
+    </style>
+
+    <style name="compare_intro_text_wage_value">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_lightgray</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
+    </style>
+
+</resources>

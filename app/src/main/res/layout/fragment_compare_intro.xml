@@ -16,53 +16,121 @@
         android:background="@drawable/result_home_shape">
 
         <LinearLayout
-            android:weightSum="1"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical">
+            android:layout_height="match_parent">
 
+            <!-- Result header gross and net wage -->
             <LinearLayout
+                android:weightSum="1"
                 android:layout_weight="0.5"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center_vertical">
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
+                android:baselineAligned="true">
 
-                <TextView
-                    style="@style/result_intro_text_wage_label"
-                    android:text="@string/result_intro_text_wage_gross"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_weight="0.5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical|center_horizontal">
 
-                <TextView
-                    android:id="@+id/result_intro_wage_gross"
-                    style="@style/result_intro_text_wage_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        style="@style/result_intro_text_wage_label"
+                        android:text="@string/result_intro_text_wage_gross"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/result_intro_wage_gross"
+                        style="@style/result_intro_text_wage_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="0.5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical|center_horizontal">
+
+                    <TextView
+                        style="@style/result_intro_text_wage_label"
+                        android:text="@string/result_intro_text_wage_net"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/result_intro_wage_net"
+                        style="@style/result_intro_text_wage_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
 
             </LinearLayout>
+            <!-- END Result header -->
 
+            <!-- Compare header gross and net wage -->
             <LinearLayout
+                android:weightSum="1"
                 android:layout_weight="0.5"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center_vertical">
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
+                android:baselineAligned="true">
 
-                <TextView
-                    style="@style/result_intro_text_wage_label"
-                    android:text="@string/result_intro_text_wage_net"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_weight="0.5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical|center_horizontal">
 
-                <TextView
-                    android:id="@+id/result_intro_wage_net"
-                    style="@style/result_intro_text_wage_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        style="@style/compare_intro_text_wage_label"
+                        android:text="@string/compare_intro_text_wage_gross"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/compare_intro_wage_gross"
+                        style="@style/compare_intro_text_wage_value"
+                        android:text="@string/currency_null"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="0.5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical|center_horizontal">
+
+                    <TextView
+                        style="@style/compare_intro_text_wage_label"
+                        android:text="@string/compare_intro_text_wage_net"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/compare_intro_wage_net"
+                        android:text="@string/currency_null"
+                        style="@style/compare_intro_text_wage_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
 
             </LinearLayout>
+            <!-- END Compare header -->
 
         </LinearLayout>
 
@@ -76,7 +144,7 @@
         android:layout_weight="0.7">
 
         <TextView
-            android:text="@string/compare_intro_intro"
+            android:text="@string/result_intro_intro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
