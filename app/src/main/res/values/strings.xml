@@ -1,4 +1,10 @@
 <resources>
+    <!-- menu actions -->
+    <string name="action_about">Über Sage</string>
+    <string name="action_check">Erneut prüfen</string>
+    <string name="action_quit">Abacus beenden</string>
+    <string name="action_cache">Cache leeren</string>
+
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_calculation">CalculationActivity</string>
     <string name="currency_null">0,00 €</string>

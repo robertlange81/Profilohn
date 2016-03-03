@@ -75,6 +75,19 @@
             </LinearLayout>
             <!-- END Result header -->
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/wage_diff"
+                    style="@style/result_intro_text_wage_value"
+                    android:text="+0,00%"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" />
+            </LinearLayout>
+
             <!-- Compare header gross and net wage -->
             <LinearLayout
                 android:weightSum="1"

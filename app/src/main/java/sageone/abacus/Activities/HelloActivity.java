@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.Calendar;
 
 import sageone.abacus.Helper.ConnectivityHandler;
+import sageone.abacus.Helper.MessageHelper;
 import sageone.abacus.Helper.SystemHelper;
 import sageone.abacus.Helper.FileStore;
 import sageone.abacus.R;
@@ -24,6 +25,7 @@ public class HelloActivity extends AppCompatActivity {
     private static final Integer CALC_TYPE_BRUTTO = 1;
 
     private ConnectivityHandler connectivityHandler;
+    private FileStore fileStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,8 +36,8 @@ public class HelloActivity extends AppCompatActivity {
         _registerConnectivityReceiver();
 
         // Delete the result object cache
-        FileStore f = new FileStore(this);
-        f.delete();
+        fileStore = new FileStore(this);
+        fileStore.delete();
 
         Button startCalcNet = (Button) findViewById(R.id.hello_start_calculation_net);
         Button startCalcGross = (Button) findViewById(R.id.hello_start_calculation_gross);
@@ -112,6 +114,12 @@ public class HelloActivity extends AppCompatActivity {
                 Intent i = new Intent(this, AboutActivity.class);
                 startActivity(i);
             break;
+            case R.id.action_cache:
+                fileStore.delete();
+                MessageHelper.dialog(this, false
+                        , getResources().getString(R.string.hello_cache_cleared)
+                        , MessageHelper.DIALOG_TYPE_INFO).show();
+                break;
             case R.id.action_quit:
                 SystemHelper.finish(this);
                 break;

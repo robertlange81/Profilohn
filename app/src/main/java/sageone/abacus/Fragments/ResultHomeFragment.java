@@ -3,17 +3,18 @@ package sageone.abacus.Fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.text.Normalizer;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import sageone.abacus.Activities.ResultActivity;
+import sageone.abacus.Helper.DecimalDigitsInputHelper;
 import sageone.abacus.Helper.FormatHelper;
 import sageone.abacus.Models.Calculation;
 import sageone.abacus.Helper.FileStore;
@@ -31,6 +32,8 @@ public class ResultHomeFragment extends Fragment
 
     private TextView compareWageGross;
     private TextView compareWageNet;
+
+    private TextView wageDiff;
 
     public ResultHomeFragment() { }
 
@@ -132,9 +135,14 @@ public class ResultHomeFragment extends Fragment
         // result data
         wageGross = (TextView) view.findViewById(R.id.result_intro_wage_gross);
         wageNet = (TextView) view.findViewById(R.id.result_intro_wage_net);
+
         // compare data
         compareWageGross = (TextView) view.findViewById(R.id.compare_intro_wage_gross);
         compareWageNet = (TextView) view.findViewById(R.id.compare_intro_wage_net);
+        wageDiff = (TextView) view.findViewById(R.id.wage_diff);
+        wageDiff.setText(FormatHelper.percent(
+                dataResult.data.LohnsteuerPflBrutto, dataCompare.data.LohnsteuerPflBrutto));
+
         try {
             wageGross.setText(
                     FormatHelper.currency(dataResult.data.LohnsteuerPflBrutto));
@@ -144,7 +152,7 @@ public class ResultHomeFragment extends Fragment
                     FormatHelper.currency(dataCompare.data.LohnsteuerPflBrutto));
             compareWageNet.setText(
                     FormatHelper.currency(dataCompare.data.Netto));
-        } catch (Exception e) {}
+        } catch (Exception e) { }
 
         return view;
     }

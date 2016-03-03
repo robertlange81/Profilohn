@@ -14,6 +14,9 @@ import sageone.abacus.R;
  */
 public class MessageHelper extends Activity {
 
+    public static final int DIALOG_TYPE_ALERT = 0;
+    public static final int DIALOG_TYPE_INFO = 1;
+
     /**
      * Displays a snackbar on the given activity.
      * within is a snackbar position.
@@ -89,7 +92,21 @@ public class MessageHelper extends Activity {
      */
     public static AlertDialog dialog(final Activity activity, boolean modal)
     {
-        return dialog(activity, modal, "");
+        return dialog(activity, modal, "", DIALOG_TYPE_ALERT);
+    }
+
+
+    /**
+     * AlertDialog with message
+     * but without type.
+     *
+     * @param activity
+     * @param modal
+     * @return
+     */
+    public static AlertDialog dialog(final Activity activity, boolean modal, String message)
+    {
+        return dialog(activity, modal, message, DIALOG_TYPE_ALERT);
     }
 
 
@@ -101,17 +118,31 @@ public class MessageHelper extends Activity {
      * @param message
      * @return
      */
-    public static AlertDialog dialog(final Activity activity, boolean modal, String message)
+    public static AlertDialog dialog(final Activity activity, boolean modal, String message, int type)
     {
-        AlertDialog d = new AlertDialog.Builder(activity)
-            .setNegativeButton(
-                activity.getResources().getString(android.R.string.cancel)
-                , new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        SystemHelper.finish(activity);
+        AlertDialog.Builder db = new AlertDialog.Builder(activity);
+
+        if (type == DIALOG_TYPE_ALERT) {
+            db.setNegativeButton(
+                    activity.getResources().getString(android.R.string.cancel)
+                    , new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            SystemHelper.finish(activity);
+                        }
                     }
-                }
-            )   .setMessage(message)
+            );
+        } else {
+            db.setPositiveButton(
+                    activity.getResources().getString(android.R.string.ok)
+                    , new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }
+            );
+        }
+
+        AlertDialog d = db.setMessage(message)
                 .setCancelable(modal ? false : true)
                 .create();
 

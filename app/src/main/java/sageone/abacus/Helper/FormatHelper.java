@@ -1,4 +1,5 @@
 package sageone.abacus.Helper;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -21,6 +22,29 @@ public class FormatHelper
         } catch (Exception e) {
             throw new FormatException();
         }
+    }
+
+
+    public final static Double toDouble(String s)
+    {
+        return Double.valueOf(s.replace(".", "").replace(",", "."));
+    }
+
+
+    public final static String percent(String one, String two)
+    {
+        Double diff = FormatHelper.toDouble(one)
+                / FormatHelper.toDouble(two) *100 - 100;
+        DecimalFormat form = new DecimalFormat("#.##");
+
+        String prefix = "+/-";
+        if (0 > diff) {
+            prefix = "-";
+        } else if(0 < diff) {
+            prefix = "+";
+        }
+
+        return prefix + diff + " %";
     }
 
 }
