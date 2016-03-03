@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Activities.HelloActivity">
     <item
-        android:id="@+id/action_cache"
+        android:id="@+id/action_about"
         android:orderInCategory="10"
-        android:title="@string/action_cache"
+        android:title="@string/action_about"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_about"
+        android:id="@+id/action_cache"
         android:orderInCategory="20"
-        android:title="@string/action_about"
+        android:title="@string/action_cache"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_quit"

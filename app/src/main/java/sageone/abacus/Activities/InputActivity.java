@@ -210,6 +210,7 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 String cur = wage.getText().toString();
+
                 if (hasFocus) {
                     return;
                 } else if (0 == cur.length()) {
@@ -217,7 +218,7 @@ public class InputActivity extends AppCompatActivity
                     return;
                 }
 
-                boolean hasComma = cur.contains(",");
+                boolean hasComma = cur.contains(".");
                 int dec = hasComma ? 100 : 1;
 
                 Double current = Double.valueOf(cur.replaceAll("\\D", ""));
@@ -242,7 +243,7 @@ public class InputActivity extends AppCompatActivity
                     return;
                 }
 
-                boolean hasComma = cur.contains(",");
+                boolean hasComma = cur.contains(".");
                 int dec = hasComma ? 100 : 1;
 
                 Double current = Double.valueOf(cur.replaceAll("\\D", ""));

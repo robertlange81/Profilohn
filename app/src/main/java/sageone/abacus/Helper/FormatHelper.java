@@ -44,7 +44,7 @@ public class FormatHelper
             prefix = "+";
         }
 
-        return prefix + diff + " %";
+        return prefix + form.format(diff) + " %";
     }
 
 }

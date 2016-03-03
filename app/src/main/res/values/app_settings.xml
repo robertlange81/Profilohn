@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- misc settings -->
+    <integer name="splash_timeout">2000</integer>
+
+    <!-- API settings -->
     <integer name="api_connection_timeout">5000</integer>
 
     <string name="api_uri_host">test-sageone.einfach-lohn.de</string>
