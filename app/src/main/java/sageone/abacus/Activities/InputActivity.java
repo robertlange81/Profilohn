@@ -287,6 +287,19 @@ public class InputActivity extends AppCompatActivity
             }
         });
 
+        insuranceAc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                TextView t = (TextView) view;
+                String value = t.getText().toString();
+                Integer companyNumber = insurancesMap.get(value);
+                selectedInsuranceId = companyNumber != null ? Integer.valueOf(companyNumber) : -1;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
+
         // health insurance
         insuranceAc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
