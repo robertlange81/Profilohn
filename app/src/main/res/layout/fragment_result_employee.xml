@@ -77,41 +77,41 @@
                     android:id="@+id/result_employee_tax" />
             </LinearLayout>
 
-                <!-- wage tax -->
-                <LinearLayout
-                    style="@style/result_data_row">
-                    <TextView
-                        style="@style/result_cat_label"
-                        android:text="@string/result_employee_wagetax" />
+            <!-- wage tax -->
+            <LinearLayout
+                style="@style/result_data_row">
+                <TextView
+                    style="@style/result_data_label"
+                    android:text="@string/result_employee_wagetax" />
 
-                    <TextView
-                        style="@style/result_data_value"
-                        android:id="@+id/result_employee_wage_wagetax" />
-                </LinearLayout>
+                <TextView
+                    style="@style/result_data_value"
+                    android:id="@+id/result_employee_wage_wagetax" />
+            </LinearLayout>
 
-                <!-- solidarity -->
-                <LinearLayout
-                    style="@style/result_data_row">
-                    <TextView
-                        style="@style/result_data_label"
-                        android:text="@string/result_employee_solidarity" />
+            <!-- church tax -->
+            <LinearLayout
+                style="@style/result_data_row">
+                <TextView
+                    style="@style/result_data_label"
+                android:text="@string/result_employee_churchtax" />
 
-                    <TextView
-                        style="@style/result_data_value"
-                        android:id="@+id/result_employee_solidarity" />
-                </LinearLayout>
+                <TextView
+                    style="@style/result_data_value"
+                android:id="@+id/result_employee_churchtax" />
+            </LinearLayout>
 
-                <!-- church tax -->
-                <LinearLayout
-                    style="@style/result_data_row">
-                    <TextView
-                        style="@style/result_data_label"
-                        android:text="@string/result_employee_churchtax" />
+            <!-- solidarity -->
+            <LinearLayout
+                style="@style/result_data_row">
+                <TextView
+                    style="@style/result_data_label"
+                    android:text="@string/result_employee_solidarity" />
 
-                    <TextView
-                        style="@style/result_data_value"
-                        android:id="@+id/result_employee_churchtax" />
-                </LinearLayout>
+                <TextView
+                    style="@style/result_data_value"
+                    android:id="@+id/result_employee_solidarity" />
+            </LinearLayout>
 
             <!-- social cat -->
             <LinearLayout
