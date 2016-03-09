@@ -1,6 +1,7 @@
 package sageone.abacus.Helper;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -15,16 +16,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.SortedMap;
 
 import sageone.abacus.Models.Calculation;
+import sageone.abacus.Models.Insurances;
 
 /**
  * Created by otomaske on 02.03.2016.
  */
 public class FileStore {
 
-    private final File cacheFile;
-    private static final String FILENAME = "last_result";
+    private static final String FILENAME_CALC_RESULT = "last_result";
+    private static final String FILENAME_INSURANCES = "insurances";
+    private String cachePath;
     private final Gson gson;
 
 
@@ -35,10 +40,69 @@ public class FileStore {
     public FileStore(Context c)
     {
         Context c1 = c;
-        String cachePath = c.getCacheDir().getAbsolutePath();
-        cacheFile = new File(cachePath, FILENAME);
+        cachePath = c.getCacheDir().getAbsolutePath();
         gson = new GsonBuilder().create();
     }
+
+
+    /**
+     * Write the calculation result to
+     * a local application cache file.
+     *
+     * @param data
+     * @return
+     */
+    public boolean writeCalculationResult(Calculation data)
+    {
+        File cacheFile = new File(cachePath, FILENAME_CALC_RESULT);
+        String _data = gson.toJson(data);
+        return write(_data, cacheFile);
+    }
+
+
+    /**
+     * Fetch the last calculation
+     * data from file cache store.
+     *
+     * @return
+     * @throws IOException
+     */
+    public Calculation readCalculationResult() throws IOException
+    {
+        File cacheFile = new File(cachePath, FILENAME_CALC_RESULT);
+        String json = read(cacheFile);
+        return gson.fromJson(json, Calculation.class);
+    }
+
+
+    /**
+     * Write the insurances result to
+     * a local application cache file.
+     *
+     * @param data
+     * @return
+     */
+    public boolean writeInsurancesResult(Insurances data)
+    {
+        File cacheFile = new File(cachePath, FILENAME_INSURANCES);
+        String _data = gson.toJson(data);
+        return write(_data, cacheFile);
+    }
+
+
+    /**
+     * Fetch the last insurances
+     * data from file cache store.
+     *
+     * @return
+     */
+    public Insurances readInsurancesResult() throws IOException, FileNotFoundException
+    {
+        File cacheFile = new File(cachePath, FILENAME_INSURANCES);
+        String json = read(cacheFile);
+        return gson.fromJson(json, Insurances.class);
+    }
+
 
     /**
      * Save data into file.
@@ -46,14 +110,12 @@ public class FileStore {
      * @param data
      * @return
      */
-    public boolean write(Calculation data)
+    public boolean write(String data, File cacheFile)
     {
-        String _data = gson.toJson(data);
-
         try {
             FileOutputStream fos = new FileOutputStream(cacheFile);
             OutputStreamWriter osw = new OutputStreamWriter(fos);
-            osw.write(_data);
+            osw.write(data);
             osw.close();
 
             return true;
@@ -70,7 +132,7 @@ public class FileStore {
      *
      * @return
      */
-    public Calculation read() throws IOException
+    public String read(File cacheFile) throws IOException
     {
         if (cacheFile.exists()) {
             FileInputStream fis = new FileInputStream(cacheFile);
@@ -86,7 +148,7 @@ public class FileStore {
                 throw new FileNotFoundException("No data found");
             }
 
-            return gson.fromJson(json, Calculation.class);
+            return json;
         } else {
             throw new FileNotFoundException();
         }
@@ -94,15 +156,23 @@ public class FileStore {
 
 
     /**
-     * Flush the cache.
+     * Clean the cache folder.
      *
      * @return
      */
-    public boolean delete()
+    public boolean flush()
     {
         try {
-            String[] cmd = { "/system/bin/sh", "-c", "rm -Rf " + cacheFile.getPath()};
-            Runtime.getRuntime().exec(cmd);
+            String[] cmd = { "/system/bin/sh", "-c", "rm -f " + cachePath + "/{" + FILENAME_CALC_RESULT + "," + FILENAME_INSURANCES + "}"};
+            Process process = Runtime.getRuntime().exec(cmd);
+
+            try {
+                process.waitFor();
+                Log.i("FileStore", "cache flushed ..");
+            } catch (InterruptedException e) {
+                Log.e("FileStore", e.getMessage());
+            }
+
             return true;
         } catch (IOException e) {
             Log.e("FileStorage", e.getMessage());

@@ -4,7 +4,7 @@
     <style name="result_intro_text_wage_label">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/light_grey</item>
-        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:textSize">@dimen/text_size_h1</item>
     </style>
 
     <style name="result_intro_text_wage_value">

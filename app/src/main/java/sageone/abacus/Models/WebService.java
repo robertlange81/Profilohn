@@ -1,6 +1,7 @@
 package sageone.abacus.Models;
 
 import retrofit2.Response;
+import sageone.abacus.Activities.HelloActivity;
 import sageone.abacus.Activities.InputActivity;
 import sageone.abacus.Exceptions.StatusCodeException;
 import sageone.abacus.Exceptions.WebServiceFailureException;
@@ -10,6 +11,7 @@ import sageone.abacus.Helper.SystemHelper;
 import sageone.abacus.Interfaces.AbacusApiInterface;
 import sageone.abacus.Interfaces.ApiCallbackListener;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
@@ -57,8 +59,12 @@ public class WebService
      */
     private void init()
     {
-        String apiUriBase  = context.getResources().getString(R.string.api_uri_base);
+        String proto = context.getResources().getString(R.string.api_uri_proto);
+        String host = context.getResources().getString(R.string.api_uri_host);
+        String url  = context.getResources().getString(R.string.api_uri_base);
         String credentials = context.getResources().getString(R.string.basic_credentials);
+
+        String apiUriBase = proto + host + url;
 
         retrofitClient = new RetrofitRestClient();
         apiService = retrofitClient.RetrofitRestClient(apiUriBase, credentials, context.getResources().getInteger(R.integer.api_connection_timeout))
@@ -104,7 +110,7 @@ public class WebService
      *
      * @throws StatusCodeException
      */
-    public void Insurances()
+    public void Insurances() throws StatusCodeException
     {
         Call<Insurances> call = apiService.Insurances();
 
@@ -122,12 +128,12 @@ public class WebService
                     case 401:
                         Log.e("WebService", "Status code " + code);
                         message = context.getResources().getString(R.string.exception_http_auth);
-                        ThrowsAlertDialog(message, String.valueOf(code), false);
+                        new StatusCodeException(message);
                         break;
                     default:
                         Log.e("WebService", "Status code " + code);
                         message = context.getResources().getString(R.string.exception_status_code);
-                        ThrowsAlertDialog(message, String.valueOf(code), false);
+                        new StatusCodeException(message);
                         break;
                 }
 
@@ -139,23 +145,9 @@ public class WebService
                 String err = t.getMessage().toString();
                 Log.e("WebService", err);
                 String message = context.getResources().getString(R.string.exception_status_code);
-                ThrowsAlertDialog(message, err, true);
+                new StatusCodeException(message);
             }
         });
-    }
-
-    /**
-     * Alerts a (modal) dialog and
-     * attaches the error code.
-     *
-     * @param message
-     * @param code
-     * @param modal
-     */
-    private void ThrowsAlertDialog(String message, String code, boolean modal)
-    {
-        AlertDialog d = MessageHelper.dialog(InputActivity.instance, modal, message + "\n\nDetails:\n " + code);
-        d.show();
     }
 
 

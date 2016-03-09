@@ -10,8 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -28,6 +30,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -103,6 +106,7 @@ public class InputActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.input);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         numberFormat = NumberFormat.getCurrencyInstance(Locale.GERMANY);
         eventHandler = new EventHandler(this, getApplicationContext());
@@ -120,6 +124,31 @@ public class InputActivity extends AppCompatActivity
 
         wage.requestFocus();
         instance = this;
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        wage.requestFocus();
+        dismissCalculationOverlay();
+    }
+
+
+    /**
+     * On click listener that
+     * finish the activity.
+     *
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        super.onOptionsItemSelected(item);
+        this.finish();
+        return true;
     }
 
 
@@ -287,23 +316,11 @@ public class InputActivity extends AppCompatActivity
             }
         });
 
-        insuranceAc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                TextView t = (TextView) view;
-                String value = t.getText().toString();
-                Integer companyNumber = insurancesMap.get(value);
-                selectedInsuranceId = companyNumber != null ? Integer.valueOf(companyNumber) : -1;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
-        });
-
         // health insurance
         insuranceAc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("Insurance", "onItemClick");
                 TextView t = (TextView) view;
                 String value = t.getText().toString();
                 Integer companyNumber = insurancesMap.get(value);
@@ -337,12 +354,13 @@ public class InputActivity extends AppCompatActivity
 
                 wage.clearFocus();
                 taxFree.clearFocus();
+                insuranceAc.clearFocus();
 
                 if (!_setAndValidateData()) {
                     return;
                 }
 
-                eventHandler.hideKeyboardInput((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE));
+                eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
 
                 showCalculationOverlay();
                 CalculationInput ci = new CalculationInput(data);
@@ -372,10 +390,22 @@ public class InputActivity extends AppCompatActivity
      */
     private void _prepareInsurance()
     {
-        // disable and await response ..
-        insuranceAc.setHint(getString(R.string.insurance_init_value));
-        insuranceAc.setEnabled(false);
-        webService.Insurances();
+        FileStore fileStore = new FileStore(this);
+        Insurances i = null;
+        try {
+            i = fileStore.readInsurancesResult();
+        } catch (Exception e) {
+            this.finish();
+        }
+
+        for (int a = 0; a < i.data.size(); a++) {
+            if(!insurancesMap.containsKey(i.data.get(a).name.replaceAll("\\s+$", "")))
+                insurancesMap.put(i.data.get(a).name.replaceAll("\\s+$", ""), i.data.get(a).id);
+        }
+
+        // set the list for binding the array adapter
+        insurancesList = new ArrayList<String>(insurancesMap.keySet());
+        _initInsurancesAdapter();
     }
 
 
@@ -389,38 +419,6 @@ public class InputActivity extends AppCompatActivity
 
         insurancesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         insuranceAc.setAdapter(insurancesAdapter);
-    }
-
-
-    /**
-     * Init the adapter with a preset.
-     * @param sel
-     */
-    private void _initInsurancesAdapter(int sel)
-    {
-        _initInsurancesAdapter();
-        insuranceAc.setText(this.insurancesList.get(sel));
-        selectedInsuranceId = Integer.valueOf(insurancesMap.get(this.insurancesList.get(sel)));
-    }
-
-
-    @Override
-    /**
-     *  Callback for insurances api call.
-     */
-    public void responseFinishInsurances(Insurances i)
-    {
-        for (int a = 0; a < i.data.size(); a++) {
-            if(!insurancesMap.containsKey(i.data.get(a).name.replaceAll("\\s+$", "")))
-                insurancesMap.put(i.data.get(a).name.replaceAll("\\s+$", ""), i.data.get(a).id);
-        }
-
-        // set the list for binding the array adapter
-        insurancesList = new ArrayList<String>(insurancesMap.keySet());
-        _initInsurancesAdapter();
-
-        insuranceAc.setHint(getString(R.string.insurance_hint));
-        insuranceAc.setEnabled(true);
     }
 
 
@@ -446,6 +444,17 @@ public class InputActivity extends AppCompatActivity
     {
         dismissCalculationOverlay();
         MessageHelper.snackbar(this, message, Snackbar.LENGTH_INDEFINITE);
+    }
+
+
+    @Override
+    public void responseFinishInsurances(Insurances insurances) {
+
+    }
+
+    @Override
+    public void responseFailedInsurances(String messsage) {
+
     }
 
 
@@ -530,18 +539,9 @@ public class InputActivity extends AppCompatActivity
      */
     private void dismissCalculationOverlay()
     {
-        calcDialog.dismiss();
+        if (null != calcDialog && calcDialog.isShowing())
+            calcDialog.dismiss();
         //calcPopup.dismiss();
-    }
-
-
-    /**
-     * Set the focus to wage input.
-     */
-    public void onResume()
-    {
-        calculate.requestFocus();
-        super.onResume();
     }
 
 }

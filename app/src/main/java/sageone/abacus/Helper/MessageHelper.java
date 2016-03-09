@@ -7,6 +7,8 @@ import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 
+import java.util.Vector;
+
 import sageone.abacus.R;
 
 /**
@@ -16,6 +18,8 @@ public class MessageHelper extends Activity {
 
     public static final int DIALOG_TYPE_ALERT = 0;
     public static final int DIALOG_TYPE_INFO = 1;
+
+    public static final Vector<AlertDialog> dialogs = new Vector<AlertDialog>();
 
     /**
      * Displays a snackbar on the given activity.
@@ -147,6 +151,17 @@ public class MessageHelper extends Activity {
                 .create();
 
         return d;
+    }
+
+
+    /**
+     * Dismiss all registered
+     * and open dialogs.
+     */
+    public static void dismissAllDialogs()
+    {
+        for (AlertDialog dialog : dialogs)
+            if (dialog.isShowing()) dialog.dismiss();
     }
 
 }

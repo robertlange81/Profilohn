@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.util.Log;
 
 import java.net.InetAddress;
-import java.net.URI;
 
 import sageone.abacus.R;
 
@@ -20,7 +18,7 @@ import sageone.abacus.R;
 public class ConnectivityHandler extends BroadcastReceiver {
 
     private ConnectivityManager cm;
-    private URI serviceURI;
+    private String serviceHost;
 
     private Activity activity;
     private AlertDialog dialog;
@@ -32,9 +30,9 @@ public class ConnectivityHandler extends BroadcastReceiver {
     public ConnectivityHandler(final Activity activity)
     {
         this.activity = activity;
+        serviceHost = activity.getResources().getString(R.string.api_uri_host);
 
         cm = (ConnectivityManager) activity.getSystemService(activity.CONNECTIVITY_SERVICE);
-        serviceURI = URI.create(activity.getResources().getString(R.string.api_uri_test));
         dialog = MessageHelper.dialog(activity, true);
     }
 
@@ -80,16 +78,14 @@ public class ConnectivityHandler extends BroadcastReceiver {
      */
     public boolean serviceAvailable()
     {
-        String host = serviceURI.getHost();
         try {
-            boolean res = InetAddress.getByName(host).isReachable(10);
-            Log.w("ConnectivityHandler", res + " not reachable");
-            return res;
+            InetAddress ia = InetAddress.getByName(serviceHost);
+            return ia.isReachable(R.integer.api_connection_timeout);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        Log.w("ConnectivityHandler", "Network not reachable [" + host + "]");
+        Log.w("ConnectivityHandler", "Network not reachable [" + serviceHost + "]");
         return false;
     }
 
@@ -103,7 +99,7 @@ public class ConnectivityHandler extends BroadcastReceiver {
     public boolean connectionReady()
     {
         try {
-            return isOnline();// && serviceAvailable();
+            return isOnline(); // && serviceAvailable();
         } catch(Exception e) {
             return false;
         }

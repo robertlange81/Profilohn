@@ -69,7 +69,7 @@ public class ResultHomeFragment extends Fragment
 
         // try to fetch previous data and set compare layout if so ..
         try {
-            Calculation dataCompare = f.read();
+            Calculation dataCompare = f.readCalculationResult();
             v = _prepareCompareLayout(inflater, data, dataCompare, container);
         } catch (Exception e) {
             v = _prepareResultLayout(inflater, data, container);
@@ -77,7 +77,7 @@ public class ResultHomeFragment extends Fragment
 
         // Cache result for comparison
         FileStore fs = new FileStore(getActivity());
-        fs.write(data);
+        fs.writeCalculationResult(data);
 
         return v;
     }

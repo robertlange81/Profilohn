@@ -37,10 +37,8 @@ public class FormatHelper
                 / FormatHelper.toDouble(two) *100 - 100;
         DecimalFormat form = new DecimalFormat("#.##");
 
-        String prefix = "+/-";
-        if (0 > diff) {
-            prefix = "-";
-        } else if(0 < diff) {
+        String prefix = "";
+        if(0 < diff) {
             prefix = "+";
         }
 
