@@ -28,23 +28,13 @@ public class WebService
     private RetrofitRestClient retrofitClient;
     private AbacusApiInterface apiService;
     private ApiCallbackListener webserviceListener;
-    private static WebService Instance;
     private Context context;
     private Call call;
-
-    public static synchronized WebService getInstance(Context c, ApiCallbackListener listener)
-    {
-        if (null == Instance) {
-            Instance = new WebService(c, listener);
-        }
-        return Instance;
-    }
-
 
     /**
      * The constructor.
      */
-    private WebService(Context c, ApiCallbackListener listener)
+    public WebService(Context c, ApiCallbackListener listener)
     {
         context = c;
         webserviceListener = listener;
@@ -63,12 +53,13 @@ public class WebService
         String host = context.getResources().getString(R.string.api_uri_host);
         String url  = context.getResources().getString(R.string.api_uri_base);
         String credentials = context.getResources().getString(R.string.basic_credentials);
+        int timeout = context.getResources().getInteger(R.integer.api_connection_timeout);
 
         String apiUriBase = proto + host + url;
 
         retrofitClient = new RetrofitRestClient();
-        apiService = retrofitClient.RetrofitRestClient(apiUriBase, credentials, context.getResources().getInteger(R.integer.api_connection_timeout))
-                .create(AbacusApiInterface.class);
+        apiService = retrofitClient.RetrofitRestClient(apiUriBase, credentials, timeout)
+                    .create(AbacusApiInterface.class);
     }
 
 
@@ -85,11 +76,11 @@ public class WebService
         call.enqueue(new Callback<Calculation>() {
             @Override
             public void onResponse(Call<Calculation> call, Response<Calculation> response) {
+                int code = response.code();
+
                 if (response.isSuccess()) {
-                    Log.v("WebService", "Calculation successfully finished. Start result view ..");
                     webserviceListener.responseFinishCalculation(response.body());
                 } else {
-                    Log.e("WebService", "Calculation failed with NOT SUCCESS.");
                     webserviceListener.responseFailedCalculation(context.getResources().getString(R.string.exception_status_code));
                 }
             }
@@ -107,10 +98,8 @@ public class WebService
     /**
      * Fetch all available Health Insurances
      * by calling web service via rest client.
-     *
-     * @throws StatusCodeException
      */
-    public void Insurances() throws StatusCodeException
+    public void Insurances()
     {
         Call<Insurances> call = apiService.Insurances();
 
@@ -126,26 +115,20 @@ public class WebService
                         webserviceListener.responseFinishInsurances(response.body());
                         break;
                     case 401:
-                        Log.e("WebService", "Status code " + code);
                         message = context.getResources().getString(R.string.exception_http_auth);
-                        new StatusCodeException(message);
+                        webserviceListener.responseFailedInsurances(message);
                         break;
                     default:
-                        Log.e("WebService", "Status code " + code);
                         message = context.getResources().getString(R.string.exception_status_code);
-                        new StatusCodeException(message);
+                        webserviceListener.responseFailedInsurances(message);
                         break;
                 }
-
-                Log.i("WebService", "Fetch insurances successfully finished");
             }
 
             @Override
             public void onFailure(Call<Insurances> call, Throwable t) {
                 String err = t.getMessage().toString();
-                Log.e("WebService", err);
-                String message = context.getResources().getString(R.string.exception_status_code);
-                new StatusCodeException(message);
+                webserviceListener.responseFailedInsurances(err);
             }
         });
     }

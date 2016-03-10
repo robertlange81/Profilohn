@@ -12,10 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.util.Calendar;
 
-import sageone.abacus.Exceptions.StatusCodeException;
 import sageone.abacus.Helper.ConnectivityHandler;
 import sageone.abacus.Helper.MessageHelper;
 import sageone.abacus.Helper.SystemHelper;
@@ -28,12 +27,13 @@ import sageone.abacus.R;
 
 public class HelloActivity extends AppCompatActivity implements ApiCallbackListener {
 
-    private static final Integer CALC_TYPE_NETTO  = 0;
-    private static final Integer CALC_TYPE_BRUTTO = 1;
+    private static final Integer CALC_TYPE_NET = 0;
+    private static final Integer CALC_TYPE_GROSS = 1;
 
     private ConnectivityHandler connectivityHandler;
     private FileStore fileStore;
     private Dialog preparationDialog;
+    private WebService webService;
 
     public static HelloActivity instance;
 
@@ -50,14 +50,14 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
         startCalcNet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showInputActivity(CALC_TYPE_NETTO);
+                showInputActivity(CALC_TYPE_NET);
             }
         });
 
         startCalcGross.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showInputActivity(CALC_TYPE_BRUTTO);
+                showInputActivity(CALC_TYPE_GROSS);
             }
         });
 
@@ -67,6 +67,7 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
         instance = this;
         fileStore = new FileStore(this);
 
+        webService = new WebService(getApplicationContext(), this);
         _prefetchInsurances();
     }
 
@@ -88,7 +89,7 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
 
     /**
      * Register some receiver and
-     * handle connectivity changements.
+     * handle connectivity changes.
      */
     private void _registerConnectivityReceiver()
     {
@@ -117,6 +118,9 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
 
 
     @Override
+    /**
+     * Main menu selection callback handling.
+     */
     public boolean onOptionsItemSelected(MenuItem item)
     {
         int id = item.getItemId();
@@ -148,19 +152,13 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
         try {
             Insurances i = fileStore.readInsurancesResult();
             return;
-        } catch (IOException e) {
-            // no cache here. fetch them from the api ..
+        } catch (FileNotFoundException e) {
+            // fetch insurances ..
         }
 
-        preparationDialog = MessageHelper.dialog(this, true,
-                getResources().getString(R.string.preparation_dialog));
-        preparationDialog.show();
+        dialog(getResources().getString(R.string.preparation_dialog), true);
 
-        WebService webService = WebService.getInstance(getApplicationContext(), this);
-        try {
-            webService.Insurances();
-        } catch (StatusCodeException e) {
-        }
+        webService.Insurances();
     }
 
 
@@ -170,15 +168,15 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
      */
     public void responseFinishInsurances(Insurances i)
     {
+        dismissDialog();
         fileStore.writeInsurancesResult(i);
-        preparationDialog.dismiss();
     }
 
     @Override
     public void responseFailedInsurances(String message)
     {
-        preparationDialog.dismiss();
-        MessageHelper.dialog(this, false, getString(R.string.exception_status_code) + "\n\n Details:\n" + message);
+        dismissDialog();
+        dialog(message, false);
     }
 
     @Override
@@ -189,6 +187,21 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
     @Override
     public void responseFailedCalculation(String message) {
 
+    }
+
+
+    private void dialog(String message, boolean modal)
+    {
+        Dialog d = MessageHelper.dialog(this, modal, message);
+        d.show();
+
+        preparationDialog = d;
+    }
+
+
+    private void dismissDialog()
+    {
+        preparationDialog.dismiss();
     }
 
 }

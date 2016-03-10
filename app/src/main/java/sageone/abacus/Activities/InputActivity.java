@@ -110,7 +110,7 @@ public class InputActivity extends AppCompatActivity
 
         numberFormat = NumberFormat.getCurrencyInstance(Locale.GERMANY);
         eventHandler = new EventHandler(this, getApplicationContext());
-        webService = WebService.getInstance(getApplicationContext(), this);
+        webService = new WebService(getApplicationContext(), this);
         data = new CalculationInputData();
         helper = new CalculationInputHelper(this, data);
 
@@ -395,7 +395,7 @@ public class InputActivity extends AppCompatActivity
         try {
             i = fileStore.readInsurancesResult();
         } catch (Exception e) {
-            this.finish();
+
         }
 
         for (int a = 0; a < i.data.size(); a++) {
@@ -448,14 +448,10 @@ public class InputActivity extends AppCompatActivity
 
 
     @Override
-    public void responseFinishInsurances(Insurances insurances) {
-
-    }
+    public void responseFinishInsurances(Insurances insurances) { }
 
     @Override
-    public void responseFailedInsurances(String messsage) {
-
-    }
+    public void responseFailedInsurances(String message) { }
 
 
     /**
@@ -477,12 +473,12 @@ public class InputActivity extends AppCompatActivity
         String message;
 
         try {
-            helper.validate();
-            return true;
+            return helper.validate();
         } catch (ValidationInsuranceException e) {
             insuranceAc.requestFocus();
             message = e.getMessage();
         } catch (ValidationException e) {
+            wage.requestFocus();
             message = e.getMessage();
         }
 
@@ -526,10 +522,11 @@ public class InputActivity extends AppCompatActivity
      */
     private void showCalculationOverlay()
     {
-        calcDialog = MessageHelper.dialog(instance, true,
+        Dialog calcDialog = MessageHelper.dialog(instance, true,
                 getResources().getString(R.string.calculation_started));
         calcDialog.show();
 
+        this.calcDialog = calcDialog;
         //showCalculatePopupWindow();
     }
 

@@ -9,7 +9,7 @@ import sageone.abacus.Models.Insurances;
 public interface ApiCallbackListener
 {
     void responseFinishInsurances(Insurances insurances);
-    void responseFailedInsurances(String messsage);
+    void responseFailedInsurances(String message);
     void responseFinishCalculation(Calculation calculation);
     void responseFailedCalculation(String message);
 }

@@ -33,8 +33,9 @@ public class CalculationInputHelper
      * Validates the inputs.
      *
      * @throws ValidationException
+     * @return boolean
      */
-    public void validate() throws ValidationException
+    public boolean validate() throws ValidationException
     {
         if (_nullOrEmpty(data.Brutto)) {
             String message = a.getResources().getString(R.string.validation_error_wage);
@@ -44,6 +45,8 @@ public class CalculationInputHelper
             String message = a.getResources().getString(R.string.validation_error_insurance);
             throw new ValidationInsuranceException(message);
         }
+
+        return true;
     }
 
 

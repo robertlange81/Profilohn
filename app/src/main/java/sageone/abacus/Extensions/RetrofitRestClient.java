@@ -22,9 +22,9 @@ public class RetrofitRestClient
 {
     public Retrofit RetrofitRestClient(String apiBaseURL, String credentials, int timeout)
     {
-        OkHttpClient.Builder httpClient = new OkHttpClient().newBuilder().connectTimeout(timeout, TimeUnit.MILLISECONDS);
-        if (null != credentials)
-        {
+        OkHttpClient.Builder httpClient = new OkHttpClient().newBuilder();
+
+        if (null != credentials) {
             final String basic = "Basic "
                     + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
 
@@ -49,7 +49,10 @@ public class RetrofitRestClient
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                 .create();
 
-        OkHttpClient client = httpClient.build();
+        OkHttpClient client = httpClient
+                .readTimeout(timeout, TimeUnit.MILLISECONDS)
+                .connectTimeout(timeout, TimeUnit.MILLISECONDS)
+                .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(apiBaseURL)

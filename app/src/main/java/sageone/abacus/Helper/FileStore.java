@@ -1,6 +1,7 @@
 package sageone.abacus.Helper;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -96,10 +97,17 @@ public class FileStore {
      *
      * @return
      */
-    public Insurances readInsurancesResult() throws IOException, FileNotFoundException
+    public Insurances readInsurancesResult() throws FileNotFoundException
     {
         File cacheFile = new File(cachePath, FILENAME_INSURANCES);
-        String json = read(cacheFile);
+        String json = null;
+
+        try {
+            json = read(cacheFile);
+        } catch (Exception e) {
+            throw new FileNotFoundException("File not in cache");
+        }
+
         return gson.fromJson(json, Insurances.class);
     }
 
@@ -132,26 +140,15 @@ public class FileStore {
      *
      * @return
      */
-    public String read(File cacheFile) throws IOException
+    public String read(File cacheFile) throws IOException, NullPointerException
     {
-        if (cacheFile.exists()) {
-            FileInputStream fis = new FileInputStream(cacheFile);
-            String json = "";
-            try {
-                json = convertStreamToString(fis);
-            } catch (Exception e) {
-                throw new IOException(e.getMessage());
-            }
-            fis.close();
+        FileInputStream fis = new FileInputStream(cacheFile);
+        String json = "";
 
-            if (0 == json.length()) {
-                throw new FileNotFoundException("No data found");
-            }
+        json = convertStreamToString(fis);
+        fis.close();
 
-            return json;
-        } else {
-            throw new FileNotFoundException();
-        }
+        return json;
     }
 
 
@@ -160,25 +157,12 @@ public class FileStore {
      *
      * @return
      */
-    public boolean flush()
+    public void flush()
     {
-        try {
-            String[] cmd = { "/system/bin/sh", "-c", "rm -f " + cachePath + "/{" + FILENAME_CALC_RESULT + "," + FILENAME_INSURANCES + "}"};
-            Process process = Runtime.getRuntime().exec(cmd);
-
-            try {
-                process.waitFor();
-                Log.i("FileStore", "cache flushed ..");
-            } catch (InterruptedException e) {
-                Log.e("FileStore", e.getMessage());
-            }
-
-            return true;
-        } catch (IOException e) {
-            Log.e("FileStorage", e.getMessage());
-        }
-
-        return false;
+        File r = new File(cachePath, FILENAME_CALC_RESULT);
+        File i = new File(cachePath, FILENAME_INSURANCES);
+        r.delete();
+        i.delete();
     }
 
 
