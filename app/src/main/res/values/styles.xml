@@ -28,8 +28,9 @@
     </style>
 
     <style name="ResultButtonStyle1" parent="Widget.AppCompat.Button.Colored">
-        <item name="colorButtonNormal">@color/colorAccentLight</item>
+        <item name="colorButtonNormal">@color/colorAccentBlue</item>
         <item name="android:textColor">@color/text_white</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
         <item name="android:drawableEnd">@drawable/arrow_next</item>
         <item name="android:maxHeight">100dp</item>
     </style>
@@ -37,6 +38,7 @@
     <style name="ResultButtonStyle2" parent="Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">@color/colorAccentBlue</item>
         <item name="android:textColor">@color/text_white</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
         <item name="android:drawableEnd">@drawable/arrows_next</item>
     </style>
 

@@ -82,7 +82,7 @@
 
                 <TextView
                     android:id="@+id/wage_diff_gross"
-                    style="@style/result_intro_text_wage_value"
+                    style="@style/result_intro_text_wage_diff"
                     android:text="0 %"
                     android:layout_weight="0.5"
                     android:layout_width="match_parent"
@@ -91,7 +91,7 @@
 
                 <TextView
                     android:id="@+id/wage_diff_net"
-                    style="@style/result_intro_text_wage_value"
+                    style="@style/result_intro_text_wage_diff"
                     android:text="0 %"
                     android:layout_weight="0.5"
                     android:layout_width="match_parent"

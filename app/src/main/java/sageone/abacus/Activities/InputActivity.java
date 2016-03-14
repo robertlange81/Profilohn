@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -30,7 +31,6 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -361,10 +361,18 @@ public class InputActivity extends AppCompatActivity
                 }
 
                 eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
-
                 showCalculationOverlay();
-                CalculationInput ci = new CalculationInput(data);
-                webService.Calculate(ci);
+
+                // do the calculation delayed for advertising
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        CalculationInput ci = new CalculationInput(data);
+                        webService.Calculate(ci);
+                    }
+
+                }, getResources().getInteger(R.integer.calculation_timeout));
             }
         });
 
@@ -498,7 +506,9 @@ public class InputActivity extends AppCompatActivity
         View calculate = li.inflate(R.layout.calculate, (ViewGroup)findViewById(R.id.calculate_main));
 
         calcPopup = new PopupWindow(calculate,
-                WindowManager.LayoutParams.MATCH_PARENT , WindowManager.LayoutParams.WRAP_CONTENT, true);
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                true);
 
         calcPopup.setTouchable(true);
         calcPopup.setFocusable(true);
@@ -517,16 +527,24 @@ public class InputActivity extends AppCompatActivity
 
 
     /**
+     * Renders a calculation dialog.
+     */
+    private void showCalculationDialog()
+    {
+        Dialog calcDialog = MessageHelper.dialog(instance, true,
+        getResources().getString(R.string.calculation_started));
+        calcDialog.show();
+        this.calcDialog = calcDialog;
+    }
+
+
+    /**
      * Renders a modal calculation
      * dialog or even a popup window.
      */
     private void showCalculationOverlay()
     {
-        Dialog calcDialog = MessageHelper.dialog(instance, true,
-                getResources().getString(R.string.calculation_started));
-        calcDialog.show();
-
-        this.calcDialog = calcDialog;
+        showCalculationDialog();
         //showCalculatePopupWindow();
     }
 
@@ -538,7 +556,9 @@ public class InputActivity extends AppCompatActivity
     {
         if (null != calcDialog && calcDialog.isShowing())
             calcDialog.dismiss();
-        //calcPopup.dismiss();
+
+        if (null != calcPopup && calcPopup.isShowing())
+            calcPopup.dismiss();
     }
 
 }

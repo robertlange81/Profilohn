@@ -3,7 +3,7 @@
     <string name="action_about">Über Sage</string>
     <string name="action_check">Erneut prüfen</string>
     <string name="action_quit">Abacus beenden</string>
-    <string name="action_cache">Cache leeren</string>
+    <string name="action_cache">App zurücksetzen</string>
 
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_calculation">CalculationActivity</string>
