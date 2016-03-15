@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:screenOrientation="portrait"
             android:name=".Activities.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -20,11 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.HelloActivity" />
-        <activity android:name=".Activities.AboutActivity" />
-        <activity android:name=".Activities.InputActivity" />
-        <activity android:name=".Activities.ResultActivity" />
+        <activity android:name=".Activities.HelloActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activities.AboutActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activities.InputActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activities.ResultActivity" android:screenOrientation="portrait" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".Activities.CalculateActivity"
             android:label="@string/title_activity_calculation"
             android:theme="@style/AppTheme.NoActionBar"></activity>
