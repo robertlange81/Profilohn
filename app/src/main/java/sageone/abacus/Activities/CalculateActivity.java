@@ -17,12 +17,12 @@ public class CalculateActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calculate);
 
-        wv = (WebView) findViewById(R.id.calculate_webview);
+        wv = (WebView) findViewById(R.id.webview);
         wv.getSettings().setJavaScriptEnabled(true);
         wv.setWebViewClient(new WebClient());
 
-        //wv.loadUrl("https://www.google.com");
-        wv.loadData("<html><body style='background: #000'><h1>Test</h1></body></html>", "text/html", "UTF-8");
+        wv.loadUrl("https://www.google.com");
+        //wv.loadData("<html><body style='background: #000'><h1>Test</h1></body></html>", "text/html", "UTF-8");
     }
 
 

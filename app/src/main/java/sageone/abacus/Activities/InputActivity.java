@@ -1,5 +1,6 @@
 package sageone.abacus.Activities;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -53,6 +55,8 @@ import sageone.abacus.Helper.FileStore;
 import sageone.abacus.Models.Insurances;
 import sageone.abacus.R;
 import sageone.abacus.Models.WebService;
+import android.webkit.WebView;
+import android.widget.Toast;
 
 /**
  *
@@ -100,11 +104,14 @@ public class InputActivity extends AppCompatActivity
 
     private CalculationInputHelper helper;
 
+    private WebView spamWebView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.input);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -124,6 +131,15 @@ public class InputActivity extends AppCompatActivity
 
         wage.requestFocus();
         instance = this;
+
+        spamWebView =(WebView) findViewById(R.id.webview);
+        spamWebView.setWebViewClient(new WebViewClient() {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+        }});
+        spamWebView.setVisibility(View.INVISIBLE);
+        spamWebView.loadUrl("http://www.google.com");
     }
 
 
@@ -439,7 +455,7 @@ public class InputActivity extends AppCompatActivity
         Intent i = new Intent(this, ResultActivity.class);
         i.putExtra("Calculation", calculation);
 
-        dismissCalculationOverlay();
+        // dismissCalculationOverlay();
         startActivity(i);
     }
 
@@ -501,28 +517,7 @@ public class InputActivity extends AppCompatActivity
      */
     public void showCalculatePopupWindow()
     {
-        LayoutInflater li = (LayoutInflater) InputActivity.this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View calculate = li.inflate(R.layout.calculate, (ViewGroup)findViewById(R.id.calculate_main));
-
-        calcPopup = new PopupWindow(calculate,
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                true);
-
-        calcPopup.setTouchable(true);
-        calcPopup.setFocusable(true);
-
-        calcPopup.showAtLocation(calculate, Gravity.CENTER, 0, 0);
-        Button cancel = (Button) calcPopup.getContentView().findViewById(R.id.calculate_cancel);
-
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                webService.cancel();
-                calcPopup.dismiss();
-            }
-        });
+        spamWebView.setVisibility(View.VISIBLE);
     }
 
 
@@ -531,10 +526,12 @@ public class InputActivity extends AppCompatActivity
      */
     private void showCalculationDialog()
     {
+        /*
         Dialog calcDialog = MessageHelper.dialog(instance, true,
         getResources().getString(R.string.calculation_started));
         calcDialog.show();
         this.calcDialog = calcDialog;
+        */
     }
 
 
@@ -544,8 +541,8 @@ public class InputActivity extends AppCompatActivity
      */
     private void showCalculationOverlay()
     {
-        showCalculationDialog();
-        //showCalculatePopupWindow();
+        // showCalculationDialog();
+        showCalculatePopupWindow();
     }
 
 
@@ -554,11 +551,15 @@ public class InputActivity extends AppCompatActivity
      */
     private void dismissCalculationOverlay()
     {
+        spamWebView.setVisibility(View.INVISIBLE);
+
+        /*
         if (null != calcDialog && calcDialog.isShowing())
             calcDialog.dismiss();
 
         if (null != calcPopup && calcPopup.isShowing())
             calcPopup.dismiss();
+            */
     }
 
 }

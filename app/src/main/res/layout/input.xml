@@ -17,6 +17,12 @@
 
     </ScrollView>
 
+    <WebView
+        android:id="@+id/webview"
+        android:visibility="gone"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
+
     <android.support.v7.widget.AppCompatButton
         style="@style/calculate"
         android:id="@+id/calculate"
