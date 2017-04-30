@@ -2,7 +2,7 @@
     <!-- menu actions -->
     <string name="action_about">Über Sage</string>
     <string name="action_check">Erneut prüfen</string>
-    <string name="action_quit">Abacus beenden</string>
+    <string name="action_quit">Anwendung beenden</string>
     <string name="action_cache">App zurücksetzen</string>
 
     <string name="title_activity_splash">SplashActivity</string>

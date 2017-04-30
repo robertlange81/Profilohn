@@ -30,14 +30,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/wagetype" />
 
-            <RadioButton
-                android:id="@+id/type_net"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:checked="true"
-                android:text="@string/netwage" />
+
 
             <RadioGroup
                 android:id="@+id/type"
@@ -46,8 +39,31 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/input_margin"
                 android:orientation="vertical" >
+                <RadioButton
+                    android:id="@+id/type_net"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/netwage" />
+                <RadioButton
+                    android:id="@+id/type_gross"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:layout_weight="1"
+                    android:text="@string/grosswage" />
 
             </RadioGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/wageamount_label"
@@ -61,29 +77,13 @@
                 android:id="@+id/wage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-10dp"
+                android:layout_marginTop="10dp"
                 android:gravity="right"
                 android:hint="@string/wage_default"
                 android:inputType="numberDecimal"
                 android:maxLength="12"
                 android:selectAllOnFocus="true"
                 android:singleLine="true" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <RadioButton
-                android:id="@+id/type_gross"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:layout_weight="1"
-                android:text="@string/grosswage" />
 
             <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/wage_period"
