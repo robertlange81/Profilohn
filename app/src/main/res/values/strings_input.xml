@@ -58,8 +58,8 @@
     <string name="wage_period_year">Betrag ist Jahresgehalt</string>
 
     <string name="wagetype">Typ der Berechnung</string>
-    <string name="netwage">Nettolohn</string>
-    <string name="grosswage">Bruttolohn</string>
+    <string name="netwage">Netto aus Brutto</string>
+    <string name="grosswage">Brutto aus Netto</string>
     <string name="wageamount_gross">Ihr Bruttolohn</string>
     <string name="wageamount_net">Ihr Nettolohn</string>
     <string name="taxclass">Steuerklasse</string>

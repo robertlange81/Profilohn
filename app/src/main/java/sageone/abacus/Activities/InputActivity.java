@@ -35,6 +35,7 @@ import android.widget.TextView;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -72,6 +73,7 @@ public class InputActivity extends AppCompatActivity
     public static CheckBox              wagePeriod;
     public static EditText              taxFree;
     public static Spinner               taxClass;
+    public static Spinner               year;
     public static Spinner               state;
     public static Spinner               children;
     public static Button                calculate;
@@ -85,6 +87,7 @@ public class InputActivity extends AppCompatActivity
     private String  selectedWagePeriod = CalculationInputHelper.WAGE_PERIOD_MONTH;
     private Boolean selectedChurchTax = false;
     private Integer selectedTaxClass = 0;
+    private Integer selectedYear = 1;
     private String  selectedState;
     private Double  selectedChildAmount = 0.0;
 
@@ -196,6 +199,7 @@ public class InputActivity extends AppCompatActivity
         wagePeriod  = (CheckBox) findViewById(R.id.wage_period);
         state       = (Spinner) findViewById(R.id.state);
         taxClass    = (Spinner) findViewById(R.id.tax_class);
+        year        = (Spinner) findViewById(R.id.year);
         taxFree     = (EditText) findViewById(R.id.tax_free);
         children    = (Spinner) findViewById(R.id.children);
         calculate   = (Button) findViewById(R.id.calculate);
@@ -212,6 +216,19 @@ public class InputActivity extends AppCompatActivity
                 R.array.taxclasses, android.R.layout.simple_spinner_dropdown_item);
         ta.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         taxClass.setAdapter(ta);
+
+        // calc year
+        String[] years = new String[]{
+                (new Integer(Calendar.getInstance().get(Calendar.YEAR)-1)).toString(),
+                (new Integer(Calendar.getInstance().get(Calendar.YEAR))).toString(),
+                (new Integer(Calendar.getInstance().get(Calendar.YEAR)+1)).toString()
+        };
+        final List<String> yearsList = new ArrayList<>(Arrays.asList(years));
+        ArrayAdapter<String> ya = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, yearsList);
+
+        ya.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        year.setAdapter(ya);
+        year.setSelection(1);
 
         // child free amount
         ArrayAdapter<CharSequence> ca = ArrayAdapter.createFromResource(this,
@@ -313,6 +330,17 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedTaxClass = ++position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedYear = position;
             }
 
             @Override
@@ -486,9 +514,9 @@ public class InputActivity extends AppCompatActivity
         helper.data.Berechnungsart = selectedWageType;
         helper.data.Brutto = selectedWage;
         helper.data.Zeitraum = selectedWagePeriod;
-        helper.data.AbrJahr = Calendar.getInstance().get(Calendar.YEAR);
         helper.data.StFreibetrag = selectedTaxFree;
         helper.data.StKl = selectedTaxClass;
+        helper.data.AbrJahr = selectedYear + Calendar.getInstance().get(Calendar.YEAR) - 1;
         helper.setBundesland(selectedState);
         helper.data.KKBetriebsnummer = selectedInsuranceId;
         helper.data.Kirche = selectedChurchTax;

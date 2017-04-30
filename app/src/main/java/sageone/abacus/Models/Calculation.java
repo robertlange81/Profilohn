@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import java.io.Serializable;
 
 /**
- * Created by otomaske on 04.02.2016.
+ * Created by profilohn on 04.02.2016.
  */
 public class Calculation implements Parcelable {
 

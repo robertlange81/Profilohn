@@ -9,7 +9,7 @@ import sageone.abacus.Models.CalculationInputData;
 import sageone.abacus.R;
 
 /**
- * Created by otomaske on 10.02.2016.
+ * Created by profilohn on 10.02.2016.
  */
 public class CalculationInputHelper
 {

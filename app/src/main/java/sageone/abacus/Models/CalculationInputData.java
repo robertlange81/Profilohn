@@ -1,11 +1,11 @@
 package sageone.abacus.Models;
 
-import java.util.Date;
+import java.util.Calendar;
 
 import sageone.abacus.Helper.CalculationInputHelper;
 
 /**
- * Created by otomaske on 09.02.2016.
+ * Created by profilohn on 09.02.2016.
  *
  * The calculation request data.
  */
@@ -21,7 +21,7 @@ public class CalculationInputData {
     public Double KindFrei = 0.0;
     public boolean KindU23 = false;
     public Double StFreibetrag = 0.0;
-    public int AbrJahr = 1970;
+    public int AbrJahr = Calendar.YEAR;
     public int KV = 1;
     public int RV = 1;
     public int AV = 1;

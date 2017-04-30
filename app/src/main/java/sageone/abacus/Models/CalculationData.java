@@ -8,7 +8,7 @@ import java.text.ParseException;
 import java.util.Locale;
 
 /**
- * Created by otomaske on 04.02.2016.
+ * Created by profilohn on 04.02.2016.
  *
  * The calculation result data class.
  */

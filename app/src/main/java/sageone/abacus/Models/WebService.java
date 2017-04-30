@@ -21,7 +21,7 @@ import retrofit2.Callback;
 import sageone.abacus.R;
 
 /**
- * Created by otomaske on 27.01.2016.
+ * Created by profilohn on 27.01.2016.
  */
 public class WebService
 {

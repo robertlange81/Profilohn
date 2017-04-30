@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.util.Log;
 
 /**
- * Created by otomaske on 10.02.2016.
+ * Created by profilohn on 10.02.2016.
  */
 public class SystemHelper
 {

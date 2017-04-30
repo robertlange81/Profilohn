@@ -15,7 +15,7 @@ import sageone.abacus.Helper.FileStore;
 import sageone.abacus.R;
 
 /**
- * Created by otomaske on 11.02.2016.
+ * Created by profilohn on 11.02.2016.
  */
 public class ResultHomeFragment extends Fragment
 {

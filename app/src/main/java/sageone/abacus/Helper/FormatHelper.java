@@ -6,7 +6,7 @@ import java.util.Locale;
 import sageone.abacus.Exceptions.FormatException;
 
 /**
- * Created by otomaske on 17.02.2016.
+ * Created by profilohn on 17.02.2016.
  */
 public class FormatHelper
 {

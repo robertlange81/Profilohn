@@ -12,7 +12,7 @@ import java.util.Vector;
 import sageone.abacus.R;
 
 /**
- * Created by otomaske on 08.02.2016.
+ * Created by profilohn on 08.02.2016.
  */
 public class MessageHelper extends Activity {
 

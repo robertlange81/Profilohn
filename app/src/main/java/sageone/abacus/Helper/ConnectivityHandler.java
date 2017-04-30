@@ -13,7 +13,7 @@ import java.net.InetAddress;
 import sageone.abacus.R;
 
 /**
- * Created by otomaske on 01.02.2016.
+ * Created by profilohn on 01.02.2016.
  */
 public class ConnectivityHandler extends BroadcastReceiver {
 

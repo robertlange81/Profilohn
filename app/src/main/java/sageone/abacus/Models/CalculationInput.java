@@ -1,7 +1,7 @@
 package sageone.abacus.Models;
 
 /**
- * Created by otomaske on 11.02.2016.
+ * Created by profilohn on 11.02.2016.
  */
 public class CalculationInput {
 

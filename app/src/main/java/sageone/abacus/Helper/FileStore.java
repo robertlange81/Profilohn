@@ -24,7 +24,7 @@ import sageone.abacus.Models.Calculation;
 import sageone.abacus.Models.Insurances;
 
 /**
- * Created by otomaske on 02.03.2016.
+ * Created by profilohn on 02.03.2016.
  */
 public class FileStore {
 

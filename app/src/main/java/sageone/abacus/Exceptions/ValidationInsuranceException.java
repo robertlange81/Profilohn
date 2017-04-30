@@ -1,7 +1,7 @@
 package sageone.abacus.Exceptions;
 
 /**
- * Created by otomaske on 08.02.2016.
+ * Created by profilohn on 08.02.2016.
  */
 public class ValidationInsuranceException extends ValidationException {
 

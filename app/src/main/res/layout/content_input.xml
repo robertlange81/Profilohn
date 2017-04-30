@@ -13,7 +13,10 @@
         android:padding="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_weight="1"
@@ -23,9 +26,18 @@
 
             <TextView
                 android:id="@+id/wage_type_label"
-                android:text="@string/wagetype"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@string/wagetype" />
+
+            <RadioButton
+                android:id="@+id/type_net"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/netwage" />
 
             <RadioGroup
                 android:id="@+id/type"
@@ -35,23 +47,27 @@
                 android:layout_marginBottom="@dimen/input_margin"
                 android:orientation="vertical" >
 
-                <RadioButton
-                    android:id="@+id/type_net"
-                    android:text="@string/netwage"
-                    android:layout_weight="1"
-                    android:checked="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <RadioButton
-                    android:id="@+id/type_gross"
-                    android:text="@string/grosswage"
-                    android:layout_weight="1"
-                    android:layout_marginTop="3dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
             </RadioGroup>
+
+            <TextView
+                android:id="@+id/wageamount_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onWagePeriodClicked"
+                android:text="@string/wageamount_gross" />
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/wage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-10dp"
+                android:gravity="right"
+                android:hint="@string/wage_default"
+                android:inputType="numberDecimal"
+                android:maxLength="12"
+                android:selectAllOnFocus="true"
+                android:singleLine="true" />
 
         </LinearLayout>
 
@@ -61,32 +77,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/wageamount_label"
-                android:text="@string/wageamount_gross"
-                android:onClick="onWagePeriodClicked"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/wage"
-                android:maxLength="12"
-                android:hint="@string/wage_default"
+            <RadioButton
+                android:id="@+id/type_gross"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:gravity="right"
-                android:selectAllOnFocus="true"
-                android:inputType="numberDecimal" />
+                android:layout_marginTop="25dp"
+                android:layout_weight="1"
+                android:text="@string/grosswage" />
 
             <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/wage_period"
-                android:button="@null"
-                android:gravity="right|center"
-                android:hint="@string/wage_period_year"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:button="@null"
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                android:layout_height="wrap_content" />
+                android:gravity="right|center"
+                android:hint="@string/wage_period_year" />
 
         </LinearLayout>
 
@@ -94,29 +101,57 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/layout_content"
-        android:layout_below="@id/layout_wage"
         android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_wage"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/year_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/year" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/year_label"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <TextView
             android:id="@+id/taxclass_label"
             android:text="@string/taxclass"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/year"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
 
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/tax_class"
-            android:layout_below="@id/taxclass_label"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/taxclass_label"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
 
         <TextView
             android:id="@+id/state_label"
-            android:layout_below="@id/tax_class"
             android:text="@string/state"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tax_class"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <Spinner
             android:id="@+id/state"

@@ -13,7 +13,7 @@ import android.util.Log;
 import sageone.abacus.R;
 
 /**
- * Created by otomaske on 02.02.2016.
+ * Created by profilohn on 02.02.2016.
  */
 public class EventHandler extends AppCompatActivity {
 

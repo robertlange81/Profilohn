@@ -4,7 +4,7 @@ import android.text.InputFilter;
 import android.text.Spanned;
 
 /**
- * Created by otomaske on 25.02.2016.
+ * Created by profilohn on 25.02.2016.
  */
 public class DecimalDigitsInputHelper implements InputFilter {
 

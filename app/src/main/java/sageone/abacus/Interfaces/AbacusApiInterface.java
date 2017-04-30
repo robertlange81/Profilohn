@@ -10,7 +10,7 @@ import sageone.abacus.Models.CalculationInputData;
 import sageone.abacus.Models.Insurances;
 
 /**
- * Created by otomaske on 04.02.2016.
+ * Created by profilohn on 04.02.2016.
  */
 public interface AbacusApiInterface
 {

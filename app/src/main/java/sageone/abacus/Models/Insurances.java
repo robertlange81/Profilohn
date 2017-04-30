@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by otomaske on 04.02.2016.
+ * Created by profilohn on 04.02.2016.
  */
 public class Insurances
 {
