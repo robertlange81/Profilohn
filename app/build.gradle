@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion '25.0.0'
     defaultConfig {
-        applicationId "sageone.abacus"
+        applicationId "com.profilohn"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 5
-        versionName 'Alpha 1.0.3'
+        versionName '1.0'
     }
     buildTypes {
         release {
