@@ -22,9 +22,10 @@ public class CalculationInputData {
     public boolean KindU23 = false;
     public Double StFreibetrag = 0.0;
     public int AbrJahr = Calendar.YEAR;
-    public int KV = 1;
-    public int RV = 1;
-    public int AV = 1;
+    public int KV = 0;
+    public int RV = 3;
+    public int AV = 0;
+    public int PV = 1;
     public boolean Gleit = false;
     public float AzWo = 40;
 }
