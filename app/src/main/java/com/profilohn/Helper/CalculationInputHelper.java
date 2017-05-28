@@ -116,4 +116,27 @@ public class CalculationInputHelper
         return states.get(state);
     }
 
+    public static String retranslateState(int state)
+    {
+        HashMap<Integer, String> states = new HashMap<Integer, String>();
+        states.put(1, "Baden-Württemberg");
+        states.put(2, "Bayern");
+        states.put(3, "Berlin-West");
+        states.put(4, "Brandenburg");
+        states.put(5, "Bremen");
+        states.put(6, "Hamburg");
+        states.put(7, "Hessen");
+        states.put(8, "Mecklenburg-Vorpommern");
+        states.put(9, "Niedersachsen");
+        states.put(10, "Nordrhein-Westfalen");
+        states.put(11, "Rheinland-Pfalz");
+        states.put(12, "Saarland");
+        states.put(13, "Sachsen");
+        states.put(14, "Sachsen-Anhalt");
+        states.put(15, "Schleswig-Holstein");
+        states.put(16, "Thüringen");
+        states.put(30, "Berlin-West");
+
+        return states.get(state);
+    }
 }

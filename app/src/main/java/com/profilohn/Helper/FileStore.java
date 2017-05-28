@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 import com.profilohn.Models.Calculation;
+import com.profilohn.Models.CalculationInputData;
 import com.profilohn.Models.Insurances;
 
 /**
@@ -26,6 +27,7 @@ public class FileStore {
 
     private static final String FILENAME_CALC_RESULT = "last_result";
     private static final String FILENAME_INSURANCES = "insurances";
+    private static final String FILENAME_INPUTS = "inputs";
     private String cachePath;
     private final Gson gson;
 
@@ -105,6 +107,39 @@ public class FileStore {
         }
 
         return gson.fromJson(json, Insurances.class);
+    }
+
+    /**
+     * Cache Input data
+     *
+     * @param data
+     * @return
+     */
+    public boolean writeInput(CalculationInputData data)
+    {
+        File cacheFile = new File(cachePath, FILENAME_INPUTS);
+        String _data = gson.toJson(data);
+        return write(_data, cacheFile);
+    }
+
+    /**
+     * Fetch the last inputs
+     * data from file cache store.
+     *
+     * @return
+     */
+    public CalculationInputData readInput() throws FileNotFoundException
+    {
+        File cacheFile = new File(cachePath, FILENAME_INPUTS);
+        String json = null;
+
+        try {
+            json = read(cacheFile);
+        } catch (Exception e) {
+            throw new FileNotFoundException("File not in cache");
+        }
+
+        return gson.fromJson(json, CalculationInputData.class);
     }
 
 
