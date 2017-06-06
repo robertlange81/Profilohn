@@ -86,10 +86,19 @@
             </LinearLayout>
 
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/wage_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="8">
+
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:orientation="vertical">
 
                 <TextView
@@ -104,19 +113,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/wage_period_label"
-                    android:orientation="horizontal"
-                    android:paddingTop="5dp">
+                    android:orientation="horizontal">
 
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/wage_period"
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginLeft="10dp"
                         android:layout_toEndOf="@+id/church_value"
-                        android:layout_toRightOf="@+id/church_value"
-                        android:paddingLeft="10dp" />
+                        android:layout_toRightOf="@+id/church_value" />
 
                     <TextView
                         android:id="@+id/wage_period_value"
@@ -135,21 +140,11 @@
 
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/wage_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3">
-
             <RadioGroup
                 android:id="@+id/type"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="left"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
                 android:orientation="horizontal"
                 android:weightSum="3">
 
@@ -159,6 +154,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:checked="true"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9"
                     android:text="@string/netwage"
                     android:textAlignment="gravity" />
 
@@ -166,8 +163,9 @@
                     android:id="@+id/type_gross"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
                     android:layout_weight="1"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9"
                     android:text="@string/grosswage" />
 
             </RadioGroup>
@@ -177,7 +175,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:text="@string/btn_calc"
                 android:theme="@style/ResultButtonStyle" />
 
@@ -187,6 +185,7 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/layout_content"
+        android:layout_below="@+id/layout_wage"
         android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -228,7 +227,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:orientation="vertical">
 
@@ -236,9 +235,8 @@
                     android:id="@+id/year_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/year"
-                    android:textAlignment="center" />
+                    android:gravity="end"
+                    android:text="@string/year" />
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/year"
@@ -254,7 +252,6 @@
                     android:textAlignment="textEnd" />
 
             </LinearLayout>
-
 
         </LinearLayout>
 
@@ -343,52 +340,6 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/church_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/church" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <android.support.v7.widget.SwitchCompat
-                        android:id="@+id/church"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/church_label"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toEndOf="@+id/church_value"
-                        android:layout_toRightOf="@+id/church_value"
-                        android:paddingLeft="10dp" />
-
-                    <TextView
-                        android:id="@+id/church_value"
-                        style="@style/input_label"
-                        android:layout_alignLeft="@+id/insuranceAc"
-                        android:layout_alignStart="@+id/insuranceAc"
-                        android:layout_below="@+id/church_label"
-                        android:layout_marginTop="2dp"
-                        android:gravity="right|end"
-                        android:paddingLeft="5dp"
-                        android:paddingTop="3dp"
-                        android:text="@string/label_no"
-                        android:textAlignment="textEnd" />
-
-                </LinearLayout>
-
-            </LinearLayout>
 
         </LinearLayout>
 
@@ -541,20 +492,66 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/church_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/church" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/church"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/church_label"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toEndOf="@+id/church_value"
+                        android:layout_toRightOf="@+id/church_value" />
+
+                    <TextView
+                        android:id="@+id/church_value"
+                        style="@style/input_label"
+                        android:layout_alignLeft="@+id/insuranceAc"
+                        android:layout_alignStart="@+id/insuranceAc"
+                        android:layout_below="@+id/church_label"
+                        android:layout_marginTop="2dp"
+                        android:gravity="right|end"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="3dp"
+                        android:text="@string/label_no"
+                        android:textAlignment="textEnd" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/has_children_label"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_height="wrap_content"
                     android:hint="has_children_hint"
                     android:text="@string/has_children" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
@@ -566,8 +563,7 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginLeft="10dp"
                         android:layout_toEndOf="@+id/church_value"
-                        android:layout_toRightOf="@+id/church_value"
-                        android:paddingLeft="10dp" />
+                        android:layout_toRightOf="@+id/church_value" />
 
                     <TextView
                         android:id="@+id/children_value"
@@ -590,14 +586,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/children_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
+                    android:gravity="center"
                     android:text="@string/children" />
 
                 <android.support.v7.widget.AppCompatSpinner
@@ -608,7 +604,6 @@
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/children_label"
                     android:layout_gravity="right"
-                    android:layout_marginTop="3dp"
                     android:filterTouchesWhenObscured="false"
                     android:fitsSystemWindows="false"
                     android:gravity="end"

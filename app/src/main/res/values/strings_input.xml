@@ -16,25 +16,25 @@
     <string name="stkl_prompt">Steuerklasse angeben</string>
 
     <string-array name="employeetypes">
-        <item>Standard - Arbeitnehmer (volle Versichung)</item>
+        <item>Standard - Arbeitnehmer</item>
         <item>Minijobber (pauschal)</item>
-        <item>Minijobber (Aufstockung RV-Beitrag des AN)</item>
+        <item>Minijobber (RV-Beitrag)</item>
         <item>Privat Krankenversichert</item>
-        <item>Kurzfristig Beschäftigter</item>
+        <item>Kurzfristig Beschäftigt</item>
         <item>Rentner</item>
     </string-array>
 
     <string-array name="taxclasses">
-        <item>I - Eins (ledig)</item>
-        <item>II - Zwei (alleinerziehend)</item>
-        <item>III - Drei (verheiratet, niedrig versteuert)</item>
-        <item>IV - Vier (verheiratet)</item>
-        <item>V - Fünf (verheiratet, hoch versteuert)</item>
-        <item>VI - Sechs (Zweiteinkommen, hoch versteuert)</item>
+        <item>Eins</item>
+        <item>Zwei</item>
+        <item>Drei</item>
+        <item>Vier</item>
+        <item>Fünf</item>
+        <item>Sechs</item>
     </string-array>
 
     <string-array name="childfree">
-        <item>Keiner</item>
+        <item>0.0</item>
         <item>0.5</item>
         <item>1.0</item>
         <item>1.5</item>
@@ -76,13 +76,13 @@
     <string name="children">Kinderfreibetrag</string>
     <string name="church">Kirchensteuer</string>
     <string name="employee_type">Beschäftigungsverhältnis</string>
-    <string name="grosswage">Brutto berechnen</string>
-    <string name="has_children">Kinder oder U23</string>
+    <string name="grosswage">Brutto</string>
+    <string name="has_children">hat Kinder / ist U23</string>
     <string name="has_children_hint">Arbeitnehmer hat Kinder oder ist unter 23 Jahre</string>
     <string name="insurance">Krankenkasse</string>
     <string name="insurance_hint">Name der Krankenkasse ..</string>
     <string name="insurance_init_value">Liste wird aktualisiert ..</string>
-    <string name="netwage">Netto berechnen</string>
+    <string name="netwage">Netto</string>
     <string name="state">Bundesland</string>
     <string name="taxclass">Steuerklasse</string>
     <string name="taxfree">Steuerfreibetrag</string>
