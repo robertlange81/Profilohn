@@ -359,6 +359,7 @@ public class InputActivity extends AppCompatActivity
 
                         numberFormat.setMaximumFractionDigits(2);
                         String output = numberFormat.format(current);
+
                         taxFree.setText(output);
                     } catch (Exception x) {
                         String mist = "Mist";
@@ -380,6 +381,20 @@ public class InputActivity extends AppCompatActivity
 
                 selectedWagePeriod = isChecked
                         ? CalculationInputHelper.WAGE_PERIOD_YEAR : CalculationInputHelper.WAGE_PERIOD_MONTH;
+
+                if (!selectedWageType.equals(null) && selectedWageType == CalculationInputHelper.WAGE_TYPE_GROSS) {
+                    if(isChecked) {
+                        wageAmountLabel.setText(R.string.wageamount_gross_year);
+                    } else {
+                        wageAmountLabel.setText(R.string.wageamount_gross_month);
+                    }
+                } else {
+                    if(isChecked) {
+                        wageAmountLabel.setText(R.string.wageamount_net_year);
+                    } else {
+                        wageAmountLabel.setText(R.string.wageamount_net_month);
+                    }
+                }
             }
         });
 
@@ -601,7 +616,11 @@ public class InputActivity extends AppCompatActivity
             if(i != null) {
                 // Brutto / Nettobetrag
                 wage.requestFocus();
-                wage.setText(i.Brutto.toString());
+                if(i.Brutto != null) {
+                    wage.setText(i.Brutto.toString());
+                } else {
+                    wage.setText("0,00 €");
+                }
                 selectedWage = i.Brutto;
                 wage.clearFocus();
 
@@ -652,7 +671,11 @@ public class InputActivity extends AppCompatActivity
                 selectedChurchTax = i.Kirche;
 
                 // Steuerfreibetrag
-                taxFree.setText(i.StFreibetrag.toString());
+                if(i.StFreibetrag != null) {
+                    taxFree.setText(i.StFreibetrag.toString());
+                } else {
+                    taxFree.setText("0,00 €");
+                }
                 selectedTaxFree = i.StFreibetrag;
 
                 // Kinderfreibetrag
