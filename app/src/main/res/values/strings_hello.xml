@@ -23,6 +23,7 @@
 
     <string name="btn_calc_gross"><b>Brutto</b>lohn berechnen</string>
     <string name="btn_calc_net"><b>Netto</b>lohn berechnen</string>
+    <string name="btn_calc"><b>START</b></string>
 
     <string name="hello_cache_cleared">Der <b>App-Cache</b> wurde erfolgreich geleert.\n\nDies geschieht ebenfalls mit jedem Neustart der App.</string>
     <string name="preparation_dialog">Anwendung wird vorbereitet ..</string>

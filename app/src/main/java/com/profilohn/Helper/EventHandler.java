@@ -26,6 +26,27 @@ public class EventHandler extends AppCompatActivity {
         _context = context;
     }
 
+    /**
+     * Displays the church value text field
+     * if the has children selected.
+     *
+     * @param isChecked
+     */
+    public void OnSwitchPeriodType(boolean isChecked)
+    {
+        TextView l = (TextView) _activity.findViewById(R.id.wage_period_value);
+
+        if (isChecked) {
+            Log.i("Checked", isChecked + "");
+            l.setTextColor(ContextCompat.getColor(_context, R.color.text_darkgrey));
+            l.setText(R.string.label_yes);
+        } else {
+            Log.i("Checked", isChecked + "");
+            l.setTextColor(ContextCompat.getColor(_context, R.color.text_grey));
+            l.setText(R.string.label_no);
+        }
+    }
+
 
     /**
      * Displays the church value text field
@@ -40,11 +61,32 @@ public class EventHandler extends AppCompatActivity {
         if (isChecked) {
             Log.i("Checked", isChecked + "");
             l.setTextColor(ContextCompat.getColor(_context, R.color.text_darkgrey));
-            l.setText(R.string.label_church_yes);
+            l.setText(R.string.label_yes);
         } else {
             Log.i("Checked", isChecked + "");
             l.setTextColor(ContextCompat.getColor(_context, R.color.text_grey));
-            l.setText(R.string.label_church_no);
+            l.setText(R.string.label_no);
+        }
+    }
+
+    /**
+     * Displays the church value text field
+     * if the has children selected.
+     *
+     * @param isChecked
+     */
+    public void OnSwitchChildren(boolean isChecked)
+    {
+        TextView l = (TextView) _activity.findViewById(R.id.children_value);
+
+        if (isChecked) {
+            Log.i("Checked", isChecked + "");
+            l.setTextColor(ContextCompat.getColor(_context, R.color.text_darkgrey));
+            l.setText(R.string.label_yes);
+        } else {
+            Log.i("Checked", isChecked + "");
+            l.setTextColor(ContextCompat.getColor(_context, R.color.text_grey));
+            l.setText(R.string.label_no);
         }
     }
 

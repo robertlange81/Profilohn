@@ -61,19 +61,6 @@ public class CalculationInputHelper
         return (null == data || 0.0 == data);
     }
 
-
-    /**
-     * Prepares the child u23 boolean value.
-     *
-     * @param value
-     */
-    public void setKindFrei(Double value)
-    {
-        data.KindFrei = value;
-        data.KindU23 = 0 < value ? true : false;
-    }
-
-
     /**
      * Help function for translate
      * the states.

@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -61,7 +62,6 @@ public class InputActivity extends AppCompatActivity
 
     public static RadioGroup            calcType;
     public static EditText              wage;
-    public static CheckBox              wagePeriod;
     public static EditText              taxFree;
     public static Spinner               taxClass;
     public static Spinner               year;
@@ -70,6 +70,8 @@ public class InputActivity extends AppCompatActivity
     public static Spinner               children;
     public static Button                calculate;
     public static AutoCompleteTextView  insuranceAc;
+    public static SwitchCompat          wagePeriod;
+    public static SwitchCompat          hasChildren;
     public static SwitchCompat          churchTax;
 
     private Integer selectedInsuranceId = -1;
@@ -77,9 +79,14 @@ public class InputActivity extends AppCompatActivity
     private Double  selectedTaxFree = 0.0;
     private String  selectedWageType = CalculationInputHelper.WAGE_TYPE_GROSS;
     private String  selectedWagePeriod = CalculationInputHelper.WAGE_PERIOD_MONTH;
+    private Boolean selectedHasChildren = false;
     private Boolean selectedChurchTax = false;
     private Integer selectedTaxClass = 0;
     private Integer selectedEmployeeType = 0;
+    private int selectedKV = 1;
+    private int selectedRV = 1;
+    private int selectedAV = 1;
+    private int selectedPV = 1;
     private Integer selectedYear = 1;
     private String  selectedState;
     private Double  selectedChildAmount = 0.0;
@@ -196,7 +203,7 @@ public class InputActivity extends AppCompatActivity
     {
         calcType        = (RadioGroup) findViewById(R.id.type);
         wage            = (EditText) findViewById(R.id.wage);
-        wagePeriod      = (CheckBox) findViewById(R.id.wage_period);
+        wagePeriod      = (SwitchCompat) findViewById(R.id.wage_period);
         state           = (Spinner) findViewById(R.id.state);
         employeeType    = (Spinner) findViewById(R.id.employee_type);
         taxClass        = (Spinner) findViewById(R.id.tax_class);
@@ -206,6 +213,7 @@ public class InputActivity extends AppCompatActivity
         calculate       = (Button) findViewById(R.id.calculate);
         insuranceAc     = (AutoCompleteTextView) findViewById(R.id.insuranceAc);
         churchTax       = (SwitchCompat) findViewById(R.id.church);
+        hasChildren     = (SwitchCompat) findViewById(R.id.has_children);
 
         wageAmountLabel = (TextView) findViewById(R.id.wageamount_label);
 
@@ -270,14 +278,21 @@ public class InputActivity extends AppCompatActivity
 
                 if (R.id.type_net == checkedId) {
                     selectedWageType = CalculationInputHelper.WAGE_TYPE_GROSS;
-                    wageAmountLabel.setText(R.string.wageamount_gross);
+                    if(wagePeriod.isChecked()) {
+                        wageAmountLabel.setText(R.string.wageamount_gross_year);
+                    } else {
+                        wageAmountLabel.setText(R.string.wageamount_gross_month);
+                    }
                 } else {
                     selectedWageType = CalculationInputHelper.WAGE_TYPE_NET;
-                    wageAmountLabel.setText(R.string.wageamount_net);
+                    if(wagePeriod.isChecked()) {
+                        wageAmountLabel.setText(R.string.wageamount_net_year);
+                    } else {
+                        wageAmountLabel.setText(R.string.wageamount_net_month);
+                    }
                 }
             }
         });
-
 
         // Betrag (Brutto oder Wunsch-Netto)
         wage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -361,6 +376,8 @@ public class InputActivity extends AppCompatActivity
                 wage.clearFocus();
                 taxFree.clearFocus();
 
+                eventHandler.OnSwitchPeriodType(isChecked);
+
                 selectedWagePeriod = isChecked
                         ? CalculationInputHelper.WAGE_PERIOD_YEAR : CalculationInputHelper.WAGE_PERIOD_MONTH;
             }
@@ -373,11 +390,20 @@ public class InputActivity extends AppCompatActivity
 
                 wage.clearFocus();
                 taxFree.clearFocus();
-                selectedEmployeeType= ++position;
+                selectedEmployeeType= position;
 
-                switch(employeeType.getSelectedItemPosition()) {
+                switch(selectedEmployeeType) {
                     case 0:
-
+                        selectedKV = 1;
+                        selectedRV = 1;
+                        selectedAV = 1;
+                        selectedPV = 1;
+                        break;
+                    case 1:
+                        selectedKV = 6;
+                        selectedRV = 5;
+                        selectedAV = 0;
+                        selectedPV = 0;
                         break;
                     default:
                         // volle Versicherung
@@ -448,6 +474,18 @@ public class InputActivity extends AppCompatActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        // Kirchensteuer (ja / nein)
+        hasChildren.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                eventHandler.OnSwitchChildren(isChecked);
+                selectedHasChildren = isChecked;
+
+                wage.clearFocus();
+                taxFree.clearFocus();
             }
         });
 
@@ -605,6 +643,10 @@ public class InputActivity extends AppCompatActivity
                 );
                 selectedYear = i.AbrJahr;
 
+                // Elterneigenschaft
+                hasChildren.setChecked(i.KindU23);
+                selectedHasChildren = i.KindU23;
+
                 // Kirchensteuer
                 churchTax.setChecked(i.Kirche);
                 selectedChurchTax = i.Kirche;
@@ -706,13 +748,17 @@ public class InputActivity extends AppCompatActivity
         helper.data.Brutto = selectedWage;
         helper.data.Zeitraum = selectedWagePeriod;
         helper.data.Beschaeftigungsart = selectedEmployeeType;
+        helper.data.KV = selectedKV;
+        helper.data.RV = selectedRV;
+        helper.data.AV = selectedAV;
+        helper.data.PV = selectedPV;
         helper.data.StFreibetrag = selectedTaxFree;
         helper.data.StKl = selectedTaxClass;
         helper.data.AbrJahr = selectedYear + Calendar.getInstance().get(Calendar.YEAR) - 1;
         helper.setBundesland(selectedState);
         helper.data.KKBetriebsnummer = selectedInsuranceId;
         helper.data.Kirche = selectedChurchTax;
-        helper.setKindFrei(selectedChildAmount);
+        helper.data.KindU23 = selectedHasChildren;
 
         String message;
 

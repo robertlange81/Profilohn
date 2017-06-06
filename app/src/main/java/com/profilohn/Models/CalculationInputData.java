@@ -26,7 +26,7 @@ public class CalculationInputData {
     public int RV = 1;
     public int AV = 1;
     public int PV = 1;
-    public boolean Gleit = false;
+    public boolean Gleit = true;
     public float AzWo = 40;
     public int Beschaeftigungsart = 0;
 }

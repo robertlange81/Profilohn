@@ -18,17 +18,17 @@
     <string-array name="employeetypes">
         <item>Standard - Arbeitnehmer (volle Versichung)</item>
         <item>Minijobber (pauschal)</item>
-        <item>Minijobber (Aufstockung RV-Beitrag durch AN)</item>
-        <item>Kurzfristig Beschäftigter</item>
+        <item>Minijobber (Aufstockung RV-Beitrag des AN)</item>
         <item>Privat Krankenversichert</item>
+        <item>Kurzfristig Beschäftigter</item>
         <item>Rentner</item>
     </string-array>
 
     <string-array name="taxclasses">
-        <item>I - Eins (ledig oder geschieden)</item>
+        <item>I - Eins (ledig)</item>
         <item>II - Zwei (alleinerziehend)</item>
-        <item>III - Drei (verheiratet, gering versteuert)</item>
-        <item>IV - Vier (ledig oder verheiratet)</item>
+        <item>III - Drei (verheiratet, niedrig versteuert)</item>
+        <item>IV - Vier (verheiratet)</item>
         <item>V - Fünf (verheiratet, hoch versteuert)</item>
         <item>VI - Sechs (Zweiteinkommen, hoch versteuert)</item>
     </string-array>
@@ -52,6 +52,11 @@
     <string name="krankenkassen_prompt">Krankenkasse angeben</string>
     <string name="bundesland_prompt">Bundesland angeben</string>
 
+    <string name="health_insurance_prompt">Beitrag Krankenversicherung</string>
+    <string name="nursing_insurance_prompt">Beitrag Pflegeversicherung</string>
+    <string name="pension_insurance_prompt">Beitrag Rentenversicherung</string>
+    <string name="unemployment_insurance_prompt">Beitrag Arbeitslosenversicherung</string>
+
     <!-- Service labels -->
     <string name="service_no_network">Keine Internetverbindung</string>
     <string name="empty">Not defined</string>
@@ -60,28 +65,34 @@
     <string name="label_yes">Ja</string>
     <string name="label_no">Nein</string>
     <string name="label_currency">in €</string>
-    <string name="label_church_yes">Ja</string>
-    <string name="label_church_no">Keine</string>
+    <string name="label_health_insurance">Beitrag KV</string>
+    <string name="label_nursing_insurance">Beitrag PV</string>
+    <string name="label_pension_insurance">Beitrag RV.</string>
+    <string name="label_unemployment_insurance">Beitrag AV</string>
 
     <string name="wage_default">0,00 €</string>
 
     <string name="calculate">Berechnung starten</string>
     <string name="children">Kinderfreibetrag</string>
     <string name="church">Kirchensteuer</string>
-    <string name="employee_type">Beschäftigungstyp</string>
-    <string name="grosswage">Brutto errechnen</string>
+    <string name="employee_type">Beschäftigungsverhältnis</string>
+    <string name="grosswage">Netto -> Brutto</string>
+    <string name="has_children">Kinder oder U23</string>
+    <string name="has_children_hint">Arbeitnehmer hat Kinder oder ist unter 23 Jahre</string>
     <string name="insurance">Krankenkasse</string>
     <string name="insurance_hint">Name der Krankenkasse ..</string>
     <string name="insurance_init_value">Liste wird aktualisiert ..</string>
-    <string name="netwage">Netto errechnen</string>
+    <string name="netwage">Brutto -> Netto</string>
     <string name="state">Bundesland</string>
     <string name="taxclass">Steuerklasse</string>
     <string name="taxfree">Steuerfreibetrag</string>
     <string name="taxfree_hint">0,00 €</string>
-    <string name="wage_period_year">Betrag ist Jahresgehalt</string>
-    <string name="wagetype">Typ der Berechnung</string>
-    <string name="wageamount_gross">Brutto</string>
-    <string name="wageamount_net">Wunsch-Netto</string>
+    <string name="wage_period_year">als Jahresbeträge</string>
+    <string name="wageamount_gross_year">Brutto (im Jahr)</string>
+    <string name="wageamount_gross_month">Brutto (im Monat)</string>
+    <string name="wageamount_net_year">Wunsch-Netto (im Jahr)</string>
+    <string name="wageamount_net_month">Wunsch-Netto (im Monat)</string>
+
 
     <string-array name="states">
         <item>Baden-Württemberg</item>
