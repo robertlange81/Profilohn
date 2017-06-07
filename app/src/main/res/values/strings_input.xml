@@ -92,6 +92,7 @@
     <string name="wageamount_gross_month">Brutto (im Monat)</string>
     <string name="wageamount_net_year">Wunsch-Netto (im Jahr)</string>
     <string name="wageamount_net_month">Wunsch-Netto (im Monat)</string>
+    <string name="wage_type_label">berechnet wird:</string>
 
 
     <string-array name="states">
