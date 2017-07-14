@@ -163,6 +163,18 @@
                     android:id="@+id/result_employer_contribution2" />
             </LinearLayout>
 
+            <!-- IGU -->
+            <LinearLayout
+                style="@style/result_data_row">
+                <TextView
+                    style="@style/result_data_label"
+                    android:text="@string/result_employer_insolvency_contribution" />
+
+                <TextView
+                    style="@style/result_data_value"
+                    android:id="@+id/result_employer_insolvency_contribution" />
+            </LinearLayout>
+
             <View style="@style/hr" android:layout_width="match_parent" />
 
             <!-- net wage -->

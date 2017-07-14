@@ -22,6 +22,7 @@
         <item>Privat Krankenversichert</item>
         <item>Kurzfristig Beschäftigt</item>
         <item>Rentner</item>
+        <item>Flexi-Rentner (RV-Beitrag)</item>
     </string-array>
 
     <string-array name="taxclasses">
@@ -45,6 +46,8 @@
         <item>4.0</item>
         <item>4.5</item>
         <item>5.0</item>
+        <item>5.5</item>
+        <item>6.0</item>
     </string-array>
 
     <string name="kist_prompt">Kirchensteuer</string>
@@ -92,7 +95,7 @@
     <string name="wageamount_gross_month">Brutto (im Monat)</string>
     <string name="wageamount_net_year">Wunsch-Netto (im Jahr)</string>
     <string name="wageamount_net_month">Wunsch-Netto (im Monat)</string>
-    <string name="wage_type_label">berechnet wird:</string>
+    <string name="wage_type_label">Umrechnen in...</string>
 
 
     <string-array name="states">
@@ -113,6 +116,46 @@
         <item>Sachsen-Anhalt</item>
         <item>Schleswig-Holstein</item>
         <item>Thüringen</item>
+    </string-array>
+
+    <string-array name="kv">
+        <!--item>0 - kein Beitrag</item>
+        <item>1 - allgemeiner Beitrag</item>
+        <item>3 - ermäßigter Beitrag</item>
+        <item>6 - Pauschalbeitrag</item-->
+        <item>nein</item>
+        <item>voll</item>
+        <item>ermäß.</item>
+        <item>pausch</item>
+    </string-array>
+
+    <string-array name="rv">
+        <!--item>0 - kein Beitrag</item>
+        <item>1 - voller Beitrag</item>
+        <item>3 - halber Beitrag</item>
+        <item>5 - Pauschalbeitrag</item-->
+        <item>nein</item>
+        <item>voll</item>
+        <item>halb</item>
+        <item>pausch</item>
+    </string-array>
+
+    <string-array name="av">
+        <!--item>0 - kein Beitrag</item>
+        <item>1 - voller Beitrag</item>
+        <item>2 - halber  Beitrag</item-->
+        <item>nein</item>
+        <item>voll</item>
+        <item>halb</item>
+    </string-array>
+
+    <string-array name="pv">
+        <!--item>0 - kein Beitrag</item>
+        <item>1 - voller Beitrag</item>
+        <item>2 - halber  Beitrag</item-->
+        <item>nein</item>
+        <item>voll</item>
+        <item>halb</item>
     </string-array>
 
     <string name="validation_error_wage">Bitte Lohn/Gehalt angeben.</string>

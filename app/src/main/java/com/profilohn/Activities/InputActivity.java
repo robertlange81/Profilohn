@@ -20,10 +20,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -68,7 +66,12 @@ public class InputActivity extends AppCompatActivity
     public static Spinner               state;
     public static Spinner               employeeType;
     public static Spinner               children;
+    public static Spinner               kv;
+    public static Spinner               rv;
+    public static Spinner               av;
+    public static Spinner               pv;
     public static Button                calculate;
+    public static Button                calculateTop;
     public static AutoCompleteTextView  insuranceAc;
     public static SwitchCompat          wagePeriod;
     public static SwitchCompat          hasChildren;
@@ -96,6 +99,10 @@ public class InputActivity extends AppCompatActivity
     private ArrayAdapter<CharSequence> _taxclassAdapter;
     private ArrayAdapter<CharSequence> _childFreeAmountAdapter;
     private ArrayAdapter<String> _insurancesAdapter;
+    private ArrayAdapter<CharSequence> _kvclassAdapter;
+    private ArrayAdapter<CharSequence> _rvclassAdapter;
+    private ArrayAdapter<CharSequence> _avclassAdapter;
+    private ArrayAdapter<CharSequence> _pvclassAdapter;
     private List<String> insurancesList = new ArrayList<String>();
     private SortedMap<String, Integer> insurancesMap = new TreeMap<String, Integer>();
 
@@ -138,7 +145,7 @@ public class InputActivity extends AppCompatActivity
         _initializeListener();
         _initRequestedCalcType();
 
-        _prepareCachedInputs();
+        _loadCachedInputs();
 
         instance = this;
 
@@ -204,6 +211,7 @@ public class InputActivity extends AppCompatActivity
         calcType        = (RadioGroup) findViewById(R.id.type);
         wage            = (EditText) findViewById(R.id.wage);
         wagePeriod      = (SwitchCompat) findViewById(R.id.wage_period);
+        calculateTop    = (Button) findViewById(R.id.hello_start_calculation_net);
         state           = (Spinner) findViewById(R.id.state);
         employeeType    = (Spinner) findViewById(R.id.employee_type);
         taxClass        = (Spinner) findViewById(R.id.tax_class);
@@ -211,6 +219,12 @@ public class InputActivity extends AppCompatActivity
         taxFree         = (EditText) findViewById(R.id.tax_free);
         children        = (Spinner) findViewById(R.id.children);
         calculate       = (Button) findViewById(R.id.calculate);
+
+        kv              = (Spinner) findViewById(R.id.kv_value);
+        rv              = (Spinner) findViewById(R.id.rv_value);
+        av              = (Spinner) findViewById(R.id.av_value);
+        pv              = (Spinner) findViewById(R.id.pv_value);
+
         insuranceAc     = (AutoCompleteTextView) findViewById(R.id.insuranceAc);
         churchTax       = (SwitchCompat) findViewById(R.id.church);
         hasChildren     = (SwitchCompat) findViewById(R.id.has_children);
@@ -222,8 +236,8 @@ public class InputActivity extends AppCompatActivity
 
         // tax classes
         _taxclassAdapter = ArrayAdapter.createFromResource(this,
-                R.array.taxclasses, android.R.layout.simple_spinner_dropdown_item);
-        _taxclassAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.array.taxclasses, R.layout.spinner_right_item);
+        _taxclassAdapter.setDropDownViewResource(R.layout.spinner_right_item);
         taxClass.setAdapter(_taxclassAdapter);
 
         // calc year
@@ -239,6 +253,27 @@ public class InputActivity extends AppCompatActivity
         year.setAdapter(_yearAdapter);
         year.setSelection(1);
 
+        // insurance classes
+        _kvclassAdapter = ArrayAdapter.createFromResource(this,
+                R.array.kv, R.layout.spinner_right_item);
+        _kvclassAdapter.setDropDownViewResource(R.layout.spinner_right_item);
+        kv.setAdapter(_kvclassAdapter);
+
+        _rvclassAdapter = ArrayAdapter.createFromResource(this,
+                R.array.rv, R.layout.spinner_right_item);
+        _rvclassAdapter.setDropDownViewResource(R.layout.spinner_right_item);
+        rv.setAdapter(_rvclassAdapter);
+
+        _avclassAdapter = ArrayAdapter.createFromResource(this,
+                R.array.av, R.layout.spinner_right_item);
+        _avclassAdapter.setDropDownViewResource(R.layout.spinner_right_item);
+        av.setAdapter(_avclassAdapter);
+
+        _pvclassAdapter = ArrayAdapter.createFromResource(this,
+                R.array.pv, R.layout.spinner_right_item);
+        _pvclassAdapter.setDropDownViewResource(R.layout.spinner_right_item);
+        pv.setAdapter(_pvclassAdapter);
+
         // employee type
         _employeeTypeDataAdapter = ArrayAdapter.createFromResource(this,
                 R.array.employeetypes, android.R.layout.simple_spinner_dropdown_item);
@@ -247,8 +282,8 @@ public class InputActivity extends AppCompatActivity
 
         // child free amount
         _childFreeAmountAdapter = ArrayAdapter.createFromResource(this,
-                R.array.childfree, android.R.layout.simple_spinner_dropdown_item);
-        _taxclassAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.array.childfree, R.layout.spinner_right_item);
+        _taxclassAdapter.setDropDownViewResource(R.layout.spinner_right_item);
         children.setAdapter(_childFreeAmountAdapter);
     }
 
@@ -268,6 +303,7 @@ public class InputActivity extends AppCompatActivity
      */
     private void _initializeListener()
     {
+        // TODO: Fehler Ergebnisse AN Sozialabgaben des AG
         // Art der Abrechnung (Wunsch-Netto oder Brutto)
         calcType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -408,17 +444,74 @@ public class InputActivity extends AppCompatActivity
                 selectedEmployeeType= position;
 
                 switch(selectedEmployeeType) {
-                    case 0:
+                    case 0: // normal
                         selectedKV = 1;
                         selectedRV = 1;
                         selectedAV = 1;
                         selectedPV = 1;
+                        kv.setSelection(1);
+                        rv.setSelection(1);
+                        av.setSelection(1);
+                        pv.setSelection(1);
                         break;
-                    case 1:
+                    case 1: // Minijobber
                         selectedKV = 6;
                         selectedRV = 5;
                         selectedAV = 0;
                         selectedPV = 0;
+                        kv.setSelection(3);
+                        rv.setSelection(3);
+                        av.setSelection(0);
+                        pv.setSelection(0);
+                        break;
+                    case 2: // Minijobber mit RV
+                        selectedKV = 6;
+                        selectedRV = 1;
+                        selectedAV = 0;
+                        selectedPV = 0;
+                        kv.setSelection(3);
+                        rv.setSelection(1);
+                        av.setSelection(0);
+                        pv.setSelection(0);
+                        break;
+                    case 3: // privat versichert
+                        selectedKV = 0;
+                        selectedRV = 1;
+                        selectedAV = 1;
+                        selectedPV = 0;
+                        kv.setSelection(0);
+                        rv.setSelection(1);
+                        av.setSelection(1);
+                        pv.setSelection(0);
+                    case 4: // kurzfristig beschäftigt
+                        selectedKV = 0;
+                        selectedRV = 0;
+                        selectedAV = 0;
+                        selectedPV = 0;
+                        kv.setSelection(0);
+                        rv.setSelection(0);
+                        av.setSelection(0);
+                        pv.setSelection(0);
+                        break;
+                    case 5: // Rentner
+                        selectedKV = 3;
+                        selectedRV = 3;
+                        selectedAV = 0;
+                        selectedPV = 1;
+                        kv.setSelection(2);
+                        rv.setSelection(2);
+                        av.setSelection(0);
+                        pv.setSelection(1);
+                        break;
+                    case 6: // Flexi-Rentner
+                        selectedKV = 3;
+                        selectedRV = 1;
+                        selectedAV = 0;
+                        selectedPV = 1;
+                        kv.setSelection(2);
+                        rv.setSelection(1);
+                        av.setSelection(0);
+                        pv.setSelection(1);
                         break;
                     default:
                         // volle Versicherung
@@ -541,8 +634,8 @@ public class InputActivity extends AppCompatActivity
             public void onNothingSelected(AdapterView<?> parent) { }
         });
 
-        // Abrechnungs-Button
-        calculate.setOnClickListener(new View.OnClickListener() {
+        // Logik zur Abrechnung - Listener
+        View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -570,7 +663,13 @@ public class InputActivity extends AppCompatActivity
 
                 }, getResources().getInteger(R.integer.calculation_timeout));
             }
-        });
+        };
+
+        // Abrechnungs-Button oben
+        calculateTop.setOnClickListener(listener);
+
+        // Abrechnungs-Button unten
+        calculate.setOnClickListener(listener);
     }
 
 
@@ -605,7 +704,7 @@ public class InputActivity extends AppCompatActivity
     /**
      * Initializes last inputs
      */
-    private void _prepareCachedInputs()
+    private void _loadCachedInputs()
     {
         Log.w("i", "Wo ist der Debugger?");
         FileStore fileStore = new FileStore(this);
@@ -650,6 +749,34 @@ public class InputActivity extends AppCompatActivity
                 employeeType.setSelection(i.Beschaeftigungsart);
                 selectedEmployeeType = i.Beschaeftigungsart;
 
+                // kv
+                kv.setSelection(
+                        _kvclassAdapter.getPosition(
+                                String.valueOf(i.KV)
+                        )
+                );
+
+                // rv
+                rv.setSelection(
+                        _rvclassAdapter.getPosition(
+                                String.valueOf(i.RV)
+                        )
+                );
+
+                // av
+                av.setSelection(
+                        _avclassAdapter.getPosition(
+                                String.valueOf(i.AV)
+                        )
+                );
+
+                // pv
+                pv.setSelection(
+                        _pvclassAdapter.getPosition(
+                                String.valueOf(i.PV)
+                        )
+                );
+
                 // Steuerklasse
                 taxClass.setSelection(i.StKl - 1);
                 selectedTaxClass = i.StKl;
@@ -685,7 +812,6 @@ public class InputActivity extends AppCompatActivity
                         )
                 );
                 selectedChildAmount = i.KindFrei;
-
             }
         } catch (Exception e) {
             // todo

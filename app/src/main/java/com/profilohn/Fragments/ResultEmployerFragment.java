@@ -36,6 +36,7 @@ public class ResultEmployerFragment extends Fragment
     TextView txtContribution;
     TextView txtContribution1;
     TextView txtContribution2;
+    TextView txtContributionIgu;
 
 
     public ResultEmployerFragment() { }
@@ -131,6 +132,7 @@ public class ResultEmployerFragment extends Fragment
         txtContribution  = (TextView) view.findViewById(R.id.result_employer_contribution);
         txtContribution1 = (TextView) view.findViewById(R.id.result_employer_contribution1);
         txtContribution2 = (TextView) view.findViewById(R.id.result_employer_contribution2);
+        txtContributionIgu = (TextView) view.findViewById(R.id.result_employer_insolvency_contribution);
 
         txtCumCat = (TextView) view.findViewById(R.id.result_employer_cum_cat);
     }
@@ -155,6 +157,7 @@ public class ResultEmployerFragment extends Fragment
         txtContribution.setText(_formatCurrency(data.data.Umlagen_AG));
         txtContribution1.setText(_formatCurrency(data.data.Umlage1));
         txtContribution2.setText(_formatCurrency(data.data.Umlage2));
+        txtContributionIgu.setText(_formatCurrency(data.data.IGU));
     }
 
 
