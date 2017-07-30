@@ -29,4 +29,5 @@ public class CalculationInputData {
     public boolean Gleit = true;
     public float AzWo = 40;
     public int Beschaeftigungsart = 0;
+    public boolean dummyInsurance = false;
 }

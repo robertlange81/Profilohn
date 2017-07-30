@@ -3,10 +3,10 @@
 
     <!-- misc settings -->
     <integer name="splash_timeout">2000</integer>
-    <integer name="calculation_timeout">5000</integer>
+    <integer name="calculation_timeout">10000</integer>
 
     <!-- API settings -->
-    <integer name="api_connection_timeout">5000</integer>
+    <integer name="api_connection_timeout">10000</integer>
 
     <string name="api_uri_proto">https://</string>
     <string name="api_uri_host">test-sageone.einfach-lohn.de</string>

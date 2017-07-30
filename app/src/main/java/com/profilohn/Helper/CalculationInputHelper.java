@@ -41,10 +41,18 @@ public class CalculationInputHelper
             String message = a.getResources().getString(R.string.validation_error_wage);
             throw new ValidationException(message);
         }
-        if (data.KKBetriebsnummer == -1) {
-            String message = a.getResources().getString(R.string.validation_error_insurance);
-            throw new ValidationInsuranceException(message);
+
+        data.dummyInsurance = false;
+        if(data.KKBetriebsnummer == -1) {
+            if (data.KV != 6 && (data.KV != 0 || data.PV != 0)) {
+                String message = a.getResources().getString(R.string.validation_error_insurance);
+                throw new ValidationInsuranceException(message);
+            } else {
+                data.KKBetriebsnummer = 67450665;
+                data.dummyInsurance = true;
+            }
         }
+
 
         return true;
     }
@@ -98,7 +106,7 @@ public class CalculationInputHelper
         states.put("Sachsen-Anhalt", 14);
         states.put("Schleswig-Holstein", 15);
         states.put("Thüringen", 16);
-        states.put("Berlin-West", 30);
+        states.put("Berlin-Ost", 30);
 
         return states.get(state);
     }
@@ -122,7 +130,7 @@ public class CalculationInputHelper
         states.put(14, "Sachsen-Anhalt");
         states.put(15, "Schleswig-Holstein");
         states.put(16, "Thüringen");
-        states.put(30, "Berlin-West");
+        states.put(30, "Berlin-Ost");
 
         return states.get(state);
     }
