@@ -1,192 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:id="@+id/fragment_result_employer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:drawable/screen_background_light_transparent"
+    android:orientation="vertical"
     android:weightSum="1">
 
     <!-- Main pane -->
     <RelativeLayout
         android:id="@+id/summarize"
-        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/result_home_shape">
+        android:background="@drawable/result_home_shape"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/result_employer_title_wage_label"
             style="@style/text_content"
-            android:textColor="@color/text_white"
-            android:text="Sie bezahlen"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Sie bezahlen"
+            android:textColor="@color/text_white" />
 
         <TextView
-            style="@style/text_h1"
-            android:layout_below="@+id/result_employer_title_wage_label"
             android:id="@+id/result_employer_title_wage"
-            android:textColor="@color/text_white"
+            style="@style/text_h1"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/result_employer_title_wage_label"
             android:text="0.00€"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/text_white" />
 
         <android.support.v7.widget.AppCompatButton
-            style="@style/result_btn_again"
-            android:theme="@style/ResultButtonStyle"
             android:id="@+id/result_employer_btn_again"
-            android:text="@string/result_employee_btn_again" />
+            style="@style/result_btn_again"
+            android:text="@string/result_employee_btn_again"
+            android:theme="@style/ResultButtonStyle" />
 
     </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryLight">
 
         <android.support.v7.widget.LinearLayoutCompat
-            android:padding="10dp"
-            android:orientation="vertical"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:background="@color/colorPrimaryLight"
-            android:layout_height="wrap_content">
+            android:orientation="vertical"
+            android:padding="10dp">
 
-            <View style="@style/hr" android:layout_width="match_parent" />
+            <View
+                style="@style/hr"
+                android:layout_width="match_parent" />
 
-            <LinearLayout
-                style="@style/result_data_row">
+            <LinearLayout style="@style/result_data_row">
+
                 <TextView
                     style="@style/result_main_label"
                     android:text="@string/result_employer_wage_gross" />
 
                 <TextView
-                    style="@style/result_main_value"
-                    android:id="@+id/result_employer_wage_gross" />
+                    android:id="@+id/result_employer_wage_gross"
+                    style="@style/result_main_value" />
             </LinearLayout>
 
-            <View style="@style/hr" android:layout_width="match_parent" />
+            <View
+                style="@style/hr"
+                android:layout_width="match_parent" />
 
             <!-- social cat -->
-            <LinearLayout
-                style="@style/result_data_row">
+            <LinearLayout style="@style/result_data_row">
+
                 <TextView
                     style="@style/result_cat_label"
                     android:text="@string/result_employer_social_contribution" />
 
                 <TextView
-                    style="@style/result_cat_value"
-                    android:id="@+id/result_employer_social_contribution" />
+                    android:id="@+id/result_employer_social_contribution"
+                    style="@style/result_cat_value" />
             </LinearLayout>
 
             <!-- pension insurance -->
-            <LinearLayout
-                style="@style/result_data_row">
+            <LinearLayout style="@style/result_data_row">
+
                 <TextView
                     style="@style/result_data_label"
                     android:text="@string/result_employer_insurance_pension" />
 
                 <TextView
-                    style="@style/result_data_value"
-                    android:id="@+id/result_employer_insurance_pension" />
+                    android:id="@+id/result_employer_insurance_pension"
+                    style="@style/result_data_value" />
             </LinearLayout>
 
             <!-- insurance unemployment -->
-            <LinearLayout
-                style="@style/result_data_row">
+            <LinearLayout style="@style/result_data_row">
+
                 <TextView
                     style="@style/result_data_label"
                     android:text="@string/result_employer_insurance_unemployment" />
 
                 <TextView
-                    style="@style/result_data_value"
-                    android:id="@+id/result_employer_insurance_unemployment" />
+                    android:id="@+id/result_employer_insurance_unemployment"
+                    style="@style/result_data_value" />
             </LinearLayout>
 
             <!-- insurance care -->
-            <LinearLayout
-                style="@style/result_data_row">
+            <LinearLayout style="@style/result_data_row">
+
                 <TextView
                     style="@style/result_data_label"
                     android:text="@string/result_employer_insurance_care" />
 
                 <TextView
-                    style="@style/result_data_value"
-                    android:id="@+id/result_employer_insurance_care" />
+                    android:id="@+id/result_employer_insurance_care"
+                    style="@style/result_data_value" />
             </LinearLayout>
 
             <!-- insurance health -->
-            <LinearLayout
-                style="@style/result_data_row">
+            <LinearLayout style="@style/result_data_row">
+
                 <TextView
                     style="@style/result_data_label"
                     android:text="@string/result_employer_insurance_health" />
 
                 <TextView
-                    style="@style/result_data_value"
-                    android:id="@+id/result_employer_insurance_health" />
+                    android:id="@+id/result_employer_insurance_health"
+                    style="@style/result_data_value" />
             </LinearLayout>
 
-            <View style="@style/hr" android:layout_width="match_parent" />
+            <View
+                style="@style/hr"
+                android:layout_width="match_parent" />
 
             <!-- contribution cat -->
-            <LinearLayout
-                style="@style/result_data_row">
+            <LinearLayout style="@style/result_data_row">
+
                 <TextView
                     style="@style/result_cat_label"
                     android:text="@string/result_employer_contribution" />
 
                 <TextView
-                    style="@style/result_cat_value"
-                    android:id="@+id/result_employer_contribution" />
+                    android:id="@+id/result_employer_contribution"
+                    style="@style/result_cat_value" />
             </LinearLayout>
 
             <!-- U1 -->
-            <LinearLayout
-                style="@style/result_data_row">
+            <LinearLayout style="@style/result_data_row">
+
                 <TextView
                     style="@style/result_data_label"
                     android:text="@string/result_employer_contribution1" />
 
                 <TextView
-                    style="@style/result_data_value"
-                    android:id="@+id/result_employer_contribution1" />
+                    android:id="@+id/result_employer_contribution1"
+                    style="@style/result_data_value" />
             </LinearLayout>
 
             <!-- U2 -->
-            <LinearLayout
-                style="@style/result_data_row">
+            <LinearLayout style="@style/result_data_row">
+
                 <TextView
                     style="@style/result_data_label"
                     android:text="@string/result_employer_contribution2" />
 
                 <TextView
-                    style="@style/result_data_value"
-                    android:id="@+id/result_employer_contribution2" />
+                    android:id="@+id/result_employer_contribution2"
+                    style="@style/result_data_value" />
             </LinearLayout>
 
             <!-- IGU -->
-            <LinearLayout
-                style="@style/result_data_row">
+            <LinearLayout style="@style/result_data_row">
+
                 <TextView
                     style="@style/result_data_label"
                     android:text="@string/result_employer_insolvency_contribution" />
 
                 <TextView
-                    style="@style/result_data_value"
-                    android:id="@+id/result_employer_insolvency_contribution" />
+                    android:id="@+id/result_employer_insolvency_contribution"
+                    style="@style/result_data_value" />
             </LinearLayout>
 
-            <View style="@style/hr" android:layout_width="match_parent" />
+            <View
+                style="@style/hr"
+                android:layout_width="match_parent" />
 
             <!-- net wage -->
-            <LinearLayout
-                style="@style/result_data_row">
+            <LinearLayout style="@style/result_data_row">
+
                 <TextView
-                    style="@style/result_main_label"
                     android:id="@+id/result_employee_wage_label"
+                    style="@style/result_main_label"
                     android:text="@string/result_employer_cum_cat" />
+
                 <TextView
-                    style="@style/result_main_value"
-                    android:id="@+id/result_employer_cum_cat" />
+                    android:id="@+id/result_employer_cum_cat"
+                    style="@style/result_main_value" />
             </LinearLayout>
 
         </android.support.v7.widget.LinearLayoutCompat>
