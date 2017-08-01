@@ -27,6 +27,8 @@ import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -83,8 +85,8 @@ public class InputActivity extends AppCompatActivity
     public static SwitchCompat          churchTax;
 
     private Integer selectedInsuranceId = -1;
-    private Double  selectedWage;
-    private Double  selectedTaxFree = 0.0;
+    private Double  selectedWage = 0.00;
+    private Double  selectedTaxFree = 0.00;
     private String  selectedWageType = CalculationInputHelper.WAGE_TYPE_GROSS;
     private String  selectedWagePeriod = CalculationInputHelper.WAGE_PERIOD_MONTH;
     private Boolean selectedHasChildren = false;
@@ -127,30 +129,30 @@ public class InputActivity extends AppCompatActivity
 
     private boolean changeFocusByCode = false;
 
-    Map<Integer, Double> percent    = new HashMap<Integer, Double>() {{
-        put(2016, 0.01175);
-        put(2017, 0.01275);
+    Map<Integer, BigDecimal> percent    = new HashMap<Integer, BigDecimal>() {{
+        put(2016, new BigDecimal("0.01175"));
+        put(2017, new BigDecimal("0.01275"));
     }};
-    Map<Integer, Double> bbg_kv = new HashMap<Integer, Double>() {{
-        put(2016, 4237.50);
-        put(2017, 4350.00);
+    Map<Integer, BigDecimal> bbg_kv = new HashMap<Integer, BigDecimal>() {{
+        put(2016, new BigDecimal("4237.50"));
+        put(2017, new BigDecimal("4350.00"));
     }};
-    Map<Integer, Double> bbg_rv_west = new HashMap<Integer, Double>() {{
-        put(2016, 6200.00);
-        put(2017, 6350.00);
+    Map<Integer, BigDecimal> bbg_rv_west = new HashMap<Integer, BigDecimal>() {{
+        put(2016, new BigDecimal("6200.00"));
+        put(2017, new BigDecimal("6350.00"));
     }};
-    Map<Integer, Double> bbg_rv_ost = new HashMap<Integer, Double>() {{
-        put(2016, 5400.00);
-        put(2017, 5700.00);
+    Map<Integer, BigDecimal> bbg_rv_ost = new HashMap<Integer, BigDecimal>() {{
+        put(2016, new BigDecimal("5400.00"));
+        put(2017, new BigDecimal("5700.00"));
     }};
-    double add_no_kids  = 0.0025;
-    double add_saxony   = 0.005;
+    BigDecimal add_no_kids  = new BigDecimal("0.0025");
+    BigDecimal add_saxony   = new BigDecimal("0.005");
 
-    Double pvag = new Double(0);
-    Double pvan = new Double(0);
+    BigDecimal pvag = new BigDecimal("0.000");
+    BigDecimal pvan = new BigDecimal("0.000");
 
-    Double ag_alt = new Double(0);
-    Double an_alt = new Double(0);
+    BigDecimal ag_alt = new BigDecimal("0.000");
+    BigDecimal an_alt = new BigDecimal("0.000");
 
     public class EmployeeTypeListener implements AdapterView.OnItemSelectedListener, View.OnTouchListener {
 
@@ -1066,201 +1068,208 @@ public class InputActivity extends AppCompatActivity
 
     public void correctNursuringInsurance_Brutto_to_Netto(Calculation calculation) {
 
-        Double br = Math.min(bbg_kv.get(data.AbrJahr), data.Brutto);
+        BigDecimal br = bbg_kv.get(data.AbrJahr).min(new BigDecimal(data.Brutto.toString()));
 
         try {
-            ag_alt = Double.parseDouble(calculation.data.Pflegeversicherung_AG.replace(".", "").replace(",", "."));
-            an_alt = Double.parseDouble(calculation.data.Pflegeversicherung_AN.replace(".", "").replace(",", "."));
+            ag_alt = getBigDecimal(calculation.data.Pflegeversicherung_AG);
+            an_alt = getBigDecimal(calculation.data.Pflegeversicherung_AN);
         } catch (Exception e) {
             String s = e.getMessage();
         }
 
         if (data.PV > 0) {
-                pvag = br * percent.get(data.AbrJahr);
+                pvag = br.multiply(percent.get(data.AbrJahr));
                 if(data.Bundesland == 13)
-                    pvag -= add_saxony * br;
+                    pvag = pvag.subtract(add_saxony.multiply(br));
 
             if (data.PV < 2) {
-                pvan = br * percent.get(data.AbrJahr);
+                pvan = br.multiply(percent.get(data.AbrJahr)).setScale(2, BigDecimal.ROUND_HALF_UP);
                 if (data.Bundesland == 13)
-                    pvan += add_saxony * br;
+                    pvan = pvan.add(add_saxony.multiply(br));
 
                 if (!data.KindU23)
-                    pvan += add_no_kids * br;
+                    pvan = pvan.add(add_no_kids.multiply(br));
             }
         }
-        calculation.data.Pflegeversicherung_AG = pvag.toString().replace(".", ",");
-        calculation.data.Pflegeversicherung_AN = pvan.toString().replace(".", ",");
+        calculation.data.Pflegeversicherung_AG = getDecimalString_Up(pvag);
+        calculation.data.Pflegeversicherung_AN = getDecimalString_Up(pvan);
 
-        Double an_netto = Double.parseDouble(calculation.data.Netto.replace(".", "").replace(",", "."));
-        an_netto -= (pvan - an_alt);
-        calculation.data.Netto = an_netto.toString().replace(".", ",");
-
-        if(Math.abs(pvan - an_alt) > 0.00) {
-            Double an_auszahlung = Double.parseDouble(calculation.data.Auszahlung.replace(".", "").replace(",", "."));
-            an_auszahlung -= (pvan - an_alt);
-            Double an_anteil = Double.parseDouble(calculation.data.ANAnteil.replace(".", "").replace(",", "."));
-            an_anteil += (pvan - an_alt);
-            calculation.data.ANAnteil = an_anteil.toString().replace(".", ",");
-            calculation.data.Auszahlung = an_auszahlung.toString().replace(".", ",");
+        if(pvan.compareTo(an_alt) != 0) {
+            BigDecimal an_netto = getBigDecimal(calculation.data.Netto);
+            an_netto = an_netto.subtract(pvan.subtract(an_alt));
+            calculation.data.Netto = getDecimalString_Up(an_netto);
+            BigDecimal an_anteil = getBigDecimal(calculation.data.ANAnteil);
+            an_anteil = an_anteil.add(pvan.subtract(an_alt));
+            calculation.data.ANAnteil = getDecimalString_Down(an_anteil);
+            BigDecimal an_auszahlung = getBigDecimal(calculation.data.Auszahlung);
+            an_auszahlung = an_auszahlung.subtract(pvan.subtract(an_alt));
+            calculation.data.Auszahlung = getDecimalString_Down(an_auszahlung);
         }
 
-        if(Math.abs(pvag - ag_alt) > 0.00) {
-            Double ag_anteil = Double.parseDouble(calculation.data.AGAnteil.replace(".", "").replace(",", "."));
-            ag_anteil += (pvag - ag_alt);
-            calculation.data.AGAnteil = ag_anteil.toString().replace(".", ",");
+        if(pvag.compareTo(ag_alt) != 0) {
+            BigDecimal ag_anteil = getBigDecimal(calculation.data.AGAnteil);
+            ag_anteil = ag_anteil.subtract(pvag.subtract(ag_alt));
+            calculation.data.AGAnteil = getDecimalString_Up(ag_anteil);
         }
     }
 
     public void correctNursuringInsurance_Netto_to_Brutto(Calculation calculation) {
+
         boolean isUeberBbg_KV = false;
         boolean isUeberBbg_RV = false;
 
+        BigDecimal brutto_alt = getBigDecimal(calculation.data.SVPflBrutto);
+
         try {
-            ag_alt = Double.parseDouble(calculation.data.Pflegeversicherung_AG.replace(".", "").replace(",", ".")) / data.Brutto;
-            an_alt = Double.parseDouble(calculation.data.Pflegeversicherung_AN.replace(".", "").replace(",", ".")) / data.Brutto;
+            ag_alt = getBigDecimal(calculation.data.Pflegeversicherung_AG).divide(brutto_alt, 5, BigDecimal.ROUND_HALF_UP);
+            an_alt = getBigDecimal(calculation.data.Pflegeversicherung_AN).divide(brutto_alt, 5, BigDecimal.ROUND_HALF_UP);
+
+            if (data.PV > 0) {
+                pvag = percent.get(data.AbrJahr);
+                if(data.Bundesland == 13)
+                    pvag = pvag.subtract(add_saxony); // nur Prozentsatz
+
+                if (data.PV < 2) {
+                    pvan = percent.get(data.AbrJahr);
+                    if (data.Bundesland == 13)
+                        pvan = pvan.add(add_saxony);
+
+                    if (!data.KindU23)
+                        pvan = pvan.add(add_no_kids); // nur Prozentsatz
+                }
+            }
+
+            BigDecimal netto_as_dividend = getBigDecimal(calculation.data.Netto);
+            BigDecimal kvag = new BigDecimal(0.00);
+            BigDecimal kvan = new BigDecimal(0.00);
+            BigDecimal rvag = new BigDecimal(0.00);
+            BigDecimal rvan = new BigDecimal(0.00);
+            BigDecimal avag = new BigDecimal(0.00);
+            BigDecimal avan = new BigDecimal(0.00);
+            BigDecimal kirc = new BigDecimal(0.00);
+            BigDecimal lstr = new BigDecimal(0.00);
+            BigDecimal soli = new BigDecimal(0.00);
+
+            BigDecimal igum = new BigDecimal(0.00);
+            BigDecimal uml1 = new BigDecimal(0.00);
+            BigDecimal uml2 = new BigDecimal(0.00);
+
+            BigDecimal pvan_absolut = new BigDecimal(0.00);
+            BigDecimal pvag_absolut = new BigDecimal(0.00);
+
+            BigDecimal kvan_absolut = new BigDecimal(0.00);
+            BigDecimal kvag_absolut = new BigDecimal(0.00);
+
+            if(bbg_kv.get(data.AbrJahr).compareTo(getBigDecimal(calculation.data.SVPflBrutto)) < 0) {
+                // falls Brutto schon über KV-BBG: feste Beträge
+                isUeberBbg_KV = true;
+                pvan_absolut = pvan.multiply(bbg_kv.get(data.AbrJahr)).setScale(2, BigDecimal.ROUND_HALF_UP);
+                pvag_absolut = pvag.multiply(bbg_kv.get(data.AbrJahr)).setScale(2, BigDecimal.ROUND_HALF_UP);
+                kvan_absolut = getBigDecimal(calculation.data.Krankenversicherung_AN);
+                kvag_absolut = getBigDecimal(calculation.data.Krankenversicherung_AG); // unnötig
+            } else {
+                kvag = getBigDecimal(calculation.data.Krankenversicherung_AG).divide(brutto_alt, 5, BigDecimal.ROUND_HALF_UP);
+                kvan = getBigDecimal(calculation.data.Krankenversicherung_AN).divide(brutto_alt, 5, BigDecimal.ROUND_HALF_UP);
+            }
+
+            // falls Brutto schon über RV-BBG: feste Beträge
+            boolean isBbgOst = GetIsBbgOst(data.Bundesland);
+            BigDecimal bbg_rv = isBbgOst ? bbg_rv_ost.get(data.AbrJahr) : bbg_rv_west.get(data.AbrJahr);
+
+            BigDecimal rvan_absolut = new BigDecimal(0.00);
+            BigDecimal rvag_absolut = new BigDecimal(0.00);
+            BigDecimal avan_absolut = new BigDecimal(0.00);
+            BigDecimal avag_absolut = new BigDecimal(0.00);
+            BigDecimal igum_absolut = new BigDecimal(0.00);
+            BigDecimal uml1_absolut = new BigDecimal(0.00);
+            BigDecimal uml2_absolut = new BigDecimal(0.00);
+
+            if(bbg_rv.compareTo(getBigDecimal(calculation.data.SVPflBrutto)) < 0){
+                // falls Brutto schon über RV-BBG: feste Beträge
+                isUeberBbg_RV = true;
+                rvan_absolut = getBigDecimal(calculation.data.Rentenversicherung_AG);
+                rvag_absolut = getBigDecimal(calculation.data.Rentenversicherung_AN);
+                avan_absolut = getBigDecimal(calculation.data.Arbeitslosenversicherung_AG);
+                avag_absolut = getBigDecimal(calculation.data.Arbeitslosenversicherung_AN);
+                igum_absolut = getBigDecimal(calculation.data.IGU); // unnötig
+                uml1_absolut = getBigDecimal(calculation.data.Umlage1); // unnötig
+                uml2_absolut = getBigDecimal(calculation.data.Umlage2); // unnötig
+            } else {
+                rvag = getBigDecimal(calculation.data.Rentenversicherung_AG).divide(brutto_alt, 6, BigDecimal.ROUND_HALF_DOWN);
+                rvan = getBigDecimal(calculation.data.Rentenversicherung_AN).divide(brutto_alt, 6, BigDecimal.ROUND_HALF_DOWN);
+                avag = getBigDecimal(calculation.data.Arbeitslosenversicherung_AG).divide(brutto_alt, 6, BigDecimal.ROUND_HALF_DOWN);
+                avan = getBigDecimal(calculation.data.Arbeitslosenversicherung_AN).divide(brutto_alt, 6, BigDecimal.ROUND_HALF_DOWN);
+                kirc = getBigDecimal(calculation.data.Kirchensteuer).divide(brutto_alt, 6, BigDecimal.ROUND_HALF_UP);
+                lstr = getBigDecimal(calculation.data.Lohnsteuer).divide(brutto_alt, 6, BigDecimal.ROUND_HALF_UP);
+                soli = getBigDecimal(calculation.data.Soli).divide(brutto_alt, 6, BigDecimal.ROUND_HALF_UP);
+
+                igum = getBigDecimal(calculation.data.IGU).divide(brutto_alt, 5, BigDecimal.ROUND_HALF_DOWN);
+                uml1 = getBigDecimal(calculation.data.Umlage1).divide(brutto_alt, 5, BigDecimal.ROUND_HALF_DOWN);
+                uml2 = getBigDecimal(calculation.data.Umlage2).divide(brutto_alt, 5, BigDecimal.ROUND_HALF_DOWN);
+            }
+
+            // Double prozentAbgabenAN_alt = kvan + rvan + avan + an_alt + kirc + lstr + soli;
+            BigDecimal prozentAbgabenAN_neu = kvan.add(rvan).add(avan).add(pvan).add(kirc).add(lstr).add(soli);
+
+            // Double prozentAbgabenAG_alt = kvag + rvag + avag + ag_alt + igum + uml1 + uml2;
+            BigDecimal prozentAbgabenAG_neu = kvag.add(rvag).add(avag).add(pvag).add(igum).add(uml1).add(uml2);
+
+            netto_as_dividend = netto_as_dividend.add(pvan_absolut).add(kvan_absolut).add(rvan_absolut).add(avan_absolut);
+            BigDecimal fiktivesNeuesBrutto = netto_as_dividend.divide(new BigDecimal("1").subtract(prozentAbgabenAN_neu), 2, BigDecimal.ROUND_HALF_UP);
+            // Double fiktivesAltesBrutto    = nett / (1 - prozentAbgabenAN_alt); // Probe
+
+            if(isUeberBbg_KV) {
+                kvag_absolut = getBigDecimal(calculation.data.Krankenversicherung_AG); // bleibt
+                kvan_absolut = getBigDecimal(calculation.data.Krankenversicherung_AN); // bleibt
+                calculation.data.Pflegeversicherung_AG  = getDecimalString_Up(pvan_absolut);
+                calculation.data.Pflegeversicherung_AN  = getDecimalString_Up(pvag_absolut);
+            } else {
+                kvag_absolut = fiktivesNeuesBrutto.multiply(kvag);
+                calculation.data.Krankenversicherung_AG = getDecimalString_Up(kvag_absolut);
+                kvan_absolut = fiktivesNeuesBrutto.multiply(kvan);
+                calculation.data.Krankenversicherung_AN = getDecimalString_Up(kvan_absolut);
+                pvan_absolut = fiktivesNeuesBrutto.multiply(pvan);
+                calculation.data.Pflegeversicherung_AN  = getDecimalString_Up(pvan_absolut);
+                pvag_absolut = fiktivesNeuesBrutto.multiply(pvag);
+                calculation.data.Pflegeversicherung_AG  = getDecimalString_Up(pvag_absolut);
+            }
+
+            if(isUeberBbg_RV) {
+                // Betraege bleiben
+            } else {
+                rvag_absolut = fiktivesNeuesBrutto.multiply(rvag);
+                calculation.data.Rentenversicherung_AG = getDecimalString_Up(rvag_absolut);
+                rvan_absolut = fiktivesNeuesBrutto.multiply(rvan);
+                calculation.data.Rentenversicherung_AN = getDecimalString_Up(rvan_absolut);
+                avag_absolut = fiktivesNeuesBrutto.multiply(avag);
+                calculation.data.Arbeitslosenversicherung_AG = getDecimalString_Up(avag_absolut);
+                avan_absolut = fiktivesNeuesBrutto.multiply(avan);
+                calculation.data.Arbeitslosenversicherung_AN = getDecimalString_Up(avan_absolut);
+                igum_absolut = fiktivesNeuesBrutto.multiply(igum);
+                calculation.data.IGU = getDecimalString_Up(igum_absolut);
+                uml1_absolut = fiktivesNeuesBrutto.multiply(uml1);
+                calculation.data.Umlage1 = getDecimalString_Up(uml1_absolut);
+                uml2_absolut = fiktivesNeuesBrutto.multiply(uml2);
+                calculation.data.Umlage2 = getDecimalString_Up(uml2_absolut);
+                calculation.data.Umlagen_AG = getDecimalString_Up(igum_absolut.add(uml1_absolut).add(uml2_absolut));
+            }
+            BigDecimal ag_anteil = kvag_absolut.add(rvag_absolut).add(avag_absolut).add(pvag_absolut);
+            calculation.data.AGAnteil = getDecimalString_Up(ag_anteil);
+            calculation.data.Abgaben_AG = getDecimalString_Up(ag_anteil.add(igum_absolut).add(uml1_absolut).add(uml2_absolut));
+
+            calculation.data.Kirchensteuer = getDecimalString_Down(fiktivesNeuesBrutto.multiply(kirc));
+            BigDecimal lstr_abs = fiktivesNeuesBrutto.multiply(lstr);
+            calculation.data.Lohnsteuer = getDecimalString_Down(lstr_abs);
+            BigDecimal soli_abs = fiktivesNeuesBrutto.multiply(soli);
+            calculation.data.Soli = getDecimalString_Up(soli_abs);
+            calculation.data.Steuern = getDecimalString_Up(lstr_abs.add(soli_abs));
+            calculation.data.ANAnteil = getDecimalString_Up(kvan_absolut.add(rvan_absolut).add(avan_absolut).add(pvan_absolut));
+
+            calculation.data.SVPflBrutto = getDecimalString_Up(fiktivesNeuesBrutto);
+            calculation.data.LohnsteuerPflBrutto = getDecimalString_Up(fiktivesNeuesBrutto);
         } catch (Exception e) {
             Log.d("NursuringInsurance",e.getMessage());
         }
-
-        if (data.PV > 0) {
-            pvag = percent.get(data.AbrJahr);
-            if(data.Bundesland == 13)
-                pvag -= add_saxony ; // nur Prozentsatz
-
-            if (data.PV < 2) {
-                pvan = percent.get(data.AbrJahr);
-                if (data.Bundesland == 13)
-                    pvan += add_saxony;
-
-                if (!data.KindU23)
-                    pvan += add_no_kids; // nur Prozentsatz
-            }
-        }
-
-        Double nett = Double.parseDouble(calculation.data.Netto);
-        Double kvag = 0.00;
-        Double kvan = 0.00;
-        Double rvag = 0.00;
-        Double rvan = 0.00;
-        Double avag = 0.00;
-        Double avan = 0.00;
-        Double kirc = 0.00;
-        Double lstr = 0.00;
-        Double soli = 0.00;
-
-        Double igum = 0.00;
-        Double uml1 = 0.00;
-        Double uml2 = 0.00;
-
-        // falls Brutto schon über KV-BBG: feste Beträge
-        Double pvan_absolut = 0.00;
-        Double pvag_absolut = 0.00;
-
-        Double kvan_absolut = 0.00;
-        Double kvag_absolut = 0.00;
-
-        if(bbg_kv.get(data.AbrJahr) <= Double.parseDouble(calculation.data.SVPflBrutto)) {
-            isUeberBbg_KV = true;
-            pvan_absolut = pvan * bbg_kv.get(data.AbrJahr);
-            pvag_absolut = pvag * bbg_kv.get(data.AbrJahr);
-            kvan_absolut = Double.parseDouble(calculation.data.Krankenversicherung_AN);
-            kvag_absolut = Double.parseDouble(calculation.data.Krankenversicherung_AN); // unnötig
-        } else {
-            kvag = Double.parseDouble(calculation.data.Krankenversicherung_AG) / data.Brutto;
-            kvan = Double.parseDouble(calculation.data.Krankenversicherung_AN) / data.Brutto;
-        }
-
-        // falls Brutto schon über RV-BBG: feste Beträge
-        boolean isBbgOst = GetIsBbgOst(data.Bundesland);
-        Double bbg_rv = isBbgOst ? bbg_rv_ost.get(data.AbrJahr) : bbg_rv_west.get(data.AbrJahr);
-
-        Double rvan_absolut = 0.00;
-        Double rvag_absolut = 0.00;
-        Double avan_absolut = 0.00;
-        Double avag_absolut = 0.00;
-        Double igum_absolut = 0.00;
-        Double uml1_absolut = 0.00;
-        Double uml2_absolut = 0.00;
-        Double umlG_absolut = 0.00;
-
-        if(bbg_rv <= Double.parseDouble(calculation.data.SVPflBrutto)) {
-            isUeberBbg_RV = true;
-            rvan_absolut = Double.parseDouble(calculation.data.Rentenversicherung_AG);
-            rvag_absolut = Double.parseDouble(calculation.data.Rentenversicherung_AN); // unnötig
-            avan_absolut = Double.parseDouble(calculation.data.Arbeitslosenversicherung_AG);
-            avag_absolut = Double.parseDouble(calculation.data.Arbeitslosenversicherung_AN); // unnötig
-            igum_absolut = Double.parseDouble(calculation.data.IGU); // unnötig
-            uml1_absolut = Double.parseDouble(calculation.data.Umlage1); // unnötig
-            uml2_absolut = Double.parseDouble(calculation.data.Umlage2); // unnötig
-            umlG_absolut = Double.parseDouble(calculation.data.Umlagen_AG); // unnötig
-        } else {
-            rvag = Double.parseDouble(calculation.data.Rentenversicherung_AG) / data.Brutto;
-            rvan = Double.parseDouble(calculation.data.Rentenversicherung_AN) / data.Brutto;
-            avag = Double.parseDouble(calculation.data.Arbeitslosenversicherung_AG) / data.Brutto;
-            avan = Double.parseDouble(calculation.data.Arbeitslosenversicherung_AN) / data.Brutto;
-            kirc = Double.parseDouble(calculation.data.Kirchensteuer) / data.Brutto;
-            lstr = Double.parseDouble(calculation.data.Lohnsteuer) / data.Brutto;
-            soli = Double.parseDouble(calculation.data.Soli) / data.Brutto;
-
-            igum = Double.parseDouble(calculation.data.IGU) / data.Brutto ;
-            uml1 = Double.parseDouble(calculation.data.Umlage1) / data.Brutto;
-            uml2 = Double.parseDouble(calculation.data.Umlage1) / data.Brutto;
-        }
-
-        // Double prozentAbgabenAN_alt = kvan + rvan + avan + an_alt + kirc + lstr + soli;
-        Double prozentAbgabenAN_neu = kvan + rvan + avan + pvan + kirc + lstr + soli;
-
-        // Double prozentAbgabenAG_alt = kvag + rvag + avag + ag_alt + igum + uml1 + uml2;
-        Double prozentAbgabenAG_neu = kvag + rvag + avag + pvag + igum + uml1 + uml2;
-
-        nett += pvan_absolut + kvan_absolut + rvan_absolut + avan_absolut;
-        Double fiktivesNeuesBrutto = nett / (1 - prozentAbgabenAN_neu);
-        // Double fiktivesAltesBrutto    = nett / (1 - prozentAbgabenAN_alt); // Probe
-
-        if(isUeberBbg_KV) {
-            kvag_absolut = Double.parseDouble(calculation.data.Krankenversicherung_AG); // bleibt
-            kvan_absolut = Double.parseDouble(calculation.data.Krankenversicherung_AN); // bleibt
-            calculation.data.Pflegeversicherung_AG  = Double.toString(pvan_absolut);
-            calculation.data.Pflegeversicherung_AN  = Double.toString(pvag_absolut);
-        } else {
-            kvag_absolut = fiktivesNeuesBrutto * kvag;
-            calculation.data.Krankenversicherung_AG = Double.toString(kvag_absolut);
-            kvan_absolut = fiktivesNeuesBrutto * kvan;
-            calculation.data.Krankenversicherung_AN = Double.toString(kvan_absolut);
-            pvan_absolut = fiktivesNeuesBrutto * pvan;
-            calculation.data.Pflegeversicherung_AG  = Double.toString(pvan_absolut);
-            pvag_absolut = fiktivesNeuesBrutto * pvag;
-            calculation.data.Pflegeversicherung_AN  = Double.toString(pvag_absolut);
-        }
-
-        if(isUeberBbg_RV) {
-            // Betraege bleiben
-        } else {
-            rvag_absolut = fiktivesNeuesBrutto * rvag;
-            calculation.data.Rentenversicherung_AG = Double.toString(rvag_absolut);
-            rvan_absolut = fiktivesNeuesBrutto * rvan;
-            calculation.data.Rentenversicherung_AN = Double.toString(rvan_absolut);
-            avag_absolut = fiktivesNeuesBrutto * avag;
-            calculation.data.Arbeitslosenversicherung_AG = Double.toString(avag_absolut);
-            avan_absolut = fiktivesNeuesBrutto * avan;
-            calculation.data.Arbeitslosenversicherung_AN = Double.toString(avan_absolut);
-            igum_absolut = fiktivesNeuesBrutto * igum;
-            calculation.data.IGU = Double.toString(igum_absolut);
-            uml1_absolut = fiktivesNeuesBrutto * uml1;
-            calculation.data.Umlage1 = Double.toString(uml1_absolut);
-            uml2_absolut = fiktivesNeuesBrutto * uml2;
-            calculation.data.Umlage2 = Double.toString(uml2_absolut);
-            calculation.data.Umlagen_AG = Double.toString(igum_absolut + uml1_absolut + uml2_absolut);
-        }
-        Double ag_anteil = kvag_absolut + rvag_absolut + avag_absolut + pvag_absolut;
-        calculation.data.AGAnteil = Double.toString(ag_anteil);
-        calculation.data.Abgaben_AG = Double.toString(ag_anteil + igum_absolut + uml1_absolut + uml2_absolut);
-
-        calculation.data.Kirchensteuer = Double.toString(fiktivesNeuesBrutto * kirc);
-        calculation.data.Lohnsteuer = Double.toString(fiktivesNeuesBrutto * lstr);
-        calculation.data.Soli = Double.toString(fiktivesNeuesBrutto * soli);
-        calculation.data.ANAnteil = Double.toString(kvan_absolut + rvan_absolut + avan_absolut + pvan_absolut);
     }
 
     private static boolean GetIsBbgOst(int bundesland) {
@@ -1270,6 +1279,20 @@ public class InputActivity extends AppCompatActivity
         return false;
     }
 
+    private BigDecimal getBigDecimal(String s) {
+        if(s != null && s.length() > 0)
+            return new BigDecimal(s.replace(".", "").replace(",", "."));
+
+        return BigDecimal.valueOf(0.00);
+    }
+
+    private String getDecimalString_Up(BigDecimal d) {
+        return d.setScale(2, BigDecimal.ROUND_HALF_UP).toString().replace(".", ",");
+    }
+
+    private String getDecimalString_Down(BigDecimal d) {
+        return d.setScale(2, BigDecimal.ROUND_HALF_DOWN).toString().replace(".", ",");
+    }
 
     @Override
     /**
