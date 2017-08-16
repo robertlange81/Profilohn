@@ -9,4 +9,5 @@
     <string name="title_activity_calculation">CalculationActivity</string>
     <string name="currency_null">0,00 €</string>
     <string name="year">Abrechnungsjahr</string>
+    <string name="has_children_hint">has_children_hint</string>
 </resources>

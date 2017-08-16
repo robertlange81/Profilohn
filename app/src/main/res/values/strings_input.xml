@@ -68,10 +68,10 @@
     <string name="label_yes">Ja</string>
     <string name="label_no">Nein</string>
     <string name="label_currency">in €</string>
-    <string name="label_health_insurance">Beitrag KV</string>
-    <string name="label_nursing_insurance">Beitrag PV</string>
-    <string name="label_pension_insurance">Beitrag RV.</string>
-    <string name="label_unemployment_insurance">Beitrag AV</string>
+    <string name="label_health_insurance">Beitrag Krankenv.</string>
+    <string name="label_nursing_insurance">Beitrag Pflegev.</string>
+    <string name="label_pension_insurance">Beitrag Rentenv.</string>
+    <string name="label_unemployment_insurance">Beitrag Arb.-vers.</string>
 
     <string name="wage_default">0,00 €</string>
 
@@ -95,7 +95,8 @@
     <string name="wageamount_gross_month">Brutto (im Monat)</string>
     <string name="wageamount_net_year">Wunsch-Netto (im Jahr)</string>
     <string name="wageamount_net_month">Wunsch-Netto (im Monat)</string>
-    <string name="wage_type_label">Umrechnen in...</string>
+    <string name="wage_type_label_1">Brutto umrechnen in</string>
+    <string name="wage_type_label_2">Netto umrechnen in</string>
 
 
     <string-array name="states">
@@ -124,9 +125,9 @@
         <item>3 - ermäßigter Beitrag</item>
         <item>6 - Pauschalbeitrag</item-->
         <item>kein</item>
-        <item>voll</item>
-        <item>ermäß.</item>
-        <item>pausch</item>
+        <item>allgemein</item>
+        <item>ermäßigt</item>
+        <item>pauschal</item>
     </string-array>
 
     <string-array name="rv">
@@ -135,9 +136,9 @@
         <item>3 - halber Beitrag</item>
         <item>5 - Pauschalbeitrag</item-->
         <item>kein</item>
-        <item>voll</item>
-        <item>halb</item>
-        <item>pausch</item>
+        <item>voller</item>
+        <item>halber</item>
+        <item>pauschal</item>
     </string-array>
 
     <string-array name="av">
@@ -145,8 +146,8 @@
         <item>1 - voller Beitrag</item>
         <item>2 - halber  Beitrag</item-->
         <item>kein</item>
-        <item>voll</item>
-        <item>halb</item>
+        <item>voller</item>
+        <item>halber</item>
     </string-array>
 
     <string-array name="pv">
@@ -154,8 +155,8 @@
         <item>1 - voller Beitrag</item>
         <item>2 - halber  Beitrag</item-->
         <item>kein</item>
-        <item>voll</item>
-        <item>halb</item>
+        <item>voller</item>
+        <item>halber</item>
     </string-array>
 
     <string name="validation_error_wage">Bitte Lohn/Gehalt angeben.</string>

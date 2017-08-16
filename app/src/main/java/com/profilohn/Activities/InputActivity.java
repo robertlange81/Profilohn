@@ -77,7 +77,7 @@ public class InputActivity extends AppCompatActivity
     public static Spinner               rv;
     public static Spinner               av;
     public static Spinner               pv;
-    public static Button                calculate;
+    // public static Button                calculate;
     public static Button                calculateTop;
     public static AutoCompleteTextView  insuranceAc;
     public static SwitchCompat          wagePeriod;
@@ -118,6 +118,7 @@ public class InputActivity extends AppCompatActivity
     private WebService webService;
     private CalculationInputData data;
     private TextView wageAmountLabel;
+    private TextView wagetypeLabel;
 
     public static InputActivity instance;
     public PopupWindow calcPopup;
@@ -276,7 +277,7 @@ public class InputActivity extends AppCompatActivity
         year            = (Spinner) findViewById(R.id.year);
         taxFree         = (EditText) findViewById(R.id.tax_free);
         children        = (Spinner) findViewById(R.id.children);
-        calculate       = (Button) findViewById(R.id.calculate);
+        // calculate       = (Button) findViewById(R.id.calculate);
 
         kv              = (Spinner) findViewById(R.id.kv_value);
         rv              = (Spinner) findViewById(R.id.rv_value);
@@ -288,6 +289,7 @@ public class InputActivity extends AppCompatActivity
         hasChildren     = (SwitchCompat) findViewById(R.id.has_children);
 
         wageAmountLabel = (TextView) findViewById(R.id.wageamount_label);
+        wagetypeLabel   = (TextView) findViewById(R.id.wage_type_label);
 
         //wage.setFilters(new InputFilter[]{new DecimalDigitsInputHelper(2)});
         //taxFree.setFilters(new InputFilter[]{new DecimalDigitsInputHelper(2)});
@@ -372,6 +374,7 @@ public class InputActivity extends AppCompatActivity
 
                 if (R.id.type_net == checkedId) {
                     selectedWageType = CalculationInputHelper.WAGE_TYPE_GROSS;
+                    wagetypeLabel.setText(R.string.wage_type_label_1);
                     if(wagePeriod.isChecked()) {
                         wageAmountLabel.setText(R.string.wageamount_gross_year);
                     } else {
@@ -379,6 +382,7 @@ public class InputActivity extends AppCompatActivity
                     }
                 } else {
                     selectedWageType = CalculationInputHelper.WAGE_TYPE_NET;
+                    wagetypeLabel.setText(R.string.wage_type_label_2);
                     if(wagePeriod.isChecked()) {
                         wageAmountLabel.setText(R.string.wageamount_net_year);
                     } else {
@@ -755,7 +759,7 @@ public class InputActivity extends AppCompatActivity
         calculateTop.setOnClickListener(listener);
 
         // Abrechnungs-Button unten
-        calculate.setOnClickListener(listener);
+        // calculate.setOnClickListener(listener);
     }
 
     private void GetInsuranceId() {

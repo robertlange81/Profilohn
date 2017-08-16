@@ -26,6 +26,15 @@
         android:layout_height="fill_parent"/>
 
     <android.support.v7.widget.AppCompatButton
+        android:id="@+id/hello_start_calculation_net"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="@string/btn_calc"
+        android:layout_alignParentBottom="true"
+        android:theme="@style/ResultButtonStyle" />
+
+    <!--android.support.v7.widget.AppCompatButton
         style="@style/calculate"
         android:id="@+id/calculate"
         android:focusable="true"
@@ -33,6 +42,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/button_calc"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true" /-->
 
 </RelativeLayout>

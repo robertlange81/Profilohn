@@ -39,7 +39,7 @@
     <dimen name="margin_result_hr">5dp</dimen>
     <item name="spinner_fontColor" format="float" type="dimen">3.0</item>
     <dimen name="action_button_text_size">20dp</dimen>
-    <dimen name="text_size_input">16dp</dimen>
-    <dimen name="appbar_padding_top">8dp</dimen>
+    <dimen name="text_size_input">16sp</dimen>
+    <dimen name="appbar_padding_top">12dp</dimen>
 
 </resources>
