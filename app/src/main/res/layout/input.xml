@@ -11,28 +11,18 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
         <include layout="@layout/content_input" />
 
     </ScrollView>
 
     <WebView
-        android:id="@+id/webview"
+        android:id="@+id/webview_calc"
         android:visibility="gone"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"/>
-
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/hello_start_calculation_net"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:text="@string/btn_calc"
-        android:layout_alignParentBottom="true"
-        android:theme="@style/ResultButtonStyle" />
 
     <!--android.support.v7.widget.AppCompatButton
         style="@style/calculate"

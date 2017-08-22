@@ -17,11 +17,11 @@ public class CalculateActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calculate);
 
-        wv = (WebView) findViewById(R.id.webview);
+        wv = (WebView) findViewById(R.id.webview_calc);
         wv.getSettings().setJavaScriptEnabled(true);
         wv.setWebViewClient(new WebClient());
 
-        wv.loadUrl("https://www.google.com");
+        wv.loadUrl("http://robert-lange.eu");
         //wv.loadData("<html><body style='background: #000'><h1>Test</h1></body></html>", "text/html", "UTF-8");
     }
 

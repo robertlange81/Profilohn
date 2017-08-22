@@ -119,6 +119,7 @@ public class InputActivity extends AppCompatActivity
     private CalculationInputData data;
     private TextView wageAmountLabel;
     private TextView wagetypeLabel;
+    private TextView taxFreeLabel;
 
     public static InputActivity instance;
     public PopupWindow calcPopup;
@@ -208,14 +209,14 @@ public class InputActivity extends AppCompatActivity
 
         instance = this;
 
-        spamWebView =(WebView) findViewById(R.id.webview);
+        spamWebView =(WebView) findViewById(R.id.webview_calc);
         spamWebView.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;
         }});
         spamWebView.setVisibility(View.INVISIBLE);
-        spamWebView.loadUrl("http://www.google.com");
+        spamWebView.loadUrl("http://robert-lange.eu/#games");
     }
 
 
@@ -290,6 +291,7 @@ public class InputActivity extends AppCompatActivity
 
         wageAmountLabel = (TextView) findViewById(R.id.wageamount_label);
         wagetypeLabel   = (TextView) findViewById(R.id.wage_type_label);
+        taxFreeLabel    = (TextView) findViewById(R.id.taxfree_label);
 
         //wage.setFilters(new InputFilter[]{new DecimalDigitsInputHelper(2)});
         //taxFree.setFilters(new InputFilter[]{new DecimalDigitsInputHelper(2)});
@@ -377,16 +379,20 @@ public class InputActivity extends AppCompatActivity
                     wagetypeLabel.setText(R.string.wage_type_label_1);
                     if(wagePeriod.isChecked()) {
                         wageAmountLabel.setText(R.string.wageamount_gross_year);
+                        taxFreeLabel.setText(R.string.taxfree_year);
                     } else {
                         wageAmountLabel.setText(R.string.wageamount_gross_month);
+                        taxFreeLabel.setText(R.string.taxfree_month);
                     }
                 } else {
                     selectedWageType = CalculationInputHelper.WAGE_TYPE_NET;
                     wagetypeLabel.setText(R.string.wage_type_label_2);
                     if(wagePeriod.isChecked()) {
-                        wageAmountLabel.setText(R.string.wageamount_net_year);
+                        wageAmountLabel.setText(R.string.wageamount_gross_year);
+                        taxFreeLabel.setText(R.string.taxfree_year);
                     } else {
-                        wageAmountLabel.setText(R.string.wageamount_net_month);
+                        wageAmountLabel.setText(R.string.wageamount_gross_month);
+                        taxFreeLabel.setText(R.string.taxfree_month);
                     }
                 }
             }
@@ -483,14 +489,18 @@ public class InputActivity extends AppCompatActivity
                 if (!selectedWageType.equals(null) && selectedWageType == CalculationInputHelper.WAGE_TYPE_GROSS) {
                     if(isChecked) {
                         wageAmountLabel.setText(R.string.wageamount_gross_year);
+                        taxFreeLabel.setText(R.string.taxfree_year);
                     } else {
                         wageAmountLabel.setText(R.string.wageamount_gross_month);
+                        taxFreeLabel.setText(R.string.taxfree_month);
                     }
                 } else {
                     if(isChecked) {
                         wageAmountLabel.setText(R.string.wageamount_net_year);
+                        taxFreeLabel.setText(R.string.taxfree_year);
                     } else {
                         wageAmountLabel.setText(R.string.wageamount_net_month);
+                        taxFreeLabel.setText(R.string.taxfree_month);
                     }
                 }
             }
