@@ -2,17 +2,19 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '25'
     defaultConfig {
         applicationId "com.profilohn"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 5
+        versionCode 1
         versionName '1.0'
     }
     buildTypes {
         release {
+            shrinkResources false // This must be first
             minifyEnabled false
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

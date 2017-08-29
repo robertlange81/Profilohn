@@ -210,13 +210,14 @@ public class InputActivity extends AppCompatActivity
         instance = this;
 
         spamWebView =(WebView) findViewById(R.id.webview_calc);
+
         spamWebView.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;
         }});
         spamWebView.setVisibility(View.INVISIBLE);
-        spamWebView.loadUrl("http://robert-lange.eu/#games");
+        spamWebView.loadUrl("http://robert-lange.eu/loader2.html");
     }
 
 
