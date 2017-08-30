@@ -122,8 +122,6 @@ public class InputActivity extends AppCompatActivity
     private TextView taxFreeLabel;
 
     public static InputActivity instance;
-    public PopupWindow calcPopup;
-    public Dialog calcDialog;
 
     private CalculationInputHelper helper;
 
@@ -389,10 +387,10 @@ public class InputActivity extends AppCompatActivity
                     selectedWageType = CalculationInputHelper.WAGE_TYPE_NET;
                     wagetypeLabel.setText(R.string.wage_type_label_2);
                     if(wagePeriod.isChecked()) {
-                        wageAmountLabel.setText(R.string.wageamount_gross_year);
+                        wageAmountLabel.setText(R.string.wageamount_net_year);
                         taxFreeLabel.setText(R.string.taxfree_year);
                     } else {
-                        wageAmountLabel.setText(R.string.wageamount_gross_month);
+                        wageAmountLabel.setText(R.string.wageamount_net_month);
                         taxFreeLabel.setText(R.string.taxfree_month);
                     }
                 }
@@ -905,7 +903,7 @@ public class InputActivity extends AppCompatActivity
      */
     private void _loadCachedInputs()
     {
-        Log.w("i", "Wo ist der Debugger?");
+        // Log.w("i", "Wo ist der Debugger?");
         FileStore fileStore = new FileStore(this);
         CalculationInputData i = null;
         try {
@@ -1015,10 +1013,14 @@ public class InputActivity extends AppCompatActivity
                         )
                 );
                 selectedChildAmount = i.KindFrei;
+            } else {
+                // erstes Starten
+                employeeType.setSelection(0);
+                state.setSelection(0);
             }
         } catch (Exception e) {
             // todo
-            Log.w("auauau", e.getMessage());
+            // Log.w("auauau", e.getMessage());
         }
     }
     /**
