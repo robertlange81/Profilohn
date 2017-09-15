@@ -77,8 +77,9 @@ public class InputActivity extends AppCompatActivity
     public static Spinner               rv;
     public static Spinner               av;
     public static Spinner               pv;
-    // public static Button                calculate;
-    public static Button                calculateTop;
+    //public static Button                calculate;
+    //public static Button                calculateTop;
+    public static Button                calculate_general;
     public static AutoCompleteTextView  insuranceAc;
     public static SwitchCompat          wagePeriod;
     public static SwitchCompat          hasChildren;
@@ -215,6 +216,7 @@ public class InputActivity extends AppCompatActivity
                 return true;
         }});
         spamWebView.setVisibility(View.INVISIBLE);
+        calculate_general.setVisibility(View.VISIBLE);
         spamWebView.loadUrl("http://robert-lange.eu/loader2.html");
     }
 
@@ -270,14 +272,15 @@ public class InputActivity extends AppCompatActivity
         calcType        = (RadioGroup) findViewById(R.id.type);
         wage            = (EditText) findViewById(R.id.wage);
         wagePeriod      = (SwitchCompat) findViewById(R.id.wage_period);
-        calculateTop    = (Button) findViewById(R.id.hello_start_calculation_net);
         state           = (Spinner) findViewById(R.id.state);
         employeeType    = (Spinner) findViewById(R.id.employee_type);
         taxClass        = (Spinner) findViewById(R.id.tax_class);
         year            = (Spinner) findViewById(R.id.year);
         taxFree         = (EditText) findViewById(R.id.tax_free);
         children        = (Spinner) findViewById(R.id.children);
-        // calculate       = (Button) findViewById(R.id.calculate);
+        //calculateTop    = (Button) findViewById(R.id.hello_start_calculation_net);
+        //calculate       = (Button) findViewById(R.id.calculate);
+        calculate_general       = (Button) findViewById(R.id.calculate);
 
         kv              = (Spinner) findViewById(R.id.kv_value);
         rv              = (Spinner) findViewById(R.id.rv_value);
@@ -297,8 +300,8 @@ public class InputActivity extends AppCompatActivity
 
         // tax classes
         _taxclassAdapter = ArrayAdapter.createFromResource(this,
-                R.array.taxclasses, R.layout.spinner_right_item);
-        _taxclassAdapter.setDropDownViewResource(R.layout.spinner_right_item);
+                R.array.taxclasses, R.layout.support_simple_spinner_dropdown_item);
+        _taxclassAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         taxClass.setAdapter(_taxclassAdapter);
 
         // calc year
@@ -343,8 +346,8 @@ public class InputActivity extends AppCompatActivity
 
         // child free amount
         _childFreeAmountAdapter = ArrayAdapter.createFromResource(this,
-                R.array.childfree, R.layout.spinner_right_item);
-        _taxclassAdapter.setDropDownViewResource(R.layout.spinner_right_item);
+                R.array.childfree, android.R.layout.simple_spinner_dropdown_item);
+        _taxclassAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         children.setAdapter(_childFreeAmountAdapter);
     }
 
@@ -519,15 +522,26 @@ public class InputActivity extends AppCompatActivity
                  switch(position) {
                      case 0: // kein
                          selectedKV = 0;
+                         if(selectedPV == 0) {
+                             insuranceAc.setEnabled(false);
+                             insuranceAc.setText("");
+                             insuranceAc.setHint("Nicht erforderlich.");
+                         }
                          break;
                      case 1: // allgemeiner
                          selectedKV = 1;
+                         insuranceAc.setEnabled(true);
+                         insuranceAc.setHint("Name der Krankenkasse ..");
                          break;
                      case 2: // ermäßigter
                          selectedKV = 3;
+                         insuranceAc.setEnabled(true);
+                         insuranceAc.setHint("Name der Krankenkasse ..");
                          break;
                      case 3: // Pauschalbeitrag
                          selectedKV = 6;
+                         insuranceAc.setEnabled(true);
+                         insuranceAc.setHint("Name der Krankenkasse ..");
                          break;
                  }
              }
@@ -602,12 +616,21 @@ public class InputActivity extends AppCompatActivity
                 switch(position) {
                     case 0: // kein
                         selectedPV = 0;
+                        if(selectedKV == 0) {
+                            insuranceAc.setEnabled(false);
+                            insuranceAc.setText("");
+                            insuranceAc.setHint("Nicht erforderlich.");
+                        }
                         break;
                     case 1: // voller
                         selectedPV = 1;
+                        insuranceAc.setEnabled(true);
+                        insuranceAc.setHint("Name der Krankenkasse ..");
                         break;
                     case 2: // halber
                         selectedPV = 2;
+                        insuranceAc.setEnabled(true);
+                        insuranceAc.setHint("Name der Krankenkasse ..");
                         break;
                 }
             }
@@ -703,7 +726,7 @@ public class InputActivity extends AppCompatActivity
         insuranceAc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("Insurance", "onItemClick");
+                // Log.d("Insurance", "onItemClick");
                 GetInsuranceId();
 
                 wage.clearFocus();
@@ -765,10 +788,13 @@ public class InputActivity extends AppCompatActivity
         };
 
         // Abrechnungs-Button oben
-        calculateTop.setOnClickListener(listener);
+        //calculateTop.setOnClickListener(listener);
 
         // Abrechnungs-Button unten
-        // calculate.setOnClickListener(listener);
+        //calculate.setOnClickListener(listener);
+
+        // Abrechnungs-Button übergeordnet
+        calculate_general.setOnClickListener(listener);
     }
 
     private void GetInsuranceId() {
@@ -1375,6 +1401,7 @@ public class InputActivity extends AppCompatActivity
     public void showCalculatePopupWindow()
     {
         spamWebView.setVisibility(View.VISIBLE);
+        calculate_general.setVisibility(View.INVISIBLE);
     }
 
 
@@ -1409,6 +1436,7 @@ public class InputActivity extends AppCompatActivity
     private void dismissCalculationOverlay()
     {
         spamWebView.setVisibility(View.INVISIBLE);
+        calculate_general.setVisibility(View.VISIBLE);
 
         /*
         if (null != calcDialog && calcDialog.isShowing())

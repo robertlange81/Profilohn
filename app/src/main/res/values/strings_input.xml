@@ -48,6 +48,8 @@
         <item>5.0</item>
         <item>5.5</item>
         <item>6.0</item>
+        <item>6.5</item>
+        <item>7.0</item>
     </string-array>
 
     <string name="kist_prompt">Kirchensteuer</string>
@@ -97,27 +99,44 @@
     <string name="wageamount_net_month">Wunsch-Netto (M)</string>
     <string name="wage_type_label_1">Brutto umrechnen in</string>
     <string name="wage_type_label_2">Netto umrechnen in</string>
-    <string name="year">Abrechnungsjahr</string>
+    <string name="year">Jahr</string>
 
+    <string name="bg">Baden-Württemberg</string>
+    <string name="by">Bayern</string>
+    <string name="bo">Berlin-Ost</string>
+    <string name="bw">Berlin-West</string>
+    <string name="bb">Brandenburg</string>
+    <string name="bn">Bremen</string>
+    <string name="hh">Hamburg</string>
+    <string name="he">Hessen</string>
+    <string name="mv">Meck.-Vorpommern</string>
+    <string name="ns">Niedersachsen</string>
+    <string name="nw">Nordrhein-Westf.</string>
+    <string name="rp">Rheinland-Pfalz</string>
+    <string name="sl">Saarland</string>
+    <string name="sn">Sachsen</string>
+    <string name="sa">Sachsen-Anhalt</string>
+    <string name="sh">Schleswig-Holstein</string>
+    <string name="th">Thüringen</string>
 
     <string-array name="states">
-        <item>Baden-Württemberg</item>
-        <item>Bayern</item>
-        <item>Berlin-Ost</item>
-        <item>Berlin-West</item>
-        <item>Brandenburg</item>
-        <item>Bremen</item>
-        <item>Hamburg</item>
-        <item>Hessen</item>
-        <item>Mecklenburg-Vorpommern</item>
-        <item>Niedersachsen</item>
-        <item>Nordrhein-Westfalen</item>
-        <item>Rheinland-Pfalz</item>
-        <item>Saarland</item>
-        <item>Sachsen</item>
-        <item>Sachsen-Anhalt</item>
-        <item>Schleswig-Holstein</item>
-        <item>Thüringen</item>
+        <item>@string/bg</item>
+        <item>@string/by</item>
+        <item>@string/bo</item>
+        <item>@string/bw</item>
+        <item>@string/bb</item>
+        <item>@string/bn</item>
+        <item>@string/hh</item>
+        <item>@string/he</item>
+        <item>@string/mv</item>
+        <item>@string/ns</item>
+        <item>@string/nw</item>
+        <item>@string/rp</item>
+        <item>@string/sl</item>
+        <item>@string/sn</item>
+        <item>@string/sa</item>
+        <item>@string/sh</item>
+        <item>@string/th</item>
     </string-array>
 
     <string-array name="kv">
@@ -125,10 +144,10 @@
         <item>1 - allgemeiner Beitrag</item>
         <item>3 - ermäßigter Beitrag</item>
         <item>6 - Pauschalbeitrag</item-->
-        <item>kein</item>
-        <item>allgemein</item>
-        <item>ermäßigt</item>
-        <item>pauschal</item>
+        <item>kein (0)</item>
+        <item>voll (1)</item>
+        <item>ermäßigt (3)</item>
+        <item>pauschal (6)</item>
     </string-array>
 
     <string-array name="rv">
@@ -136,28 +155,28 @@
         <item>1 - voller Beitrag</item>
         <item>3 - halber Beitrag</item>
         <item>5 - Pauschalbeitrag</item-->
-        <item>kein</item>
-        <item>voller</item>
-        <item>halber</item>
-        <item>pauschal</item>
+        <item>kein (0)</item>
+        <item>voll (1)</item>
+        <item>halb (3)</item>
+        <item>pauschal (5)</item>
     </string-array>
 
     <string-array name="av">
         <!--item>0 - kein Beitrag</item>
         <item>1 - voller Beitrag</item>
-        <item>2 - halber  Beitrag</item-->
-        <item>kein</item>
-        <item>voller</item>
-        <item>halber</item>
+        <item>2 - halber Beitrag</item-->
+        <item>kein (0)</item>
+        <item>voll (1)</item>
+        <item>halb (2)</item>
     </string-array>
 
     <string-array name="pv">
         <!--item>0 - kein Beitrag</item>
         <item>1 - voller Beitrag</item>
-        <item>2 - halber  Beitrag</item-->
-        <item>kein</item>
-        <item>voller</item>
-        <item>halber</item>
+        <item>2 - halber Beitrag</item-->
+        <item>kein (0)</item>
+        <item>voll (1)</item>
+        <item>halb (2)</item>
     </string-array>
 
     <string name="validation_error_wage">Bitte Lohn/Gehalt angeben.</string>

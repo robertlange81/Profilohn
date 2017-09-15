@@ -23,13 +23,13 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            style="@style/text_h1"
-            android:layout_below="@+id/result_employee_title_wage_label"
             android:id="@+id/result_employee_title_wage"
-            android:textColor="@color/text_white"
+            style="@style/text_h1"
             android:layout_width="match_parent"
-            android:text="0.00€"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/result_employee_title_wage_label"
+            android:text="@string/_0_00"
+            android:textColor="@color/text_white" />
 
         <android.support.v7.widget.AppCompatButton
             style="@style/result_btn_again"
@@ -41,12 +41,12 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="461dp"
+        android:layout_height="match_parent"
         android:background="@color/colorPrimaryLight">
 
         <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@color/colorPrimaryLight"
             android:orientation="vertical"
@@ -184,7 +184,9 @@
                 android:layout_width="match_parent" />
 
             <!-- net wage -->
-            <LinearLayout style="@style/result_data_row">
+            <LinearLayout
+                style="@style/result_data_row"
+                android:layout_marginBottom="30dp">
 
                 <TextView
                     android:id="@+id/result_employee_wage_label"

@@ -1,6 +1,8 @@
 package com.profilohn.Helper;
 
 import android.app.Activity;
+import android.content.res.Resources;
+
 import java.util.HashMap;
 
 import com.profilohn.Exceptions.ValidationException;
@@ -90,23 +92,23 @@ public class CalculationInputHelper
     private int translateState(String state)
     {
         HashMap<String, Integer> states = new HashMap<String, Integer>();
-        states.put("Baden-Württemberg", 1);
-        states.put("Bayern", 2);
-        states.put("Berlin-West", 3);
-        states.put("Brandenburg", 4);
-        states.put("Bremen", 5);
-        states.put("Hamburg", 6);
-        states.put("Hessen", 7);
-        states.put("Mecklenburg-Vorpommern", 8);
-        states.put("Niedersachsen", 9);
-        states.put("Nordrhein-Westfalen", 10);
-        states.put("Rheinland-Pfalz", 11);
-        states.put("Saarland", 12);
-        states.put("Sachsen", 13);
-        states.put("Sachsen-Anhalt", 14);
-        states.put("Schleswig-Holstein", 15);
-        states.put("Thüringen", 16);
-        states.put("Berlin-Ost", 30);
+        states.put(a.getResources().getString(R.string.bg), 1);
+        states.put(a.getResources().getString(R.string.by), 2);
+        states.put(a.getResources().getString(R.string.bw), 3);
+        states.put(a.getResources().getString(R.string.bb), 4);
+        states.put(a.getResources().getString(R.string.bn), 5);
+        states.put(a.getResources().getString(R.string.hh), 6);
+        states.put(a.getResources().getString(R.string.he), 7);
+        states.put(a.getResources().getString(R.string.mv), 8);
+        states.put(a.getResources().getString(R.string.ns), 9);
+        states.put(a.getResources().getString(R.string.nw), 10);
+        states.put(a.getResources().getString(R.string.rp), 11);
+        states.put(a.getResources().getString(R.string.sl), 12);
+        states.put(a.getResources().getString(R.string.sn), 13);
+        states.put(a.getResources().getString(R.string.sa), 14);
+        states.put(a.getResources().getString(R.string.sh), 15);
+        states.put(a.getResources().getString(R.string.th), 16);
+        states.put(a.getResources().getString(R.string.bo), 30);
 
         return states.get(state);
     }
@@ -114,23 +116,23 @@ public class CalculationInputHelper
     public static String retranslateState(int state)
     {
         HashMap<Integer, String> states = new HashMap<Integer, String>();
-        states.put(1, "Baden-Württemberg");
-        states.put(2, "Bayern");
-        states.put(3, "Berlin-West");
-        states.put(4, "Brandenburg");
-        states.put(5, "Bremen");
-        states.put(6, "Hamburg");
-        states.put(7, "Hessen");
-        states.put(8, "Mecklenburg-Vorpommern");
-        states.put(9, "Niedersachsen");
-        states.put(10, "Nordrhein-Westfalen");
-        states.put(11, "Rheinland-Pfalz");
-        states.put(12, "Saarland");
-        states.put(13, "Sachsen");
-        states.put(14, "Sachsen-Anhalt");
-        states.put(15, "Schleswig-Holstein");
-        states.put(16, "Thüringen");
-        states.put(30, "Berlin-Ost");
+        states.put(1, Resources.getSystem().getString(R.string.bg));
+        states.put(2, Resources.getSystem().getString(R.string.by));
+        states.put(3, Resources.getSystem().getString(R.string.bw));
+        states.put(4, Resources.getSystem().getString(R.string.bb));
+        states.put(5, Resources.getSystem().getString(R.string.bn));
+        states.put(6, Resources.getSystem().getString(R.string.hh));
+        states.put(7, Resources.getSystem().getString(R.string.he));
+        states.put(8, Resources.getSystem().getString(R.string.mv));
+        states.put(9, Resources.getSystem().getString(R.string.ns));
+        states.put(10, Resources.getSystem().getString(R.string.nw));
+        states.put(11, Resources.getSystem().getString(R.string.rp));
+        states.put(12, Resources.getSystem().getString(R.string.sl));
+        states.put(13, Resources.getSystem().getString(R.string.sn));
+        states.put(14, Resources.getSystem().getString(R.string.sa));
+        states.put(15, Resources.getSystem().getString(R.string.sh));
+        states.put(16, Resources.getSystem().getString(R.string.th));
+        states.put(30, Resources.getSystem().getString(R.string.bo));
 
         return states.get(state);
     }

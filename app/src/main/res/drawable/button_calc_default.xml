@@ -4,14 +4,14 @@
         android:top="0dp"
         android:left="-3dp"
         android:right="-3dp"
-        android:bottom="-3dp">
+        android:bottom="-5dp">
 
         <shape
             android:shape="rectangle"
             xmlns:android="http://schemas.android.com/apk/res/android">
 
             <solid
-                android:color="@color/colorLink" >
+                android:color="@color/colorAccent" >
             </solid>
 
             <stroke android:width="2dp" android:color="@color/light_grey" />

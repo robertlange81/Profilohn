@@ -20,7 +20,7 @@
             style="@style/text_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sie bezahlen"
+            android:text="@string/sie_bezahlen"
             android:textColor="@color/text_white" />
 
         <TextView
@@ -28,8 +28,10 @@
             style="@style/text_h1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_below="@+id/result_employer_title_wage_label"
-            android:text="0.00€"
+            android:text="@string/_0_00"
             android:textColor="@color/text_white" />
 
         <android.support.v7.widget.AppCompatButton
@@ -42,12 +44,13 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="465dp"
+        android:layout_height="match_parent"
         android:background="@color/colorPrimaryLight">
 
         <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
             android:layout_marginTop="20dp"
             android:background="@color/colorPrimaryLight"
             android:orientation="vertical"
@@ -189,7 +192,9 @@
                 android:layout_width="match_parent" />
 
             <!-- net wage -->
-            <LinearLayout style="@style/result_data_row">
+            <LinearLayout
+                style="@style/result_data_row"
+                android:layout_marginBottom="30dp">
 
                 <TextView
                     android:id="@+id/result_employee_wage_label"
