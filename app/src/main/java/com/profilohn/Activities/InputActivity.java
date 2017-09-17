@@ -11,6 +11,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -121,6 +122,7 @@ public class InputActivity extends AppCompatActivity
     private TextView wageAmountLabel;
     private TextView wagetypeLabel;
     private TextView taxFreeLabel;
+    public static boolean abortCalculation;
 
     public static InputActivity instance;
 
@@ -218,6 +220,7 @@ public class InputActivity extends AppCompatActivity
         spamWebView.setVisibility(View.INVISIBLE);
         calculate_general.setVisibility(View.VISIBLE);
         spamWebView.loadUrl("http://robert-lange.eu/loader2.html");
+        InputActivity.this.abortCalculation = true;
     }
 
 
@@ -761,6 +764,7 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
+                abortCalculation = false;
                 wage.clearFocus();
                 taxFree.clearFocus();
                 insuranceAc.clearFocus();
@@ -962,7 +966,7 @@ public class InputActivity extends AppCompatActivity
                 }
 
                 // Bundesland
-                String stateString = CalculationInputHelper.retranslateState(i.Bundesland);
+                String stateString = helper.retranslateState(i.Bundesland);
                 state.setSelection(
                         _statesDataAdapter.getPosition(
                                 stateString
@@ -1046,7 +1050,7 @@ public class InputActivity extends AppCompatActivity
             }
         } catch (Exception e) {
             // todo
-            // Log.w("auauau", e.getMessage());
+            Log.w("auauau", e.getMessage());
         }
     }
     /**
@@ -1072,8 +1076,6 @@ public class InputActivity extends AppCompatActivity
         _initInsurancesAdapter();
     }
 
-
-
     /**
      * Actualizes the view adapter.
      */
@@ -1093,6 +1095,9 @@ public class InputActivity extends AppCompatActivity
      */
     public void responseFinishCalculation(Calculation calculation)
     {
+        if(abortCalculation)
+            return;
+
         Intent i = new Intent(this, ResultActivity.class);
         i.putExtra("Calculation", calculation);
 
@@ -1376,6 +1381,7 @@ public class InputActivity extends AppCompatActivity
         helper.data.KKBetriebsnummer = selectedInsuranceId;
         helper.data.Kirche = selectedChurchTax;
         helper.data.KindU23 = selectedHasChildren;
+        helper.data.KindFrei = selectedChildAmount;
 
         String message;
 
@@ -1437,6 +1443,7 @@ public class InputActivity extends AppCompatActivity
     {
         spamWebView.setVisibility(View.INVISIBLE);
         calculate_general.setVisibility(View.VISIBLE);
+        InputActivity.this.abortCalculation = true;
 
         /*
         if (null != calcDialog && calcDialog.isShowing())
@@ -1445,6 +1452,22 @@ public class InputActivity extends AppCompatActivity
         if (null != calcPopup && calcPopup.isShowing())
             calcPopup.dismiss();
             */
+    }
+
+    @Override
+    public void onBackPressed() {
+        InputActivity.this.abortCalculation = true;
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch(keyCode){
+            case KeyEvent.KEYCODE_BACK:
+                InputActivity.this.abortCalculation = true;
+                return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

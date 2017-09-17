@@ -3,7 +3,7 @@
 
     <!-- misc settings -->
     <integer name="splash_timeout">2000</integer>
-    <integer name="calculation_timeout">10000</integer>
+    <integer name="calculation_timeout">1000</integer>
 
     <!-- API settings -->
     <integer name="api_connection_timeout">10000</integer>

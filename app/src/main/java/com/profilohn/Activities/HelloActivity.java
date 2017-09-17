@@ -71,6 +71,13 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
         _prefetchInsurances();
     }
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        InputActivity.abortCalculation = true;
+    }
+
 
     /**
      * Inflate the menu.

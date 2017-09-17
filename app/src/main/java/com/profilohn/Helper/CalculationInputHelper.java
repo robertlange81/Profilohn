@@ -1,7 +1,6 @@
 package com.profilohn.Helper;
 
 import android.app.Activity;
-import android.content.res.Resources;
 
 import java.util.HashMap;
 
@@ -23,11 +22,50 @@ public class CalculationInputHelper
     public static final String WAGE_PERIOD_YEAR  = "y";
     public static final String WAGE_PERIOD_MONTH = "m";
 
+    public static final HashMap<String, Integer> statesToInt = new HashMap<String, Integer>();
+    public static final HashMap<Integer, String> intToState = new HashMap<Integer, String>();
 
     public CalculationInputHelper(Activity a, CalculationInputData data)
     {
         this.a = a;
         this.data = data;
+
+        intToState.put(1, a.getResources().getString(R.string.bg));
+        intToState.put(2, a.getResources().getString(R.string.by));
+        intToState.put(3, a.getResources().getString(R.string.bw));
+        intToState.put(4, a.getResources().getString(R.string.bb));
+        intToState.put(5, a.getResources().getString(R.string.bn));
+        intToState.put(6, a.getResources().getString(R.string.hh));
+        intToState.put(7, a.getResources().getString(R.string.he));
+        intToState.put(8, a.getResources().getString(R.string.mv));
+        intToState.put(9, a.getResources().getString(R.string.ns));
+        intToState.put(10, a.getResources().getString(R.string.nw));
+        intToState.put(11, a.getResources().getString(R.string.rp));
+        intToState.put(12, a.getResources().getString(R.string.sl));
+        intToState.put(13, a.getResources().getString(R.string.sn));
+        intToState.put(14, a.getResources().getString(R.string.sa));
+        intToState.put(15, a.getResources().getString(R.string.sh));
+        intToState.put(16, a.getResources().getString(R.string.th));
+        intToState.put(30, a.getResources().getString(R.string.bo));
+
+        statesToInt.put(intToState.get(1), 1);
+        statesToInt.put(intToState.get(2), 2);
+        statesToInt.put(intToState.get(3), 3);
+        statesToInt.put(intToState.get(4), 4);
+        statesToInt.put(intToState.get(5), 5);
+        statesToInt.put(intToState.get(6), 6);
+        statesToInt.put(intToState.get(7), 7);
+        statesToInt.put(intToState.get(8), 8);
+        statesToInt.put(intToState.get(9), 9);
+        statesToInt.put(intToState.get(10), 10);
+        statesToInt.put(intToState.get(11), 11);
+        statesToInt.put(intToState.get(12), 12);
+        statesToInt.put(intToState.get(13), 13);
+        statesToInt.put(intToState.get(14), 14);
+        statesToInt.put(intToState.get(15), 15);
+        statesToInt.put(intToState.get(16), 16);
+        statesToInt.put(intToState.get(30), 30);
+
     }
 
 
@@ -91,49 +129,11 @@ public class CalculationInputHelper
      */
     private int translateState(String state)
     {
-        HashMap<String, Integer> states = new HashMap<String, Integer>();
-        states.put(a.getResources().getString(R.string.bg), 1);
-        states.put(a.getResources().getString(R.string.by), 2);
-        states.put(a.getResources().getString(R.string.bw), 3);
-        states.put(a.getResources().getString(R.string.bb), 4);
-        states.put(a.getResources().getString(R.string.bn), 5);
-        states.put(a.getResources().getString(R.string.hh), 6);
-        states.put(a.getResources().getString(R.string.he), 7);
-        states.put(a.getResources().getString(R.string.mv), 8);
-        states.put(a.getResources().getString(R.string.ns), 9);
-        states.put(a.getResources().getString(R.string.nw), 10);
-        states.put(a.getResources().getString(R.string.rp), 11);
-        states.put(a.getResources().getString(R.string.sl), 12);
-        states.put(a.getResources().getString(R.string.sn), 13);
-        states.put(a.getResources().getString(R.string.sa), 14);
-        states.put(a.getResources().getString(R.string.sh), 15);
-        states.put(a.getResources().getString(R.string.th), 16);
-        states.put(a.getResources().getString(R.string.bo), 30);
-
-        return states.get(state);
+        return statesToInt.get(state);
     }
 
-    public static String retranslateState(int state)
+    public String retranslateState(int state)
     {
-        HashMap<Integer, String> states = new HashMap<Integer, String>();
-        states.put(1, Resources.getSystem().getString(R.string.bg));
-        states.put(2, Resources.getSystem().getString(R.string.by));
-        states.put(3, Resources.getSystem().getString(R.string.bw));
-        states.put(4, Resources.getSystem().getString(R.string.bb));
-        states.put(5, Resources.getSystem().getString(R.string.bn));
-        states.put(6, Resources.getSystem().getString(R.string.hh));
-        states.put(7, Resources.getSystem().getString(R.string.he));
-        states.put(8, Resources.getSystem().getString(R.string.mv));
-        states.put(9, Resources.getSystem().getString(R.string.ns));
-        states.put(10, Resources.getSystem().getString(R.string.nw));
-        states.put(11, Resources.getSystem().getString(R.string.rp));
-        states.put(12, Resources.getSystem().getString(R.string.sl));
-        states.put(13, Resources.getSystem().getString(R.string.sn));
-        states.put(14, Resources.getSystem().getString(R.string.sa));
-        states.put(15, Resources.getSystem().getString(R.string.sh));
-        states.put(16, Resources.getSystem().getString(R.string.th));
-        states.put(30, Resources.getSystem().getString(R.string.bo));
-
-        return states.get(state);
+        return intToState.get(state);
     }
 }
