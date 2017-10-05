@@ -29,6 +29,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -57,12 +58,7 @@ import com.profilohn.R;
 import com.profilohn.Models.WebService;
 import android.webkit.WebView;
 
-/**
- *
- * @author Robert Lange
- * @date 2016-01-25
- *
- */
+
 public class InputActivity extends AppCompatActivity
         implements CompoundButton.OnCheckedChangeListener, ApiCallbackListener {
 
@@ -78,9 +74,9 @@ public class InputActivity extends AppCompatActivity
     public static Spinner               rv;
     public static Spinner               av;
     public static Spinner               pv;
-    //public static Button                calculate;
-    //public static Button                calculateTop;
-    public static Button                calculate_general;
+    public static Button                calculate;
+    public static Button                calculateTop;
+    // public static Button                calculate_general;
     public static AutoCompleteTextView  insuranceAc;
     public static SwitchCompat          wagePeriod;
     public static SwitchCompat          hasChildren;
@@ -218,7 +214,7 @@ public class InputActivity extends AppCompatActivity
                 return true;
         }});
         spamWebView.setVisibility(View.INVISIBLE);
-        calculate_general.setVisibility(View.VISIBLE);
+        //calculate_general.setVisibility(View.VISIBLE);
         spamWebView.loadUrl("http://robert-lange.eu/loader2.html");
         InputActivity.this.abortCalculation = true;
     }
@@ -281,9 +277,9 @@ public class InputActivity extends AppCompatActivity
         year            = (Spinner) findViewById(R.id.year);
         taxFree         = (EditText) findViewById(R.id.tax_free);
         children        = (Spinner) findViewById(R.id.children);
-        //calculateTop    = (Button) findViewById(R.id.hello_start_calculation_net);
-        //calculate       = (Button) findViewById(R.id.calculate);
-        calculate_general       = (Button) findViewById(R.id.calculate);
+        calculateTop    = (Button) findViewById(R.id.hello_start_calculation_net);
+        calculate       = (Button) findViewById(R.id.calculate);
+        //calculate_general       = (Button) findViewById(R.id.calculate);
 
         kv              = (Spinner) findViewById(R.id.kv_value);
         rv              = (Spinner) findViewById(R.id.rv_value);
@@ -792,13 +788,13 @@ public class InputActivity extends AppCompatActivity
         };
 
         // Abrechnungs-Button oben
-        //calculateTop.setOnClickListener(listener);
+        calculateTop.setOnClickListener(listener);
 
         // Abrechnungs-Button unten
-        //calculate.setOnClickListener(listener);
+        calculate.setOnClickListener(listener);
 
         // Abrechnungs-Button übergeordnet
-        calculate_general.setOnClickListener(listener);
+        // calculate_general.setOnClickListener(listener);
     }
 
     private void GetInsuranceId() {
@@ -939,10 +935,10 @@ public class InputActivity extends AppCompatActivity
         try {
             i = fileStore.readInput();
 
-            if(i != null) {
+            if (i != null) {
                 // Brutto / Nettobetrag
                 wage.requestFocus();
-                if(i.Brutto != null) {
+                if (i.Brutto != null) {
                     wage.setText(i.Brutto.toString());
                 } else {
                     wage.setText("0,00 €");
@@ -954,10 +950,10 @@ public class InputActivity extends AppCompatActivity
                 wagePeriod.setChecked(i.Zeitraum.equalsIgnoreCase("y"));
 
                 // Krankenkasse
-                if(!i.dummyInsurance) {
+                if (!i.dummyInsurance) {
                     for (String entry : insurancesMap.keySet()) {
                         Integer id = insurancesMap.get(entry);
-                        if(id.equals(i.KKBetriebsnummer)) {
+                        if (id.equals(i.KKBetriebsnummer)) {
                             insuranceAc.setText(entry);
                             selectedInsuranceId = id;
                             break;
@@ -980,9 +976,9 @@ public class InputActivity extends AppCompatActivity
 
                 // kv
                 int set = i.KV;
-                if(i.KV == 3)
+                if (i.KV == 3)
                     set = 2;
-                if(i.KV == 6)
+                if (i.KV == 6)
                     set = 3;
                 kv.setSelection(
                         set
@@ -990,9 +986,9 @@ public class InputActivity extends AppCompatActivity
 
                 // rv
                 set = i.RV;
-                if(i.RV == 3)
+                if (i.RV == 3)
                     set = 2;
-                if(i.RV == 5)
+                if (i.RV == 5)
                     set = 3;
                 rv.setSelection(
                         set
@@ -1029,7 +1025,7 @@ public class InputActivity extends AppCompatActivity
                 selectedChurchTax = i.Kirche;
 
                 // Steuerfreibetrag
-                if(i.StFreibetrag != null) {
+                if (i.StFreibetrag != null) {
                     taxFree.setText(i.StFreibetrag.toString());
                 } else {
                     taxFree.setText("0,00 €");
@@ -1047,9 +1043,13 @@ public class InputActivity extends AppCompatActivity
                 // erstes Starten
                 employeeType.setSelection(0);
                 state.setSelection(0);
+                updateInsuranceBranches();
             }
+        } catch (FileNotFoundException fnfe) {
+            employeeType.setSelection(0);
+            state.setSelection(0);
+            updateInsuranceBranches();
         } catch (Exception e) {
-            // todo
             Log.w("auauau", e.getMessage());
         }
     }
@@ -1407,7 +1407,7 @@ public class InputActivity extends AppCompatActivity
     public void showCalculatePopupWindow()
     {
         spamWebView.setVisibility(View.VISIBLE);
-        calculate_general.setVisibility(View.INVISIBLE);
+        //calculate_general.setVisibility(View.INVISIBLE);
     }
 
 
@@ -1442,7 +1442,7 @@ public class InputActivity extends AppCompatActivity
     private void dismissCalculationOverlay()
     {
         spamWebView.setVisibility(View.INVISIBLE);
-        calculate_general.setVisibility(View.VISIBLE);
+        //calculate_general.setVisibility(View.VISIBLE);
         InputActivity.this.abortCalculation = true;
 
         /*

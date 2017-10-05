@@ -18,7 +18,7 @@
 
     </ScrollView>
 
-    <android.support.v7.widget.AppCompatButton
+    <!--android.support.v7.widget.AppCompatButton
         android:id="@+id/calculate"
         style="@style/calculate"
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
         android:layout_alignParentStart="true"
         android:background="@drawable/button_calc"
         android:focusable="true"
-        android:text="@string/calculate" />
+        android:text="@string/calculate" /-->
 
     <WebView
         android:id="@+id/webview_calc"
