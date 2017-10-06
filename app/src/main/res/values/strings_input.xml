@@ -100,7 +100,7 @@
     <string name="wage_type_label_1">Brutto umrechnen in</string>
     <string name="wage_type_label_2">Netto umrechnen in</string>
     <string name="year">Jahr</string>
-
+    <string name="year_full">Abrechnungsjahr</string>
     <string name="bg">Baden-Württemberg</string>
     <string name="by">Bayern</string>
     <string name="bo">Berlin-Ost</string>

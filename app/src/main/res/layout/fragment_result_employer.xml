@@ -13,7 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/result_home_shape"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp">
 
         <TextView
             android:id="@+id/result_employer_title_wage_label"
@@ -50,11 +52,12 @@
         <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
             android:background="@color/colorPrimaryLight"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:paddingTop="5dp">
 
             <View
                 style="@style/hr"

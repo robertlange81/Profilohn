@@ -18,7 +18,7 @@
             android:id="@+id/result_employer_title_wage_label"
             style="@style/text_content"
             android:textColor="@color/text_white"
-            android:text="Sie bezahlen"
+            android:text="Aufwendungen des Arbeitgeber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

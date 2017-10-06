@@ -38,15 +38,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/btn_calc_net"
+            android:textSize="30sp"
             android:theme="@style/StartCalculation1" />
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/hello_start_calculation_gross"
-            android:theme="@style/StartCalculation1"
-            android:text="@string/btn_calc_gross"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:text="@string/btn_calc_gross"
+            android:textSize="30sp"
+            android:theme="@style/StartCalculation1" />
 
     </LinearLayout>
 

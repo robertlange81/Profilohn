@@ -848,6 +848,7 @@ public class InputActivity extends AppCompatActivity
                 rv.setSelection(1);
                 av.setSelection(1);
                 pv.setSelection(0);
+                break;
             case 4: // kurzfristig beschäftigt
                 selectedKV = 0;
                 selectedRV = 0;
@@ -890,8 +891,14 @@ public class InputActivity extends AppCompatActivity
                 break;
             default:
                 // volle Versicherung
-                break;
-
+                selectedKV = 1;
+                selectedRV = 1;
+                selectedAV = 1;
+                selectedPV = 1;
+                kv.setSelection(1);
+                rv.setSelection(1);
+                av.setSelection(1);
+                pv.setSelection(1);
         }
     }
 

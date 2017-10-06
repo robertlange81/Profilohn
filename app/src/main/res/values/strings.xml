@@ -10,5 +10,5 @@
     <string name="currency_null">0,00 €</string>
     <string name="abbrechen">Abbrechen</string>
     <string name="_0_00">0.00€</string>
-    <string name="sie_bezahlen">Sie bezahlen</string>
+    <string name="sie_bezahlen">Arbeitgeber-Kosten</string>
 </resources>
