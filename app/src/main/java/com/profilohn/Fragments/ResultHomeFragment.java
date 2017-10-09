@@ -64,7 +64,7 @@ public class ResultHomeFragment extends Fragment
         View v = null;
 
         // prepare the calculation data
-        Calculation data = (Calculation) getActivity().getIntent().getExtras().getParcelable("Calculation");
+        Calculation data = getActivity().getIntent().getExtras().getParcelable("Calculation");
         FileStore f = new FileStore(getContext());
 
         // try to fetch previous data and set compare layout if so ..
@@ -168,20 +168,25 @@ public class ResultHomeFragment extends Fragment
     {
         // listen on the button clicks
         AppCompatButton btnEmployee = (AppCompatButton) view.findViewById(R.id.result_intro_btn_employee);
-        btnEmployee.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((ResultActivity) getActivity()).setCurrentPage(1, true);
-            }
-        });
+        if(btnEmployee != null) {
+            btnEmployee.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((ResultActivity) getActivity()).setCurrentPage(1, true);
+                }
+            });
+        }
+
 
         AppCompatButton btnEmployer = (AppCompatButton) view.findViewById(R.id.result_intro_btn_employer);
-        btnEmployer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((ResultActivity) getActivity()).setCurrentPage(2, true);
-            }
-        });
+        if(btnEmployer != null) {
+            btnEmployer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((ResultActivity) getActivity()).setCurrentPage(2, true);
+                }
+            });
+        }
     }
 
 

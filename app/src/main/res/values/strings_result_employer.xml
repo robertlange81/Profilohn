@@ -3,7 +3,7 @@
     <string name="result_employer_cum_cat">Gesamtbelastung</string>
     <string name="result_employer_wage_gross">Bruttogehalt</string>
 
-    <string name="result_employer_social_contribution">Sozialabgaben des Arbeitgebers</string>
+    <string name="result_employer_social_contribution">Sozialabgaben (AG-Anteil)</string>
     <string name="result_employer_insurance_pension">Rentenversicherung</string>
     <string name="result_employer_insurance_unemployment">Arbeitslosenversicherung</string>
     <string name="result_employer_insurance_care">Pflegeversicherung</string>

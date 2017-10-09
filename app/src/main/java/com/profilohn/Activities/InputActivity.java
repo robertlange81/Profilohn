@@ -1,6 +1,5 @@
 package com.profilohn.Activities;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,7 +23,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -128,21 +126,29 @@ public class InputActivity extends AppCompatActivity
 
     private boolean changeFocusByCode = false;
 
-    Map<Integer, BigDecimal> percent    = new HashMap<Integer, BigDecimal>() {{
+    Map<Integer, BigDecimal> percentNursingInsurance = new HashMap<Integer, BigDecimal>() {{
         put(2016, new BigDecimal("0.01175"));
         put(2017, new BigDecimal("0.01275"));
+        put(2018, new BigDecimal("0.01275"));
+        put(2019, new BigDecimal("0.01275"));
     }};
     Map<Integer, BigDecimal> bbg_kv = new HashMap<Integer, BigDecimal>() {{
         put(2016, new BigDecimal("4237.50"));
         put(2017, new BigDecimal("4350.00"));
+        put(2018, new BigDecimal("4425.00"));
+        put(2019, new BigDecimal("4425.00"));
     }};
     Map<Integer, BigDecimal> bbg_rv_west = new HashMap<Integer, BigDecimal>() {{
         put(2016, new BigDecimal("6200.00"));
         put(2017, new BigDecimal("6350.00"));
+        put(2018, new BigDecimal("6500.00"));
+        put(2019, new BigDecimal("6500.00"));
     }};
     Map<Integer, BigDecimal> bbg_rv_ost = new HashMap<Integer, BigDecimal>() {{
         put(2016, new BigDecimal("5400.00"));
         put(2017, new BigDecimal("5700.00"));
+        put(2018, new BigDecimal("5800.00"));
+        put(2019, new BigDecimal("5800.00"));
     }};
     BigDecimal add_no_kids  = new BigDecimal("0.0025");
     BigDecimal add_saxony   = new BigDecimal("0.005");
@@ -1110,10 +1116,10 @@ public class InputActivity extends AppCompatActivity
 
         if(data.PV > 1 || data.PV != data.KV) {
             if(selectedWageType == CalculationInputHelper.WAGE_TYPE_GROSS) {
-                correctNursuringInsurance_Brutto_to_Netto(calculation);
+                correctNursingInsurance_Brutto_to_Netto(calculation);
             }
             else {
-                correctNursuringInsurance_Netto_to_Brutto(calculation);
+                correctNursingInsurance_Netto_to_Brutto(calculation);
             }
         }
 
@@ -1121,7 +1127,13 @@ public class InputActivity extends AppCompatActivity
         startActivity(i);
     }
 
-    public void correctNursuringInsurance_Brutto_to_Netto(Calculation calculation) {
+    public void correctNursingInsurance_Brutto_to_Netto(Calculation calculation) {
+
+        if(bbg_kv.get(data.AbrJahr) == null
+                || bbg_rv_ost.get(data.AbrJahr) == null
+                || bbg_rv_west.get(data.AbrJahr) == null
+                || percentNursingInsurance.get(data.AbrJahr) == null)
+            return;
 
         BigDecimal br = bbg_kv.get(data.AbrJahr).min(new BigDecimal(data.Brutto.toString()));
 
@@ -1133,12 +1145,12 @@ public class InputActivity extends AppCompatActivity
         }
 
         if (data.PV > 0) {
-                pvag = br.multiply(percent.get(data.AbrJahr));
+                pvag = br.multiply(percentNursingInsurance.get(data.AbrJahr));
                 if(data.Bundesland == 13)
                     pvag = pvag.subtract(add_saxony.multiply(br));
 
             if (data.PV < 2) {
-                pvan = br.multiply(percent.get(data.AbrJahr)).setScale(2, BigDecimal.ROUND_HALF_UP);
+                pvan = br.multiply(percentNursingInsurance.get(data.AbrJahr)).setScale(2, BigDecimal.ROUND_HALF_UP);
                 if (data.Bundesland == 13)
                     pvan = pvan.add(add_saxony.multiply(br));
 
@@ -1168,7 +1180,13 @@ public class InputActivity extends AppCompatActivity
         }
     }
 
-    public void correctNursuringInsurance_Netto_to_Brutto(Calculation calculation) {
+    public void correctNursingInsurance_Netto_to_Brutto(Calculation calculation) {
+
+        if(bbg_kv.get(data.AbrJahr) == null
+                || bbg_rv_ost.get(data.AbrJahr) == null
+                || bbg_rv_west.get(data.AbrJahr) == null
+                || percentNursingInsurance.get(data.AbrJahr) == null)
+            return;
 
         boolean isUeberBbg_KV = false;
         boolean isUeberBbg_RV = false;
@@ -1180,12 +1198,12 @@ public class InputActivity extends AppCompatActivity
             an_alt = getBigDecimal(calculation.data.Pflegeversicherung_AN).divide(brutto_alt, 5, BigDecimal.ROUND_HALF_UP);
 
             if (data.PV > 0) {
-                pvag = percent.get(data.AbrJahr);
+                pvag = percentNursingInsurance.get(data.AbrJahr);
                 if(data.Bundesland == 13)
                     pvag = pvag.subtract(add_saxony); // nur Prozentsatz
 
                 if (data.PV < 2) {
-                    pvan = percent.get(data.AbrJahr);
+                    pvan = percentNursingInsurance.get(data.AbrJahr);
                     if (data.Bundesland == 13)
                         pvan = pvan.add(add_saxony);
 

@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:id="@+id/fragment_result_employee"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:drawable/screen_background_light_transparent"
+    android:orientation="vertical"
     android:weightSum="1">
 
     <!-- Main pane -->
     <RelativeLayout
         android:id="@+id/summarize"
-        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/result_home_shape">
+        android:background="@drawable/result_home_shape"
+        android:padding="10dp"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp">
 
         <TextView
             android:id="@+id/result_employee_title_wage_label"
             style="@style/text_content"
-            android:textColor="@color/text_white"
-            android:text="@string/result_employee_wage_label"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/result_employee_wage_label"
+            android:textColor="@color/text_white" />
 
         <TextView
             android:id="@+id/result_employee_title_wage"
@@ -32,10 +35,10 @@
             android:textColor="@color/text_white" />
 
         <android.support.v7.widget.AppCompatButton
-            style="@style/result_btn_again"
-            android:theme="@style/ResultButtonStyle"
             android:id="@+id/result_employee_btn_again"
-            android:text="@string/result_employee_btn_again" />
+            style="@style/result_btn_again"
+            android:text="@string/result_employee_btn_again"
+            android:theme="@style/ResultButtonStyle" />
 
     </RelativeLayout>
 
@@ -47,11 +50,11 @@
         <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:background="@color/colorPrimaryLight"
             android:orientation="vertical"
             android:padding="10dp"
-            android:paddingBottom="0dp">
+            android:paddingBottom="0dp"
+            android:paddingTop="0dp">
 
             <View
                 style="@style/hr"
@@ -121,7 +124,9 @@
             </LinearLayout>
 
             <!-- social cat -->
-            <LinearLayout style="@style/result_data_row">
+            <LinearLayout
+                style="@style/result_data_row"
+                android:layout_marginTop="11dp">
 
                 <TextView
                     style="@style/result_cat_label"

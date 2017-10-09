@@ -18,7 +18,7 @@ public class ResultActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     public static ResultActivity instance;
-
+    private static boolean isTablet;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -39,7 +39,11 @@ public class ResultActivity extends AppCompatActivity {
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        if(mViewPager != null) {
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+        } else {
+            isTablet = true;
+        }
 
         instance = this;
     }
@@ -55,6 +59,11 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
+        if(isTablet || mViewPager == null) {
+            this.finish();
+            return true;
+        }
+
         int ci = mViewPager.getCurrentItem();
 
         if (0 == ci) {
@@ -125,5 +134,12 @@ public class ResultActivity extends AppCompatActivity {
             return 3;
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if(this.isTablet)
+            this.finish();
     }
 }

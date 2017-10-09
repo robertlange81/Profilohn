@@ -52,12 +52,11 @@
         <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="5dp"
             android:background="@color/colorPrimaryLight"
             android:orientation="vertical"
             android:padding="10dp"
-            android:paddingTop="5dp">
+            android:paddingBottom="0dp"
+            android:paddingTop="0dp">
 
             <View
                 style="@style/hr"

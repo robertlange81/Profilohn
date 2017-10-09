@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:id="@+id/fragment_result_intro"
     android:layout_width="match_parent"
-    android:weightSum="1"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <!-- Main pane -->
     <LinearLayout
         android:id="@+id/result_intro_summarize"
-        android:layout_weight="0.3"
-        android:padding="@dimen/activity_default_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/result_home_shape">
+        android:layout_weight="0.3"
+        android:background="@drawable/result_home_shape"
+        android:padding="@dimen/activity_default_margin">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <!-- Result header gross and net wage -->
             <LinearLayout
-                android:weightSum="1"
-                android:layout_weight="0.5"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:orientation="horizontal"
                 android:layout_gravity="center_vertical"
-                android:baselineAligned="true">
+                android:layout_weight="0.5"
+                android:baselineAligned="true"
+                android:orientation="horizontal"
+                android:weightSum="1">
 
                 <LinearLayout
-                    android:layout_weight="0.5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_vertical|center_horizontal">
+                    android:layout_weight="0.5"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="vertical">
 
                     <TextView
                         style="@style/result_intro_text_wage_label"
-                        android:text="@string/result_intro_text_wage_gross"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="@string/result_intro_text_wage_gross" />
 
                     <TextView
                         android:id="@+id/result_intro_wage_gross"
@@ -52,17 +52,17 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_weight="0.5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_vertical|center_horizontal">
+                    android:layout_weight="0.5"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="vertical">
 
                     <TextView
                         style="@style/result_intro_text_wage_label"
-                        android:text="@string/result_intro_text_wage_net"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="@string/result_intro_text_wage_net" />
 
                     <TextView
                         android:id="@+id/result_intro_wage_net"
@@ -76,81 +76,81 @@
             <!-- END Result header -->
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/wage_diff_gross"
                     style="@style/result_intro_text_wage_diff"
-                    android:text="0 %"
-                    android:layout_weight="0.5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal" />
+                    android:layout_weight="0.5"
+                    android:gravity="center_horizontal"
+                    android:text="0 %" />
 
                 <TextView
                     android:id="@+id/wage_diff_net"
                     style="@style/result_intro_text_wage_diff"
-                    android:text="0 %"
-                    android:layout_weight="0.5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal" />
+                    android:layout_weight="0.5"
+                    android:gravity="center_horizontal"
+                    android:text="0 %" />
 
             </LinearLayout>
 
             <!-- Compare header gross and net wage -->
             <LinearLayout
-                android:weightSum="1"
-                android:layout_weight="0.5"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:orientation="horizontal"
                 android:layout_gravity="center_vertical"
-                android:baselineAligned="true">
+                android:layout_weight="0.5"
+                android:baselineAligned="true"
+                android:orientation="horizontal"
+                android:weightSum="1">
 
                 <LinearLayout
-                    android:layout_weight="0.5"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center_vertical|center_horizontal">
+                    android:layout_weight="0.5"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="vertical">
 
                     <TextView
                         style="@style/compare_intro_text_wage_label"
-                        android:text="@string/compare_intro_text_wage_gross"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="@string/compare_intro_text_wage_gross" />
 
                     <TextView
                         android:id="@+id/compare_intro_wage_gross"
                         style="@style/compare_intro_text_wage_value"
-                        android:text="@string/currency_null"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="@string/currency_null" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_weight="0.5"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center_vertical|center_horizontal">
+                    android:layout_weight="0.5"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="vertical">
 
                     <TextView
                         style="@style/compare_intro_text_wage_label"
-                        android:text="@string/compare_intro_text_wage_net"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="@string/compare_intro_text_wage_net" />
 
                     <TextView
                         android:id="@+id/compare_intro_wage_net"
-                        android:text="@string/currency_null"
                         style="@style/compare_intro_text_wage_value"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="@string/currency_null" />
 
                 </LinearLayout>
 
@@ -158,37 +158,6 @@
             <!-- END Compare header -->
 
         </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:padding="@dimen/activity_default_margin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.7">
-
-        <TextView
-            android:text="@string/result_intro_intro"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <FrameLayout
-                android:id="@+id/fragment_result_employer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <FrameLayout
-                android:id="@+id/fragment_result_employee"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true" />
-
-        </RelativeLayout>
 
     </LinearLayout>
 
