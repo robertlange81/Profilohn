@@ -4,41 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_alignParentBottom="false"
+    android:background="@android:color/white"
+    android:baselineAligned="false"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:baselineAligned="false"
-    android:layout_alignParentBottom="false"
     tools:context="com.profilohn.Activities.ResultActivity">
 
     <fragment
         android:id="@+id/HomeFragment"
         android:name="com.profilohn.Fragments.ResultHomeFragment"
         android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_height="wrap_content" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:baselineAligned="false"
         android:fitsSystemWindows="true"
         android:orientation="horizontal"
-        android:baselineAligned="false"
         tools:context="com.profilohn.Activities.ResultActivity">
 
         <fragment
-            android:name="com.profilohn.Fragments.ResultEmployeeFragment"
             android:id="@+id/EmployeeFragment"
-            android:layout_height="wrap_content"
+            android:name="com.profilohn.Fragments.ResultEmployeeFragment"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="0.5" />
 
         <fragment
-            android:name="com.profilohn.Fragments.ResultEmployerFragment"
             android:id="@+id/EmployeRFragment"
-            android:layout_height="wrap_content"
+            android:name="com.profilohn.Fragments.ResultEmployerFragment"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="0.5" />
 
     </LinearLayout>

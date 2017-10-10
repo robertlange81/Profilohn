@@ -23,7 +23,7 @@
             <!-- Result header gross and net wage -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="0.5"
                 android:baselineAligned="true"
@@ -127,7 +127,7 @@
                         android:id="@+id/compare_intro_wage_gross"
                         style="@style/compare_intro_text_wage_value"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:text="@string/currency_null" />
 
                 </LinearLayout>
@@ -149,7 +149,7 @@
                         android:id="@+id/compare_intro_wage_net"
                         style="@style/compare_intro_text_wage_value"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:text="@string/currency_null" />
 
                 </LinearLayout>
