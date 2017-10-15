@@ -11,13 +11,14 @@
         android:id="@+id/layout_wage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:background="@drawable/input_wage_shape"
         android:fitsSystemWindows="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
 
         <LinearLayout
@@ -42,14 +43,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="bottom|end"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="@dimen/padding_label_left"
                     android:text="@string/wage_period_year"
-                    android:textAlignment="center" />
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center_horizontal"
                     android:orientation="horizontal"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="@dimen/padding_label_left"
                     android:paddingTop="5dp">
 
 
@@ -84,20 +89,32 @@
                     android:id="@+id/wageamount_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="bottom|center_horizontal"
+                    android:gravity="bottom|start"
                     android:onClick="onWagePeriodClicked"
-                    android:text="@string/wageamount_gross_month" />
+                    android:paddingEnd="0dp"
+                    android:paddingStart="@dimen/padding_label_left"
+                    android:text="@string/wageamount_gross_month"
+                    android:textSize="18sp" />
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/wage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginStart="10dp"
                     android:digits="0123456789,."
                     android:hint="@string/wage_default"
                     android:inputType="numberDecimal"
                     android:maxLength="12"
+                    android:paddingEnd="0dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="0dp"
+                    android:paddingStart="10dp"
                     android:selectAllOnFocus="true"
-                    android:textAlignment="center" />
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -109,23 +126,31 @@
 
                 <TextView
                     android:id="@+id/taxfree_label"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="bottom|center"
+                    android:gravity="bottom"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="@dimen/padding_label_left"
                     android:text="@string/taxfree_month"
-                    android:textAlignment="center" />
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/tax_free"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginStart="10dp"
                     android:gravity="center"
                     android:hint="@string/taxfree_hint"
                     android:inputType="numberDecimal"
                     android:maxLength="11"
-                    android:selectAllOnFocus="true" />
+                    android:selectAllOnFocus="true"
+                    android:textAlignment="viewStart" />
 
             </LinearLayout>
 
@@ -135,7 +160,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginTop="30dp"
             android:baselineAligned="false"
             android:orientation="horizontal"
@@ -154,15 +179,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="bottom|end"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="@dimen/padding_label_left"
                     android:text="@string/wage_type_label_1"
-                    android:textAlignment="center" />
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
 
                 <RadioGroup
                     android:id="@+id/type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="end"
+                    android:layout_marginTop="5dp"
                     android:orientation="horizontal"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="@dimen/padding_label_left"
                     android:paddingTop="5dp"
                     android:weightSum="3">
 
@@ -173,14 +203,16 @@
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="@string/netwage"
-                        android:textAlignment="gravity" />
+                        android:textAlignment="gravity"
+                        android:textSize="18sp" />
 
                     <RadioButton
                         android:id="@+id/type_gross"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="@string/grosswage" />
+                        android:text="@string/grosswage"
+                        android:textSize="18sp" />
 
                 </RadioGroup>
 
@@ -197,19 +229,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="bottom|center_horizontal"
-                    android:text="@string/year_full" />
+                    android:paddingEnd="0dp"
+                    android:paddingStart="@dimen/padding_label_left"
+                    android:text="@string/year_full"
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/year"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
                     android:filterTouchesWhenObscured="false"
                     android:fitsSystemWindows="false"
-                    android:gravity="center_horizontal"
-                    android:paddingEnd="15dp"
-                    android:paddingStart="0dp"
-                    android:textAlignment="center" />
+                    android:gravity="start"
+                    android:paddingEnd="0dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="0dp"
+                    android:paddingStart="5dp"
+                    android:textAlignment="viewStart" />
 
             </LinearLayout>
 
@@ -229,22 +269,25 @@
                     android:layout_marginEnd="0dp"
                     android:layout_marginRight="0dp"
                     android:gravity="bottom|start"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="@dimen/padding_label_left"
                     android:text="@string/employee_type"
-                    android:textAlignment="center" />
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
 
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/employee_type"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:paddingEnd="0dp"
-                    android:paddingLeft="@dimen/padding_text_left"
+                    android:paddingLeft="5dp"
                     android:paddingRight="0dp"
-                    android:paddingStart="@dimen/padding_text_left"
-                    android:textAlignment="viewEnd" />
+                    android:paddingStart="5dp"
+                    android:textAlignment="viewStart" />
 
             </LinearLayout>
 
@@ -268,21 +311,10 @@
             android:id="@+id/lay_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_alignParentBottom="false"
             android:layout_below="@+id/linearLayout6"
-            android:gravity="center_horizontal"
+            android:gravity="end"
             android:orientation="horizontal">
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/hello_start_calculation_net"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
-                android:gravity="center"
-                android:padding="20dp"
-                android:text="@string/btn_calc"
-                android:textSize="20sp"
-                android:theme="@style/ResultButtonStyle" />
 
         </LinearLayout>
 
@@ -291,10 +323,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:baselineAligned="false"
             android:orientation="horizontal"
             android:weightSum="3">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/state_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="0dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="0dp"
+                    android:paddingStart="20dp"
+                    android:text="@string/state"
+                    android:textAlignment="textStart"
+                    android:textSize="18sp" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/state"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:contentDescription="@string/state"
+                    android:paddingEnd="0dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="0dp"
+                    android:paddingStart="5dp"
+                    android:prompt="@string/bundesland_prompt"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout5"
@@ -314,7 +381,8 @@
                     android:paddingRight="0dp"
                     android:paddingStart="@dimen/padding_label_left"
                     android:text="@string/insurance"
-                    android:textAlignment="viewStart" />
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
 
                 <android.support.v7.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/insuranceAc"
@@ -335,36 +403,7 @@
                     android:prompt="@string/krankenkassen_prompt"
                     android:selectAllOnFocus="true"
                     android:textAlignment="textStart"
-                    android:textSize="@dimen/text_size_input" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/state_label"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="bottom|start"
-                    android:text="@string/state"
-                    android:textAlignment="center" />
-
-                <android.support.v7.widget.AppCompatSpinner
-                    android:id="@+id/state"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    android:contentDescription="@string/state"
-                    android:paddingEnd="0dp"
-                    android:paddingStart="@dimen/padding_text_left"
-                    android:prompt="@string/bundesland_prompt"
-                    android:textAlignment="center" />
-
+                    android:textSize="18sp" />
             </LinearLayout>
 
 
@@ -377,7 +416,7 @@
             android:layout_below="@+id/linearLayout1"
             android:layout_marginEnd="0dp"
             android:layout_marginRight="0dp"
-            android:layout_marginTop="90dp"
+            android:layout_marginTop="50dp"
             android:baselineAligned="false"
             android:orientation="horizontal">
 
@@ -400,19 +439,20 @@
                     android:paddingRight="0dp"
                     android:paddingStart="@dimen/padding_label_left"
                     android:text="@string/taxclass"
-                    android:textAlignment="viewStart" />
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/tax_class"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="8dp"
                     android:contentDescription="@string/taxclass"
                     android:foregroundGravity="left"
                     android:paddingEnd="0dp"
-                    android:paddingStart="@dimen/padding_text_left"
+                    android:paddingStart="5dp"
                     android:prompt="@string/stkl_prompt"
                     android:textAlignment="textStart" />
 
@@ -430,14 +470,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="@dimen/padding_label_left"
                     android:text="@string/church"
-                    android:textAlignment="center" />
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:orientation="horizontal"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="@dimen/padding_label_left"
                     android:paddingTop="5dp">
 
                     <android.support.v7.widget.SwitchCompat
@@ -472,14 +517,19 @@
                     android:id="@+id/has_children_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="@dimen/padding_label_left"
                     android:text="@string/has_children"
-                    android:textAlignment="center" />
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:orientation="horizontal"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="@dimen/padding_label_left"
                     android:paddingTop="5dp">
 
 
@@ -504,10 +554,22 @@
 
             </LinearLayout>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linearLayout2"
+            android:layout_marginEnd="0dp"
+            android:layout_marginTop="60dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:gravity="start"
                 android:orientation="vertical"
                 android:textAlignment="viewStart">
@@ -519,32 +581,21 @@
                     android:gravity="start"
                     android:paddingEnd="0dp"
                     android:paddingStart="@dimen/padding_label_left"
-                    android:text="@string/children" />
+                    android:text="@string/children"
+                    android:textSize="18sp" />
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/children"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:paddingEnd="0dp"
-                    android:paddingStart="@dimen/padding_text_left"
-                    android:textAlignment="viewStart" />
+                    android:paddingStart="5dp"
+                    android:textAlignment="center" />
 
             </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/linearLayout2"
-            android:layout_marginEnd="0dp"
-            android:layout_marginTop="90dp"
-            android:baselineAligned="false"
-            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -559,54 +610,25 @@
                     android:paddingEnd="0dp"
                     android:paddingStart="@dimen/padding_label_left"
                     android:text="@string/label_health_insurance"
-                    android:textAlignment="textStart" />
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/kv_value"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_height="match_parent"
                     android:layout_marginEnd="0dp"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
                     android:contentDescription="@string/label_health_insurance"
                     android:filterTouchesWhenObscured="false"
                     android:fitsSystemWindows="false"
                     android:gravity="center_horizontal"
-                    android:paddingEnd="28dp"
-                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="5dp"
                     android:prompt="@string/health_insurance_prompt"
                     android:textAlignment="viewEnd" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/pv_label"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingEnd="0dp"
-                    android:paddingStart="@dimen/padding_label_left"
-                    android:text="@string/label_nursing_insurance"
-                    android:textAlignment="textStart" />
-
-                <android.support.v7.widget.AppCompatSpinner
-                    android:id="@+id/pv_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_marginTop="5dp"
-                    android:contentDescription="@string/label_nursing_insurance"
-                    android:filterTouchesWhenObscured="false"
-                    android:fitsSystemWindows="false"
-                    android:gravity="center_horizontal"
-                    android:paddingEnd="28dp"
-                    android:paddingStart="0dp"
-                    android:prompt="@string/nursing_insurance_prompt" />
 
             </LinearLayout>
 
@@ -620,56 +642,27 @@
                     android:id="@+id/rv_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
                     android:paddingEnd="0dp"
                     android:paddingStart="@dimen/padding_label_left"
                     android:text="@string/label_pension_insurance"
-                    android:textAlignment="textStart" />
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/rv_value"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
                     android:contentDescription="@string/label_pension_insurance"
                     android:filterTouchesWhenObscured="false"
                     android:fitsSystemWindows="false"
                     android:gravity="center_horizontal"
-                    android:paddingEnd="28dp"
-                    android:paddingStart="0dp"
-                    android:prompt="@string/pension_insurance_prompt" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/av_label"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:paddingEnd="0dp"
-                    android:paddingStart="@dimen/padding_label_left"
-                    android:text="@string/label_unemployment_insurance"
-                    android:textAlignment="textStart" />
-
-                <android.support.v7.widget.AppCompatSpinner
-                    android:id="@+id/av_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_gravity="end"
-                    android:layout_marginTop="5dp"
-                    android:contentDescription="@string/label_unemployment_insurance"
-                    android:filterTouchesWhenObscured="false"
-                    android:fitsSystemWindows="false"
-                    android:gravity="center_horizontal"
-                    android:paddingEnd="28dp"
-                    android:paddingStart="0dp"
-                    android:prompt="@string/unemployment_insurance_prompt" />
+                    android:paddingStart="5dp"
+                    android:prompt="@string/pension_insurance_prompt" />
 
             </LinearLayout>
 
@@ -682,19 +675,122 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/linearLayout6"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="60dp"
             android:baselineAligned="false"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/calculate"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:padding="0dp"
-                android:text="@string/btn_calc"
-                android:textSize="18sp"
-                android:theme="@style/ResultButtonStyle"
-                android:visibility="gone" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/av_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="@dimen/padding_label_left"
+                    android:text="@string/label_unemployment_insurance"
+                    android:textAlignment="textStart"
+                    android:textSize="18sp" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/av_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:contentDescription="@string/label_unemployment_insurance"
+                    android:filterTouchesWhenObscured="false"
+                    android:fitsSystemWindows="false"
+                    android:gravity="center_horizontal"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp"
+                    android:prompt="@string/unemployment_insurance_prompt" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/pv_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="@dimen/padding_label_left"
+                    android:text="@string/label_nursing_insurance"
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/pv_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:contentDescription="@string/label_nursing_insurance"
+                    android:filterTouchesWhenObscured="false"
+                    android:fitsSystemWindows="false"
+                    android:gravity="center_horizontal"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp"
+                    android:prompt="@string/nursing_insurance_prompt" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/calculate"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:text="@string/btn_calc"
+                    android:textSize="18sp"
+                    android:theme="@style/ResultButtonStyle"
+                    android:visibility="gone" />
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/hello_start_calculation_net"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:padding="18dp"
+                    android:text="@string/btn_calc"
+                    android:textSize="18sp"
+                    android:theme="@style/ResultButtonStyle" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/linearLayout8"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="60dp"
+            android:baselineAligned="false"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+
 
         </LinearLayout>
 

@@ -227,7 +227,7 @@
                 android:layout_marginRight="0dp"
                 android:gravity="bottom|start"
                 android:paddingEnd="0dp"
-                android:paddingStart="@dimen/padding_label_left"
+                android:paddingStart="10dp"
                 android:text="@string/employee_type"
                 android:textAlignment="textStart" />
 
@@ -236,13 +236,9 @@
                 android:id="@+id/employee_type"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
-                android:paddingEnd="0dp"
-                android:paddingLeft="@dimen/padding_text_left"
-                android:paddingRight="0dp"
-                android:paddingStart="@dimen/padding_text_left"
                 android:textAlignment="center" />
 
         </LinearLayout>
@@ -270,7 +266,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="bottom|start"
                     android:paddingEnd="0dp"
-                    android:paddingStart="@dimen/padding_label_left"
+                    android:paddingStart="10dp"
                     android:text="@string/state"
                     android:textAlignment="textStart" />
 
@@ -278,12 +274,10 @@
                     android:id="@+id/state"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:contentDescription="@string/state"
-                    android:paddingEnd="0dp"
-                    android:paddingStart="@dimen/padding_text_left"
                     android:prompt="@string/bundesland_prompt"
                     android:textAlignment="textStart" />
 
@@ -313,8 +307,10 @@
                     android:filterTouchesWhenObscured="false"
                     android:fitsSystemWindows="false"
                     android:gravity="center_horizontal"
-                    android:paddingEnd="15dp"
-                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="0dp"
+                    android:paddingStart="25dp"
                     android:textAlignment="center" />
 
             </LinearLayout>
@@ -349,7 +345,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="bottom|start"
                     android:paddingEnd="0dp"
-                    android:paddingStart="@dimen/padding_label_left"
+                    android:paddingStart="10dp"
                     android:text="@string/taxclass"
                     android:textAlignment="textStart" />
 
@@ -357,13 +353,11 @@
                     android:id="@+id/tax_class"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:contentDescription="@string/taxclass"
                     android:foregroundGravity="left"
-                    android:paddingEnd="0dp"
-                    android:paddingStart="@dimen/padding_text_left"
                     android:prompt="@string/stkl_prompt"
                     android:textAlignment="textStart" />
 
@@ -442,18 +436,16 @@
                     android:layout_height="wrap_content"
                     android:gravity="start"
                     android:paddingEnd="0dp"
-                    android:paddingStart="@dimen/padding_label_left"
+                    android:paddingStart="10dp"
                     android:text="@string/children" />
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/children"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
-                    android:paddingEnd="0dp"
-                    android:paddingStart="@dimen/padding_text_left"
                     android:textAlignment="viewStart" />
 
             </LinearLayout>
@@ -525,9 +517,9 @@
                 android:layout_gravity="start"
                 android:layout_marginTop="@dimen/appbar_padding_top"
                 android:paddingEnd="0dp"
-                android:paddingLeft="@dimen/padding_label_left"
+                android:paddingLeft="10dp"
                 android:paddingRight="0dp"
-                android:paddingStart="@dimen/padding_label_left"
+                android:paddingStart="10dp"
                 android:text="@string/insurance"
                 android:textAlignment="viewStart" />
 
@@ -535,17 +527,15 @@
                 android:id="@+id/insuranceAc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="2dp"
                 android:ellipsize="end"
                 android:hint="@string/insurance_hint"
                 android:inputType="textNoSuggestions|textFilter"
                 android:maxLines="1"
-                android:paddingEnd="0dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="0dp"
-                android:paddingStart="10dp"
                 android:privateImeOptions="nm"
                 android:prompt="@string/krankenkassen_prompt"
                 android:selectAllOnFocus="true"
@@ -575,7 +565,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:paddingEnd="0dp"
-                    android:paddingStart="@dimen/padding_label_left"
+                    android:paddingStart="10dp"
                     android:text="@string/label_pension_insurance"
                     android:textAlignment="textStart" />
 
@@ -584,13 +574,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
                     android:layout_marginBottom="0dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:contentDescription="@string/label_pension_insurance"
                     android:filterTouchesWhenObscured="false"
                     android:fitsSystemWindows="false"
                     android:gravity="center_horizontal"
-                    android:paddingEnd="28dp"
-                    android:paddingStart="0dp"
                     android:prompt="@string/pension_insurance_prompt" />
 
             </LinearLayout>
@@ -606,7 +595,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingEnd="0dp"
-                    android:paddingStart="@dimen/padding_label_left"
+                    android:paddingStart="10dp"
                     android:text="@string/label_unemployment_insurance"
                     android:textAlignment="textStart" />
 
@@ -615,13 +604,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
                     android:layout_gravity="end"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:contentDescription="@string/label_unemployment_insurance"
                     android:filterTouchesWhenObscured="false"
                     android:fitsSystemWindows="false"
                     android:gravity="center_horizontal"
-                    android:paddingEnd="28dp"
-                    android:paddingStart="0dp"
                     android:prompt="@string/unemployment_insurance_prompt" />
 
             </LinearLayout>
@@ -650,7 +638,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingEnd="0dp"
-                    android:paddingStart="@dimen/padding_label_left"
+                    android:paddingStart="10dp"
                     android:text="@string/label_nursing_insurance"
                     android:textAlignment="textStart" />
 
@@ -658,13 +646,12 @@
                     android:id="@+id/pv_value"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:contentDescription="@string/label_nursing_insurance"
                     android:filterTouchesWhenObscured="false"
                     android:fitsSystemWindows="false"
                     android:gravity="center_horizontal"
-                    android:paddingEnd="28dp"
-                    android:paddingStart="0dp"
                     android:prompt="@string/nursing_insurance_prompt" />
 
             </LinearLayout>
@@ -681,7 +668,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingEnd="0dp"
-                    android:paddingStart="@dimen/padding_label_left"
+                    android:paddingStart="10dp"
                     android:text="@string/label_health_insurance"
                     android:textAlignment="textStart" />
 
@@ -691,14 +678,13 @@
                     android:layout_height="25dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginEnd="0dp"
-                    android:layout_marginStart="0dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:contentDescription="@string/label_health_insurance"
                     android:filterTouchesWhenObscured="false"
                     android:fitsSystemWindows="false"
                     android:gravity="center_horizontal"
-                    android:paddingEnd="28dp"
-                    android:paddingStart="0dp"
                     android:prompt="@string/health_insurance_prompt"
                     android:textAlignment="viewEnd" />
 

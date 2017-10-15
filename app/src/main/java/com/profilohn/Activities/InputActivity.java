@@ -2,6 +2,7 @@ package com.profilohn.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -305,8 +306,8 @@ public class InputActivity extends AppCompatActivity
 
         // tax classes
         _taxclassAdapter = ArrayAdapter.createFromResource(this,
-                R.array.taxclasses, R.layout.support_simple_spinner_dropdown_item);
-        _taxclassAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                R.array.taxclasses, R.layout.spinner_left_item);
+        _taxclassAdapter.setDropDownViewResource(R.layout.spinner_left_item);
         taxClass.setAdapter(_taxclassAdapter);
 
         // calc year
@@ -316,43 +317,35 @@ public class InputActivity extends AppCompatActivity
                 (new Integer(Calendar.getInstance().get(Calendar.YEAR)+1)).toString()
         };
         final List<String> yearsList = new ArrayList<>(Arrays.asList(years));
-        _yearAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, yearsList);
-
-        _yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        _yearAdapter = new ArrayAdapter<String>(this, R.layout.spinner_left_item, yearsList);
         year.setAdapter(_yearAdapter);
         year.setSelection(1);
 
         // insurance classes
         _kvclassAdapter = ArrayAdapter.createFromResource(this,
-                R.array.kv, R.layout.spinner_right_item);
-        _kvclassAdapter.setDropDownViewResource(R.layout.spinner_right_item);
+                R.array.kv, R.layout.spinner_left_item);
         kv.setAdapter(_kvclassAdapter);
 
         _rvclassAdapter = ArrayAdapter.createFromResource(this,
-                R.array.rv, R.layout.spinner_right_item);
-        _rvclassAdapter.setDropDownViewResource(R.layout.spinner_right_item);
+                R.array.rv, R.layout.spinner_left_item);
         rv.setAdapter(_rvclassAdapter);
 
         _avclassAdapter = ArrayAdapter.createFromResource(this,
-                R.array.av, R.layout.spinner_right_item);
-        _avclassAdapter.setDropDownViewResource(R.layout.spinner_right_item);
+                R.array.av, R.layout.spinner_left_item);
         av.setAdapter(_avclassAdapter);
 
         _pvclassAdapter = ArrayAdapter.createFromResource(this,
-                R.array.pv, R.layout.spinner_right_item);
-        _pvclassAdapter.setDropDownViewResource(R.layout.spinner_right_item);
+                R.array.pv, R.layout.spinner_left_item);
         pv.setAdapter(_pvclassAdapter);
 
         // employee type
         _employeeTypeDataAdapter = ArrayAdapter.createFromResource(this,
-                R.array.employeetypes, android.R.layout.simple_spinner_dropdown_item);
-        _taxclassAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.array.employeetypes, R.layout.spinner_left_item);
         employeeType.setAdapter(_employeeTypeDataAdapter);
 
         // child free amount
         _childFreeAmountAdapter = ArrayAdapter.createFromResource(this,
-                R.array.childfree, android.R.layout.simple_spinner_dropdown_item);
-        _taxclassAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.array.childfree, R.layout.spinner_left_item);
         children.setAdapter(_childFreeAmountAdapter);
     }
 
@@ -766,6 +759,8 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
+                // v.setBackgroundColor(Color.RED);
+
                 abortCalculation = false;
                 wage.clearFocus();
                 taxFree.clearFocus();
@@ -916,9 +911,7 @@ public class InputActivity extends AppCompatActivity
     {
         String[] states = getResources().getStringArray(R.array.states);
 
-        _statesDataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, states);
-        _statesDataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        _statesDataAdapter = new ArrayAdapter<String>(this, R.layout.spinner_left_item, states);
         state.setAdapter(_statesDataAdapter);
     }
 
@@ -1097,7 +1090,7 @@ public class InputActivity extends AppCompatActivity
         _insurancesAdapter = new ArrayAdapter<String>(this,
             android.R.layout.simple_dropdown_item_1line, this.insurancesList);
 
-        _insurancesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        _insurancesAdapter.setDropDownViewResource(R.layout.spinner_left_item);
         insuranceAc.setAdapter(_insurancesAdapter);
     }
 

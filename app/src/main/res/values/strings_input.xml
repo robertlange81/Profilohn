@@ -16,13 +16,13 @@
     <string name="stkl_prompt">Steuerklasse angeben</string>
 
     <string-array name="employeetypes">
-        <item>Standard - Arbeitnehmer</item>
+        <item>Standard</item>
         <item>Minijobber (pauschal)</item>
-        <item>Minijobber (RV-Beitrag)</item>
-        <item>Privat Krankenversichert</item>
-        <item>Kurzfristig Beschäftigt</item>
+        <item>Minijobber (mit RV)</item>
+        <item>Privat Versichert</item>
+        <item>Kurzfristig</item>
         <item>Rentner</item>
-        <item>Flexi-Rentner (RV-Beitrag)</item>
+        <item>Flexi-Rentner (mit RV)</item>
     </string-array>
 
     <string-array name="taxclasses">
@@ -101,7 +101,7 @@
     <string name="wage_type_label_2">Netto umrechnen in</string>
     <string name="year">Jahr</string>
     <string name="year_full">Abrechnungsjahr</string>
-    <string name="bg">Baden-Württemberg</string>
+    <string name="bg">Baden-Württemb.</string>
     <string name="by">Bayern</string>
     <string name="bo">Berlin-Ost</string>
     <string name="bw">Berlin-West</string>
@@ -109,14 +109,14 @@
     <string name="bn">Bremen</string>
     <string name="hh">Hamburg</string>
     <string name="he">Hessen</string>
-    <string name="mv">Meck.-Vorpommern</string>
+    <string name="mv">Meck.-Vorp.</string>
     <string name="ns">Niedersachsen</string>
     <string name="nw">Nordrhein-Westf.</string>
     <string name="rp">Rheinland-Pfalz</string>
     <string name="sl">Saarland</string>
     <string name="sn">Sachsen</string>
     <string name="sa">Sachsen-Anhalt</string>
-    <string name="sh">Schleswig-Holstein</string>
+    <string name="sh">Schlesw.-Holst.</string>
     <string name="th">Thüringen</string>
 
     <string-array name="states">
@@ -144,10 +144,10 @@
         <item>1 - allgemeiner Beitrag</item>
         <item>3 - ermäßigter Beitrag</item>
         <item>6 - Pauschalbeitrag</item-->
-        <item>kein (0)</item>
-        <item>voll (1)</item>
-        <item>ermäßigt (3)</item>
-        <item>pauschal (6)</item>
+        <item>kein</item>
+        <item>voll</item>
+        <item>ermäßigt</item>
+        <item>pauschal</item>
     </string-array>
 
     <string-array name="rv">
@@ -155,28 +155,28 @@
         <item>1 - voller Beitrag</item>
         <item>3 - halber Beitrag</item>
         <item>5 - Pauschalbeitrag</item-->
-        <item>kein (0)</item>
-        <item>voll (1)</item>
-        <item>halb (3)</item>
-        <item>pauschal (5)</item>
+        <item>kein</item>
+        <item>voll</item>
+        <item>halb</item>
+        <item>pauschal</item>
     </string-array>
 
     <string-array name="av">
         <!--item>0 - kein Beitrag</item>
         <item>1 - voller Beitrag</item>
         <item>2 - halber Beitrag</item-->
-        <item>kein (0)</item>
-        <item>voll (1)</item>
-        <item>halb (2)</item>
+        <item>kein</item>
+        <item>voll</item>
+        <item>halb</item>
     </string-array>
 
     <string-array name="pv">
         <!--item>0 - kein Beitrag</item>
         <item>1 - voller Beitrag</item>
         <item>2 - halber Beitrag</item-->
-        <item>kein (0)</item>
-        <item>voll (1)</item>
-        <item>halb (2)</item>
+        <item>kein</item>
+        <item>voll</item>
+        <item>halb</item>
     </string-array>
 
     <string name="validation_error_wage">Bitte Lohn/Gehalt angeben.</string>
