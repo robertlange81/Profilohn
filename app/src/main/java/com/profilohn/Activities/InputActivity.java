@@ -773,13 +773,13 @@ public class InputActivity extends AppCompatActivity
                 InputActivity.this._cacheInputs(data);
 
                 eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
-                showCalculationOverlay();
 
                 // do the calculation delayed for advertising
                 new Handler().postDelayed(new Runnable() {
 
                     @Override
                     public void run() {
+                        showCalculationOverlay();
                         CalculationInput ci = new CalculationInput(data);
                         webService.Calculate(ci);
                     }

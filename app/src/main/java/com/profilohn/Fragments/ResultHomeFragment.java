@@ -1,6 +1,7 @@
 package com.profilohn.Fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import com.profilohn.Activities.ResultActivity;
 import com.profilohn.Helper.FormatHelper;
 import com.profilohn.Models.Calculation;
 import com.profilohn.Helper.FileStore;
+import com.profilohn.Models.CalculationInput;
 import com.profilohn.R;
 
 /**
@@ -172,7 +174,14 @@ public class ResultHomeFragment extends Fragment
             btnEmployee.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((ResultActivity) getActivity()).setCurrentPage(1, true);
+                    new Handler().postDelayed(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            ((ResultActivity) getActivity()).setCurrentPage(1, true);
+                        }
+
+                    }, getResources().getInteger(R.integer.calculation_timeout));
                 }
             });
         }
@@ -183,7 +192,14 @@ public class ResultHomeFragment extends Fragment
             btnEmployer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((ResultActivity) getActivity()).setCurrentPage(2, true);
+                    new Handler().postDelayed(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            ((ResultActivity) getActivity()).setCurrentPage(2, true);
+                        }
+
+                    }, getResources().getInteger(R.integer.calculation_timeout));
                 }
             });
         }
