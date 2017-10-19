@@ -17,15 +17,16 @@
 
     <string-array name="employeetypes">
         <item>Standard</item>
-        <item>Minijobber (pauschal)</item>
-        <item>Minijobber (mit RV)</item>
+        <item>Minijobber (RV-frei)</item>
+        <item>Minijobber (Standard)</item>
         <item>Privat Versichert</item>
         <item>Kurzfristig</item>
         <item>Rentner</item>
-        <item>Flexi-Rentner (mit RV)</item>
+        <item>Flexi-Rentner (mit Aufstockung RV)</item>
     </string-array>
 
     <string-array name="taxclasses">
+        <item>Pauschal</item>
         <item>Eins</item>
         <item>Zwei</item>
         <item>Drei</item>

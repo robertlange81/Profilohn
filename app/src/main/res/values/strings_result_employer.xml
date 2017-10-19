@@ -1,15 +1,19 @@
 <resources>
-    <string name="result_employer_title">Arbeitgeber</string>
+    <string name="result_employer_title">Arbeitgeber (AG)</string>
     <string name="result_employer_cum_cat">Gesamtbelastung</string>
     <string name="result_employer_wage_gross">Bruttogehalt</string>
 
-    <string name="result_employer_social_contribution">Sozialabgaben (AG-Anteil)</string>
+    <string name="result_employer_tax">pauschale Steuern AG</string>
+    <string name="result_employer_base_tax">Lohnsteuer</string>
+    <string name="result_employer_soli_tax">Soli</string>
+    <string name="result_employer_church_tax">Kirchensteuern</string>
+    <string name="result_employer_social_contribution">Sozialabgaben AG</string>
     <string name="result_employer_insurance_pension">Rentenversicherung</string>
     <string name="result_employer_insurance_unemployment">Arbeitslosenversicherung</string>
     <string name="result_employer_insurance_care">Pflegeversicherung</string>
     <string name="result_employer_insurance_health">Krankenversicherung</string>
 
-    <string name="result_employer_contribution">Umlagen</string>
+    <string name="result_employer_contribution">Umlagen AG</string>
     <string name="result_employer_contribution1">U1 (Krankheit)</string>
     <string name="result_employer_contribution2">U2 (Mutterschutz)</string>
     <string name="result_employer_insolvency_contribution">IGU (Insolvenzgeldumlage)</string>

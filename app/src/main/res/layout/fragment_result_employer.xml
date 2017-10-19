@@ -193,10 +193,58 @@
                 style="@style/hr"
                 android:layout_width="match_parent" />
 
+            <!-- tax cat -->
+            <LinearLayout style="@style/result_data_row">
+
+                <TextView
+                    style="@style/result_cat_label"
+                    android:text="@string/result_employer_tax" />
+
+                <TextView
+                    android:id="@+id/result_employer_tax"
+                    style="@style/result_cat_value" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/result_data_row">
+
+                <TextView
+                    style="@style/result_data_label"
+                    android:text="@string/result_employer_base_tax" />
+
+                <TextView
+                    android:id="@+id/result_employer_base_tax"
+                    style="@style/result_data_value" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/result_data_row">
+
+                <TextView
+                    style="@style/result_data_label"
+                    android:text="@string/result_employer_soli_tax" />
+
+                <TextView
+                    android:id="@+id/result_employer_soli_tax"
+                    style="@style/result_data_value" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/result_data_row">
+
+                <TextView
+                    style="@style/result_data_label"
+                    android:text="@string/result_employer_church_tax" />
+
+                <TextView
+                    android:id="@+id/result_employer_church_tax"
+                    style="@style/result_data_value" />
+            </LinearLayout>
+            <View
+                style="@style/hr"
+                android:layout_width="match_parent" />
+
             <!-- net wage -->
             <LinearLayout
                 style="@style/result_data_row"
-                android:layout_marginBottom="30dp">
+                android:layout_marginBottom="5dp">
 
                 <TextView
                     android:id="@+id/result_employee_wage_label"

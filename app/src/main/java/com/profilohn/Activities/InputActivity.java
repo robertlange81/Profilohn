@@ -2,7 +2,6 @@ package com.profilohn.Activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -30,6 +29,7 @@ import android.widget.TextView;
 
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -127,6 +127,30 @@ public class InputActivity extends AppCompatActivity
 
     private boolean changeFocusByCode = false;
 
+    BigDecimal percent_pausch_steuer_minijob = new BigDecimal(0.02);
+    BigDecimal anteilAG_pauschRV_Minijob = new BigDecimal(0.15);
+    BigDecimal percent_rentenversicherung_gesamt = new BigDecimal(0.187);
+    BigDecimal percent_pausch_steuer_kurzfristig = new BigDecimal(0.25);
+    BigDecimal percent_soli = new BigDecimal(0.055);
+
+    Map<Integer, BigDecimal> percentErmaessigteKirchensteuer = new HashMap<Integer, BigDecimal>() {{
+        put(1, new BigDecimal("0.08"));
+        put(2, new BigDecimal("0.08"));
+        put(3, new BigDecimal("0.09"));
+        put(4, new BigDecimal("0.09"));
+        put(5, new BigDecimal("0.09"));
+        put(6, new BigDecimal("0.09"));
+        put(7, new BigDecimal("0.09"));
+        put(8, new BigDecimal("0.09"));
+        put(10, new BigDecimal("0.09"));
+        put(11, new BigDecimal("0.09"));
+        put(12, new BigDecimal("0.09"));
+        put(13, new BigDecimal("0.09"));
+        put(14, new BigDecimal("0.09"));
+        put(15, new BigDecimal("0.09"));
+        put(16, new BigDecimal("0.09"));
+        put(30, new BigDecimal("0.09"));
+    }};
     Map<Integer, BigDecimal> percentNursingInsurance = new HashMap<Integer, BigDecimal>() {{
         put(2016, new BigDecimal("0.01175"));
         put(2017, new BigDecimal("0.01275"));
@@ -309,6 +333,7 @@ public class InputActivity extends AppCompatActivity
                 R.array.taxclasses, R.layout.spinner_left_item);
         _taxclassAdapter.setDropDownViewResource(R.layout.spinner_left_item);
         taxClass.setAdapter(_taxclassAdapter);
+        taxClass.setSelection(1);
 
         // calc year
         String[] years = new String[]{
@@ -646,7 +671,7 @@ public class InputActivity extends AppCompatActivity
 
                 wage.clearFocus();
                 taxFree.clearFocus();
-                selectedTaxClass = ++position;
+                selectedTaxClass = position;
             }
 
             @Override
@@ -817,6 +842,8 @@ public class InputActivity extends AppCompatActivity
                 rv.setSelection(1);
                 av.setSelection(1);
                 pv.setSelection(1);
+                if(taxClass.getSelectedItemPosition() == 0)
+                    taxClass.setSelection(1);
                 break;
             case 1: // Minijobber
                 selectedKV = 6;
@@ -828,6 +855,7 @@ public class InputActivity extends AppCompatActivity
                 av.setSelection(0);
                 pv.setSelection(0);
                 insuranceAc.setText("Knappschaft geringf. Beschäftigte");
+                taxClass.setSelection(0);
                 break;
             case 2: // Minijobber mit RV
                 selectedKV = 6;
@@ -839,6 +867,7 @@ public class InputActivity extends AppCompatActivity
                 av.setSelection(0);
                 pv.setSelection(0);
                 insuranceAc.setText("Knappschaft geringf. Beschäftigte");
+                taxClass.setSelection(0);
                 break;
             case 3: // privat versichert
                 selectedKV = 0;
@@ -849,6 +878,8 @@ public class InputActivity extends AppCompatActivity
                 rv.setSelection(1);
                 av.setSelection(1);
                 pv.setSelection(0);
+                if(taxClass.getSelectedItemPosition() == 0)
+                    taxClass.setSelection(1);
                 break;
             case 4: // kurzfristig beschäftigt
                 selectedKV = 0;
@@ -859,6 +890,7 @@ public class InputActivity extends AppCompatActivity
                 rv.setSelection(0);
                 av.setSelection(0);
                 pv.setSelection(0);
+                taxClass.setSelection(0);
                 break;
             case 5: // Rentner
                 selectedKV = 3;
@@ -874,6 +906,8 @@ public class InputActivity extends AppCompatActivity
                     av.setSelection(0);
                 }
                 pv.setSelection(1);
+                if(taxClass.getSelectedItemPosition() == 0)
+                    taxClass.setSelection(1);
                 break;
             case 6: // Flexi-Rentner
                 selectedKV = 3;
@@ -889,6 +923,8 @@ public class InputActivity extends AppCompatActivity
                     av.setSelection(0);
                 }
                 pv.setSelection(1);
+                if(taxClass.getSelectedItemPosition() == 0)
+                    taxClass.setSelection(1);
                 break;
             default:
                 // volle Versicherung
@@ -900,6 +936,8 @@ public class InputActivity extends AppCompatActivity
                 rv.setSelection(1);
                 av.setSelection(1);
                 pv.setSelection(1);
+                if(taxClass.getSelectedItemPosition() == 0)
+                    taxClass.setSelection(1);
         }
     }
 
@@ -1011,7 +1049,9 @@ public class InputActivity extends AppCompatActivity
                 );
 
                 // Steuerklasse
-                taxClass.setSelection(i.StKl - 1);
+                if(i.StKl < 0 || i.StKl > 6)
+                    i.StKl = 1;
+                taxClass.setSelection(i.StKl);
                 selectedTaxClass = i.StKl;
 
                 // Abrechnungsjahr
@@ -1107,12 +1147,22 @@ public class InputActivity extends AppCompatActivity
         Intent i = new Intent(this, ResultActivity.class);
         i.putExtra("Calculation", calculation);
 
-        if(data.PV > 1 || data.PV != data.KV) {
+        if(data.KV != 6 && (data.PV > 1 || data.PV != data.KV)) {
             if(selectedWageType == CalculationInputHelper.WAGE_TYPE_GROSS) {
                 correctNursingInsurance_Brutto_to_Netto(calculation);
             }
             else {
                 correctNursingInsurance_Netto_to_Brutto(calculation);
+            }
+        }
+
+        if(data.StKl == 0) {
+            if(data.Beschaeftigungsart == 1 || data.Beschaeftigungsart == 2) {
+                correctPauschaleSteuer_Minijob(calculation);
+            }
+
+            if(data.Beschaeftigungsart == 4) {
+                correctPauschaleSteuer_Kurzfristig(calculation, data);
             }
         }
 
@@ -1338,6 +1388,37 @@ public class InputActivity extends AppCompatActivity
         }
     }
 
+    public void correctPauschaleSteuer_Minijob(Calculation calculation) {
+        try {
+            BigDecimal brutto  = getBigDecimal(calculation.data.LohnsteuerPflBrutto);
+            BigDecimal pauchSt = brutto.multiply(percent_pausch_steuer_minijob);
+
+            calculation.data.Pausch_LohnSteuer_AG = getDecimalString_Up(pauchSt);
+        } catch (Exception e) {
+            String s = e.getMessage();
+        }
+    }
+
+    public void correctPauschaleSteuer_Kurzfristig(Calculation calculation, CalculationInputData input) {
+        try {
+            BigDecimal brutto  = getBigDecimal(calculation.data.LohnsteuerPflBrutto);
+            BigDecimal pauchSt = brutto.multiply(percent_pausch_steuer_kurzfristig).setScale(2, RoundingMode.DOWN);
+            BigDecimal pauchSoli = pauchSt.multiply(percent_soli).setScale(2, RoundingMode.DOWN);
+            BigDecimal pauchKiSt = new BigDecimal(0);
+            if(data.Kirche) {
+                if(percentErmaessigteKirchensteuer.get(data.Bundesland) != null) {
+                    pauchKiSt =  pauchSt.multiply(percentErmaessigteKirchensteuer.get(data.Bundesland));
+                }
+            }
+
+            calculation.data.Pausch_LohnSteuer_AG = getDecimalString_Down(pauchSt);
+            calculation.data.Pausch_Soli_AG = getDecimalString_Down(pauchSoli);
+            calculation.data.Pausch_Kirchensteuer_AG = getDecimalString_Down(pauchKiSt);
+        } catch (Exception e) {
+            String s = e.getMessage();
+        }
+    }
+
     private static boolean GetIsBbgOst(int bundesland) {
         if(bundesland == 4 || bundesland == 8|| bundesland == 13|| bundesland == 14|| bundesland == 30)
             return true;
@@ -1345,14 +1426,14 @@ public class InputActivity extends AppCompatActivity
         return false;
     }
 
-    private BigDecimal getBigDecimal(String s) {
+    public static BigDecimal getBigDecimal(String s) {
         if(s != null && s.length() > 0)
             return new BigDecimal(s.replace(".", "").replace(",", "."));
 
         return BigDecimal.valueOf(0.00);
     }
 
-    private String getDecimalString_Up(BigDecimal d) {
+    public static String getDecimalString_Up(BigDecimal d) {
         return d.setScale(2, BigDecimal.ROUND_HALF_UP).toString().replace(".", ",");
     }
 
@@ -1392,7 +1473,7 @@ public class InputActivity extends AppCompatActivity
         helper.data.AV = selectedAV;
         helper.data.PV = selectedPV;
         helper.data.StFreibetrag = selectedTaxFree;
-        helper.data.StKl = selectedTaxClass;
+        helper.data.StKl = selectedTaxClass; // pauschale Steuer
         helper.data.AbrJahr = selectedYear + Calendar.getInstance().get(Calendar.YEAR) - 1;
         helper.setBundesland(selectedState);
         GetInsuranceId();

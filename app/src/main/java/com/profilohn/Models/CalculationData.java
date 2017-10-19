@@ -3,9 +3,13 @@ package com.profilohn.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
+
+import static com.profilohn.Activities.InputActivity.getBigDecimal;
+import static com.profilohn.Activities.InputActivity.getDecimalString_Up;
 
 /**
  * Created by profilohn on 04.02.2016.
@@ -17,8 +21,11 @@ public class CalculationData implements Parcelable {
     public String LohnsteuerPflBrutto;
     public String SVPflBrutto;
     public String Lohnsteuer;
+    public String Pausch_LohnSteuer_AG;
     public String Soli;
+    public String Pausch_Soli_AG;
     public String Kirchensteuer;
+    public String Pausch_Kirchensteuer_AG;
     public String Krankenversicherung_AN;
     public String Rentenversicherung_AN;
     public String Arbeitslosenversicherung_AN;
@@ -36,6 +43,7 @@ public class CalculationData implements Parcelable {
     public String Steuern;
     public String IGU;
     public String Umlagen_AG;
+    public String pauschSt_AG;
     public String Abgaben_AG;
 
     private static NumberFormat format;
@@ -44,8 +52,11 @@ public class CalculationData implements Parcelable {
         LohnsteuerPflBrutto = in.readString();
         SVPflBrutto = in.readString();
         Lohnsteuer = in.readString();
+        Pausch_LohnSteuer_AG = in.readString();
         Soli = in.readString();
+        Pausch_Soli_AG = in.readString();
         Kirchensteuer = in.readString();
+        Pausch_Kirchensteuer_AG = in.readString();
         Krankenversicherung_AN = in.readString();
         Rentenversicherung_AN = in.readString();
         Arbeitslosenversicherung_AN = in.readString();
@@ -86,49 +97,62 @@ public class CalculationData implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(LohnsteuerPflBrutto);
-        dest.writeString(SVPflBrutto);
-        dest.writeString(Lohnsteuer);
-        dest.writeString(Soli);
-        dest.writeString(Kirchensteuer);
-        dest.writeString(Krankenversicherung_AN);
-        dest.writeString(Rentenversicherung_AN);
-        dest.writeString(Arbeitslosenversicherung_AN);
-        dest.writeString(Pflegeversicherung_AN);
-        dest.writeString(Krankenversicherung_AG);
-        dest.writeString(Rentenversicherung_AG);
-        dest.writeString(Arbeitslosenversicherung_AG);
-        dest.writeString(Pflegeversicherung_AG);
-        dest.writeString(Umlage1);
-        dest.writeString(Umlage2);
-        dest.writeString(Netto);
-        dest.writeString(Auszahlung);
-        dest.writeString(AGAnteil);
-        dest.writeString(IGU);
-        dest.writeString(ANAnteil);
-        dest.writeString(Steuern);
-        dest.writeString(Umlagen_AG);
-        dest.writeString(Abgaben_AG);
+        dest.writeString(LohnsteuerPflBrutto == null ? "0,00" : LohnsteuerPflBrutto);
+        dest.writeString(SVPflBrutto == null ? "0,00" : SVPflBrutto);
+        dest.writeString(Lohnsteuer == null ? "0,00" : Lohnsteuer);
+        dest.writeString(Pausch_LohnSteuer_AG == null ? "0,00" : Pausch_LohnSteuer_AG);
+        dest.writeString(Soli == null ? "0,00" : Soli);
+        dest.writeString(Pausch_Soli_AG == null ? "0,00" : Pausch_Soli_AG);
+        dest.writeString(Kirchensteuer == null ? "0,00" : Kirchensteuer);
+        dest.writeString(Pausch_Kirchensteuer_AG == null ? "0,00" : Pausch_Kirchensteuer_AG);
+        dest.writeString(Krankenversicherung_AN == null ? "0,00" : Krankenversicherung_AN);
+        dest.writeString(Rentenversicherung_AN == null ? "0,00" : Rentenversicherung_AN);
+        dest.writeString(Arbeitslosenversicherung_AN == null ? "0,00" : Arbeitslosenversicherung_AN);
+        dest.writeString(Pflegeversicherung_AN == null ? "0,00" : Pflegeversicherung_AN);
+        dest.writeString(Krankenversicherung_AG == null ? "0,00" : Krankenversicherung_AG);
+        dest.writeString(Rentenversicherung_AG == null ? "0,00" : Rentenversicherung_AG);
+        dest.writeString(Arbeitslosenversicherung_AG == null ? "0,00" : Arbeitslosenversicherung_AG);
+        dest.writeString(Pflegeversicherung_AG == null ? "0,00" : Pflegeversicherung_AG);
+        dest.writeString(Umlage1 == null ? "0,00" : Umlage1);
+        dest.writeString(Umlage2 == null ? "0,00" : Umlage2);
+        dest.writeString(Netto == null ? "0,00" : Netto);
+        dest.writeString(Auszahlung == null ? "0,00" : Auszahlung);
+        dest.writeString(AGAnteil == null ? "0,00" : AGAnteil);
+        dest.writeString(IGU == null ? "0,00" : IGU);
+        dest.writeString(ANAnteil == null ? "0,00" : ANAnteil);
+        dest.writeString(Steuern == null ? "0,00" : Steuern);
+        dest.writeString(Umlagen_AG == null ? "0,00" : Umlagen_AG);
+        dest.writeString(Abgaben_AG == null ? "0,00" : Abgaben_AG);
     }
 
     private void _summarizeEmployerCats()
     {
-        Double grossPayEmpl    = 0.00;
-        Double contributionSum = 0.00;
-        Double sumSocial       = 0.00;
-        Double sumEmployer     = 0.00;
+        BigDecimal grossPayEmpl    = new BigDecimal(0.00);
+        BigDecimal contributionSum = new BigDecimal(0.00);
+        BigDecimal sumSocial       = new BigDecimal(0.00);
+        BigDecimal taxLst          = new BigDecimal(0.00);
+        BigDecimal taxSoli         = new BigDecimal(0.00);
+        BigDecimal taxKiSt         = new BigDecimal(0.00);
+        BigDecimal sumTax          = new BigDecimal(0.00);
+        BigDecimal sumEmployer     = new BigDecimal(0.00);
 
         try {
-            grossPayEmpl    = parse(LohnsteuerPflBrutto);
-            contributionSum = parse(Umlagen_AG);
-            sumSocial       = parse(AGAnteil);
-        } catch (ParseException e) {
+            grossPayEmpl    = getBigDecimal(LohnsteuerPflBrutto);
+            contributionSum = getBigDecimal(Umlagen_AG);
+            sumSocial       = getBigDecimal(AGAnteil);
+            taxLst          = getBigDecimal(Pausch_LohnSteuer_AG);
+            taxSoli         = getBigDecimal(Pausch_Soli_AG);
+            taxKiSt         = getBigDecimal(Pausch_Kirchensteuer_AG);
+            sumTax          = taxLst.add(taxSoli).add(taxKiSt);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        sumEmployer = grossPayEmpl + contributionSum + sumSocial;
+        sumEmployer = grossPayEmpl.add(contributionSum).add(sumSocial).add(sumTax);
 
-        Abgaben_AG  = format.format(sumEmployer);
+        pauschSt_AG = getDecimalString_Up(sumTax);
+        Abgaben_AG  = getDecimalString_Up(sumEmployer);
     }
 
     private static Double parse(String value) throws ParseException {

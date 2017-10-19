@@ -1,5 +1,5 @@
 <resources>
-    <string name="result_employee_title">Arbeitnehmer</string>
+    <string name="result_employee_title">Arbeitnehmer (AN)</string>
 
     <string name="result_employee_wage_label">Arbeitnehmer-Netto</string>
     <string name="result_employee_btn_again">Nochmal</string>

@@ -28,6 +28,10 @@ public class ResultEmployerFragment extends Fragment
     TextView txtCumCat;
 
     TextView txtSocialEmployer;
+    TextView txtTaxEmployer;
+    TextView txtTaxEmployerLst;
+    TextView txtTaxEmployerSoli;
+    TextView txtTaxEmployerKiSt;
     TextView txtPensionEmployer;
     TextView txtUnemploymentEmployer;
     TextView txtCareEmployer;
@@ -122,7 +126,10 @@ public class ResultEmployerFragment extends Fragment
         txtWageGross = (TextView) view.findViewById(R.id.result_employer_wage_gross);
 
         // Data views
-
+        txtTaxEmployerLst = (TextView) view.findViewById(R.id.result_employer_base_tax);
+        txtTaxEmployerSoli = (TextView) view.findViewById(R.id.result_employer_soli_tax);
+        txtTaxEmployerKiSt = (TextView) view.findViewById(R.id.result_employer_church_tax);
+        txtTaxEmployer = (TextView) view.findViewById(R.id.result_employer_tax);
         txtSocialEmployer = (TextView) view.findViewById(R.id.result_employer_social_contribution);
         txtPensionEmployer = (TextView) view.findViewById(R.id.result_employer_insurance_pension);
         txtUnemploymentEmployer = (TextView) view.findViewById(R.id.result_employer_insurance_unemployment);
@@ -148,6 +155,12 @@ public class ResultEmployerFragment extends Fragment
         txtTitle.setText(_formatCurrency(data.data.Abgaben_AG));
         txtWageGross.setText(_formatCurrency(data.data.LohnsteuerPflBrutto));
         txtCumCat.setText(_formatCurrency(data.data.Abgaben_AG));
+
+        txtTaxEmployerLst.setText(_formatCurrency(data.data.Pausch_LohnSteuer_AG));
+        txtTaxEmployerSoli.setText(_formatCurrency(data.data.Pausch_Soli_AG));
+        txtTaxEmployerKiSt.setText(_formatCurrency(data.data.Pausch_Kirchensteuer_AG));
+        txtTaxEmployer.setText(_formatCurrency(data.data.pauschSt_AG));
+
         txtSocialEmployer.setText(_formatCurrency(data.data.AGAnteil));
         txtPensionEmployer.setText(_formatCurrency(data.data.Rentenversicherung_AG));
         txtUnemploymentEmployer.setText(_formatCurrency(data.data.Arbeitslosenversicherung_AG));
