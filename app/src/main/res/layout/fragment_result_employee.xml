@@ -45,7 +45,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryLight">
+        android:background="@color/colorPrimaryLight"
+        android:paddingTop="15dp">
 
         <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -182,6 +183,60 @@
 
                 <TextView
                     android:id="@+id/result_employee_insurance_health"
+                    style="@style/result_data_value" />
+            </LinearLayout>
+
+            <!-- tax cat -->
+            <LinearLayout
+                android:id="@+id/result_employee_tax_region"
+                style="@style/result_data_row">
+
+                <TextView
+                    style="@style/result_cat_label"
+                    android:text="@string/result_employer_tax" />
+
+                <TextView
+                    android:id="@+id/result_employee_tax_p"
+                    style="@style/result_cat_value" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/result_employee_base_tax_region"
+                style="@style/result_data_row">
+
+                <TextView
+                    style="@style/result_data_label"
+                    android:text="@string/result_employer_base_tax" />
+
+                <TextView
+                    android:id="@+id/result_employee_base_tax"
+                    style="@style/result_data_value" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/result_employee_church_tax_region"
+                style="@style/result_data_row">
+
+                <TextView
+                    style="@style/result_data_label"
+                    android:text="@string/result_employer_church_tax" />
+
+                <TextView
+                    android:id="@+id/result_employee_church_tax"
+                    style="@style/result_data_value" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/result_employee_soli_tax_region"
+                style="@style/result_data_row">
+
+                <TextView
+                    style="@style/result_data_label"
+                    android:text="@string/result_employer_soli_tax" />
+
+                <TextView
+                    android:id="@+id/result_employee_soli_tax"
                     style="@style/result_data_value" />
             </LinearLayout>
 

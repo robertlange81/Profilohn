@@ -30,4 +30,5 @@ public class CalculationInputData {
     public float AzWo = 40;
     public int Beschaeftigungsart = 0;
     public boolean dummyInsurance = false;
+    public boolean abwaelzung_pauschale_steuer = false;
 }

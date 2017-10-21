@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.profilohn.Exceptions.FormatException;
@@ -28,10 +29,16 @@ public class ResultEmployerFragment extends Fragment
     TextView txtCumCat;
 
     TextView txtSocialEmployer;
+
+    LinearLayout regionTax;
+    LinearLayout regionTaxLst;
+    LinearLayout regionTaxSoli;
+    LinearLayout regionTaxKist;
     TextView txtTaxEmployer;
     TextView txtTaxEmployerLst;
     TextView txtTaxEmployerSoli;
     TextView txtTaxEmployerKiSt;
+
     TextView txtPensionEmployer;
     TextView txtUnemploymentEmployer;
     TextView txtCareEmployer;
@@ -136,6 +143,12 @@ public class ResultEmployerFragment extends Fragment
         txtCareEmployer = (TextView) view.findViewById(R.id.result_employer_insurance_care);
         txtHealthEmployer = (TextView) view.findViewById(R.id.result_employer_insurance_health);
 
+        // regions
+        regionTax = (LinearLayout) view.findViewById(R.id.result_employer_tax_region);
+        regionTaxLst = (LinearLayout) view.findViewById(R.id.result_employer_base_tax_region);
+        regionTaxSoli = (LinearLayout) view.findViewById(R.id.result_employer_soli_tax_region);
+        regionTaxKist = (LinearLayout) view.findViewById(R.id.result_employer_church_tax_region);
+
         txtContribution  = (TextView) view.findViewById(R.id.result_employer_contribution);
         txtContribution1 = (TextView) view.findViewById(R.id.result_employer_contribution1);
         txtContribution2 = (TextView) view.findViewById(R.id.result_employer_contribution2);
@@ -156,10 +169,21 @@ public class ResultEmployerFragment extends Fragment
         txtWageGross.setText(_formatCurrency(data.data.LohnsteuerPflBrutto));
         txtCumCat.setText(_formatCurrency(data.data.Abgaben_AG));
 
-        txtTaxEmployerLst.setText(_formatCurrency(data.data.Pausch_LohnSteuer_AG));
-        txtTaxEmployerSoli.setText(_formatCurrency(data.data.Pausch_Soli_AG));
-        txtTaxEmployerKiSt.setText(_formatCurrency(data.data.Pausch_Kirchensteuer_AG));
-        txtTaxEmployer.setText(_formatCurrency(data.data.pauschSt_AG));
+        if(data.data.pauschSt_AG.equals("0,00")) {
+            regionTax.setVisibility(View.GONE);
+            regionTaxLst.setVisibility(View.GONE);
+            regionTaxSoli.setVisibility(View.GONE);
+            regionTaxKist.setVisibility(View.GONE);
+        } else {
+            regionTax.setVisibility(View.VISIBLE);
+            regionTaxLst.setVisibility(View.VISIBLE);
+            regionTaxSoli.setVisibility(View.VISIBLE);
+            regionTaxKist.setVisibility(View.VISIBLE);
+            txtTaxEmployerLst.setText(_formatCurrency(data.data.Pausch_LohnSteuer_AG));
+            txtTaxEmployerSoli.setText(_formatCurrency(data.data.Pausch_Soli_AG));
+            txtTaxEmployerKiSt.setText(_formatCurrency(data.data.Pausch_Kirchensteuer_AG));
+            txtTaxEmployer.setText(_formatCurrency(data.data.pauschSt_AG));
+        }
 
         txtSocialEmployer.setText(_formatCurrency(data.data.AGAnteil));
         txtPensionEmployer.setText(_formatCurrency(data.data.Rentenversicherung_AG));

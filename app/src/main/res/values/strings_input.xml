@@ -22,7 +22,7 @@
         <item>Privat Versichert</item>
         <item>Kurzfristig</item>
         <item>Rentner</item>
-        <item>Flexi-Rentner (mit Aufstockung RV)</item>
+        <item>Flexi-Rentner (mit RV)</item>
     </string-array>
 
     <string-array name="taxclasses">
@@ -81,7 +81,7 @@
     <string name="calculate">Berechnung starten</string>
     <string name="children">Kinderfreibetrag</string>
     <string name="church">Kirchensteuer</string>
-    <string name="employee_type">Beschäftigungsverhältnis</string>
+    <string name="employee_type">Beschäftigungsart</string>
     <string name="grosswage">Brutto</string>
     <string name="has_children">Kinder oder U23</string>
     <string name="insurance">Krankenkasse</string>

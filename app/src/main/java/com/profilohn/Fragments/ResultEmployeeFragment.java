@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.profilohn.Exceptions.FormatException;
@@ -38,6 +39,14 @@ public class ResultEmployeeFragment extends Fragment
     TextView txtCare;
     TextView txtHealth;
 
+    LinearLayout regionTax;
+    LinearLayout regionTaxLst;
+    LinearLayout regionTaxSoli;
+    LinearLayout regionTaxKist;
+    TextView txtTaxEmployee;
+    TextView txtTaxEmployeeLst;
+    TextView txtTaxEmployeeSoli;
+    TextView txtTaxEmployeeKiSt;
 
     public ResultEmployeeFragment() { }
 
@@ -132,6 +141,12 @@ public class ResultEmployeeFragment extends Fragment
         txtHealth = (TextView) view.findViewById(R.id.result_employee_insurance_health);
 
         txtWageNet = (TextView) view.findViewById(R.id.result_employee_wage_net);
+
+        // regions
+        regionTax = (LinearLayout) view.findViewById(R.id.result_employee_tax_region);
+        regionTaxLst = (LinearLayout) view.findViewById(R.id.result_employee_base_tax_region);
+        regionTaxSoli = (LinearLayout) view.findViewById(R.id.result_employee_soli_tax_region);
+        regionTaxKist = (LinearLayout) view.findViewById(R.id.result_employee_church_tax_region);
     }
 
 
@@ -142,6 +157,22 @@ public class ResultEmployeeFragment extends Fragment
      */
     private void _setViewData(Calculation data)
     {
+        if(data.data.pauschSt_AG.equals("0,00")) {
+            regionTax.setVisibility(View.GONE);
+            regionTaxLst.setVisibility(View.GONE);
+            regionTaxSoli.setVisibility(View.GONE);
+            regionTaxKist.setVisibility(View.GONE);
+        } else {
+            regionTax.setVisibility(View.VISIBLE);
+            regionTaxLst.setVisibility(View.VISIBLE);
+            regionTaxSoli.setVisibility(View.VISIBLE);
+            regionTaxKist.setVisibility(View.VISIBLE);
+            txtTaxEmployeeLst.setText(_formatCurrency(data.data.Pausch_LohnSteuer_AN));
+            txtTaxEmployeeSoli.setText(_formatCurrency(data.data.Pausch_Soli_AN));
+            txtTaxEmployeeKiSt.setText(_formatCurrency(data.data.Pausch_Kirchensteuer_AN));
+            txtTaxEmployee.setText(_formatCurrency(data.data.pauschSt_AN));
+        }
+
         txtTitle.setText(_formatCurrency(data.data.Netto));
         txtWageGross.setText(_formatCurrency(data.data.LohnsteuerPflBrutto));
         txtWageNet.setText(_formatCurrency(data.data.Netto));

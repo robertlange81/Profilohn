@@ -75,7 +75,7 @@ public class InputActivity extends AppCompatActivity
     public static Spinner               pv;
     public static Button                calculate;
     public static Button                calculateTop;
-    // public static Button                calculate_general;
+    public static Button                calculate_general;
     public static AutoCompleteTextView  insuranceAc;
     public static SwitchCompat          wagePeriod;
     public static SwitchCompat          hasChildren;
@@ -128,7 +128,8 @@ public class InputActivity extends AppCompatActivity
     private boolean changeFocusByCode = false;
 
     BigDecimal percent_pausch_steuer_minijob = new BigDecimal(0.02);
-    BigDecimal anteilAG_pauschRV_Minijob = new BigDecimal(0.15);
+    BigDecimal anteilAG_pauschRV_Minijob_sv = new BigDecimal(0.15);
+    BigDecimal anteilAN_aufstocker_Minijob_sv = new BigDecimal(0.037);
     BigDecimal percent_rentenversicherung_gesamt = new BigDecimal(0.187);
     BigDecimal percent_pausch_steuer_kurzfristig = new BigDecimal(0.25);
     BigDecimal percent_soli = new BigDecimal(0.055);
@@ -245,7 +246,7 @@ public class InputActivity extends AppCompatActivity
                 return true;
         }});
         spamWebView.setVisibility(View.INVISIBLE);
-        //calculate_general.setVisibility(View.VISIBLE);
+        calculate_general.setVisibility(View.VISIBLE);
         spamWebView.loadUrl("http://robert-lange.eu/loader2.html");
         InputActivity.this.abortCalculation = true;
     }
@@ -310,7 +311,7 @@ public class InputActivity extends AppCompatActivity
         children        = (Spinner) findViewById(R.id.children);
         calculateTop    = (Button) findViewById(R.id.hello_start_calculation_net);
         calculate       = (Button) findViewById(R.id.calculate);
-        //calculate_general       = (Button) findViewById(R.id.calculate);
+        calculate_general       = (Button) findViewById(R.id.calculate_general);
 
         kv              = (Spinner) findViewById(R.id.kv_value);
         rv              = (Spinner) findViewById(R.id.rv_value);
@@ -671,7 +672,10 @@ public class InputActivity extends AppCompatActivity
 
                 wage.clearFocus();
                 taxFree.clearFocus();
-                selectedTaxClass = position;
+                if(position == 0)
+                    selectedTaxClass = 23;
+                else
+                    selectedTaxClass = position;
             }
 
             @Override
@@ -820,7 +824,7 @@ public class InputActivity extends AppCompatActivity
         calculate.setOnClickListener(listener);
 
         // Abrechnungs-Button übergeordnet
-        // calculate_general.setOnClickListener(listener);
+        calculate_general.setOnClickListener(listener);
     }
 
     private void GetInsuranceId() {
@@ -1049,9 +1053,15 @@ public class InputActivity extends AppCompatActivity
                 );
 
                 // Steuerklasse
-                if(i.StKl < 0 || i.StKl > 6)
-                    i.StKl = 1;
-                taxClass.setSelection(i.StKl);
+                if(i.StKl == 23) {
+                    // pauschal
+                    taxClass.setSelection(0);
+                } else {
+                    if(i.StKl < 0 || i.StKl > 6)
+                        i.StKl = 1;
+
+                    taxClass.setSelection(i.StKl);
+                }
                 selectedTaxClass = i.StKl;
 
                 // Abrechnungsjahr
@@ -1156,7 +1166,16 @@ public class InputActivity extends AppCompatActivity
             }
         }
 
-        if(data.StKl == 0) {
+        if(data.Beschaeftigungsart == 2 && data.RV == 1) { // Sonderfall Aufstocker Minijob
+            correctPensionInsurance_Aufstocker_AN(calculation);
+            correctPensionInsurance_Pauschal_AG(calculation);
+        }
+
+        if(data.RV == 5) {
+            correctPensionInsurance_Pauschal_AG(calculation);
+        }
+
+        if(data.StKl == 23) {
             if(data.Beschaeftigungsart == 1 || data.Beschaeftigungsart == 2) {
                 correctPauschaleSteuer_Minijob(calculation);
             }
@@ -1388,12 +1407,60 @@ public class InputActivity extends AppCompatActivity
         }
     }
 
+    public void correctPensionInsurance_Pauschal_AG(Calculation calculation) {
+
+        try {
+            BigDecimal rvag_neu = getBigDecimal(calculation.data.SVPflBrutto).multiply(anteilAG_pauschRV_Minijob_sv);
+            calculation.data.Rentenversicherung_AG = getDecimalString_Up(rvag_neu);
+        } catch (Exception e) {
+            Log.d("correct",e.getMessage());
+        }
+    }
+
+    public void correctPensionInsurance_Aufstocker_AN(Calculation calculation) {
+
+        try {
+            BigDecimal rvan_alt = getBigDecimal(calculation.data.Rentenversicherung_AN);
+            BigDecimal rvan_neu = getBigDecimal(calculation.data.SVPflBrutto).multiply(anteilAN_aufstocker_Minijob_sv);
+            calculation.data.Rentenversicherung_AN = getDecimalString_Up(rvan_neu);
+
+            BigDecimal anteil_an = getBigDecimal(calculation.data.ANAnteil);
+            anteil_an = anteil_an.subtract(rvan_alt);
+            anteil_an = anteil_an.add(rvan_neu);
+            calculation.data.ANAnteil = getDecimalString_Up(anteil_an);
+
+            BigDecimal netto = getBigDecimal(calculation.data.Netto);
+            netto = netto.add(rvan_alt);
+            netto = netto.subtract(rvan_neu);
+            calculation.data.Netto = getDecimalString_Up(netto);
+
+            BigDecimal auszahlung = getBigDecimal(calculation.data.Auszahlung);
+            auszahlung = auszahlung.add(rvan_alt);
+            auszahlung = auszahlung.subtract(rvan_neu);
+            calculation.data.Auszahlung = getDecimalString_Up(auszahlung);
+
+        } catch (Exception e) {
+            Log.d("correct",e.getMessage());
+        }
+    }
+
     public void correctPauschaleSteuer_Minijob(Calculation calculation) {
         try {
             BigDecimal brutto  = getBigDecimal(calculation.data.LohnsteuerPflBrutto);
             BigDecimal pauchSt = brutto.multiply(percent_pausch_steuer_minijob);
 
             calculation.data.Pausch_LohnSteuer_AG = getDecimalString_Up(pauchSt);
+        } catch (Exception e) {
+            String s = e.getMessage();
+        }
+    }
+
+    public void correctPauschaleSteuer_Minijob_Abwaelzung(Calculation calculation) {
+        try {
+            BigDecimal brutto  = getBigDecimal(calculation.data.LohnsteuerPflBrutto);
+            BigDecimal pauchSt = brutto.multiply(percent_pausch_steuer_minijob);
+
+            calculation.data.Pausch_LohnSteuer_AN = getDecimalString_Up(pauchSt);
         } catch (Exception e) {
             String s = e.getMessage();
         }
@@ -1414,6 +1481,26 @@ public class InputActivity extends AppCompatActivity
             calculation.data.Pausch_LohnSteuer_AG = getDecimalString_Down(pauchSt);
             calculation.data.Pausch_Soli_AG = getDecimalString_Down(pauchSoli);
             calculation.data.Pausch_Kirchensteuer_AG = getDecimalString_Down(pauchKiSt);
+        } catch (Exception e) {
+            String s = e.getMessage();
+        }
+    }
+
+    public void correctPauschaleSteuer_Kurzfristig_Abwaelzung(Calculation calculation, CalculationInputData input) {
+        try {
+            BigDecimal brutto  = getBigDecimal(calculation.data.LohnsteuerPflBrutto);
+            BigDecimal pauchSt = brutto.multiply(percent_pausch_steuer_kurzfristig).setScale(2, RoundingMode.DOWN);
+            BigDecimal pauchSoli = pauchSt.multiply(percent_soli).setScale(2, RoundingMode.DOWN);
+            BigDecimal pauchKiSt = new BigDecimal(0);
+            if(data.Kirche) {
+                if(percentErmaessigteKirchensteuer.get(data.Bundesland) != null) {
+                    pauchKiSt =  pauchSt.multiply(percentErmaessigteKirchensteuer.get(data.Bundesland));
+                }
+            }
+
+            calculation.data.Pausch_LohnSteuer_AN = getDecimalString_Down(pauchSt);
+            calculation.data.Pausch_Soli_AN = getDecimalString_Down(pauchSoli);
+            calculation.data.Pausch_Kirchensteuer_AN = getDecimalString_Down(pauchKiSt);
         } catch (Exception e) {
             String s = e.getMessage();
         }
@@ -1506,7 +1593,7 @@ public class InputActivity extends AppCompatActivity
     public void showCalculatePopupWindow()
     {
         spamWebView.setVisibility(View.VISIBLE);
-        //calculate_general.setVisibility(View.INVISIBLE);
+        calculate_general.setVisibility(View.INVISIBLE);
     }
 
 
@@ -1541,7 +1628,7 @@ public class InputActivity extends AppCompatActivity
     private void dismissCalculationOverlay()
     {
         spamWebView.setVisibility(View.INVISIBLE);
-        //calculate_general.setVisibility(View.VISIBLE);
+        calculate_general.setVisibility(View.VISIBLE);
         InputActivity.this.abortCalculation = true;
 
         /*

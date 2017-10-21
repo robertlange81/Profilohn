@@ -774,7 +774,8 @@
                     android:padding="18dp"
                     android:text="@string/btn_calc"
                     android:textSize="18sp"
-                    android:theme="@style/ResultButtonStyle" />
+                    android:theme="@style/ResultButtonStyle"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
