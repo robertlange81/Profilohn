@@ -90,6 +90,26 @@ public class EventHandler extends AppCompatActivity {
         }
     }
 
+    /**
+     * Displays the shifting value text field
+     * if the shifting selected.
+     *
+     * @param isChecked
+     */
+    public void OnSwitchShifting(boolean isChecked)
+    {
+        TextView l = (TextView) _activity.findViewById(R.id.shifting_value);
+
+        if (isChecked) {
+            Log.i("Checked", isChecked + "");
+            l.setTextColor(ContextCompat.getColor(_context, R.color.text_darkgrey));
+            l.setText(R.string.label_yes);
+        } else {
+            Log.i("Checked", isChecked + "");
+            l.setTextColor(ContextCompat.getColor(_context, R.color.text_grey));
+            l.setText(R.string.label_no);
+        }
+    }
 
     /**
      * Hides the input keyboard.

@@ -23,6 +23,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -80,6 +81,7 @@ public class InputActivity extends AppCompatActivity
     public static SwitchCompat          wagePeriod;
     public static SwitchCompat          hasChildren;
     public static SwitchCompat          churchTax;
+    public static SwitchCompat          shifting;
 
     private Integer selectedInsuranceId = -1;
     private Double  selectedWage = 0.00;
@@ -88,6 +90,7 @@ public class InputActivity extends AppCompatActivity
     private String  selectedWagePeriod = CalculationInputHelper.WAGE_PERIOD_MONTH;
     private Boolean selectedHasChildren = false;
     private Boolean selectedChurchTax = false;
+    private Boolean selectedShifting = false;
     private Integer selectedTaxClass = 0;
     private Integer selectedEmployeeType = 0;
     private int selectedKV = 1;
@@ -124,6 +127,10 @@ public class InputActivity extends AppCompatActivity
     private CalculationInputHelper helper;
 
     private WebView spamWebView;
+
+    LinearLayout regionShifting;
+    LinearLayout regionChildAmount;
+    LinearLayout regionTaxFreeAmount;
 
     private boolean changeFocusByCode = false;
 
@@ -185,6 +192,7 @@ public class InputActivity extends AppCompatActivity
     BigDecimal ag_alt = new BigDecimal("0.000");
     BigDecimal an_alt = new BigDecimal("0.000");
 
+    /*
     public class EmployeeTypeListener implements AdapterView.OnItemSelectedListener, View.OnTouchListener {
 
         boolean userSelect = false;
@@ -208,8 +216,8 @@ public class InputActivity extends AppCompatActivity
         public void onNothingSelected(AdapterView<?> adapterView) {
 
         }
-
     }
+    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -246,7 +254,7 @@ public class InputActivity extends AppCompatActivity
                 return true;
         }});
         spamWebView.setVisibility(View.INVISIBLE);
-        calculate_general.setVisibility(View.VISIBLE);
+        //calculate_general.setVisibility(View.VISIBLE);
         spamWebView.loadUrl("http://robert-lange.eu/loader2.html");
         InputActivity.this.abortCalculation = true;
     }
@@ -325,6 +333,12 @@ public class InputActivity extends AppCompatActivity
         wageAmountLabel = (TextView) findViewById(R.id.wageamount_label);
         wagetypeLabel   = (TextView) findViewById(R.id.wage_type_label);
         taxFreeLabel    = (TextView) findViewById(R.id.taxfree_label);
+
+        regionShifting  = (LinearLayout) findViewById(R.id.shifting_area);
+        regionChildAmount  = (LinearLayout) findViewById(R.id.child_amount_region);
+        regionTaxFreeAmount  = (LinearLayout) findViewById(R.id.tax_free_amount_region);
+        shifting     = (SwitchCompat) findViewById(R.id.has_shifting);
+
 
         //wage.setFilters(new InputFilter[]{new DecimalDigitsInputHelper(2)});
         //taxFree.setFilters(new InputFilter[]{new DecimalDigitsInputHelper(2)});
@@ -672,10 +686,17 @@ public class InputActivity extends AppCompatActivity
 
                 wage.clearFocus();
                 taxFree.clearFocus();
-                if(position == 0)
+                if(position == 0) {
                     selectedTaxClass = 23;
-                else
+                    regionTaxFreeAmount.setVisibility(View.INVISIBLE);
+                    regionChildAmount.setVisibility(View.GONE);
+                    regionShifting.setVisibility(View.VISIBLE);
+                } else {
+                    regionTaxFreeAmount.setVisibility(View.VISIBLE);
+                    regionChildAmount.setVisibility(View.VISIBLE);
+                    regionShifting.setVisibility(View.GONE);
                     selectedTaxClass = position;
+                }
             }
 
             @Override
@@ -783,6 +804,18 @@ public class InputActivity extends AppCompatActivity
             public void onNothingSelected(AdapterView<?> parent) { }
         });
 
+        // Abwälzung (ja / nein)
+        shifting.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                eventHandler.OnSwitchShifting(isChecked);
+                selectedShifting = isChecked;
+
+                wage.clearFocus();
+                taxFree.clearFocus();
+            }
+        });
+
         // Logik zur Abrechnung - Listener
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -813,7 +846,7 @@ public class InputActivity extends AppCompatActivity
                         webService.Calculate(ci);
                     }
 
-                }, getResources().getInteger(R.integer.calculation_timeout));
+                }, 250);
             }
         };
 
@@ -1593,7 +1626,7 @@ public class InputActivity extends AppCompatActivity
     public void showCalculatePopupWindow()
     {
         spamWebView.setVisibility(View.VISIBLE);
-        calculate_general.setVisibility(View.INVISIBLE);
+        //calculate_general.setVisibility(View.INVISIBLE);
     }
 
 
@@ -1628,7 +1661,7 @@ public class InputActivity extends AppCompatActivity
     private void dismissCalculationOverlay()
     {
         spamWebView.setVisibility(View.INVISIBLE);
-        calculate_general.setVisibility(View.VISIBLE);
+        //calculate_general.setVisibility(View.VISIBLE);
         InputActivity.this.abortCalculation = true;
 
         /*

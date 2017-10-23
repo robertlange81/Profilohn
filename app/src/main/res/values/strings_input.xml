@@ -13,26 +13,26 @@
     <string name="interval">%1$s bis %2$s</string>
 
     <!-- prompts -->
-    <string name="stkl_prompt">Steuerklasse angeben</string>
+    <string name="stkl_prompt">Versteuerung angeben</string>
 
     <string-array name="employeetypes">
-        <item>Standard</item>
+        <item>Standard (volle Sozialvers.)</item>
         <item>Minijobber (RV-frei)</item>
-        <item>Minijobber (Standard)</item>
+        <item>Minijobber (RV-Aufstocker)</item>
         <item>Privat Versichert</item>
         <item>Kurzfristig</item>
-        <item>Rentner</item>
-        <item>Flexi-Rentner (mit RV)</item>
+        <item>Rentner (RV-frei)</item>
+        <item>Flexi-Rentner (RV-Aufstocker)</item>
     </string-array>
 
     <string-array name="taxclasses">
-        <item>Pauschal</item>
-        <item>Eins</item>
-        <item>Zwei</item>
-        <item>Drei</item>
-        <item>Vier</item>
-        <item>Fünf</item>
-        <item>Sechs</item>
+        <item>Pauschalsteuer</item>
+        <item>Eins - I</item>
+        <item>Zwei - II</item>
+        <item>Drei - III</item>
+        <item>Vier - IV</item>
+        <item>Fünf - V</item>
+        <item>Sechs - VI</item>
     </string-array>
 
     <string-array name="childfree">
@@ -71,25 +71,28 @@
     <string name="label_yes">Ja</string>
     <string name="label_no">Nein</string>
     <string name="label_currency">in €</string>
-    <string name="label_health_insurance">Beitrag Krankenv.</string>
-    <string name="label_nursing_insurance">Beitrag Pflegev.</string>
-    <string name="label_pension_insurance">Beitrag Rentenv.</string>
-    <string name="label_unemployment_insurance">Beitrag Arb.-vers.</string>
+    <string name="label_health_insurance">Krankenversicherung</string>
+    <string name="label_nursing_insurance">Pflegevers.</string>
+    <string name="label_nursing_insurance_full">Pflegeversicherung</string>
+    <string name="label_pension_insurance">Rentenversicherung</string>
+    <string name="label_unemployment_insurance">Arbeitsl.-vers.</string>
+    <string name="label_unemployment_insurance_full">Arbeitslosenversicherung</string>
 
     <string name="wage_default">0,00 €</string>
 
     <string name="calculate">Berechnung starten</string>
     <string name="children">Kinderfreibetrag</string>
     <string name="church">Kirchensteuer</string>
-    <string name="employee_type">Beschäftigungsart</string>
+    <string name="employee_type">Beschäftigung als</string>
     <string name="grosswage">Brutto</string>
     <string name="has_children">Kinder oder U23</string>
+    <string name="has_shifting">Abwälzung auf AN</string>
     <string name="insurance">Krankenkasse</string>
     <string name="insurance_hint">Name der Krankenkasse ..</string>
     <string name="insurance_init_value">Liste wird aktualisiert ..</string>
     <string name="netwage">Netto</string>
     <string name="state">Bundesland</string>
-    <string name="taxclass">Steuerklasse</string>
+    <string name="taxclass">Steuer(klasse)</string>
     <string name="taxfree_year">Steuerfreibetrag (J)</string>
     <string name="taxfree_month">Steuerfreibetrag (M)</string>
     <string name="taxfree_hint">0,00 €</string>
@@ -101,7 +104,7 @@
     <string name="wage_type_label_1">Brutto umrechnen in</string>
     <string name="wage_type_label_2">Netto umrechnen in</string>
     <string name="year">Jahr</string>
-    <string name="year_full">Abrechnungsjahr</string>
+    <string name="year_full">Rechnungsjahr</string>
     <string name="bg">Baden-Württemb.</string>
     <string name="by">Bayern</string>
     <string name="bo">Berlin-Ost</string>
@@ -112,7 +115,7 @@
     <string name="he">Hessen</string>
     <string name="mv">Meck.-Vorp.</string>
     <string name="ns">Niedersachsen</string>
-    <string name="nw">Nordrhein-Westf.</string>
+    <string name="nw">Nordrh.-Westf.</string>
     <string name="rp">Rheinland-Pfalz</string>
     <string name="sl">Saarland</string>
     <string name="sn">Sachsen</string>
@@ -145,7 +148,7 @@
         <item>1 - allgemeiner Beitrag</item>
         <item>3 - ermäßigter Beitrag</item>
         <item>6 - Pauschalbeitrag</item-->
-        <item>kein</item>
+        <item>keine Beiträge</item>
         <item>voll</item>
         <item>ermäßigt</item>
         <item>pauschal</item>
@@ -156,7 +159,7 @@
         <item>1 - voller Beitrag</item>
         <item>3 - halber Beitrag</item>
         <item>5 - Pauschalbeitrag</item-->
-        <item>kein</item>
+        <item>keine</item>
         <item>voll</item>
         <item>halb</item>
         <item>pauschal</item>
@@ -166,7 +169,7 @@
         <!--item>0 - kein Beitrag</item>
         <item>1 - voller Beitrag</item>
         <item>2 - halber Beitrag</item-->
-        <item>kein</item>
+        <item>keine</item>
         <item>voll</item>
         <item>halb</item>
     </string-array>
@@ -175,7 +178,7 @@
         <!--item>0 - kein Beitrag</item>
         <item>1 - voller Beitrag</item>
         <item>2 - halber Beitrag</item-->
-        <item>kein</item>
+        <item>keine</item>
         <item>voll</item>
         <item>halb</item>
     </string-array>
