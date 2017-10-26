@@ -133,15 +133,16 @@ public class ResultEmployerFragment extends Fragment
         txtWageGross = (TextView) view.findViewById(R.id.result_employer_wage_gross);
 
         // Data views
-        txtTaxEmployerLst = (TextView) view.findViewById(R.id.result_employer_base_tax);
-        txtTaxEmployerSoli = (TextView) view.findViewById(R.id.result_employer_soli_tax);
-        txtTaxEmployerKiSt = (TextView) view.findViewById(R.id.result_employer_church_tax);
-        txtTaxEmployer = (TextView) view.findViewById(R.id.result_employer_tax);
         txtSocialEmployer = (TextView) view.findViewById(R.id.result_employer_social_contribution);
         txtPensionEmployer = (TextView) view.findViewById(R.id.result_employer_insurance_pension);
         txtUnemploymentEmployer = (TextView) view.findViewById(R.id.result_employer_insurance_unemployment);
         txtCareEmployer = (TextView) view.findViewById(R.id.result_employer_insurance_care);
         txtHealthEmployer = (TextView) view.findViewById(R.id.result_employer_insurance_health);
+
+        txtTaxEmployerLst = (TextView) view.findViewById(R.id.result_employer_base_tax);
+        txtTaxEmployerSoli = (TextView) view.findViewById(R.id.result_employer_soli_tax);
+        txtTaxEmployerKiSt = (TextView) view.findViewById(R.id.result_employer_church_tax);
+        txtTaxEmployer = (TextView) view.findViewById(R.id.result_employer_tax);
 
         // regions
         regionTax = (LinearLayout) view.findViewById(R.id.result_employer_tax_region);

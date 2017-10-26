@@ -186,6 +186,10 @@
                     style="@style/result_data_value" />
             </LinearLayout>
 
+            <View
+                style="@style/hr"
+                android:layout_width="match_parent" />
+
             <!-- tax cat -->
             <LinearLayout
                 android:id="@+id/result_employee_tax_region"

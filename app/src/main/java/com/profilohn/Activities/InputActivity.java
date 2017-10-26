@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -84,6 +85,7 @@ public class InputActivity extends AppCompatActivity
     public static SwitchCompat          shifting;
 
     private Integer selectedInsuranceId = -1;
+    private String selectedInsurance_Text = "";
     private Double  selectedWage = 0.00;
     private Double  selectedTaxFree = 0.00;
     private String  selectedWageType = CalculationInputHelper.WAGE_TYPE_GROSS;
@@ -137,6 +139,7 @@ public class InputActivity extends AppCompatActivity
     BigDecimal percent_pausch_steuer_minijob = new BigDecimal(0.02);
     BigDecimal anteilAG_pauschRV_Minijob_sv = new BigDecimal(0.15);
     BigDecimal anteilAN_aufstocker_Minijob_sv = new BigDecimal(0.037);
+    BigDecimal min__aufstocker_Minijob_sv_ = new BigDecimal(6.48);
     BigDecimal percent_rentenversicherung_gesamt = new BigDecimal(0.187);
     BigDecimal percent_pausch_steuer_kurzfristig = new BigDecimal(0.25);
     BigDecimal percent_soli = new BigDecimal(0.055);
@@ -557,6 +560,11 @@ public class InputActivity extends AppCompatActivity
                  wage.clearFocus();
                  taxFree.clearFocus();
 
+                 if(position != 0 && insuranceAc.getHint().equals("Nicht erforderlich.") && !selectedInsurance_Text.equals("")) {
+                     insuranceAc.setText(selectedInsurance_Text);
+                     insuranceAc.clearFocus();
+                 }
+
                  switch(position) {
                      case 0: // kein
                          selectedKV = 0;
@@ -650,6 +658,11 @@ public class InputActivity extends AppCompatActivity
 
                 wage.clearFocus();
                 taxFree.clearFocus();
+
+                if(position != 0 && insuranceAc.getHint().equals("Nicht erforderlich.") && !selectedInsurance_Text.equals("")) {
+                    insuranceAc.setText(selectedInsurance_Text);
+                    insuranceAc.clearFocus();
+                }
 
                 switch(position) {
                     case 0: // kein
@@ -834,6 +847,36 @@ public class InputActivity extends AppCompatActivity
 
                 InputActivity.this._cacheInputs(data);
 
+                // Wunschnetto erhöhen für pauschale Steuern oder Aufstocker Minijobber
+                if(data.Berechnungsart == "Nettolohn") {
+                    BigDecimal perc = new BigDecimal(0);
+                    if(data.Beschaeftigungsart == 2 && data.RV == 1) { // Sonderfall Aufstocker Minijob
+                        if(data.Brutto / (1 - 0.053) < 175) {
+                            // minumum beitrag
+                            data.Brutto += min__aufstocker_Minijob_sv_.doubleValue();
+                        } else {
+                            perc = perc.add(anteilAN_aufstocker_Minijob_sv);
+                        }
+                    }
+
+                    if(data.StKl == 23 && data.abwaelzung_pauschale_steuer) {
+                        if(data.Beschaeftigungsart == 1 || data.Beschaeftigungsart == 2) {
+                            perc = perc.add(percent_pausch_steuer_minijob);
+                        }
+
+                        if(data.Beschaeftigungsart == 4) {
+                            BigDecimal LstUndSoli = percent_pausch_steuer_kurzfristig.multiply(new BigDecimal(1).add(percent_soli));
+                            perc = perc.add(LstUndSoli);
+                            if(data.Kirche)
+                                perc = perc.add(percent_pausch_steuer_kurzfristig.multiply(percentErmaessigteKirchensteuer.get(data.Bundesland)));
+                        }
+                    }
+
+                    data.Brutto = new BigDecimal(data.Brutto).divide(new BigDecimal(1).subtract(perc), 4, BigDecimal.ROUND_DOWN).doubleValue();
+                    if(perc.doubleValue() > 0)
+                        data.Berechnungsart = "Bruttolohn";
+                }
+
                 eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
 
                 // do the calculation delayed for advertising
@@ -863,7 +906,13 @@ public class InputActivity extends AppCompatActivity
     private void GetInsuranceId() {
         String value = insuranceAc.getText().toString();
         Integer companyNumber = insurancesMap.get(value);
-        selectedInsuranceId = companyNumber != null ? Integer.valueOf(companyNumber) : -1;
+
+        if(companyNumber != null) {
+            selectedInsurance_Text = value;
+            selectedInsuranceId = Integer.valueOf(companyNumber);
+        } else {
+            selectedInsuranceId = -1;
+        }
     }
 
     public void updateInsuranceBranches() {
@@ -1032,14 +1081,9 @@ public class InputActivity extends AppCompatActivity
 
                 // Krankenkasse
                 if (!i.dummyInsurance) {
-                    for (String entry : insurancesMap.keySet()) {
-                        Integer id = insurancesMap.get(entry);
-                        if (id.equals(i.KKBetriebsnummer)) {
-                            insuranceAc.setText(entry);
-                            selectedInsuranceId = id;
-                            break;
-                        }
-                    }
+                    selectedInsuranceId = i.KKBetriebsnummer;
+                    insuranceAc.setText(i.KK_text);
+                    selectedInsurance_Text = i.KK_text;
                 }
 
                 // Bundesland
@@ -1096,6 +1140,8 @@ public class InputActivity extends AppCompatActivity
                     taxClass.setSelection(i.StKl);
                 }
                 selectedTaxClass = i.StKl;
+                selectedShifting = i.abwaelzung_pauschale_steuer;
+                shifting.setChecked(selectedShifting);
 
                 // Abrechnungsjahr
                 year.setSelection(
@@ -1202,19 +1248,25 @@ public class InputActivity extends AppCompatActivity
         if(data.Beschaeftigungsart == 2 && data.RV == 1) { // Sonderfall Aufstocker Minijob
             correctPensionInsurance_Aufstocker_AN(calculation);
             correctPensionInsurance_Pauschal_AG(calculation);
-        }
-
-        if(data.RV == 5) {
+        } else if(data.RV == 5) {
             correctPensionInsurance_Pauschal_AG(calculation);
         }
 
         if(data.StKl == 23) {
             if(data.Beschaeftigungsart == 1 || data.Beschaeftigungsart == 2) {
-                correctPauschaleSteuer_Minijob(calculation);
+                if(data.abwaelzung_pauschale_steuer) {
+                    correctPauschaleSteuer_Minijob_Abwaelzung(calculation);
+                } else {
+                    correctPauschaleSteuer_Minijob(calculation);
+                }
             }
 
             if(data.Beschaeftigungsart == 4) {
-                correctPauschaleSteuer_Kurzfristig(calculation, data);
+                if(data.abwaelzung_pauschale_steuer) {
+                    correctPauschaleSteuer_Kurzfristig_Abwaelzung(calculation, data);
+                } else {
+                    correctPauschaleSteuer_Kurzfristig(calculation, data);
+                }
             }
         }
 
@@ -1455,6 +1507,9 @@ public class InputActivity extends AppCompatActivity
         try {
             BigDecimal rvan_alt = getBigDecimal(calculation.data.Rentenversicherung_AN);
             BigDecimal rvan_neu = getBigDecimal(calculation.data.SVPflBrutto).multiply(anteilAN_aufstocker_Minijob_sv);
+            if(rvan_neu.compareTo(min__aufstocker_Minijob_sv_) < 0)
+                rvan_neu = min__aufstocker_Minijob_sv_;
+
             calculation.data.Rentenversicherung_AN = getDecimalString_Up(rvan_neu);
 
             BigDecimal anteil_an = getBigDecimal(calculation.data.ANAnteil);
@@ -1593,14 +1648,16 @@ public class InputActivity extends AppCompatActivity
         helper.data.AV = selectedAV;
         helper.data.PV = selectedPV;
         helper.data.StFreibetrag = selectedTaxFree;
-        helper.data.StKl = selectedTaxClass; // pauschale Steuer
+        helper.data.StKl = selectedTaxClass;
         helper.data.AbrJahr = selectedYear + Calendar.getInstance().get(Calendar.YEAR) - 1;
         helper.setBundesland(selectedState);
         GetInsuranceId();
         helper.data.KKBetriebsnummer = selectedInsuranceId;
+        helper.data.KK_text = insuranceAc.getText().toString();
         helper.data.Kirche = selectedChurchTax;
         helper.data.KindU23 = selectedHasChildren;
         helper.data.KindFrei = selectedChildAmount;
+        helper.data.abwaelzung_pauschale_steuer = selectedShifting;
 
         String message;
 

@@ -16,6 +16,7 @@ public class CalculationInputData {
     public int StKl = 1;
     public int Bundesland = 1;
     public Integer KKBetriebsnummer;
+    public String KK_text = "";
     public Double Brutto = 0.0;
     public boolean Kirche = false;
     public Double KindFrei = 0.0;

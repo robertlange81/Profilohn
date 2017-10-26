@@ -142,6 +142,11 @@ public class ResultEmployeeFragment extends Fragment
 
         txtWageNet = (TextView) view.findViewById(R.id.result_employee_wage_net);
 
+        txtTaxEmployeeLst = (TextView) view.findViewById(R.id.result_employee_base_tax);
+        txtTaxEmployeeSoli = (TextView) view.findViewById(R.id.result_employee_soli_tax);
+        txtTaxEmployeeKiSt = (TextView) view.findViewById(R.id.result_employee_church_tax);
+        txtTaxEmployee = (TextView) view.findViewById(R.id.result_employee_tax);
+
         // regions
         regionTax = (LinearLayout) view.findViewById(R.id.result_employee_tax_region);
         regionTaxLst = (LinearLayout) view.findViewById(R.id.result_employee_base_tax_region);
@@ -157,7 +162,7 @@ public class ResultEmployeeFragment extends Fragment
      */
     private void _setViewData(Calculation data)
     {
-        if(data.data.pauschSt_AG.equals("0,00")) {
+        if(data.data.pauschSt_AN.equals("0,00")) {
             regionTax.setVisibility(View.GONE);
             regionTaxLst.setVisibility(View.GONE);
             regionTaxSoli.setVisibility(View.GONE);

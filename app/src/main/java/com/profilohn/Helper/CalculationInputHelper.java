@@ -83,6 +83,8 @@ public class CalculationInputHelper
         }
 
         data.dummyInsurance = false;
+        int aok_bayern = 87540905;
+        int knappschaft = 98000006;
         if(data.KKBetriebsnummer == -1) {
             if (data.KV != 6 && (data.KV != 0 || data.PV != 0)) {
                 String message = a.getResources().getString(R.string.validation_error_insurance);
