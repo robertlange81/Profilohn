@@ -143,6 +143,8 @@ public class InputActivity extends AppCompatActivity
     BigDecimal percent_rentenversicherung_gesamt = new BigDecimal(0.187);
     BigDecimal percent_pausch_steuer_kurzfristig = new BigDecimal(0.25);
     BigDecimal percent_soli = new BigDecimal(0.055);
+    boolean isFakeBruttolohn = false;
+    BigDecimal wunschnetto;
 
     Map<Integer, BigDecimal> percentErmaessigteKirchensteuer = new HashMap<Integer, BigDecimal>() {{
         put(1, new BigDecimal("0.08"));
@@ -865,16 +867,20 @@ public class InputActivity extends AppCompatActivity
                         }
 
                         if(data.Beschaeftigungsart == 4) {
-                            BigDecimal LstUndSoli = percent_pausch_steuer_kurzfristig.multiply(new BigDecimal(1).add(percent_soli));
-                            perc = perc.add(LstUndSoli);
+                            BigDecimal Soli = percent_pausch_steuer_kurzfristig.multiply(percent_soli).setScale(5, RoundingMode.HALF_DOWN);
+                            perc = percent_pausch_steuer_kurzfristig.add(Soli).setScale(5, RoundingMode.HALF_DOWN);
+
                             if(data.Kirche)
-                                perc = perc.add(percent_pausch_steuer_kurzfristig.multiply(percentErmaessigteKirchensteuer.get(data.Bundesland)));
+                                perc = perc.add(percent_pausch_steuer_kurzfristig.multiply(percentErmaessigteKirchensteuer.get(data.Bundesland))).setScale(5, RoundingMode.HALF_DOWN);
                         }
                     }
 
-                    data.Brutto = new BigDecimal(data.Brutto).divide(new BigDecimal(1).subtract(perc), 4, BigDecimal.ROUND_DOWN).doubleValue();
-                    if(perc.doubleValue() > 0)
+                    if(perc.doubleValue() > 0) {
+                        wunschnetto = new BigDecimal(data.Brutto);
+                        data.Brutto = new BigDecimal(data.Brutto).divide(new BigDecimal(1).subtract(perc), 2, BigDecimal.ROUND_HALF_DOWN).doubleValue();
                         data.Berechnungsart = "Bruttolohn";
+                        isFakeBruttolohn = true;
+                    }
                 }
 
                 eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
@@ -1577,18 +1583,30 @@ public class InputActivity extends AppCompatActivity
     public void correctPauschaleSteuer_Kurzfristig_Abwaelzung(Calculation calculation, CalculationInputData input) {
         try {
             BigDecimal brutto  = getBigDecimal(calculation.data.LohnsteuerPflBrutto);
-            BigDecimal pauchSt = brutto.multiply(percent_pausch_steuer_kurzfristig).setScale(2, RoundingMode.DOWN);
-            BigDecimal pauchSoli = pauchSt.multiply(percent_soli).setScale(2, RoundingMode.DOWN);
+            BigDecimal pauchSt = brutto.multiply(percent_pausch_steuer_kurzfristig).setScale(2, RoundingMode.HALF_UP);
+            BigDecimal pauchSoli = pauchSt.multiply(percent_soli).setScale(2, RoundingMode.HALF_UP);
             BigDecimal pauchKiSt = new BigDecimal(0);
             if(data.Kirche) {
                 if(percentErmaessigteKirchensteuer.get(data.Bundesland) != null) {
-                    pauchKiSt =  pauchSt.multiply(percentErmaessigteKirchensteuer.get(data.Bundesland));
+                    pauchKiSt =  pauchSt.multiply(percentErmaessigteKirchensteuer.get(data.Bundesland)).setScale(2, RoundingMode.HALF_UP);
                 }
             }
 
             calculation.data.Pausch_LohnSteuer_AN = getDecimalString_Down(pauchSt);
             calculation.data.Pausch_Soli_AN = getDecimalString_Down(pauchSoli);
             calculation.data.Pausch_Kirchensteuer_AN = getDecimalString_Down(pauchKiSt);
+
+            if(data.Berechnungsart == "Nettolohn" || isFakeBruttolohn) {
+                BigDecimal diff = brutto.subtract(wunschnetto).subtract(pauchSt).subtract(pauchSoli).subtract(pauchKiSt);
+                if(Math.abs(diff.doubleValue()) > 0.009) {
+                    // Rundungsfehler kaschieren
+                    calculation.data.LohnsteuerPflBrutto = getDecimalString_Down(brutto.subtract(diff));
+                    calculation.data.SVPflBrutto = calculation.data.LohnsteuerPflBrutto;
+                    calculation.data.Netto = calculation.data.SVPflBrutto;
+                }
+                isFakeBruttolohn = false;
+            }
+
         } catch (Exception e) {
             String s = e.getMessage();
         }

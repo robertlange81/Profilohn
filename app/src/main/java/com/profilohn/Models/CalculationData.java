@@ -82,7 +82,7 @@ public class CalculationData implements Parcelable {
         Steuern = in.readString();
         Umlagen_AG = in.readString();
 
-        _summarizeEmployerCats();
+        _summarizeEmployerAndEmployeeCats();
     }
 
     public static final Creator<CalculationData> CREATOR = new Creator<CalculationData>() {
@@ -135,7 +135,7 @@ public class CalculationData implements Parcelable {
         dest.writeString(Abgaben_AG == null ? "0,00" : Abgaben_AG);
     }
 
-    private void _summarizeEmployerCats()
+    private void _summarizeEmployerAndEmployeeCats()
     {
         BigDecimal grossPayEmpl    = new BigDecimal(0.00);
         BigDecimal contributionSum = new BigDecimal(0.00);
