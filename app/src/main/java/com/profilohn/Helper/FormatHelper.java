@@ -24,6 +24,16 @@ public class FormatHelper
         }
     }
 
+    public final static String currency(Double d) throws FormatException
+    {
+        try {
+            deDE.setMinimumFractionDigits(2);
+            deDE.setMaximumFractionDigits(2);
+            return deDE.format(d);
+        } catch (Exception e) {
+            throw new FormatException();
+        }
+    }
 
     public final static Double toDouble(String s)
     {
@@ -33,8 +43,12 @@ public class FormatHelper
 
     public final static String percent(String one, String two)
     {
-        Double diff = FormatHelper.toDouble(one)
-                / FormatHelper.toDouble(two) *100 - 100;
+        return percent(FormatHelper.toDouble(one), FormatHelper.toDouble(two));
+    }
+
+    public final static String percent(Double one, Double two)
+    {
+        Double diff = one / two * 100 - 100;
         DecimalFormat form = new DecimalFormat("#.##");
 
         String prefix = "";

@@ -1,6 +1,7 @@
 package com.profilohn.Fragments;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.profilohn.Exceptions.FormatException;
+import com.profilohn.Helper.FileStore;
 import com.profilohn.Helper.FormatHelper;
 import com.profilohn.Models.Calculation;
 import com.profilohn.R;
@@ -26,6 +28,7 @@ public class ResultEmployerFragment extends Fragment
 
     TextView txtTitle;
     TextView txtWageGross;
+    TextView txtTitleCompare;
     TextView txtCumCat;
 
     TextView txtSocialEmployer;
@@ -61,10 +64,19 @@ public class ResultEmployerFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_result_employer, container, false);
 
         // get the calculation result from the activity
-        Calculation data = (Calculation) activity.getIntent().getExtras().getParcelable("Calculation");
+        Calculation data = activity.getIntent().getExtras().getParcelable("Calculation");
+        Calculation dataCompare = null;
+
+        // try to fetch previous data and set compare layout if so ..
+        try {
+            FileStore f = new FileStore(getContext());
+            dataCompare = f.readCalculationResult();
+        } catch (Exception e) {
+
+        }
 
         _initViews(view);
-        _setViewData(data);
+        _setViewData(data, dataCompare);
         _postfixValues();
         _initializeListener(view);
 
@@ -131,6 +143,7 @@ public class ResultEmployerFragment extends Fragment
         // Title views
         txtTitle = (TextView) view.findViewById(R.id.result_employer_title_wage);
         txtWageGross = (TextView) view.findViewById(R.id.result_employer_wage_gross);
+        txtTitleCompare = (TextView) view.findViewById(R.id.result_employer_title_wage_compare);
 
         // Data views
         txtSocialEmployer = (TextView) view.findViewById(R.id.result_employer_social_contribution);
@@ -164,7 +177,7 @@ public class ResultEmployerFragment extends Fragment
      *
      * @param data
      */
-    private void _setViewData(Calculation data)
+    private void _setViewData(Calculation data, Calculation dataCompare)
     {
         txtTitle.setText(_formatCurrency(data.data.Abgaben_AG));
         txtWageGross.setText(_formatCurrency(data.data.LohnsteuerPflBrutto));
@@ -185,6 +198,21 @@ public class ResultEmployerFragment extends Fragment
             txtTaxEmployerKiSt.setText(_formatCurrency(data.data.Pausch_Kirchensteuer_AG));
             txtTaxEmployer.setText(_formatCurrency(data.data.pauschSt_AG));
         }
+
+        Double oldAbgaben = FormatHelper.toDouble(dataCompare.data.Abgaben_AG);
+        Double newAbgaben = FormatHelper.toDouble(data.data.Abgaben_AG);
+        Double diffAbgaben = newAbgaben - oldAbgaben;
+        if(diffAbgaben >= 0.01) {
+            txtTitleCompare.setVisibility(View.VISIBLE);
+            txtTitleCompare.setTextColor(Color.RED);
+        } else if(diffAbgaben <= -0.01) {
+            txtTitleCompare.setVisibility(View.VISIBLE);
+            txtTitleCompare.setTextColor(Color.GREEN);
+        } else {
+            txtTitleCompare.setVisibility(View.INVISIBLE);
+            txtTitleCompare.setTextColor(Color.WHITE);
+        }
+        txtTitleCompare.setText((diffAbgaben > 0 ? "+" : "") +_formatCurrency(diffAbgaben));
 
         txtSocialEmployer.setText(_formatCurrency(data.data.AGAnteil));
         txtPensionEmployer.setText(_formatCurrency(data.data.Rentenversicherung_AG));
@@ -225,5 +253,14 @@ public class ResultEmployerFragment extends Fragment
         return "FormatError";
     }
 
+    private String _formatCurrency(Double number)
+    {
+        try {
+            return FormatHelper.currency(number);
+        } catch (FormatException e) {
+            Log.e("FormatHelperError", "");
+        }
 
+        return "FormatError";
+    }
 }

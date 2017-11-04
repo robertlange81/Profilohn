@@ -3,7 +3,6 @@ package com.profilohn.Activities;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -26,7 +25,7 @@ public class AboutActivity extends AppCompatActivity {
                 view.loadUrl(url);
                 return true;
             }});
-        wv.loadUrl("http://robert-lange.eu/#imprint");
+        wv.loadUrl("http://robert-lange.eu/about_profilohn.html");
 
     }
 

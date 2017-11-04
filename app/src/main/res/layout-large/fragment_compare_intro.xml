@@ -25,8 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="0.5"
-                android:baselineAligned="true"
+                android:baselineAligned="false"
                 android:orientation="horizontal"
                 android:weightSum="1">
 
@@ -47,7 +46,8 @@
                         android:id="@+id/result_intro_wage_gross"
                         style="@style/result_intro_text_wage_value"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textSize="24sp" />
 
                 </LinearLayout>
 
@@ -68,7 +68,8 @@
                         android:id="@+id/result_intro_wage_net"
                         style="@style/result_intro_text_wage_value"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textSize="24sp" />
 
                 </LinearLayout>
 
@@ -87,7 +88,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:gravity="center_horizontal"
-                    android:text="0 %" />
+                    android:text="0 %"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/wage_diff_net"
@@ -96,7 +98,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:gravity="center_horizontal"
-                    android:text="0 %" />
+                    android:text="0 %"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -128,7 +131,8 @@
                         style="@style/compare_intro_text_wage_value"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="@string/currency_null" />
+                        android:text="@string/currency_null"
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
@@ -150,7 +154,8 @@
                         style="@style/compare_intro_text_wage_value"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="@string/currency_null" />
+                        android:text="@string/currency_null"
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 

@@ -2,8 +2,8 @@
 <resources>
 
     <!-- misc settings -->
-    <integer name="splash_timeout">2000</integer>
-    <integer name="calculation_timeout">300</integer>
+    <integer name="splash_timeout">0</integer>
+    <integer name="calculation_timeout">200</integer>
 
     <!-- API settings -->
     <integer name="api_connection_timeout">10000</integer>

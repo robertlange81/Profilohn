@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import com.profilohn.Fragments.ResultEmployeeFragment;
 import com.profilohn.Fragments.ResultEmployerFragment;
 import com.profilohn.Fragments.ResultHomeFragment;
+import com.profilohn.Helper.FileStore;
+import com.profilohn.Models.Calculation;
 import com.profilohn.R;
 
 public class ResultActivity extends AppCompatActivity {
@@ -139,7 +141,26 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        if(this.isTablet)
+        if(this.isTablet) {
             this.finish();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Calculation data = getIntent().getExtras().getParcelable("Calculation");
+        FileStore fs = new FileStore(this);
+        fs.writeCalculationResult(data);
     }
 }

@@ -1,5 +1,6 @@
 package com.profilohn.Activities;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -129,6 +130,7 @@ public class InputActivity extends AppCompatActivity
     private CalculationInputHelper helper;
 
     private WebView spamWebView;
+    Dialog calcDialog;
 
     LinearLayout regionShifting;
     LinearLayout regionChildAmount;
@@ -250,7 +252,7 @@ public class InputActivity extends AppCompatActivity
         _loadCachedInputs();
 
         instance = this;
-
+/*
         spamWebView =(WebView) findViewById(R.id.webview_calc);
 
         spamWebView.setWebViewClient(new WebViewClient() {
@@ -258,10 +260,10 @@ public class InputActivity extends AppCompatActivity
                 view.loadUrl(url);
                 return true;
         }});
-        spamWebView.setVisibility(View.INVISIBLE);
+        spamWebView.setVisibility(View.INVISIBLE);*/
         //calculate_general.setVisibility(View.VISIBLE);
-        spamWebView.loadUrl("http://robert-lange.eu/loader2.html");
-        InputActivity.this.abortCalculation = true;
+        //spamWebView.loadUrl("http://robert-lange.eu/loader2.html");
+        //InputActivity.this.abortCalculation = true;
     }
 
 
@@ -895,7 +897,7 @@ public class InputActivity extends AppCompatActivity
                         webService.Calculate(ci);
                     }
 
-                }, 250);
+                }, 0);
             }
         };
 
@@ -1700,7 +1702,7 @@ public class InputActivity extends AppCompatActivity
      */
     public void showCalculatePopupWindow()
     {
-        spamWebView.setVisibility(View.VISIBLE);
+        //spamWebView.setVisibility(View.VISIBLE);
         //calculate_general.setVisibility(View.INVISIBLE);
     }
 
@@ -1710,12 +1712,12 @@ public class InputActivity extends AppCompatActivity
      */
     private void showCalculationDialog()
     {
-        /*
-        Dialog calcDialog = MessageHelper.dialog(instance, true,
-        getResources().getString(R.string.calculation_started));
+
+        Dialog calcDialog = MessageHelper.dialog(instance, false,
+        getResources().getString(R.string.calculation_started), MessageHelper.DIALOG_TYPE_INFO);
         calcDialog.show();
         this.calcDialog = calcDialog;
-        */
+
     }
 
 
@@ -1725,8 +1727,8 @@ public class InputActivity extends AppCompatActivity
      */
     private void showCalculationOverlay()
     {
-        // showCalculationDialog();
-        showCalculatePopupWindow();
+        showCalculationDialog();
+        // showCalculatePopupWindow();
     }
 
 
@@ -1735,17 +1737,18 @@ public class InputActivity extends AppCompatActivity
      */
     private void dismissCalculationOverlay()
     {
-        spamWebView.setVisibility(View.INVISIBLE);
+        //spamWebView.setVisibility(View.INVISIBLE);
         //calculate_general.setVisibility(View.VISIBLE);
         InputActivity.this.abortCalculation = true;
 
-        /*
+
         if (null != calcDialog && calcDialog.isShowing())
             calcDialog.dismiss();
 
+        /*
         if (null != calcPopup && calcPopup.isShowing())
-            calcPopup.dismiss();
-            */
+            calcPopup.dismiss();*/
+
     }
 
     @Override

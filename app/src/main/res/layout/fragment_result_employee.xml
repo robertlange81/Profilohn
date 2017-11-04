@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_result_employee"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,9 +19,21 @@
         android:paddingTop="0dp">
 
         <TextView
+            android:id="@+id/result_employee_title_wage_compare"
+            style="@style/text_h1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/result_employee_title_wage"
+            android:layout_below="@+id/result_employee_title_wage_label"
+            android:layout_toEndOf="@+id/result_employee_title_wage"
+            android:text="@string/_0_00"
+            android:textColor="@color/text_white"
+            android:textSize="18sp" />
+
+        <TextView
             android:id="@+id/result_employee_title_wage_label"
             style="@style/text_content"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/result_employee_wage_label"
             android:textColor="@color/text_white" />
@@ -28,17 +41,21 @@
         <TextView
             android:id="@+id/result_employee_title_wage"
             style="@style/text_h1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/result_employee_title_wage_label"
             android:text="@string/_0_00"
-            android:textColor="@color/text_white" />
+            android:textColor="@color/text_white"
+            android:textSize="24sp" />
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/result_employee_btn_again"
             style="@style/result_btn_again"
+            android:layout_alignParentTop="true"
+            android:layout_margin="0dp"
             android:text="@string/result_employee_btn_again"
-            android:theme="@style/ResultButtonStyle" />
+            android:theme="@style/ResultButtonStyle"
+            tools:layout_alignParentRight="true" />
 
     </RelativeLayout>
 
@@ -46,7 +63,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryLight"
-        android:paddingTop="15dp">
+        android:paddingTop="0dp">
+
 
         <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"

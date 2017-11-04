@@ -1,5 +1,6 @@
 package com.profilohn.Fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -77,10 +78,6 @@ public class ResultHomeFragment extends Fragment
             v = _prepareResultLayout(inflater, data, container);
         }
 
-        // Cache result for comparison
-        FileStore fs = new FileStore(getActivity());
-        fs.writeCalculationResult(data);
-
         return v;
     }
 
@@ -143,8 +140,16 @@ public class ResultHomeFragment extends Fragment
                 dataResult.data.LohnsteuerPflBrutto, dataCompare.data.LohnsteuerPflBrutto));
 
         wageDiffNet = (TextView) view.findViewById(R.id.wage_diff_net);
-        wageDiffNet.setText(FormatHelper.percent(
-                dataResult.data.Netto, dataCompare.data.Netto));
+        Double oldNetto = FormatHelper.toDouble(dataCompare.data.Netto);
+        Double newNetto = FormatHelper.toDouble(dataResult.data.Netto);
+        if(newNetto - oldNetto >= 0.01) {
+            wageDiffNet.setTextColor(Color.GREEN);
+        } else if(newNetto - oldNetto <= -0.01) {
+            wageDiffNet.setTextColor(Color.RED);
+        } else {
+            wageDiffNet.setTextColor(Color.WHITE);
+        }
+        wageDiffNet.setText(FormatHelper.percent(newNetto, oldNetto));
 
         try {
             wageGross.setText(

@@ -21,8 +21,8 @@
     <string name="menu_employee">Ich bin Arbeitnehmer</string>
     <string name="menu_employer">Ich bin Arbeitgeber</string>
 
-    <string name="btn_calc_gross"><b>Brutto</b>lohn berechnen</string>
-    <string name="btn_calc_net"><b>Netto</b>lohn berechnen</string>
+    <string name="btn_calc_gross"><b>Brutto</b>lohn simulieren\n(Netto zu Brutto)</string>
+    <string name="btn_calc_net"><b>Netto</b>lohn berechnen\n(Brutto zu Netto)</string>
     <string name="btn_calc"><b>BERECHNUNG STARTEN</b></string>
 
     <string name="hello_cache_cleared">Der <b>App-Cache</b> wurde erfolgreich geleert.\n\nDies geschieht ebenfalls mit jedem Neustart der App.</string>
