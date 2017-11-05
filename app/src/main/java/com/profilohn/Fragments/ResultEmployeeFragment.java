@@ -69,7 +69,7 @@ public class ResultEmployeeFragment extends Fragment
             FileStore f = new FileStore(getContext());
             dataCompare = f.readCalculationResult();
         } catch (Exception e) {
-
+            int x = 0;
         }
 
         _initViews(view);
@@ -192,20 +192,22 @@ public class ResultEmployeeFragment extends Fragment
         }
 
         txtTitle.setText(_formatCurrency(data.data.Netto));
-        Double oldNetto = FormatHelper.toDouble(dataCompare.data.Netto);
-        Double newNetto = FormatHelper.toDouble(data.data.Netto);
-        Double diffNetto = newNetto - oldNetto;
-        if(diffNetto >= 0.01) {
-            txtTitleCompare.setVisibility(View.VISIBLE);
-            txtTitleCompare.setTextColor(Color.GREEN);
-        } else if(diffNetto <= -0.01) {
-            txtTitleCompare.setVisibility(View.VISIBLE);
-            txtTitleCompare.setTextColor(Color.RED);
-        } else {
-            txtTitleCompare.setVisibility(View.INVISIBLE);
-            txtTitleCompare.setTextColor(Color.WHITE);
+        if(dataCompare != null) {
+            Double oldNetto = FormatHelper.toDouble(dataCompare.data.Netto);
+            Double newNetto = FormatHelper.toDouble(data.data.Netto);
+            Double diffNetto = newNetto - oldNetto;
+            if(diffNetto >= 0.01) {
+                txtTitleCompare.setVisibility(View.VISIBLE);
+                txtTitleCompare.setTextColor(Color.GREEN);
+            } else if(diffNetto <= -0.01) {
+                txtTitleCompare.setVisibility(View.VISIBLE);
+                txtTitleCompare.setTextColor(Color.RED);
+            } else {
+                txtTitleCompare.setVisibility(View.INVISIBLE);
+                txtTitleCompare.setTextColor(Color.WHITE);
+            }
+            txtTitleCompare.setText((diffNetto > 0 ? "+" : "") +_formatCurrency(diffNetto));
         }
-        txtTitleCompare.setText((diffNetto > 0 ? "+" : "") +_formatCurrency(diffNetto));
 
         txtWageGross.setText(_formatCurrency(data.data.LohnsteuerPflBrutto));
         txtWageNet.setText(_formatCurrency(data.data.Netto));
@@ -220,6 +222,9 @@ public class ResultEmployeeFragment extends Fragment
         txtHealth.setText(_formatCurrency(data.data.Krankenversicherung_AN));
     }
 
+    private void _compareView() {
+
+    }
 
     private String _formatCurrency(String text)
     {

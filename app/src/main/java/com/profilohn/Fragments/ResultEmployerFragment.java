@@ -199,20 +199,22 @@ public class ResultEmployerFragment extends Fragment
             txtTaxEmployer.setText(_formatCurrency(data.data.pauschSt_AG));
         }
 
-        Double oldAbgaben = FormatHelper.toDouble(dataCompare.data.Abgaben_AG);
-        Double newAbgaben = FormatHelper.toDouble(data.data.Abgaben_AG);
-        Double diffAbgaben = newAbgaben - oldAbgaben;
-        if(diffAbgaben >= 0.01) {
-            txtTitleCompare.setVisibility(View.VISIBLE);
-            txtTitleCompare.setTextColor(Color.RED);
-        } else if(diffAbgaben <= -0.01) {
-            txtTitleCompare.setVisibility(View.VISIBLE);
-            txtTitleCompare.setTextColor(Color.GREEN);
-        } else {
-            txtTitleCompare.setVisibility(View.INVISIBLE);
-            txtTitleCompare.setTextColor(Color.WHITE);
+        if(dataCompare != null) {
+            Double oldAbgaben = FormatHelper.toDouble(dataCompare.data.Abgaben_AG);
+            Double newAbgaben = FormatHelper.toDouble(data.data.Abgaben_AG);
+            Double diffAbgaben = newAbgaben - oldAbgaben;
+            if(diffAbgaben >= 0.01) {
+                txtTitleCompare.setVisibility(View.VISIBLE);
+                txtTitleCompare.setTextColor(Color.RED);
+            } else if(diffAbgaben <= -0.01) {
+                txtTitleCompare.setVisibility(View.VISIBLE);
+                txtTitleCompare.setTextColor(Color.GREEN);
+            } else {
+                txtTitleCompare.setVisibility(View.INVISIBLE);
+                txtTitleCompare.setTextColor(Color.WHITE);
+            }
+            txtTitleCompare.setText((diffAbgaben > 0 ? "+" : "") +_formatCurrency(diffAbgaben));
         }
-        txtTitleCompare.setText((diffAbgaben > 0 ? "+" : "") +_formatCurrency(diffAbgaben));
 
         txtSocialEmployer.setText(_formatCurrency(data.data.AGAnteil));
         txtPensionEmployer.setText(_formatCurrency(data.data.Rentenversicherung_AG));
