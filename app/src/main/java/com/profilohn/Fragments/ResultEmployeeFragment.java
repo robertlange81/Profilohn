@@ -32,11 +32,13 @@ public class ResultEmployeeFragment extends Fragment
     TextView txtWageNet;
 
     TextView txtTax;
+    TextView txtTax_compare;
     TextView txtWageTax;
     TextView txtSolidarity;
     TextView txtChurchTax;
 
     TextView txtSocial;
+    TextView txtSocial_compare;
     TextView txtPension;
     TextView txtUnemployment;
     TextView txtCare;
@@ -46,10 +48,11 @@ public class ResultEmployeeFragment extends Fragment
     LinearLayout regionTaxLst;
     LinearLayout regionTaxSoli;
     LinearLayout regionTaxKist;
-    TextView txtTaxEmployee;
-    TextView txtTaxEmployeeLst;
-    TextView txtTaxEmployeeSoli;
-    TextView txtTaxEmployeeKiSt;
+    TextView txtPauschTaxEmployee;
+    TextView txtPauschTaxEmployeeLst;
+    TextView txtPauschTaxEmployeeSoli;
+    TextView txtPauschTaxEmployeeKiSt;
+    TextView txtPauschTaxEmployee_compare;
 
     public ResultEmployeeFragment() { }
 
@@ -143,11 +146,13 @@ public class ResultEmployeeFragment extends Fragment
 
         // Data views
         txtTax = (TextView) view.findViewById(R.id.result_employee_tax);
+        txtTax_compare = (TextView) view.findViewById(R.id.result_employee_tax_compare);
         txtWageTax = (TextView) view.findViewById(R.id.result_employee_wage_wagetax);
         txtSolidarity = (TextView) view.findViewById(R.id.result_employee_solidarity);
         txtChurchTax = (TextView) view.findViewById(R.id.result_employee_churchtax);
 
         txtSocial = (TextView) view.findViewById(R.id.result_employee_social_contribution);
+        txtSocial_compare = (TextView) view.findViewById(R.id.result_employee_social_contribution_compare);
         txtPension = (TextView) view.findViewById(R.id.result_employee_insurance_pension);
         txtUnemployment = (TextView) view.findViewById(R.id.result_employee_insurance_unemployment);
         txtCare = (TextView) view.findViewById(R.id.result_employee_insurance_care);
@@ -155,10 +160,11 @@ public class ResultEmployeeFragment extends Fragment
 
         txtWageNet = (TextView) view.findViewById(R.id.result_employee_wage_net);
 
-        txtTaxEmployeeLst = (TextView) view.findViewById(R.id.result_employee_base_tax);
-        txtTaxEmployeeSoli = (TextView) view.findViewById(R.id.result_employee_soli_tax);
-        txtTaxEmployeeKiSt = (TextView) view.findViewById(R.id.result_employee_church_tax);
-        txtTaxEmployee = (TextView) view.findViewById(R.id.result_employee_tax);
+        txtPauschTaxEmployeeLst = (TextView) view.findViewById(R.id.result_employee_base_tax);
+        txtPauschTaxEmployeeSoli = (TextView) view.findViewById(R.id.result_employee_soli_tax);
+        txtPauschTaxEmployeeKiSt = (TextView) view.findViewById(R.id.result_employee_church_tax);
+        txtPauschTaxEmployee = (TextView) view.findViewById(R.id.result_employee_tax_p);
+        txtPauschTaxEmployee_compare = (TextView) view.findViewById(R.id.result_employee_tax_p_compare);
 
         // regions
         regionTax = (LinearLayout) view.findViewById(R.id.result_employee_tax_region);
@@ -175,6 +181,7 @@ public class ResultEmployeeFragment extends Fragment
      */
     private void _setViewData(Calculation data, Calculation dataCompare)
     {
+        int green = Color.parseColor("#008000");
         if(data.data.pauschSt_AN.equals("0,00")) {
             regionTax.setVisibility(View.GONE);
             regionTaxLst.setVisibility(View.GONE);
@@ -185,10 +192,10 @@ public class ResultEmployeeFragment extends Fragment
             regionTaxLst.setVisibility(View.VISIBLE);
             regionTaxSoli.setVisibility(View.VISIBLE);
             regionTaxKist.setVisibility(View.VISIBLE);
-            txtTaxEmployeeLst.setText(_formatCurrency(data.data.Pausch_LohnSteuer_AN));
-            txtTaxEmployeeSoli.setText(_formatCurrency(data.data.Pausch_Soli_AN));
-            txtTaxEmployeeKiSt.setText(_formatCurrency(data.data.Pausch_Kirchensteuer_AN));
-            txtTaxEmployee.setText(_formatCurrency(data.data.pauschSt_AN));
+            txtPauschTaxEmployeeLst.setText(_formatCurrency(data.data.Pausch_LohnSteuer_AN));
+            txtPauschTaxEmployeeSoli.setText(_formatCurrency(data.data.Pausch_Soli_AN));
+            txtPauschTaxEmployeeKiSt.setText(_formatCurrency(data.data.Pausch_Kirchensteuer_AN));
+            txtPauschTaxEmployee.setText(_formatCurrency(data.data.pauschSt_AN));
         }
 
         txtTitle.setText(_formatCurrency(data.data.Netto));
@@ -207,6 +214,51 @@ public class ResultEmployeeFragment extends Fragment
                 txtTitleCompare.setTextColor(Color.WHITE);
             }
             txtTitleCompare.setText((diffNetto > 0 ? "+" : "") +_formatCurrency(diffNetto));
+
+            Double oldSteuern = FormatHelper.toDouble(dataCompare.data.Steuern);
+            Double newSteuern = FormatHelper.toDouble(data.data.Steuern);
+            Double diffSteuern = newSteuern - oldSteuern;
+            if(diffSteuern >= 0.01) {
+                txtTax_compare.setVisibility(View.VISIBLE);
+                txtTax_compare.setTextColor(Color.RED);
+            } else if(diffSteuern <= -0.01) {
+                txtTax_compare.setVisibility(View.VISIBLE);
+                txtTax_compare.setTextColor(green);
+            } else {
+                txtTax_compare.setVisibility(View.INVISIBLE);
+                txtTax_compare.setTextColor(Color.WHITE);
+            }
+            txtTax_compare.setText((diffSteuern > 0 ? "+" : "") +_formatCurrency(diffSteuern));
+
+            Double oldSv = FormatHelper.toDouble(dataCompare.data.ANAnteil);
+            Double newSv = FormatHelper.toDouble(data.data.ANAnteil);
+            Double diffSv = newSv - oldSv;
+            if(diffSv >= 0.01) {
+                txtSocial_compare.setVisibility(View.VISIBLE);
+                txtSocial_compare.setTextColor(Color.RED);
+            } else if(diffSv <= -0.01) {
+                txtSocial_compare.setVisibility(View.VISIBLE);
+                txtSocial_compare.setTextColor(green);
+            } else {
+                txtSocial_compare.setVisibility(View.INVISIBLE);
+                txtSocial_compare.setTextColor(Color.WHITE);
+            }
+            txtSocial_compare.setText((diffSv > 0 ? "+" : "") +_formatCurrency(diffSv));
+
+            Double oldTaxPausch = FormatHelper.toDouble(dataCompare.data.pauschSt_AN);
+            Double newTaxPausch = FormatHelper.toDouble(data.data.pauschSt_AN);
+            Double diffTaxPausch = newTaxPausch - oldTaxPausch;
+            if(diffTaxPausch >= 0.01) {
+                txtPauschTaxEmployee_compare.setVisibility(View.VISIBLE);
+                txtPauschTaxEmployee_compare.setTextColor(Color.RED);
+            } else if(diffTaxPausch <= -0.01) {
+                txtPauschTaxEmployee_compare.setVisibility(View.VISIBLE);
+                txtPauschTaxEmployee_compare.setTextColor(green);
+            } else {
+                txtPauschTaxEmployee_compare.setVisibility(View.INVISIBLE);
+                txtPauschTaxEmployee_compare.setTextColor(Color.WHITE);
+            }
+            txtPauschTaxEmployee_compare.setText((diffTaxPausch > 0 ? "+" : "") +_formatCurrency(diffTaxPausch));
         }
 
         txtWageGross.setText(_formatCurrency(data.data.LohnsteuerPflBrutto));

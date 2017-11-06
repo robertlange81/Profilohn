@@ -3,7 +3,8 @@
     <string name="result_employer_cum_cat">Gesamtbelastung</string>
     <string name="result_employer_wage_gross">Bruttogehalt</string>
 
-    <string name="result_employer_tax">pauschale Steuern AG</string>
+    <string name="result_employer_tax">pauschale Steuern</string>
+    <string name="result_employee_tax_p">pauschale Steuern</string>
     <string name="result_employer_base_tax">Lohnsteuer</string>
     <string name="result_employer_soli_tax">Soli</string>
     <string name="result_employer_church_tax">Kirchensteuern</string>

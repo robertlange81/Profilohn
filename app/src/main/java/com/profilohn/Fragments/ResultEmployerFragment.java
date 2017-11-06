@@ -32,12 +32,14 @@ public class ResultEmployerFragment extends Fragment
     TextView txtCumCat;
 
     TextView txtSocialEmployer;
+    TextView txtSocialEmployer_compare;
 
     LinearLayout regionTax;
     LinearLayout regionTaxLst;
     LinearLayout regionTaxSoli;
     LinearLayout regionTaxKist;
     TextView txtTaxEmployer;
+    TextView txtTaxEmployer_compare;
     TextView txtTaxEmployerLst;
     TextView txtTaxEmployerSoli;
     TextView txtTaxEmployerKiSt;
@@ -48,6 +50,7 @@ public class ResultEmployerFragment extends Fragment
     TextView txtHealthEmployer;
 
     TextView txtContribution;
+    TextView txtContribution_compare;
     TextView txtContribution1;
     TextView txtContribution2;
     TextView txtContributionIgu;
@@ -147,6 +150,7 @@ public class ResultEmployerFragment extends Fragment
 
         // Data views
         txtSocialEmployer = (TextView) view.findViewById(R.id.result_employer_social_contribution);
+        txtSocialEmployer_compare = (TextView) view.findViewById(R.id.result_employer_social_contribution_compare);
         txtPensionEmployer = (TextView) view.findViewById(R.id.result_employer_insurance_pension);
         txtUnemploymentEmployer = (TextView) view.findViewById(R.id.result_employer_insurance_unemployment);
         txtCareEmployer = (TextView) view.findViewById(R.id.result_employer_insurance_care);
@@ -156,6 +160,7 @@ public class ResultEmployerFragment extends Fragment
         txtTaxEmployerSoli = (TextView) view.findViewById(R.id.result_employer_soli_tax);
         txtTaxEmployerKiSt = (TextView) view.findViewById(R.id.result_employer_church_tax);
         txtTaxEmployer = (TextView) view.findViewById(R.id.result_employer_tax);
+        txtTaxEmployer_compare = (TextView) view.findViewById(R.id.result_employer_tax_compare);
 
         // regions
         regionTax = (LinearLayout) view.findViewById(R.id.result_employer_tax_region);
@@ -164,6 +169,7 @@ public class ResultEmployerFragment extends Fragment
         regionTaxKist = (LinearLayout) view.findViewById(R.id.result_employer_church_tax_region);
 
         txtContribution  = (TextView) view.findViewById(R.id.result_employer_contribution);
+        txtContribution_compare  = (TextView) view.findViewById(R.id.result_employer_contribution_compare);
         txtContribution1 = (TextView) view.findViewById(R.id.result_employer_contribution1);
         txtContribution2 = (TextView) view.findViewById(R.id.result_employer_contribution2);
         txtContributionIgu = (TextView) view.findViewById(R.id.result_employer_insolvency_contribution);
@@ -200,6 +206,8 @@ public class ResultEmployerFragment extends Fragment
         }
 
         if(dataCompare != null) {
+            int green = Color.parseColor("#008000");
+
             Double oldAbgaben = FormatHelper.toDouble(dataCompare.data.Abgaben_AG);
             Double newAbgaben = FormatHelper.toDouble(data.data.Abgaben_AG);
             Double diffAbgaben = newAbgaben - oldAbgaben;
@@ -214,6 +222,51 @@ public class ResultEmployerFragment extends Fragment
                 txtTitleCompare.setTextColor(Color.WHITE);
             }
             txtTitleCompare.setText((diffAbgaben > 0 ? "+" : "") +_formatCurrency(diffAbgaben));
+
+            Double oldSv = FormatHelper.toDouble(dataCompare.data.AGAnteil);
+            Double newSv = FormatHelper.toDouble(data.data.AGAnteil);
+            Double diffSv = newSv - oldSv;
+            if(diffSv >= 0.01) {
+                txtSocialEmployer_compare.setVisibility(View.VISIBLE);
+                txtSocialEmployer_compare.setTextColor(Color.RED);
+            } else if(diffSv <= -0.01) {
+                txtSocialEmployer_compare.setVisibility(View.VISIBLE);
+                txtSocialEmployer_compare.setTextColor(green);
+            } else {
+                txtSocialEmployer_compare.setVisibility(View.INVISIBLE);
+                txtSocialEmployer_compare.setTextColor(Color.WHITE);
+            }
+            txtSocialEmployer_compare.setText((diffSv > 0 ? "+" : "") +_formatCurrency(diffSv));
+
+            Double oldTax = FormatHelper.toDouble(dataCompare.data.pauschSt_AG);
+            Double newTax = FormatHelper.toDouble(data.data.pauschSt_AG);
+            Double diffTax = newTax - oldTax;
+            if(diffTax >= 0.01) {
+                txtTaxEmployer_compare.setVisibility(View.VISIBLE);
+                txtTaxEmployer_compare.setTextColor(Color.RED);
+            } else if(diffTax <= -0.01) {
+                txtTaxEmployer_compare.setVisibility(View.VISIBLE);
+                txtTaxEmployer_compare.setTextColor(green);
+            } else {
+                txtTaxEmployer_compare.setVisibility(View.INVISIBLE);
+                txtTaxEmployer_compare.setTextColor(Color.WHITE);
+            }
+            txtTaxEmployer_compare.setText((diffTax > 0 ? "+" : "") +_formatCurrency(diffTax));
+
+            Double oldContribution = FormatHelper.toDouble(dataCompare.data.Umlagen_AG);
+            Double newContribution = FormatHelper.toDouble(data.data.Umlagen_AG);
+            Double diffContribution = newContribution- oldContribution;
+            if(diffContribution >= 0.01) {
+                txtContribution_compare.setVisibility(View.VISIBLE);
+                txtContribution_compare.setTextColor(Color.RED);
+            } else if(diffContribution <= -0.01) {
+                txtContribution_compare.setVisibility(View.VISIBLE);
+                txtContribution_compare.setTextColor(green);
+            } else {
+                txtContribution_compare.setVisibility(View.INVISIBLE);
+                txtContribution_compare.setTextColor(Color.WHITE);
+            }
+            txtContribution_compare.setText((diffContribution > 0 ? "+" : "") +_formatCurrency(diffContribution));
         }
 
         txtSocialEmployer.setText(_formatCurrency(data.data.AGAnteil));

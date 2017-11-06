@@ -102,6 +102,16 @@
                     android:text="@string/result_employee_tax" />
 
                 <TextView
+                    android:id="@+id/result_employee_tax_compare"
+                    style="@style/result_cat_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="5dp"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+                <TextView
                     android:id="@+id/result_employee_tax"
                     style="@style/result_cat_value" />
             </LinearLayout>
@@ -150,6 +160,16 @@
                 <TextView
                     style="@style/result_cat_label"
                     android:text="@string/result_employee_social_contribution" />
+
+                <TextView
+                    android:id="@+id/result_employee_social_contribution_compare"
+                    style="@style/result_cat_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="5dp"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/result_employee_social_contribution"
@@ -215,7 +235,17 @@
 
                 <TextView
                     style="@style/result_cat_label"
-                    android:text="@string/result_employer_tax" />
+                    android:text="@string/result_employee_tax_p" />
+
+                <TextView
+                    android:id="@+id/result_employee_tax_p_compare"
+                    style="@style/result_cat_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="5dp"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/result_employee_tax_p"
