@@ -149,11 +149,17 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
+        Calculation data = getIntent().getExtras().getParcelable("Calculation");
+        FileStore fs = new FileStore(this);
+        fs.writeCalculationResult(data);
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        Calculation data = getIntent().getExtras().getParcelable("Calculation");
+        FileStore fs = new FileStore(this);
+        fs.writeCalculationResult(data);
     }
 
     @Override

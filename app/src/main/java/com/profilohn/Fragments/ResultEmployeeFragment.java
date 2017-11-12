@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.profilohn.Exceptions.FormatException;
@@ -44,7 +45,7 @@ public class ResultEmployeeFragment extends Fragment
     TextView txtCare;
     TextView txtHealth;
 
-    LinearLayout regionTax;
+    RelativeLayout regionTax;
     LinearLayout regionTaxLst;
     LinearLayout regionTaxSoli;
     LinearLayout regionTaxKist;
@@ -167,7 +168,7 @@ public class ResultEmployeeFragment extends Fragment
         txtPauschTaxEmployee_compare = (TextView) view.findViewById(R.id.result_employee_tax_p_compare);
 
         // regions
-        regionTax = (LinearLayout) view.findViewById(R.id.result_employee_tax_region);
+        regionTax = (RelativeLayout) view.findViewById(R.id.result_employee_tax_region);
         regionTaxLst = (LinearLayout) view.findViewById(R.id.result_employee_base_tax_region);
         regionTaxSoli = (LinearLayout) view.findViewById(R.id.result_employee_soli_tax_region);
         regionTaxKist = (LinearLayout) view.findViewById(R.id.result_employee_church_tax_region);
@@ -182,7 +183,9 @@ public class ResultEmployeeFragment extends Fragment
     private void _setViewData(Calculation data, Calculation dataCompare)
     {
         int green = Color.parseColor("#008000");
-        if(data.data.pauschSt_AN.equals("0,00")) {
+        if(data.data.pauschSt_AN.equals("0,00")
+                && data.data.pauschSt_AG.equals("0,00")
+                && dataCompare != null) {
             regionTax.setVisibility(View.GONE);
             regionTaxLst.setVisibility(View.GONE);
             regionTaxSoli.setVisibility(View.GONE);

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.profilohn.Exceptions.FormatException;
@@ -34,7 +35,7 @@ public class ResultEmployerFragment extends Fragment
     TextView txtSocialEmployer;
     TextView txtSocialEmployer_compare;
 
-    LinearLayout regionTax;
+    RelativeLayout regionTax;
     LinearLayout regionTaxLst;
     LinearLayout regionTaxSoli;
     LinearLayout regionTaxKist;
@@ -163,7 +164,7 @@ public class ResultEmployerFragment extends Fragment
         txtTaxEmployer_compare = (TextView) view.findViewById(R.id.result_employer_tax_compare);
 
         // regions
-        regionTax = (LinearLayout) view.findViewById(R.id.result_employer_tax_region);
+        regionTax = (RelativeLayout) view.findViewById(R.id.result_employer_tax_region);
         regionTaxLst = (LinearLayout) view.findViewById(R.id.result_employer_base_tax_region);
         regionTaxSoli = (LinearLayout) view.findViewById(R.id.result_employer_soli_tax_region);
         regionTaxKist = (LinearLayout) view.findViewById(R.id.result_employer_church_tax_region);
@@ -189,7 +190,7 @@ public class ResultEmployerFragment extends Fragment
         txtWageGross.setText(_formatCurrency(data.data.LohnsteuerPflBrutto));
         txtCumCat.setText(_formatCurrency(data.data.Abgaben_AG));
 
-        if(data.data.pauschSt_AG.equals("0,00")) {
+        if(data.data.pauschSt_AG.equals("0,00") && data.data.pauschSt_AN.equals("0,00")) {
             regionTax.setVisibility(View.GONE);
             regionTaxLst.setVisibility(View.GONE);
             regionTaxSoli.setVisibility(View.GONE);

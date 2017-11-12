@@ -95,9 +95,10 @@
                 android:layout_width="match_parent" />
 
             <!-- tax cat -->
-            <LinearLayout style="@style/result_data_row">
+            <RelativeLayout style="@style/result_data_row">
 
                 <TextView
+                    android:id="@+id/steur"
                     style="@style/result_cat_label"
                     android:text="@string/result_employee_tax" />
 
@@ -106,15 +107,19 @@
                     style="@style/result_cat_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/steur"
+                    android:layout_toEndOf="@+id/steur"
                     android:paddingEnd="0dp"
-                    android:paddingStart="5dp"
+                    android:paddingStart="15dp"
                     android:textSize="14sp"
                     android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/result_employee_tax"
-                    style="@style/result_cat_value" />
-            </LinearLayout>
+                    style="@style/result_cat_value"
+                    android:layout_alignBaseline="@+id/steur"
+                    android:layout_toEndOf="@+id/steur" />
+            </RelativeLayout>
 
             <!-- wage tax -->
             <LinearLayout style="@style/result_data_row">
@@ -153,11 +158,12 @@
             </LinearLayout>
 
             <!-- social cat -->
-            <LinearLayout
+            <RelativeLayout
                 style="@style/result_data_row"
                 android:layout_marginTop="11dp">
 
                 <TextView
+                    android:id="@+id/soziab"
                     style="@style/result_cat_label"
                     android:text="@string/result_employee_social_contribution" />
 
@@ -166,15 +172,18 @@
                     style="@style/result_cat_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/soziab"
+                    android:layout_toEndOf="@+id/soziab"
                     android:paddingEnd="0dp"
-                    android:paddingStart="5dp"
+                    android:paddingStart="15dp"
                     android:textSize="14sp"
                     android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/result_employee_social_contribution"
-                    style="@style/result_cat_value" />
-            </LinearLayout>
+                    style="@style/result_cat_value"
+                    android:layout_alignBaseline="@+id/soziab" />
+            </RelativeLayout>
 
             <!-- pension insurance -->
             <LinearLayout style="@style/result_data_row">
@@ -229,11 +238,13 @@
                 android:layout_width="match_parent" />
 
             <!-- tax cat -->
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/result_employee_tax_region"
-                style="@style/result_data_row">
+                style="@style/result_data_row"
+                android:layout_width="wrap_content">
 
                 <TextView
+                    android:id="@+id/pauschStAn"
                     style="@style/result_cat_label"
                     android:text="@string/result_employee_tax_p" />
 
@@ -242,15 +253,18 @@
                     style="@style/result_cat_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/pauschStAn"
+                    android:layout_toEndOf="@+id/pauschStAn"
                     android:paddingEnd="0dp"
-                    android:paddingStart="5dp"
+                    android:paddingStart="15dp"
                     android:textSize="14sp"
                     android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/result_employee_tax_p"
-                    style="@style/result_cat_value" />
-            </LinearLayout>
+                    style="@style/result_cat_value"
+                    android:layout_alignBaseline="@+id/pauschStAn" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/result_employee_base_tax_region"

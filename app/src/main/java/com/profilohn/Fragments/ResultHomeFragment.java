@@ -136,6 +136,8 @@ public class ResultHomeFragment extends Fragment
 
         // differences
         if(dataCompare != null) {
+            wageDiffGross.setVisibility(View.VISIBLE);
+            wageDiffNet.setVisibility(View.VISIBLE);
             wageDiffGross = (TextView) view.findViewById(R.id.wage_diff_gross);
             wageDiffGross.setText(FormatHelper.percent(
                     dataResult.data.LohnsteuerPflBrutto, dataCompare.data.LohnsteuerPflBrutto));
@@ -151,6 +153,9 @@ public class ResultHomeFragment extends Fragment
                 wageDiffNet.setTextColor(Color.WHITE);
             }
             wageDiffNet.setText(FormatHelper.percent(newNetto, oldNetto));
+        } else {
+            wageDiffGross.setVisibility(View.GONE);
+            wageDiffNet.setVisibility(View.GONE);
         }
 
         try {
