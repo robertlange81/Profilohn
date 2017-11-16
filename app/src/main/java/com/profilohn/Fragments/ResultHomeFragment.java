@@ -14,7 +14,6 @@ import com.profilohn.Activities.ResultActivity;
 import com.profilohn.Helper.FormatHelper;
 import com.profilohn.Models.Calculation;
 import com.profilohn.Helper.FileStore;
-import com.profilohn.Models.CalculationInput;
 import com.profilohn.R;
 
 /**
@@ -133,29 +132,45 @@ public class ResultHomeFragment extends Fragment
         // compare data
         compareWageGross = (TextView) view.findViewById(R.id.compare_intro_wage_gross);
         compareWageNet = (TextView) view.findViewById(R.id.compare_intro_wage_net);
+        wageDiffGross = (TextView) view.findViewById(R.id.wage_diff_gross);
+        wageDiffNet = (TextView) view.findViewById(R.id.wage_diff_net);
 
         // differences
         if(dataCompare != null) {
-            wageDiffGross.setVisibility(View.VISIBLE);
-            wageDiffNet.setVisibility(View.VISIBLE);
-            wageDiffGross = (TextView) view.findViewById(R.id.wage_diff_gross);
-            wageDiffGross.setText(FormatHelper.percent(
-                    dataResult.data.LohnsteuerPflBrutto, dataCompare.data.LohnsteuerPflBrutto));
+            Double oldBrutto = FormatHelper.toDouble(dataCompare.data.LohnsteuerPflBrutto);
+            Double newBrutto = FormatHelper.toDouble(dataResult.data.LohnsteuerPflBrutto);
+            if(newBrutto - oldBrutto >= 0.01) {
+                wageDiffGross.setTextColor(Color.GREEN);
+                wageDiffGross.setVisibility(View.VISIBLE);
+                wageDiffGross.setText(FormatHelper.percent(
+                        dataResult.data.LohnsteuerPflBrutto, dataCompare.data.LohnsteuerPflBrutto));
+            } else if(newBrutto - oldBrutto <= -0.01) {
+                wageDiffGross.setText(FormatHelper.percent(
+                        dataResult.data.LohnsteuerPflBrutto, dataCompare.data.LohnsteuerPflBrutto));
+                wageDiffGross.setTextColor(Color.RED);
+                wageDiffGross.setVisibility(View.VISIBLE);
+            } else {
+                wageDiffGross.setTextColor(Color.WHITE);
+                wageDiffGross.setVisibility(View.INVISIBLE);
+            }
 
-            wageDiffNet = (TextView) view.findViewById(R.id.wage_diff_net);
             Double oldNetto = FormatHelper.toDouble(dataCompare.data.Netto);
             Double newNetto = FormatHelper.toDouble(dataResult.data.Netto);
             if(newNetto - oldNetto >= 0.01) {
                 wageDiffNet.setTextColor(Color.GREEN);
+                wageDiffNet.setVisibility(View.VISIBLE);
+                wageDiffNet.setText(FormatHelper.percent(newNetto, oldNetto));
             } else if(newNetto - oldNetto <= -0.01) {
                 wageDiffNet.setTextColor(Color.RED);
+                wageDiffNet.setVisibility(View.VISIBLE);
+                wageDiffNet.setText(FormatHelper.percent(newNetto, oldNetto));
             } else {
                 wageDiffNet.setTextColor(Color.WHITE);
+                wageDiffNet.setVisibility(View.INVISIBLE);
             }
-            wageDiffNet.setText(FormatHelper.percent(newNetto, oldNetto));
         } else {
-            wageDiffGross.setVisibility(View.GONE);
-            wageDiffNet.setVisibility(View.GONE);
+            wageDiffGross.setVisibility(View.INVISIBLE);
+            wageDiffNet.setVisibility(View.INVISIBLE);
         }
 
         try {

@@ -206,70 +206,6 @@ public class ResultEmployerFragment extends Fragment
             txtTaxEmployer.setText(_formatCurrency(data.data.pauschSt_AG));
         }
 
-        if(dataCompare != null) {
-            int green = Color.parseColor("#008000");
-
-            Double oldAbgaben = FormatHelper.toDouble(dataCompare.data.Abgaben_AG);
-            Double newAbgaben = FormatHelper.toDouble(data.data.Abgaben_AG);
-            Double diffAbgaben = newAbgaben - oldAbgaben;
-            if(diffAbgaben >= 0.01) {
-                txtTitleCompare.setVisibility(View.VISIBLE);
-                txtTitleCompare.setTextColor(Color.RED);
-            } else if(diffAbgaben <= -0.01) {
-                txtTitleCompare.setVisibility(View.VISIBLE);
-                txtTitleCompare.setTextColor(Color.GREEN);
-            } else {
-                txtTitleCompare.setVisibility(View.INVISIBLE);
-                txtTitleCompare.setTextColor(Color.WHITE);
-            }
-            txtTitleCompare.setText((diffAbgaben > 0 ? "+" : "") +_formatCurrency(diffAbgaben));
-
-            Double oldSv = FormatHelper.toDouble(dataCompare.data.AGAnteil);
-            Double newSv = FormatHelper.toDouble(data.data.AGAnteil);
-            Double diffSv = newSv - oldSv;
-            if(diffSv >= 0.01) {
-                txtSocialEmployer_compare.setVisibility(View.VISIBLE);
-                txtSocialEmployer_compare.setTextColor(Color.RED);
-            } else if(diffSv <= -0.01) {
-                txtSocialEmployer_compare.setVisibility(View.VISIBLE);
-                txtSocialEmployer_compare.setTextColor(green);
-            } else {
-                txtSocialEmployer_compare.setVisibility(View.INVISIBLE);
-                txtSocialEmployer_compare.setTextColor(Color.WHITE);
-            }
-            txtSocialEmployer_compare.setText((diffSv > 0 ? "+" : "") +_formatCurrency(diffSv));
-
-            Double oldTax = FormatHelper.toDouble(dataCompare.data.pauschSt_AG);
-            Double newTax = FormatHelper.toDouble(data.data.pauschSt_AG);
-            Double diffTax = newTax - oldTax;
-            if(diffTax >= 0.01) {
-                txtTaxEmployer_compare.setVisibility(View.VISIBLE);
-                txtTaxEmployer_compare.setTextColor(Color.RED);
-            } else if(diffTax <= -0.01) {
-                txtTaxEmployer_compare.setVisibility(View.VISIBLE);
-                txtTaxEmployer_compare.setTextColor(green);
-            } else {
-                txtTaxEmployer_compare.setVisibility(View.INVISIBLE);
-                txtTaxEmployer_compare.setTextColor(Color.WHITE);
-            }
-            txtTaxEmployer_compare.setText((diffTax > 0 ? "+" : "") +_formatCurrency(diffTax));
-
-            Double oldContribution = FormatHelper.toDouble(dataCompare.data.Umlagen_AG);
-            Double newContribution = FormatHelper.toDouble(data.data.Umlagen_AG);
-            Double diffContribution = newContribution- oldContribution;
-            if(diffContribution >= 0.01) {
-                txtContribution_compare.setVisibility(View.VISIBLE);
-                txtContribution_compare.setTextColor(Color.RED);
-            } else if(diffContribution <= -0.01) {
-                txtContribution_compare.setVisibility(View.VISIBLE);
-                txtContribution_compare.setTextColor(green);
-            } else {
-                txtContribution_compare.setVisibility(View.INVISIBLE);
-                txtContribution_compare.setTextColor(Color.WHITE);
-            }
-            txtContribution_compare.setText((diffContribution > 0 ? "+" : "") +_formatCurrency(diffContribution));
-        }
-
         txtSocialEmployer.setText(_formatCurrency(data.data.AGAnteil));
         txtPensionEmployer.setText(_formatCurrency(data.data.Rentenversicherung_AG));
         txtUnemploymentEmployer.setText(_formatCurrency(data.data.Arbeitslosenversicherung_AG));
@@ -280,6 +216,87 @@ public class ResultEmployerFragment extends Fragment
         txtContribution1.setText(_formatCurrency(data.data.Umlage1));
         txtContribution2.setText(_formatCurrency(data.data.Umlage2));
         txtContributionIgu.setText(_formatCurrency(data.data.IGU));
+
+        _compareView(data, dataCompare);
+    }
+
+    private void _compareView(Calculation data, Calculation dataCompare) {
+
+        txtTitleCompare.setVisibility(View.VISIBLE);
+        txtSocialEmployer_compare.setVisibility(View.INVISIBLE);
+        txtTaxEmployer_compare.setVisibility(View.INVISIBLE);
+        txtContribution_compare.setVisibility(View.INVISIBLE);
+
+        if(dataCompare == null) {
+            return;
+        }
+
+        int green = Color.parseColor("#008000");
+
+        Double oldAbgaben = FormatHelper.toDouble(dataCompare.data.Abgaben_AG);
+        Double newAbgaben = FormatHelper.toDouble(data.data.Abgaben_AG);
+
+        if(newAbgaben * 10 < oldAbgaben || oldAbgaben * 10 < newAbgaben)
+            // anscheinend auf Jahreswerte / Monatswerte umgestellt / in jedem Fall sinnlos zu vergleichen
+            return;
+
+        Double diffAbgaben = newAbgaben - oldAbgaben;
+        if(diffAbgaben >= 0.01) {
+            txtTitleCompare.setVisibility(View.VISIBLE);
+            txtTitleCompare.setTextColor(Color.RED);
+        } else if(diffAbgaben <= -0.01) {
+            txtTitleCompare.setVisibility(View.VISIBLE);
+            txtTitleCompare.setTextColor(Color.GREEN);
+        } else {
+            txtTitleCompare.setVisibility(View.INVISIBLE);
+            txtTitleCompare.setTextColor(Color.WHITE);
+        }
+        txtTitleCompare.setText((diffAbgaben > 0 ? "+" : "") +_formatCurrency(diffAbgaben));
+
+        Double oldSv = FormatHelper.toDouble(dataCompare.data.AGAnteil);
+        Double newSv = FormatHelper.toDouble(data.data.AGAnteil);
+        Double diffSv = newSv - oldSv;
+        if(diffSv >= 0.01) {
+            txtSocialEmployer_compare.setVisibility(View.VISIBLE);
+            txtSocialEmployer_compare.setTextColor(Color.RED);
+        } else if(diffSv <= -0.01) {
+            txtSocialEmployer_compare.setVisibility(View.VISIBLE);
+            txtSocialEmployer_compare.setTextColor(green);
+        } else {
+            txtSocialEmployer_compare.setVisibility(View.INVISIBLE);
+            txtSocialEmployer_compare.setTextColor(Color.WHITE);
+        }
+        txtSocialEmployer_compare.setText((diffSv > 0 ? "+" : "") +_formatCurrency(diffSv));
+
+        Double oldTax = FormatHelper.toDouble(dataCompare.data.pauschSt_AG);
+        Double newTax = FormatHelper.toDouble(data.data.pauschSt_AG);
+        Double diffTax = newTax - oldTax;
+        if(diffTax >= 0.01) {
+            txtTaxEmployer_compare.setVisibility(View.VISIBLE);
+            txtTaxEmployer_compare.setTextColor(Color.RED);
+        } else if(diffTax <= -0.01) {
+            txtTaxEmployer_compare.setVisibility(View.VISIBLE);
+            txtTaxEmployer_compare.setTextColor(green);
+        } else {
+            txtTaxEmployer_compare.setVisibility(View.INVISIBLE);
+            txtTaxEmployer_compare.setTextColor(Color.WHITE);
+        }
+        txtTaxEmployer_compare.setText((diffTax > 0 ? "+" : "") +_formatCurrency(diffTax));
+
+        Double oldContribution = FormatHelper.toDouble(dataCompare.data.Umlagen_AG);
+        Double newContribution = FormatHelper.toDouble(data.data.Umlagen_AG);
+        Double diffContribution = newContribution- oldContribution;
+        if(diffContribution >= 0.01) {
+            txtContribution_compare.setVisibility(View.VISIBLE);
+            txtContribution_compare.setTextColor(Color.RED);
+        } else if(diffContribution <= -0.01) {
+            txtContribution_compare.setVisibility(View.VISIBLE);
+            txtContribution_compare.setTextColor(green);
+        } else {
+            txtContribution_compare.setVisibility(View.INVISIBLE);
+            txtContribution_compare.setTextColor(Color.WHITE);
+        }
+        txtContribution_compare.setText((diffContribution > 0 ? "+" : "") +_formatCurrency(diffContribution));
     }
 
 
