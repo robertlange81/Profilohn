@@ -16,7 +16,7 @@
     <string name="stkl_prompt">Versteuerung angeben</string>
 
     <string-array name="employeetypes">
-        <item>Standard (volle Sozialvers.)</item>
+        <item>Standard (volle SV)</item>
         <item>Minijobber (RV-frei)</item>
         <item>Minijobber (RV-Aufstocker)</item>
         <item>Privat Versichert</item>

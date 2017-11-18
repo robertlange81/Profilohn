@@ -1,23 +1,21 @@
 package com.profilohn.Activities;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -31,7 +29,6 @@ import android.widget.TextView;
 
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -123,7 +120,8 @@ public class InputActivity extends AppCompatActivity
     private TextView wageAmountLabel;
     private TextView wagetypeLabel;
     private TextView taxFreeLabel;
-    public static boolean abortCalculation;
+    public static boolean isCalculationEnabled;
+    public static boolean doAbortCalculation;
 
     public static InputActivity instance;
 
@@ -252,6 +250,7 @@ public class InputActivity extends AppCompatActivity
         _loadCachedInputs();
 
         instance = this;
+        isCalculationEnabled = false;
 /*
         spamWebView =(WebView) findViewById(R.id.webview_calc);
 
@@ -263,7 +262,7 @@ public class InputActivity extends AppCompatActivity
         spamWebView.setVisibility(View.INVISIBLE);*/
         //calculate_general.setVisibility(View.VISIBLE);
         //spamWebView.loadUrl("http://robert-lange.eu/loader2.html");
-        //InputActivity.this.abortCalculation = true;
+        //InputActivity.this.isCalculationEnabled = true;
     }
 
 
@@ -273,6 +272,7 @@ public class InputActivity extends AppCompatActivity
         super.onResume();
         wage.requestFocus();
         dismissCalculationOverlay();
+        isCalculationEnabled = false;
     }
 
 
@@ -474,25 +474,6 @@ public class InputActivity extends AppCompatActivity
             }
         });
 
-        // Betrag (Brutto oder Wunsch-Netto)
-        wage.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
         // Steuerfreibetrag
         taxFree.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -598,6 +579,8 @@ public class InputActivity extends AppCompatActivity
 
              @Override
              public void onNothingSelected(AdapterView<?> parent) {
+                 wage.clearFocus();
+                 taxFree.clearFocus();
              }
         });
 
@@ -626,6 +609,8 @@ public class InputActivity extends AppCompatActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                wage.clearFocus();
+                taxFree.clearFocus();
             }
         });
 
@@ -652,6 +637,8 @@ public class InputActivity extends AppCompatActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                wage.clearFocus();
+                taxFree.clearFocus();
             }
         });
 
@@ -692,6 +679,8 @@ public class InputActivity extends AppCompatActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                wage.clearFocus();
+                taxFree.clearFocus();
             }
         });
 
@@ -718,6 +707,8 @@ public class InputActivity extends AppCompatActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                wage.clearFocus();
+                taxFree.clearFocus();
             }
         });
 
@@ -742,6 +733,8 @@ public class InputActivity extends AppCompatActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                wage.clearFocus();
+                taxFree.clearFocus();
             }
         });
 
@@ -757,6 +750,8 @@ public class InputActivity extends AppCompatActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                wage.clearFocus();
+                taxFree.clearFocus();
             }
         });
 
@@ -772,6 +767,8 @@ public class InputActivity extends AppCompatActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                wage.clearFocus();
+                taxFree.clearFocus();
             }
         });
 
@@ -840,12 +837,17 @@ public class InputActivity extends AppCompatActivity
 
                 // v.setBackgroundColor(Color.RED);
 
-                abortCalculation = false;
+                if(isCalculationEnabled)
+                    return;
+
+                isCalculationEnabled = true;
+
                 wage.clearFocus();
                 taxFree.clearFocus();
                 insuranceAc.clearFocus();
 
                 if (!_setAndValidateData()) {
+                    isCalculationEnabled = false;
                     return;
                 }
 
@@ -855,25 +857,34 @@ public class InputActivity extends AppCompatActivity
                 if(data.Berechnungsart == "Nettolohn") {
                     BigDecimal perc = new BigDecimal(0);
                     if(data.Beschaeftigungsart == 2 && data.RV == 1) { // Sonderfall Aufstocker Minijob
-                        if(data.Brutto / (1 - 0.053) < 175) {
+                        if(data.Zeitraum == "m" && data.Brutto / (1 - 0.053) < 175) {
                             // minumum beitrag
                             data.Brutto += min__aufstocker_Minijob_sv_.doubleValue();
+                            data.Berechnungsart = "Bruttolohn";
+                        } else if(data.Zeitraum == "y" && data.Brutto / (1 - 0.053) < 175 * 12) {
+                            // minumum beitrag
+                            data.Brutto += min__aufstocker_Minijob_sv_.doubleValue() * 12;
+                            data.Berechnungsart = "Bruttolohn";
                         } else {
                             perc = perc.add(anteilAN_aufstocker_Minijob_sv);
                         }
                     }
 
-                    if(data.StKl == 23 && data.abwaelzung_pauschale_steuer) {
-                        if(data.Beschaeftigungsart == 1 || data.Beschaeftigungsart == 2) {
-                            perc = perc.add(percent_pausch_steuer_minijob);
-                        }
+                    if(data.StKl == 23) {
+                        data.Berechnungsart = "Bruttolohn";
+                        isFakeBruttolohn = true;
+                        if(data.abwaelzung_pauschale_steuer) {
+                            if (data.Beschaeftigungsart == 1 || data.Beschaeftigungsart == 2) {
+                                perc = perc.add(percent_pausch_steuer_minijob);
+                            }
 
-                        if(data.Beschaeftigungsart == 4) {
-                            BigDecimal Soli = percent_pausch_steuer_kurzfristig.multiply(percent_soli).setScale(5, RoundingMode.HALF_DOWN);
-                            perc = percent_pausch_steuer_kurzfristig.add(Soli).setScale(5, RoundingMode.HALF_DOWN);
+                            if (data.Beschaeftigungsart == 4) {
+                                BigDecimal Soli = percent_pausch_steuer_kurzfristig.multiply(percent_soli).setScale(5, RoundingMode.HALF_DOWN);
+                                perc = percent_pausch_steuer_kurzfristig.add(Soli).setScale(5, RoundingMode.HALF_DOWN);
 
-                            if(data.Kirche)
-                                perc = perc.add(percent_pausch_steuer_kurzfristig.multiply(percentErmaessigteKirchensteuer.get(data.Bundesland))).setScale(5, RoundingMode.HALF_DOWN);
+                                if (data.Kirche)
+                                    perc = perc.add(percent_pausch_steuer_kurzfristig.multiply(percentErmaessigteKirchensteuer.get(data.Bundesland))).setScale(5, RoundingMode.HALF_DOWN);
+                            }
                         }
                     }
 
@@ -1168,11 +1179,13 @@ public class InputActivity extends AppCompatActivity
                 selectedChurchTax = i.Kirche;
 
                 // Steuerfreibetrag
+                taxFree.requestFocus();
                 if (i.StFreibetrag != null) {
                     taxFree.setText(i.StFreibetrag.toString());
                 } else {
                     taxFree.setText("0,00 €");
                 }
+                taxFree.clearFocus();
                 selectedTaxFree = i.StFreibetrag;
 
                 // Kinderfreibetrag
@@ -1238,9 +1251,6 @@ public class InputActivity extends AppCompatActivity
      */
     public void responseFinishCalculation(Calculation calculation)
     {
-        if(abortCalculation)
-            return;
-
         Intent i = new Intent(this, ResultActivity.class);
         i.putExtra("Calculation", calculation);
 
@@ -1279,6 +1289,7 @@ public class InputActivity extends AppCompatActivity
         }
 
         // dismissCalculationOverlay();
+        isCalculationEnabled = false;
         startActivity(i);
     }
 
@@ -1290,7 +1301,10 @@ public class InputActivity extends AppCompatActivity
                 || percentNursingInsurance.get(data.AbrJahr) == null)
             return;
 
-        BigDecimal br = bbg_kv.get(data.AbrJahr).min(new BigDecimal(data.Brutto.toString()));
+        BigDecimal bbg_kv_tmp = data.Zeitraum == "m" ?
+                bbg_kv.get(data.AbrJahr) : bbg_kv.get(data.AbrJahr).multiply(new BigDecimal(12));
+
+        BigDecimal br = bbg_kv_tmp.min(new BigDecimal(data.Brutto.toString()));
 
         try {
             ag_alt = getBigDecimal(calculation.data.Pflegeversicherung_AG);
@@ -1388,13 +1402,15 @@ public class InputActivity extends AppCompatActivity
             BigDecimal kvan_absolut = new BigDecimal(0.00);
             BigDecimal kvag_absolut = new BigDecimal(0.00);
 
-            if(bbg_kv.get(data.AbrJahr).compareTo(getBigDecimal(calculation.data.SVPflBrutto)) < 0) {
+            BigDecimal bbg_kv_tmp = data.Zeitraum == "m" ?
+                    bbg_kv.get(data.AbrJahr) : bbg_kv.get(data.AbrJahr).multiply(new BigDecimal(12));
+
+            if(bbg_kv_tmp.compareTo(getBigDecimal(calculation.data.SVPflBrutto)) < 0) {
                 // falls Brutto schon über KV-BBG: feste Beträge
                 isUeberBbg_KV = true;
-                pvan_absolut = pvan.multiply(bbg_kv.get(data.AbrJahr)).setScale(2, BigDecimal.ROUND_HALF_UP);
-                pvag_absolut = pvag.multiply(bbg_kv.get(data.AbrJahr)).setScale(2, BigDecimal.ROUND_HALF_UP);
+                pvan_absolut = pvan.multiply(bbg_kv_tmp).setScale(2, BigDecimal.ROUND_HALF_UP);
+                pvag_absolut = pvag.multiply(bbg_kv_tmp).setScale(2, BigDecimal.ROUND_HALF_UP);
                 kvan_absolut = getBigDecimal(calculation.data.Krankenversicherung_AN);
-                kvag_absolut = getBigDecimal(calculation.data.Krankenversicherung_AG); // unnötig
             } else {
                 kvag = getBigDecimal(calculation.data.Krankenversicherung_AG).divide(brutto_alt, 5, BigDecimal.ROUND_HALF_UP);
                 kvan = getBigDecimal(calculation.data.Krankenversicherung_AN).divide(brutto_alt, 5, BigDecimal.ROUND_HALF_UP);
@@ -1403,6 +1419,9 @@ public class InputActivity extends AppCompatActivity
             // falls Brutto schon über RV-BBG: feste Beträge
             boolean isBbgOst = GetIsBbgOst(data.Bundesland);
             BigDecimal bbg_rv = isBbgOst ? bbg_rv_ost.get(data.AbrJahr) : bbg_rv_west.get(data.AbrJahr);
+
+            if(data.Zeitraum == "y")
+                bbg_rv = bbg_rv.multiply(new BigDecimal(12));
 
             BigDecimal rvan_absolut = new BigDecimal(0.00);
             BigDecimal rvag_absolut = new BigDecimal(0.00);
@@ -1515,8 +1534,9 @@ public class InputActivity extends AppCompatActivity
         try {
             BigDecimal rvan_alt = getBigDecimal(calculation.data.Rentenversicherung_AN);
             BigDecimal rvan_neu = getBigDecimal(calculation.data.SVPflBrutto).multiply(anteilAN_aufstocker_Minijob_sv);
-            if(rvan_neu.compareTo(min__aufstocker_Minijob_sv_) < 0)
-                rvan_neu = min__aufstocker_Minijob_sv_;
+            BigDecimal tmp_min_rv = data.Zeitraum == "y" ? min__aufstocker_Minijob_sv_.multiply(new BigDecimal(12)) : min__aufstocker_Minijob_sv_;
+            if(rvan_neu.compareTo(tmp_min_rv) < 0)
+                rvan_neu = tmp_min_rv;
 
             calculation.data.Rentenversicherung_AN = getDecimalString_Up(rvan_neu);
 
@@ -1642,6 +1662,7 @@ public class InputActivity extends AppCompatActivity
      */
     public void responseFailedCalculation(String message)
     {
+        isCalculationEnabled = false;
         dismissCalculationOverlay();
         MessageHelper.snackbar(this, message, Snackbar.LENGTH_INDEFINITE);
     }
@@ -1712,12 +1733,39 @@ public class InputActivity extends AppCompatActivity
      */
     private void showCalculationDialog()
     {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        Dialog calcDialog = MessageHelper.dialog(instance, false,
-        getResources().getString(R.string.calculation_started), MessageHelper.DIALOG_TYPE_INFO);
+        builder.setTitle("Confirm");
+        builder.setMessage("Are you sure?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+
+        this.calcDialog = builder.create();
+        calcDialog.show();
+
+        /*
+        Dialog calcDialog = MessageHelper.dialog(instance, true,
+        getResources().getString(R.string.calculation_started), MessageHelper.DIALOG_TYPE_ALERT);
         calcDialog.show();
         this.calcDialog = calcDialog;
-
+        */
     }
 
 
@@ -1739,8 +1787,6 @@ public class InputActivity extends AppCompatActivity
     {
         //spamWebView.setVisibility(View.INVISIBLE);
         //calculate_general.setVisibility(View.VISIBLE);
-        InputActivity.this.abortCalculation = true;
-
 
         if (null != calcDialog && calcDialog.isShowing())
             calcDialog.dismiss();
@@ -1753,7 +1799,7 @@ public class InputActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        InputActivity.this.abortCalculation = true;
+        InputActivity.this.isCalculationEnabled = true;
         super.onBackPressed();
     }
 
@@ -1761,7 +1807,7 @@ public class InputActivity extends AppCompatActivity
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch(keyCode){
             case KeyEvent.KEYCODE_BACK:
-                InputActivity.this.abortCalculation = true;
+                InputActivity.this.isCalculationEnabled = true;
                 return true;
         }
         return super.onKeyDown(keyCode, event);

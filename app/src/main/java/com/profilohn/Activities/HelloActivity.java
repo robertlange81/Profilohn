@@ -75,7 +75,7 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
     protected void onResume()
     {
         super.onResume();
-        InputActivity.abortCalculation = true;
+        InputActivity.isCalculationEnabled = true;
     }
 
 

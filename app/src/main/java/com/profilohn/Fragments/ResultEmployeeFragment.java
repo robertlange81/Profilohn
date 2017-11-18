@@ -32,6 +32,7 @@ public class ResultEmployeeFragment extends Fragment
     TextView txtWageGross;
     TextView txtWageGrossCompare;
     TextView txtWageNet;
+    TextView txtWageNet_compare;
 
     TextView txtTax;
     TextView txtTax_compare;
@@ -179,6 +180,7 @@ public class ResultEmployeeFragment extends Fragment
         txtHealth_compare = (TextView) view.findViewById(R.id.result_employee_insurance_health_compare);
 
         txtWageNet = (TextView) view.findViewById(R.id.result_employee_wage_net);
+        txtWageNet_compare = (TextView) view.findViewById(R.id.result_employee_wage_net_compare);
 
         txtPauschTaxEmployeeLst = (TextView) view.findViewById(R.id.result_employee_base_tax);
         txtPauschTaxEmployeeSoli = (TextView) view.findViewById(R.id.result_employee_soli_tax);
@@ -264,10 +266,10 @@ public class ResultEmployeeFragment extends Fragment
 
         if(diffBrutto >= 0.01) {
             txtWageGrossCompare.setVisibility(View.VISIBLE);
-            txtWageGrossCompare.setTextColor(Color.RED);
+            txtWageGrossCompare.setTextColor(green);
         } else if(diffBrutto <= -0.01) {
             txtWageGrossCompare.setVisibility(View.VISIBLE);
-            txtWageGrossCompare.setTextColor(green);
+            txtWageGrossCompare.setTextColor(Color.RED);
         } else {
             txtWageGrossCompare.setVisibility(View.INVISIBLE);
             txtWageGrossCompare.setTextColor(Color.WHITE);
@@ -280,14 +282,21 @@ public class ResultEmployeeFragment extends Fragment
         if(diffNetto >= 0.01) {
             txtTitleCompare.setVisibility(View.VISIBLE);
             txtTitleCompare.setTextColor(Color.GREEN);
+            txtWageNet_compare.setVisibility(View.VISIBLE);
+            txtWageNet_compare.setTextColor(green);
         } else if(diffNetto <= -0.01) {
             txtTitleCompare.setVisibility(View.VISIBLE);
             txtTitleCompare.setTextColor(Color.RED);
+            txtWageNet_compare.setVisibility(View.VISIBLE);
+            txtWageNet_compare.setTextColor(Color.RED);
         } else {
             txtTitleCompare.setVisibility(View.INVISIBLE);
             txtTitleCompare.setTextColor(Color.WHITE);
+            txtWageNet_compare.setVisibility(View.INVISIBLE);
+            txtWageNet_compare.setTextColor(Color.WHITE);
         }
         txtTitleCompare.setText((diffNetto > 0 ? "+" : "") +_formatCurrency(diffNetto));
+        txtWageNet_compare.setText((diffNetto > 0 ? "+" : "") +_formatCurrency(diffNetto));
 
         // veränderte Summe Steuern
         Double oldSteuern = FormatHelper.toDouble(dataCompare.data.Steuern);

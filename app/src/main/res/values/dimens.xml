@@ -24,7 +24,7 @@
     <dimen name="text_margin_bottom">5dp</dimen>
     <dimen name="text_margin_bottom_h1">20dp</dimen>
     <dimen name="text_margin_top_h2">5dp</dimen>
-    <dimen name="text_margin_result_employee_data_label">25dp</dimen>
+    <dimen name="text_margin_result_employee_data_label">15dp</dimen>
 
     <dimen name="textview_ball_radius">30dp</dimen>
     <dimen name="textview_layout_marginTop">5dp</dimen>

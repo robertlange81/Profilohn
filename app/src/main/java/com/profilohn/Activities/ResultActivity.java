@@ -143,6 +143,12 @@ public class ResultActivity extends AppCompatActivity {
 
         if(this.isTablet) {
             this.finish();
+        } else {
+            if(mViewPager.getCurrentItem() != 0) {
+                mViewPager.setCurrentItem(0, true);
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 

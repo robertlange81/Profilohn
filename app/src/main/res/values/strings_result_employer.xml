@@ -1,6 +1,6 @@
 <resources>
     <string name="result_employer_title">Arbeitgeber (AG)</string>
-    <string name="result_employer_cum_cat">Gesamtbelastung</string>
+    <string name="result_employer_cum_cat">Kosten</string>
     <string name="result_employer_wage_gross">Bruttogehalt</string>
 
     <string name="result_employer_tax">pauschale Steuern</string>

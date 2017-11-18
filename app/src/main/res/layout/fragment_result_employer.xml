@@ -30,7 +30,8 @@
             android:layout_toEndOf="@+id/result_employer_title_wage"
             android:text="@string/_0_00"
             android:textColor="@color/text_white"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/result_employer_title_wage_label"
@@ -82,16 +83,30 @@
                 style="@style/hr"
                 android:layout_width="match_parent" />
 
-            <LinearLayout style="@style/result_data_row">
+            <RelativeLayout style="@style/result_data_row">
 
                 <TextView
+                    android:id="@+id/lbl_brutto_ag"
                     style="@style/result_main_label"
                     android:text="@string/result_employer_wage_gross" />
 
                 <TextView
+                    android:id="@+id/result_employer_wage_gross_compare"
+                    style="@style/result_data_value_compare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/lbl_brutto_ag"
+                    android:layout_toEndOf="@+id/lbl_brutto_ag"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp"
+                    android:textSize="14sp" />
+
+                <TextView
                     android:id="@+id/result_employer_wage_gross"
-                    style="@style/result_main_value" />
-            </LinearLayout>
+                    style="@style/result_main_value"
+                    android:layout_alignBaseline="@+id/lbl_brutto_ag"
+                    android:layout_toEndOf="@+id/lbl_brutto_ag" />
+            </RelativeLayout>
 
             <View
                 style="@style/hr"
@@ -107,71 +122,121 @@
 
                 <TextView
                     android:id="@+id/result_employer_social_contribution_compare"
-                    style="@style/result_cat_label"
+                    style="@style/result_data_value_compare"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/soziabg"
                     android:layout_toEndOf="@+id/soziabg"
                     android:paddingEnd="0dp"
-                    android:paddingStart="15dp"
-                    android:textSize="14sp"
-                    android:visibility="gone" />
+                    android:paddingStart="10dp"
+                    android:visibility="invisible" />
 
                 <TextView
                     android:id="@+id/result_employer_social_contribution"
                     style="@style/result_cat_value"
-                    android:layout_alignBottom="@+id/soziabg"
-                    android:layout_alignParentLeft="false"
-                    android:layout_alignParentStart="false" />
+                    android:layout_alignBaseline="@+id/soziabg"
+                    android:layout_toEndOf="@+id/soziabg" />
             </RelativeLayout>
 
             <!-- pension insurance -->
-            <LinearLayout style="@style/result_data_row">
+            <RelativeLayout style="@style/result_data_row">
 
                 <TextView
+                    android:id="@+id/label_pension_insurance"
                     style="@style/result_data_label"
                     android:text="@string/result_employer_insurance_pension" />
 
                 <TextView
-                    android:id="@+id/result_employer_insurance_pension"
-                    style="@style/result_data_value" />
-            </LinearLayout>
-
-            <!-- insurance unemployment -->
-            <LinearLayout style="@style/result_data_row">
+                    android:id="@+id/result_employer_insurance_pension_compare"
+                    style="@style/result_data_value_compare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/label_pension_insurance"
+                    android:layout_toEndOf="@+id/label_pension_insurance"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp" />
 
                 <TextView
+                    android:id="@+id/result_employer_insurance_pension"
+                    style="@style/result_data_value"
+                    android:layout_alignBaseline="@+id/label_pension_insurance"
+                    android:layout_toEndOf="@+id/label_pension_insurance" />
+            </RelativeLayout>
+
+            <!-- insurance unemployment -->
+            <RelativeLayout style="@style/result_data_row">
+
+                <TextView
+                    android:id="@+id/label_unemployment_insurance"
                     style="@style/result_data_label"
                     android:text="@string/result_employer_insurance_unemployment" />
 
                 <TextView
-                    android:id="@+id/result_employer_insurance_unemployment"
-                    style="@style/result_data_value" />
-            </LinearLayout>
-
-            <!-- insurance care -->
-            <LinearLayout style="@style/result_data_row">
+                    android:id="@+id/result_employer_insurance_unemployment_compare"
+                    style="@style/result_data_value_compare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/label_unemployment_insurance"
+                    android:layout_toEndOf="@+id/label_unemployment_insurance"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp" />
 
                 <TextView
+                    android:id="@+id/result_employer_insurance_unemployment"
+                    style="@style/result_data_value"
+                    android:layout_alignBaseline="@+id/label_unemployment_insurance"
+                    android:layout_toEndOf="@+id/label_unemployment_insurance" />
+            </RelativeLayout>
+
+            <!-- insurance care -->
+            <RelativeLayout style="@style/result_data_row">
+
+                <TextView
+                    android:id="@+id/label_care_insurance"
                     style="@style/result_data_label"
                     android:text="@string/result_employer_insurance_care" />
 
                 <TextView
-                    android:id="@+id/result_employer_insurance_care"
-                    style="@style/result_data_value" />
-            </LinearLayout>
-
-            <!-- insurance health -->
-            <LinearLayout style="@style/result_data_row">
+                    android:id="@+id/result_employer_insurance_care_compare"
+                    style="@style/result_data_value_compare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/label_care_insurance"
+                    android:layout_toEndOf="@+id/label_care_insurance"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp" />
 
                 <TextView
+                    android:id="@+id/result_employer_insurance_care"
+                    style="@style/result_data_value"
+                    android:layout_alignBaseline="@+id/label_care_insurance"
+                    android:layout_toEndOf="@+id/label_care_insurance" />
+            </RelativeLayout>
+
+            <!-- insurance health -->
+            <RelativeLayout style="@style/result_data_row">
+
+                <TextView
+                    android:id="@+id/label_health_insurance"
                     style="@style/result_data_label"
                     android:text="@string/result_employer_insurance_health" />
 
                 <TextView
+                    android:id="@+id/result_employer_insurance_health_compare"
+                    style="@style/result_data_value_compare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/label_health_insurance"
+                    android:layout_toEndOf="@+id/label_health_insurance"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp" />
+
+                <TextView
                     android:id="@+id/result_employer_insurance_health"
-                    style="@style/result_data_value" />
-            </LinearLayout>
+                    style="@style/result_data_value"
+                    android:layout_alignBaseline="@+id/label_health_insurance"
+                    android:layout_toEndOf="@+id/label_health_insurance" />
+            </RelativeLayout>
 
             <View
                 style="@style/hr"
@@ -187,16 +252,15 @@
 
                 <TextView
                     android:id="@+id/result_employer_contribution_compare"
-                    style="@style/result_cat_label"
+                    style="@style/result_data_value_compare"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/uml"
                     android:layout_toEndOf="@+id/uml"
                     android:paddingEnd="0dp"
-                    android:paddingStart="15dp"
+                    android:paddingStart="10dp"
                     android:text="@string/_0_00"
-                    android:textSize="14sp"
-                    android:visibility="visible" />
+                    android:visibility="invisible" />
 
                 <TextView
                     android:id="@+id/result_employer_contribution"
@@ -206,40 +270,79 @@
             </RelativeLayout>
 
             <!-- U1 -->
-            <LinearLayout style="@style/result_data_row">
+            <RelativeLayout style="@style/result_data_row">
 
                 <TextView
+                    android:id="@+id/label_u1"
                     style="@style/result_data_label"
                     android:text="@string/result_employer_contribution1" />
 
                 <TextView
-                    android:id="@+id/result_employer_contribution1"
-                    style="@style/result_data_value" />
-            </LinearLayout>
-
-            <!-- U2 -->
-            <LinearLayout style="@style/result_data_row">
+                    android:id="@+id/result_employer_contribution1_compare"
+                    style="@style/result_data_value_compare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/label_u1"
+                    android:layout_toEndOf="@+id/label_u1"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp" />
 
                 <TextView
+                    android:id="@+id/result_employer_contribution1"
+                    style="@style/result_data_value"
+                    android:layout_alignBaseline="@+id/label_u1"
+                    android:layout_toEndOf="@+id/label_u1" />
+            </RelativeLayout>
+
+            <!-- U2 -->
+            <RelativeLayout style="@style/result_data_row">
+
+                <TextView
+                    android:id="@+id/label_u2"
                     style="@style/result_data_label"
                     android:text="@string/result_employer_contribution2" />
 
                 <TextView
-                    android:id="@+id/result_employer_contribution2"
-                    style="@style/result_data_value" />
-            </LinearLayout>
-
-            <!-- IGU -->
-            <LinearLayout style="@style/result_data_row">
+                    android:id="@+id/result_employer_contribution2_compare"
+                    style="@style/result_data_value_compare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/label_u2"
+                    android:layout_toEndOf="@+id/label_u2"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp" />
 
                 <TextView
+                    android:id="@+id/result_employer_contribution2"
+                    style="@style/result_data_value"
+                    android:layout_alignBaseline="@+id/label_u2"
+                    android:layout_toEndOf="@+id/label_u2" />
+            </RelativeLayout>
+
+            <!-- IGU -->
+            <RelativeLayout style="@style/result_data_row">
+
+                <TextView
+                    android:id="@+id/label_igu"
                     style="@style/result_data_label"
                     android:text="@string/result_employer_insolvency_contribution" />
 
                 <TextView
+                    android:id="@+id/result_employer_insolvency_contribution_compare"
+                    style="@style/result_data_value_compare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/label_igu"
+                    android:layout_toEndOf="@+id/label_igu"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp" />
+
+                <TextView
                     android:id="@+id/result_employer_insolvency_contribution"
-                    style="@style/result_data_value" />
-            </LinearLayout>
+                    style="@style/result_data_value"
+                    android:layout_alignBaseline="@+id/label_igu"
+                    android:layout_toEndOf="@+id/label_igu" />
+            </RelativeLayout>
 
             <View
                 style="@style/hr"
@@ -257,15 +360,14 @@
 
                 <TextView
                     android:id="@+id/result_employer_tax_compare"
-                    style="@style/result_cat_label"
+                    style="@style/result_data_value_compare"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/pst"
                     android:layout_toEndOf="@+id/pst"
                     android:paddingEnd="0dp"
-                    android:paddingStart="15dp"
-                    android:textSize="14sp"
-                    android:visibility="gone" />
+                    android:paddingStart="10dp"
+                    android:visibility="invisible" />
 
                 <TextView
                     android:id="@+id/result_employer_tax"
@@ -273,52 +375,91 @@
                     android:layout_alignBaseline="@+id/pst" />
             </RelativeLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/result_employer_base_tax_region"
                 style="@style/result_data_row">
 
                 <TextView
+                    android:id="@+id/label_base_tax"
                     style="@style/result_data_label"
                     android:text="@string/result_employer_base_tax" />
 
                 <TextView
+                    android:id="@+id/result_employer_base_tax_compare"
+                    style="@style/result_data_value_compare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/label_base_tax"
+                    android:layout_toEndOf="@+id/label_base_tax"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp" />
+
+                <TextView
                     android:id="@+id/result_employer_base_tax"
-                    style="@style/result_data_value" />
-            </LinearLayout>
+                    style="@style/result_data_value"
+                    android:layout_alignBaseline="@+id/label_base_tax"
+                    android:layout_toEndOf="@+id/label_base_tax" />
+            </RelativeLayout>
 
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/result_employer_church_tax_region"
                 style="@style/result_data_row">
 
                 <TextView
+                    android:id="@+id/label_church_tax"
                     style="@style/result_data_label"
                     android:text="@string/result_employer_church_tax" />
 
                 <TextView
-                    android:id="@+id/result_employer_church_tax"
-                    style="@style/result_data_value" />
-            </LinearLayout>
+                    android:id="@+id/result_employer_church_tax_compare"
+                    style="@style/result_data_value_compare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/label_church_tax"
+                    android:layout_toEndOf="@+id/label_church_tax"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp" />
 
-            <LinearLayout
+                <TextView
+                    android:id="@+id/result_employer_church_tax"
+                    style="@style/result_data_value"
+                    android:layout_alignBaseline="@+id/label_church_tax"
+                    android:layout_toEndOf="@+id/label_church_tax" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/result_employer_soli_tax_region"
                 style="@style/result_data_row">
 
                 <TextView
+                    android:id="@+id/label_soli_tax"
                     style="@style/result_data_label"
-                    android:text="@string/result_employer_soli_tax" />
+                    android:text="@string/result_employee_solidarity" />
+
+                <TextView
+                    android:id="@+id/result_employer_soli_tax_compare"
+                    style="@style/result_data_value_compare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/label_soli_tax"
+                    android:layout_toEndOf="@+id/label_soli_tax"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp" />
 
                 <TextView
                     android:id="@+id/result_employer_soli_tax"
-                    style="@style/result_data_value" />
-            </LinearLayout>
+                    style="@style/result_data_value"
+                    android:layout_alignBaseline="@+id/label_soli_tax"
+                    android:layout_toEndOf="@+id/label_soli_tax" />
+            </RelativeLayout>
 
             <View
                 style="@style/hr"
                 android:layout_width="match_parent" />
 
             <!-- net wage -->
-            <LinearLayout
+            <RelativeLayout
                 style="@style/result_data_row"
                 android:layout_marginBottom="5dp">
 
@@ -328,9 +469,21 @@
                     android:text="@string/result_employer_cum_cat" />
 
                 <TextView
+                    android:id="@+id/result_employer_cum_cat_compare"
+                    style="@style/result_data_value_compare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/result_employee_wage_label"
+                    android:layout_toEndOf="@+id/result_employee_wage_label"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp" />
+
+                <TextView
                     android:id="@+id/result_employer_cum_cat"
-                    style="@style/result_main_value" />
-            </LinearLayout>
+                    style="@style/result_main_value"
+                    android:layout_alignBaseline="@+id/result_employee_wage_label"
+                    android:layout_toEndOf="@+id/result_employee_wage_label" />
+            </RelativeLayout>
 
         </android.support.v7.widget.LinearLayoutCompat>
 
