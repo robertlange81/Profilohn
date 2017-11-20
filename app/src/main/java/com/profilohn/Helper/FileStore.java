@@ -192,8 +192,10 @@ public class FileStore {
     {
         File r = new File(cachePath, FILENAME_CALC_RESULT);
         File i = new File(cachePath, FILENAME_INSURANCES);
+        File p = new File(cachePath, FILENAME_INPUTS);
         r.delete();
         i.delete();
+        p.delete();
     }
 
 

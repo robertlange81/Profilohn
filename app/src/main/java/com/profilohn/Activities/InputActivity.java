@@ -1,7 +1,6 @@
 package com.profilohn.Activities;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,7 +9,6 @@ import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +24,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -35,9 +32,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Queue;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -122,13 +121,14 @@ public class InputActivity extends AppCompatActivity
     private TextView taxFreeLabel;
     public static boolean isCalculationEnabled;
     public static boolean doAbortCalculation;
+    public static Queue<Integer> queue;
 
     public static InputActivity instance;
 
     private CalculationInputHelper helper;
 
     private WebView spamWebView;
-    Dialog calcDialog;
+    AlertDialog calcDialog;
 
     LinearLayout regionShifting;
     LinearLayout regionChildAmount;
@@ -140,7 +140,6 @@ public class InputActivity extends AppCompatActivity
     BigDecimal anteilAG_pauschRV_Minijob_sv = new BigDecimal(0.15);
     BigDecimal anteilAN_aufstocker_Minijob_sv = new BigDecimal(0.037);
     BigDecimal min__aufstocker_Minijob_sv_ = new BigDecimal(6.48);
-    BigDecimal percent_rentenversicherung_gesamt = new BigDecimal(0.187);
     BigDecimal percent_pausch_steuer_kurzfristig = new BigDecimal(0.25);
     BigDecimal percent_soli = new BigDecimal(0.055);
     boolean isFakeBruttolohn = false;
@@ -251,6 +250,7 @@ public class InputActivity extends AppCompatActivity
 
         instance = this;
         isCalculationEnabled = false;
+        queue = new LinkedList<>();
 /*
         spamWebView =(WebView) findViewById(R.id.webview_calc);
 
@@ -270,9 +270,8 @@ public class InputActivity extends AppCompatActivity
     protected void onResume()
     {
         super.onResume();
-        wage.requestFocus();
         dismissCalculationOverlay();
-        isCalculationEnabled = false;
+        isCalculationEnabled = true;
     }
 
 
@@ -457,7 +456,11 @@ public class InputActivity extends AppCompatActivity
                         cur = cur.replaceAll("\\.", ",");
                         cur = cur.replaceAll(",(?=.*?,)", "");
                         cur = cur.replaceAll(",", ".");
-                        Double current = Double.valueOf(cur);
+
+                        Double current = 0.00;
+                        if(!cur.equals("")) {
+                            current = Double.valueOf(cur);
+                        }
                         selectedWage = current;
 
                         numberFormat.setMaximumFractionDigits(2);
@@ -486,7 +489,11 @@ public class InputActivity extends AppCompatActivity
                         cur = cur.replaceAll("\\.", ",");
                         cur = cur.replaceAll(",(?=.*?,)", "");
                         cur = cur.replaceAll(",", ".");
-                        Double current = Double.valueOf(cur);
+
+                        Double current = 0.00;
+                        if(!cur.equals("")) {
+                            current = Double.valueOf(cur);
+                        }
                         selectedTaxFree = current;
 
                         numberFormat.setMaximumFractionDigits(2);
@@ -837,17 +844,16 @@ public class InputActivity extends AppCompatActivity
 
                 // v.setBackgroundColor(Color.RED);
 
-                if(isCalculationEnabled)
+                if(!isCalculationEnabled) {
                     return;
-
-                isCalculationEnabled = true;
+                }
 
                 wage.clearFocus();
                 taxFree.clearFocus();
                 insuranceAc.clearFocus();
 
                 if (!_setAndValidateData()) {
-                    isCalculationEnabled = false;
+                    isCalculationEnabled = true;
                     return;
                 }
 
@@ -897,18 +903,22 @@ public class InputActivity extends AppCompatActivity
                 }
 
                 eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                doAbortCalculation = false;
+                showCalculationOverlay();
 
                 // do the calculation delayed for advertising
                 new Handler().postDelayed(new Runnable() {
 
                     @Override
                     public void run() {
-                        showCalculationOverlay();
-                        CalculationInput ci = new CalculationInput(data);
-                        webService.Calculate(ci);
+                        if(!doAbortCalculation) {
+                            queue.add(queue.size() + 1);
+                            CalculationInput ci = new CalculationInput(data);
+                            webService.Calculate(ci);
+                        }
                     }
 
-                }, 0);
+                }, 500);
             }
         };
 
@@ -1206,7 +1216,7 @@ public class InputActivity extends AppCompatActivity
             state.setSelection(0);
             updateInsuranceBranches();
         } catch (Exception e) {
-            Log.w("auauau", e.getMessage());
+            //Log.w("auauau", e.getMessage());
         }
     }
     /**
@@ -1288,9 +1298,37 @@ public class InputActivity extends AppCompatActivity
             }
         }
 
-        // dismissCalculationOverlay();
-        isCalculationEnabled = false;
+        dismissCalculationOverlay();
+
+        Integer last = 0;
+        if(queue.size() > 0)
+            last = queue.remove();
+
+        if(doAbortCalculation || last == -1) {
+            isCalculationEnabled = true;
+
+            if(queue.size() == 0)
+                doAbortCalculation = false;
+
+            return;
+        }
+
         startActivity(i);
+    }
+
+    @Override
+    /**
+     * What we do if calculation failed.
+     */
+    public void responseFailedCalculation(String message)
+    {
+        int last = queue.remove();
+        dismissCalculationOverlay();
+
+        if(!doAbortCalculation && last != -1)
+            MessageHelper.snackbar(this, message, Snackbar.LENGTH_INDEFINITE);
+
+        isCalculationEnabled = true;
     }
 
     public void correctNursingInsurance_Brutto_to_Netto(Calculation calculation) {
@@ -1515,7 +1553,7 @@ public class InputActivity extends AppCompatActivity
             calculation.data.SVPflBrutto = getDecimalString_Up(fiktivesNeuesBrutto);
             calculation.data.LohnsteuerPflBrutto = getDecimalString_Up(fiktivesNeuesBrutto);
         } catch (Exception e) {
-            Log.d("NursuringInsurance",e.getMessage());
+            // Log.d("NursuringInsurance",e.getMessage());
         }
     }
 
@@ -1525,7 +1563,7 @@ public class InputActivity extends AppCompatActivity
             BigDecimal rvag_neu = getBigDecimal(calculation.data.SVPflBrutto).multiply(anteilAG_pauschRV_Minijob_sv);
             calculation.data.Rentenversicherung_AG = getDecimalString_Up(rvag_neu);
         } catch (Exception e) {
-            Log.d("correct",e.getMessage());
+            // ("correct",e.getMessage());
         }
     }
 
@@ -1556,7 +1594,7 @@ public class InputActivity extends AppCompatActivity
             calculation.data.Auszahlung = getDecimalString_Up(auszahlung);
 
         } catch (Exception e) {
-            Log.d("correct",e.getMessage());
+            //Log.d("correct",e.getMessage());
         }
     }
 
@@ -1656,17 +1694,6 @@ public class InputActivity extends AppCompatActivity
         return d.setScale(2, BigDecimal.ROUND_HALF_DOWN).toString().replace(".", ",");
     }
 
-    @Override
-    /**
-     * What we do if calculation failed.
-     */
-    public void responseFailedCalculation(String message)
-    {
-        isCalculationEnabled = false;
-        dismissCalculationOverlay();
-        MessageHelper.snackbar(this, message, Snackbar.LENGTH_INDEFINITE);
-    }
-
 
     @Override
     public void responseFinishInsurances(Insurances insurances) { }
@@ -1708,7 +1735,6 @@ public class InputActivity extends AppCompatActivity
             insuranceAc.requestFocus();
             message = e.getMessage();
         } catch (ValidationException e) {
-            wage.requestFocus();
             message = e.getMessage();
         }
 
@@ -1735,30 +1761,45 @@ public class InputActivity extends AppCompatActivity
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle("Confirm");
-        builder.setMessage("Are you sure?");
+        //builder.setTitle("Berechnung läuft");
+        //builder.setMessage("Wollen Sie die Berechnung abbrechen?");
 
-        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+        builder.setTitle("Berechnung läuft");
+
+        builder.setNegativeButton("Berechnung abbrechen", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
-                // Do nothing but close the dialog
-
+                doAbortCalculation = true;
+                if(queue.size() > 0) {
+                    queue.remove();
+                    queue.add(-1);
+                }
+                isCalculationEnabled = true;
                 dialog.dismiss();
             }
         });
 
-        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
+        builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                // Do nothing
-                dialog.dismiss();
+            public boolean onKey (DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK ) {
+                    doAbortCalculation = true;
+                    if(queue.size() > 0) {
+                        queue.remove();
+                        queue.add(-1);
+                    }
+                    isCalculationEnabled = true;
+                    dialog.dismiss();
+                    return true;
+                }
+                return false;
             }
         });
-
         this.calcDialog = builder.create();
+        this.calcDialog.getCurrentFocus();
         calcDialog.show();
+        isCalculationEnabled = false;
+
 
         /*
         Dialog calcDialog = MessageHelper.dialog(instance, true,
@@ -1798,16 +1839,12 @@ public class InputActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
-        InputActivity.this.isCalculationEnabled = true;
-        super.onBackPressed();
-    }
-
-    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch(keyCode){
             case KeyEvent.KEYCODE_BACK:
                 InputActivity.this.isCalculationEnabled = true;
+                InputActivity.this.doAbortCalculation = true;
+                this.finish();
                 return true;
         }
         return super.onKeyDown(keyCode, event);
