@@ -59,9 +59,9 @@
                     android:layout_marginTop="5dp"
                     android:filterTouchesWhenObscured="false"
                     android:fitsSystemWindows="false"
-                    android:paddingEnd="0dp"
+                    android:paddingEnd="35dp"
                     android:paddingLeft="5dp"
-                    android:paddingRight="0dp"
+                    android:paddingRight="35dp"
                     android:paddingStart="5dp"
                     android:textAlignment="viewStart" />
 
@@ -571,7 +571,7 @@
                     android:layout_height="wrap_content"
                     android:paddingEnd="0dp"
                     android:paddingStart="@dimen/padding_label_left"
-                    android:text="@string/has_children"
+                    android:text="@string/has_children_long"
                     android:textAlignment="viewStart"
                     android:textSize="18sp" />
 

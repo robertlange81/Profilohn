@@ -261,7 +261,7 @@
                     android:id="@+id/year_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="bottom"
+                    android:gravity="top"
                     android:paddingEnd="0dp"
                     android:paddingStart="10dp"
                     android:text="@string/year_full"
@@ -277,6 +277,8 @@
                     android:filterTouchesWhenObscured="false"
                     android:fitsSystemWindows="false"
                     android:gravity="center_horizontal"
+                    android:paddingEnd="35dp"
+                    android:paddingStart="10dp"
                     android:textAlignment="center" />
 
             </LinearLayout>
@@ -535,7 +537,6 @@
                     <TextView
                         android:id="@+id/children_value"
                         style="@style/input_label"
-                        android:layout_height="match_parent"
                         android:layout_marginTop="2dp"
                         android:gravity="end"
                         android:paddingEnd="0dp"
@@ -543,7 +544,6 @@
                         android:paddingTop="3dp"
                         android:text="@string/label_no"
                         android:textAlignment="textEnd" />
-
                 </LinearLayout>
 
             </LinearLayout>

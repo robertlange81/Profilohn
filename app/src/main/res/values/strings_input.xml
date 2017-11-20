@@ -85,7 +85,8 @@
     <string name="church">Kirchensteuer</string>
     <string name="employee_type">Beschäftigung</string>
     <string name="grosswage">Brutto</string>
-    <string name="has_children">Kinder oder U23</string>
+    <string name="has_children">Kinder / U23</string>
+    <string name="has_children_long">Kinder oder U23</string>
     <string name="has_shifting">Abwälzung auf AN</string>
     <string name="insurance">Krankenkasse</string>
     <string name="insurance_hint">Name der Krankenkasse ..</string>

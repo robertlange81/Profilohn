@@ -75,10 +75,6 @@
             android:paddingBottom="0dp"
             android:paddingTop="0dp">
 
-            <View
-                style="@style/hr"
-                android:layout_width="match_parent" />
-
             <RelativeLayout style="@style/result_data_row">
 
                 <TextView
@@ -201,10 +197,10 @@
                     android:paddingStart="10dp" />
 
                 <TextView
-                    android:layout_alignBaseline="@+id/pflegevers"
-                    android:layout_toEndOf="@+id/pflegevers"
                     android:id="@+id/result_employee_insurance_care"
-                    style="@style/result_data_value" />
+                    style="@style/result_data_value"
+                    android:layout_alignBaseline="@+id/pflegevers"
+                    android:layout_toEndOf="@+id/pflegevers" />
             </RelativeLayout>
 
             <!-- insurance health -->
@@ -283,8 +279,7 @@
                     android:id="@+id/result_employee_wage_wagetax"
                     style="@style/result_data_value"
                     android:layout_alignBaseline="@+id/lohnsteuer"
-                    android:layout_toEndOf="@+id/lohnsteuer"
-                    />
+                    android:layout_toEndOf="@+id/lohnsteuer" />
             </RelativeLayout>
 
             <!-- church tax -->
@@ -455,7 +450,7 @@
             <!-- net wage -->
             <RelativeLayout
                 style="@style/result_data_row"
-                android:layout_marginBottom="5dp">
+                android:layout_marginBottom="2dp">
 
                 <TextView
                     android:id="@+id/result_employee_wage_label"
