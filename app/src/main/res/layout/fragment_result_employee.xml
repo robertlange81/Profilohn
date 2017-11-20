@@ -333,6 +333,7 @@
             </RelativeLayout>
 
             <View
+                android:id="@+id/result_employee_tax_hr"
                 style="@style/hr"
                 android:layout_width="match_parent" />
 

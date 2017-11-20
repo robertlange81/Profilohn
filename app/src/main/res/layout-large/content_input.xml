@@ -59,9 +59,9 @@
                     android:layout_marginTop="5dp"
                     android:filterTouchesWhenObscured="false"
                     android:fitsSystemWindows="false"
-                    android:paddingEnd="35dp"
+                    android:paddingEnd="0dp"
                     android:paddingLeft="5dp"
-                    android:paddingRight="35dp"
+                    android:paddingRight="0dp"
                     android:paddingStart="5dp"
                     android:textAlignment="viewStart" />
 

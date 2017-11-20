@@ -363,7 +363,7 @@ public class InputActivity extends AppCompatActivity
                 (new Integer(Calendar.getInstance().get(Calendar.YEAR)+1)).toString()
         };
         final List<String> yearsList = new ArrayList<>(Arrays.asList(years));
-        _yearAdapter = new ArrayAdapter<String>(this, R.layout.spinner_right_item, yearsList);
+        _yearAdapter = new ArrayAdapter<String>(this, R.layout.spinner_left_item, yearsList);
         year.setAdapter(_yearAdapter);
         year.setSelection(1);
 

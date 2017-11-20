@@ -38,6 +38,7 @@ public class ResultEmployerFragment extends Fragment
     TextView txtSocialEmployer_compare;
 
     RelativeLayout regionTax;
+    View hr;
     RelativeLayout regionTaxLst;
     RelativeLayout regionTaxSoli;
     RelativeLayout regionTaxKist;
@@ -185,6 +186,8 @@ public class ResultEmployerFragment extends Fragment
 
         // regions
         regionTax = (RelativeLayout) view.findViewById(R.id.result_employer_tax_region);
+        hr = (View) view.findViewById(R.id.result_employer_tax_hr);
+
         regionTaxLst = (RelativeLayout) view.findViewById(R.id.result_employer_base_tax_region);
         regionTaxSoli = (RelativeLayout) view.findViewById(R.id.result_employer_soli_tax_region);
         regionTaxKist = (RelativeLayout) view.findViewById(R.id.result_employer_church_tax_region);
@@ -216,11 +219,13 @@ public class ResultEmployerFragment extends Fragment
 
         if(data.data.pauschSt_AG.equals("0,00") && data.data.pauschSt_AN.equals("0,00")) {
             regionTax.setVisibility(View.GONE);
+            hr.setVisibility(View.GONE);
             regionTaxLst.setVisibility(View.GONE);
             regionTaxSoli.setVisibility(View.GONE);
             regionTaxKist.setVisibility(View.GONE);
         } else {
             regionTax.setVisibility(View.VISIBLE);
+            hr.setVisibility(View.VISIBLE);
             regionTaxLst.setVisibility(View.VISIBLE);
             regionTaxSoli.setVisibility(View.VISIBLE);
             regionTaxKist.setVisibility(View.VISIBLE);

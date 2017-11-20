@@ -341,6 +341,7 @@
             </RelativeLayout>
 
             <View
+                android:id="@+id/result_employer_tax_hr"
                 style="@style/hr"
                 android:layout_width="match_parent" />
 
@@ -348,6 +349,7 @@
             <RelativeLayout
                 android:id="@+id/result_employer_tax_region"
                 style="@style/result_data_row">
+
 
                 <TextView
                     android:id="@+id/pst"

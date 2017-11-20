@@ -264,7 +264,7 @@
                     android:gravity="top"
                     android:paddingEnd="0dp"
                     android:paddingStart="10dp"
-                    android:text="@string/year_full"
+                    android:text="@string/year"
                     android:textAlignment="viewStart" />
 
                 <android.support.v7.widget.AppCompatSpinner
@@ -277,8 +277,6 @@
                     android:filterTouchesWhenObscured="false"
                     android:fitsSystemWindows="false"
                     android:gravity="center_horizontal"
-                    android:paddingEnd="35dp"
-                    android:paddingStart="10dp"
                     android:textAlignment="center" />
 
             </LinearLayout>
@@ -292,7 +290,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/linearLayout2"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:baselineAligned="false"
             android:orientation="vertical">
 
@@ -328,7 +326,7 @@
             android:layout_below="@+id/linearLayout3"
             android:layout_marginEnd="0dp"
             android:layout_marginRight="0dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:baselineAligned="false"
             android:orientation="horizontal"
             android:weightSum="5">
@@ -401,11 +399,12 @@
                     <TextView
                         android:id="@+id/church_value"
                         style="@style/input_label"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="2dp"
                         android:gravity="end"
                         android:paddingEnd="0dp"
                         android:paddingStart="5dp"
-                        android:paddingTop="3dp"
+                        android:paddingTop="0dp"
                         android:text="@string/label_no" />
 
                 </LinearLayout>
@@ -420,7 +419,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/linearLayout4"
             android:layout_marginEnd="0dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:baselineAligned="false"
             android:orientation="horizontal"
             android:weightSum="5">
@@ -466,7 +465,6 @@
                         android:gravity="end"
                         android:paddingEnd="0dp"
                         android:paddingStart="5dp"
-                        android:paddingTop="3dp"
                         android:text="@string/label_no"
                         android:textAlignment="textEnd" />
 
@@ -481,7 +479,8 @@
                 android:layout_weight="2"
                 android:gravity="start"
                 android:orientation="vertical"
-                android:textAlignment="viewStart">
+                android:textAlignment="viewStart"
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/children_label"
@@ -537,11 +536,11 @@
                     <TextView
                         android:id="@+id/children_value"
                         style="@style/input_label"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="2dp"
                         android:gravity="end"
                         android:paddingEnd="0dp"
                         android:paddingStart="5dp"
-                        android:paddingTop="3dp"
                         android:text="@string/label_no"
                         android:textAlignment="textEnd" />
                 </LinearLayout>
@@ -557,7 +556,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/linearLayout5"
             android:layout_marginEnd="0dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="35dp"
             android:baselineAligned="false"
             android:orientation="horizontal"
             android:weightSum="5">
@@ -634,7 +633,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/linearLayout6"
             android:layout_marginBottom="5dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:baselineAligned="false"
             android:orientation="horizontal"
             android:weightSum="5">
@@ -707,7 +706,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/linearLayout7"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:baselineAligned="false"
             android:orientation="vertical">
 
@@ -751,7 +750,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/linearLayout8"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="25dp"
             android:baselineAligned="false"
             android:orientation="horizontal">
 
