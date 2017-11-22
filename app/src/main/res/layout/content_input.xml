@@ -49,7 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="2dp"
-                    android:gravity="end"
+                    android:gravity="top|center"
                     android:orientation="horizontal"
                     android:weightSum="3">
 
@@ -57,19 +57,18 @@
                         android:id="@+id/type_net"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="2dp"
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="@string/netwage"
-                        android:textAlignment="gravity" />
+                        android:textSize="16sp" />
 
                     <RadioButton
                         android:id="@+id/type_gross"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="2dp"
                         android:layout_weight="1"
-                        android:text="@string/grosswage" />
+                        android:text="@string/grosswage"
+                        android:textSize="16sp" />
 
                 </RadioGroup>
 
@@ -155,7 +154,9 @@
                     android:inputType="numberDecimal"
                     android:maxLength="12"
                     android:selectAllOnFocus="true"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:imeOptions="actionDone"
+                    android:maxLines="1"/>
 
             </LinearLayout>
 
@@ -184,7 +185,9 @@
                     android:hint="@string/taxfree_hint"
                     android:inputType="numberDecimal"
                     android:maxLength="11"
-                    android:selectAllOnFocus="true" />
+                    android:selectAllOnFocus="true"
+                    android:imeOptions="actionDone"
+                    android:maxLines="1"/>
 
             </LinearLayout>
 
@@ -241,7 +244,7 @@
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/state"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
@@ -311,7 +314,7 @@
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/employee_type"
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
@@ -353,7 +356,7 @@
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/tax_class"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
@@ -494,7 +497,7 @@
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/children"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
@@ -580,7 +583,7 @@
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/kv_value"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginEnd="0dp"
                     android:layout_marginLeft="5dp"
@@ -613,7 +616,7 @@
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/pv_value"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:contentDescription="@string/label_nursing_insurance"
@@ -657,7 +660,7 @@
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/rv_value"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
@@ -687,7 +690,7 @@
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/av_value"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
@@ -740,7 +743,8 @@
                 android:prompt="@string/krankenkassen_prompt"
                 android:selectAllOnFocus="true"
                 android:textAlignment="textStart"
-                android:textSize="@dimen/text_size_input" />
+                android:textSize="@dimen/text_size_input"
+                android:imeOptions="actionDone" />
         </LinearLayout>
 
         <LinearLayout

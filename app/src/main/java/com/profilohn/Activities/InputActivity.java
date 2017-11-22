@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -290,7 +291,6 @@ public class InputActivity extends AppCompatActivity
         return true;
     }
 
-
     /**
      * Select the requested cal type
      * given by previous activity.
@@ -477,6 +477,22 @@ public class InputActivity extends AppCompatActivity
             }
         });
 
+        wage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                                          KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    wage.clearFocus();
+                    eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+
+                    return true;
+
+                }
+                return false;
+            }
+        });
+
         // Steuerfreibetrag
         taxFree.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -507,6 +523,22 @@ public class InputActivity extends AppCompatActivity
                     }
                 }
         }});
+
+        taxFree.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                                          KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    taxFree.clearFocus();
+                    eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+
+                    return true;
+
+                }
+                return false;
+            }
+        });
 
         // Periodenbezug (Monat / Jahr)
         wagePeriod.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -800,6 +832,8 @@ public class InputActivity extends AppCompatActivity
 
                 wage.clearFocus();
                 taxFree.clearFocus();
+                insuranceAc.clearFocus();
+                eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
             }
         });
 
@@ -939,6 +973,7 @@ public class InputActivity extends AppCompatActivity
         if(companyNumber != null) {
             selectedInsurance_Text = value;
             selectedInsuranceId = Integer.valueOf(companyNumber);
+            insuranceAc.clearFocus();
         } else {
             selectedInsuranceId = -1;
         }

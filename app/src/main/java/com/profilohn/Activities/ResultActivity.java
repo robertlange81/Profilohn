@@ -50,7 +50,6 @@ public class ResultActivity extends AppCompatActivity {
         instance = this;
     }
 
-
     /**
      * On click listener that
      * finish the activity.
