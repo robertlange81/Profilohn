@@ -33,7 +33,7 @@
         android:background="@drawable/button_calc"
         android:focusable="true"
         android:text="@string/calculate"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <!--WebView
         android:id="@+id/webview_calc"

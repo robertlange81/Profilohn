@@ -799,7 +799,7 @@
         <LinearLayout
             android:id="@+id/linearLayout10"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="80dp"
             android:layout_below="@id/linearLayout9"
             android:layout_marginEnd="0dp"
             android:layout_marginTop="30dp"
@@ -1085,30 +1085,6 @@
         android:baselineAligned="false"
         android:gravity="bottom|end"
         android:orientation="horizontal">
-
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/calculate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/button_calc"
-            android:padding="0dp"
-            android:text="@string/btn_calc"
-            android:textSize="18sp"
-            android:theme="@style/ResultButtonStyle"
-            android:visibility="visible" />
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/hello_start_calculation_net"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="18dp"
-            android:text="@string/btn_calc"
-            android:textSize="18sp"
-            android:theme="@style/ResultButtonStyle"
-            android:visibility="gone" />
 
     </LinearLayout>
 
