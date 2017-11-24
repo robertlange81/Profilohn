@@ -32,4 +32,10 @@ public class CalculationInputData {
     public int Beschaeftigungsart = 0;
     public boolean dummyInsurance = false;
     public boolean abwaelzung_pauschale_steuer = false;
+    public boolean hatAltersvorsorge = false;
+    public Double Altersvorsorge_summe = 0.0;
+    public Double Altersvorsorge_zuschuss = 0.0;
+    public boolean hatFirmenwagen = false;
+    public Integer Firmenwagen_summe = 0;
+    public Integer Firmenwagen_km = 0;
 }

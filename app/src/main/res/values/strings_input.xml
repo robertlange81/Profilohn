@@ -81,6 +81,11 @@
     <string name="wage_default">0,00 €</string>
 
     <string name="calculate">Berechnung starten</string>
+    <string name="car">Firmenwagen</string>
+    <string name="car_amount">PKW-Listenpreis</string>
+    <string name="car_amount_hint">0 €</string>
+    <string name="car_distance">tgl. Fahrt zur Arbeit</string>
+    <string name="car_distance_hint">0 km</string>
     <string name="children">Kinderfreibetrag</string>
     <string name="church">Kirchensteuer</string>
     <string name="employee_type">Beschäftigung</string>
@@ -92,6 +97,11 @@
     <string name="insurance_hint">Name der Krankenkasse ..</string>
     <string name="insurance_init_value">Liste wird aktualisiert ..</string>
     <string name="netwage">Netto</string>
+    <string name="provision">Altersvorsorge</string>
+    <string name="provision_sum_year">Gesamtsumme (J)</string>
+    <string name="provision_sum_month">Gesamtsumme (M)</string>
+    <string name="provision_grant_year">AG-Zuschuss (J)</string>
+    <string name="provision_grant_month">AG-Zuschuss (M)</string>
     <string name="state">Bundesland</string>
     <string name="taxclass">Steuer(klasse)</string>
     <string name="taxfree_year">Steuerfreibetrag (J)</string>

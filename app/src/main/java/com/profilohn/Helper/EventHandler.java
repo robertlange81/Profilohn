@@ -7,9 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
-
-import android.util.Log;
-
 import com.profilohn.R;
 
 /**
@@ -37,11 +34,9 @@ public class EventHandler extends AppCompatActivity {
         TextView l = (TextView) _activity.findViewById(R.id.wage_period_value);
 
         if (isChecked) {
-            Log.i("Checked", isChecked + "");
             l.setTextColor(ContextCompat.getColor(_context, R.color.text_darkgrey));
             l.setText(R.string.label_yes);
         } else {
-            Log.i("Checked", isChecked + "");
             l.setTextColor(ContextCompat.getColor(_context, R.color.text_grey));
             l.setText(R.string.label_no);
         }
@@ -59,11 +54,9 @@ public class EventHandler extends AppCompatActivity {
         TextView l = (TextView) _activity.findViewById(R.id.church_value);
 
         if (isChecked) {
-            Log.i("Checked", isChecked + "");
             l.setTextColor(ContextCompat.getColor(_context, R.color.text_darkgrey));
             l.setText(R.string.label_yes);
         } else {
-            Log.i("Checked", isChecked + "");
             l.setTextColor(ContextCompat.getColor(_context, R.color.text_grey));
             l.setText(R.string.label_no);
         }
@@ -80,11 +73,9 @@ public class EventHandler extends AppCompatActivity {
         TextView l = (TextView) _activity.findViewById(R.id.children_value);
 
         if (isChecked) {
-            Log.i("Checked", isChecked + "");
             l.setTextColor(ContextCompat.getColor(_context, R.color.text_darkgrey));
             l.setText(R.string.label_yes);
         } else {
-            Log.i("Checked", isChecked + "");
             l.setTextColor(ContextCompat.getColor(_context, R.color.text_grey));
             l.setText(R.string.label_no);
         }
@@ -101,11 +92,47 @@ public class EventHandler extends AppCompatActivity {
         TextView l = (TextView) _activity.findViewById(R.id.shifting_value);
 
         if (isChecked) {
-            Log.i("Checked", isChecked + "");
             l.setTextColor(ContextCompat.getColor(_context, R.color.text_darkgrey));
             l.setText(R.string.label_yes);
         } else {
-            Log.i("Checked", isChecked + "");
+            l.setTextColor(ContextCompat.getColor(_context, R.color.text_grey));
+            l.setText(R.string.label_no);
+        }
+    }
+
+    /**
+     * Displays the provision value (Altersvorsorge) text field
+     * if the has provision is selected.
+     *
+     * @param isChecked
+     */
+    public void OnSwitchProvision(boolean isChecked)
+    {
+        TextView l = (TextView) _activity.findViewById(R.id.retprov_value);
+
+        if (isChecked) {
+            l.setTextColor(ContextCompat.getColor(_context, R.color.text_darkgrey));
+            l.setText(R.string.label_yes);
+        } else {
+            l.setTextColor(ContextCompat.getColor(_context, R.color.text_grey));
+            l.setText(R.string.label_no);
+        }
+    }
+
+    /**
+     * Displays the car value (Firmenwagen) text field
+     * if the has car is selected.
+     *
+     * @param isChecked
+     */
+    public void OnSwitchCar(boolean isChecked)
+    {
+        TextView l = (TextView) _activity.findViewById(R.id.car_value);
+
+        if (isChecked) {
+            l.setTextColor(ContextCompat.getColor(_context, R.color.text_darkgrey));
+            l.setText(R.string.label_yes);
+        } else {
             l.setTextColor(ContextCompat.getColor(_context, R.color.text_grey));
             l.setText(R.string.label_no);
         }

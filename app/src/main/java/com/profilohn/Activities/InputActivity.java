@@ -82,6 +82,9 @@ public class InputActivity extends AppCompatActivity
     public static SwitchCompat          churchTax;
     public static SwitchCompat          shifting;
 
+    public static SwitchCompat          car;
+    public static SwitchCompat          provision;
+
     private Integer selectedInsuranceId = -1;
     private String selectedInsurance_Text = "";
     private Double  selectedWage = 0.00;
@@ -91,6 +94,8 @@ public class InputActivity extends AppCompatActivity
     private Boolean selectedHasChildren = false;
     private Boolean selectedChurchTax = false;
     private Boolean selectedShifting = false;
+    private Boolean selectedHasCar = false;
+    private Boolean selectedHasProvision = false;
     private Integer selectedTaxClass = 0;
     private Integer selectedEmployeeType = 0;
     private int selectedKV = 1;
@@ -134,8 +139,23 @@ public class InputActivity extends AppCompatActivity
     LinearLayout regionShifting;
     LinearLayout regionChildAmount;
     LinearLayout regionTaxFreeAmount;
+    LinearLayout regionProv;
+    LinearLayout regionProvGrant;
+    LinearLayout regionCarAmount;
+    LinearLayout regionCarDistance;
 
-    private boolean changeFocusByCode = false;
+    public static EditText provisionSum;
+    public static EditText provisionGrant;
+    private Double selectedProvisionSum = 0.00;
+    private Double selectedProvisionGrant = 0.00;
+    private TextView provSumLabel;
+    private TextView provGrantLabel;
+    public static EditText carAmount;
+    public static EditText carDistance;
+    private Integer selectedCarAmount = 0;
+    private Integer selectedCarDistance = 0;
+    private TextView carAmountLabel;
+    private TextView carDistanceLabel;
 
     BigDecimal percent_pausch_steuer_minijob = new BigDecimal(0.02);
     BigDecimal anteilAG_pauschRV_Minijob_sv = new BigDecimal(0.15);
@@ -197,32 +217,6 @@ public class InputActivity extends AppCompatActivity
     BigDecimal ag_alt = new BigDecimal("0.000");
     BigDecimal an_alt = new BigDecimal("0.000");
 
-    /*
-    public class EmployeeTypeListener implements AdapterView.OnItemSelectedListener, View.OnTouchListener {
-
-        boolean userSelect = false;
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            userSelect = true;
-            return false;
-        }
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-            if (userSelect) {
-                // Your selection handling code here
-                userSelect = false;
-
-            }
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> adapterView) {
-
-        }
-    }
-    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -252,6 +246,7 @@ public class InputActivity extends AppCompatActivity
         instance = this;
         isCalculationEnabled = false;
         queue = new LinkedList<>();
+
 /*
         spamWebView =(WebView) findViewById(R.id.webview_calc);
 
@@ -324,7 +319,11 @@ public class InputActivity extends AppCompatActivity
         taxFree         = (EditText) findViewById(R.id.tax_free);
         children        = (Spinner) findViewById(R.id.children);
         calculateTop    = (Button) findViewById(R.id.hello_start_calculation_net);
+        calculateTop.setFocusable(true);
+        calculateTop.setFocusableInTouchMode(true);
         calculate       = (Button) findViewById(R.id.calculate);
+        calculate.setFocusable(true);
+        calculate.setFocusableInTouchMode(true);
         calculate_general       = (Button) findViewById(R.id.calculate_general);
 
         kv              = (Spinner) findViewById(R.id.kv_value);
@@ -339,12 +338,27 @@ public class InputActivity extends AppCompatActivity
         wageAmountLabel = (TextView) findViewById(R.id.wageamount_label);
         wagetypeLabel   = (TextView) findViewById(R.id.wage_type_label);
         taxFreeLabel    = (TextView) findViewById(R.id.taxfree_label);
+        provSumLabel    = (TextView) findViewById(R.id.prov_amount_label);
+        provGrantLabel  = (TextView) findViewById(R.id.prov_grant_label);
+        carAmountLabel  = (TextView) findViewById(R.id.car_amount_label);
+        carDistanceLabel= (TextView) findViewById(R.id.car_distance_label);
 
         regionShifting  = (LinearLayout) findViewById(R.id.shifting_area);
-        regionChildAmount  = (LinearLayout) findViewById(R.id.child_amount_region);
-        regionTaxFreeAmount  = (LinearLayout) findViewById(R.id.tax_free_amount_region);
-        shifting     = (SwitchCompat) findViewById(R.id.has_shifting);
+        regionProv      = (LinearLayout) findViewById(R.id.prov_amount_region);
+        regionProvGrant = (LinearLayout) findViewById(R.id.prov_grant_region);
+        regionCarAmount = (LinearLayout) findViewById(R.id.car_amount_region);
+        regionCarDistance = (LinearLayout) findViewById(R.id.car_distance_region);
+        regionChildAmount   = (LinearLayout) findViewById(R.id.child_amount_region);
+        regionTaxFreeAmount = (LinearLayout) findViewById(R.id.tax_free_amount_region);
 
+        shifting        = (SwitchCompat) findViewById(R.id.has_shifting);
+
+        provision       = (SwitchCompat) findViewById(R.id.retprov);
+        provisionSum    = (EditText) findViewById(R.id.provision_sum);
+        provisionGrant  = (EditText) findViewById(R.id.provision_grant);
+        car             = (SwitchCompat) findViewById(R.id.car);
+        carAmount       = (EditText) findViewById(R.id.car_sum);
+        carDistance     = (EditText) findViewById(R.id.car_distance);
 
         //wage.setFilters(new InputFilter[]{new DecimalDigitsInputHelper(2)});
         //taxFree.setFilters(new InputFilter[]{new DecimalDigitsInputHelper(2)});
@@ -417,9 +431,6 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                wage.clearFocus();
-                taxFree.clearFocus();
-
                 if (R.id.type_net == checkedId) {
                     selectedWageType = CalculationInputHelper.WAGE_TYPE_GROSS;
                     wagetypeLabel.setText(R.string.wage_type_label_1);
@@ -441,6 +452,8 @@ public class InputActivity extends AppCompatActivity
                         taxFreeLabel.setText(R.string.taxfree_month);
                     }
                 }
+
+                calculateTop.requestFocus();
             }
         });
 
@@ -448,7 +461,7 @@ public class InputActivity extends AppCompatActivity
         wage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!wage.hasFocus() && !changeFocusByCode) {
+                if(!wage.hasFocus()) {
                     try {
                         String cur = wage.getText().toString();
                         cur = cur.replaceAll("€", "");
@@ -469,7 +482,6 @@ public class InputActivity extends AppCompatActivity
                         wage.setText(output);
 
                     } catch (Exception x) {
-                        String mist = "Mist";
                     } finally {
 
                     }
@@ -483,15 +495,15 @@ public class InputActivity extends AppCompatActivity
             public boolean onEditorAction(TextView v, int actionId,
                                           KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    wage.clearFocus();
                     eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
-
+                    calculateTop.requestFocus();
                     return true;
 
                 }
                 return false;
             }
         });
+
 
         // Steuerfreibetrag
         taxFree.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -522,7 +534,7 @@ public class InputActivity extends AppCompatActivity
 
                     }
                 }
-        }});
+            }});
 
         taxFree.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
@@ -530,9 +542,195 @@ public class InputActivity extends AppCompatActivity
             public boolean onEditorAction(TextView v, int actionId,
                                           KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    taxFree.clearFocus();
                     eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                    calculateTop.requestFocus();
+                    return true;
 
+                }
+                return false;
+            }
+        });
+
+        // Altersvorsorge
+        provisionSum.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!provisionSum.hasFocus()) {
+                    try {
+                        String cur = provisionSum.getText().toString();
+                        cur = cur.replaceAll("€", "");
+                        cur = cur.replaceAll("\\s+","");
+                        cur = cur.replaceAll("\\.", ",");
+                        cur = cur.replaceAll(",(?=.*?,)", "");
+                        cur = cur.replaceAll(",", ".");
+
+                        Double current = 0.00;
+                        if(!cur.equals("")) {
+                            current = Double.valueOf(cur);
+                        }
+                        selectedProvisionSum = current;
+
+                        numberFormat.setMaximumFractionDigits(2);
+                        String output = numberFormat.format(current);
+
+                        provisionSum.setText(output);
+
+                    } catch (Exception x) {
+                    } finally {
+
+                    }
+                }
+            }
+        });
+
+        provisionSum.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                                          KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                    calculate.requestFocus();
+                    return true;
+
+                }
+                return false;
+            }
+        });
+
+        provisionGrant.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!provisionGrant.hasFocus()) {
+                    try {
+                        String cur = provisionGrant.getText().toString();
+                        cur = cur.replaceAll("€", "");
+                        cur = cur.replaceAll("\\s+","");
+                        cur = cur.replaceAll("\\.", ",");
+                        cur = cur.replaceAll(",(?=.*?,)", "");
+                        cur = cur.replaceAll(",", ".");
+
+                        Double current = 0.00;
+                        if(!cur.equals("")) {
+                            current = Double.valueOf(cur);
+                        }
+                        selectedProvisionGrant = current;
+
+                        numberFormat.setMaximumFractionDigits(2);
+                        String output = numberFormat.format(current);
+
+                        provisionGrant.setText(output);
+
+                    } catch (Exception x) {
+                    } finally {
+
+                    }
+                }
+            }
+        });
+
+        provisionGrant.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                                          KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                    calculate.requestFocus();
+                    return true;
+
+                }
+                return false;
+            }
+        });
+
+        // Firmenwagen
+        carAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!carAmount.hasFocus()) {
+                    try {
+                        String cur = carAmount.getText().toString();
+                        cur = cur.replaceAll("€", "");
+                        cur = cur.replaceAll("\\s+","");
+                        cur = cur.replaceAll("\\.", ",");
+                        cur = cur.replaceAll(",(?=.*?,)", "");
+                        cur = cur.replaceAll(",", ".");
+
+                        Integer current = 0;
+                        if(!cur.equals("")) {
+                            Double tmp = Double.valueOf(cur);
+                            current = tmp.intValue();
+                        }
+                        selectedCarAmount = current;
+
+                        numberFormat.setMaximumFractionDigits(0);
+                        String output = numberFormat.format(current);
+
+                        carAmount.setText(output);
+                        calculate.requestFocus();
+
+                    } catch (Exception x) {
+                    } finally {
+
+                    }
+                }
+            }
+        });
+
+        carAmount.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                                          KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                    calculate.requestFocus();
+                    return true;
+
+                }
+                return false;
+            }
+        });
+
+        carDistance.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!carDistance.hasFocus()) {
+                    try {
+                        String cur = carDistance.getText().toString();
+                        cur = cur.replaceAll("km", "");
+                        cur = cur.replaceAll("\\s+","");
+                        cur = cur.replaceAll("\\.", ",");
+                        cur = cur.replaceAll(",(?=.*?,)", "");
+                        cur = cur.replaceAll(",", ".");
+
+                        Integer current = 0;
+                        if(!cur.equals("")) {
+                            Double tmp = Double.valueOf(cur);
+                            current = tmp.intValue();
+                        }
+                        selectedCarDistance = current;
+
+                        String output = current + " km";
+
+                        carDistance.setText(output);
+                    } catch (Exception x) {
+                    } finally {
+
+                    }
+                }
+            }
+        });
+
+        carDistance.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                                          KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                    calculate.requestFocus();
                     return true;
 
                 }
@@ -545,9 +743,6 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                wage.clearFocus();
-                taxFree.clearFocus();
-
                 eventHandler.OnSwitchPeriodType(isChecked);
 
                 selectedWagePeriod = isChecked
@@ -557,19 +752,29 @@ public class InputActivity extends AppCompatActivity
                     if(isChecked) {
                         wageAmountLabel.setText(R.string.wageamount_gross_year);
                         taxFreeLabel.setText(R.string.taxfree_year);
+                        provSumLabel.setText(R.string.provision_sum_year);
+                        provGrantLabel.setText(R.string.provision_grant_year);
                     } else {
                         wageAmountLabel.setText(R.string.wageamount_gross_month);
                         taxFreeLabel.setText(R.string.taxfree_month);
+                        provSumLabel.setText(R.string.provision_sum_month);
+                        provGrantLabel.setText(R.string.provision_grant_month);
                     }
                 } else {
                     if(isChecked) {
                         wageAmountLabel.setText(R.string.wageamount_net_year);
                         taxFreeLabel.setText(R.string.taxfree_year);
+                        provSumLabel.setText(R.string.provision_sum_year);
+                        provGrantLabel.setText(R.string.provision_grant_year);
                     } else {
                         wageAmountLabel.setText(R.string.wageamount_net_month);
                         taxFreeLabel.setText(R.string.taxfree_month);
+                        provSumLabel.setText(R.string.provision_sum_month);
+                        provGrantLabel.setText(R.string.provision_grant_month);
                     }
                 }
+
+                calculateTop.requestFocus();
             }
         });
 
@@ -581,12 +786,8 @@ public class InputActivity extends AppCompatActivity
              @Override
              public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                 wage.clearFocus();
-                 taxFree.clearFocus();
-
                  if(position != 0 && insuranceAc.getHint().equals("Nicht erforderlich.") && !selectedInsurance_Text.equals("")) {
                      insuranceAc.setText(selectedInsurance_Text);
-                     insuranceAc.clearFocus();
                  }
 
                  switch(position) {
@@ -618,17 +819,13 @@ public class InputActivity extends AppCompatActivity
 
              @Override
              public void onNothingSelected(AdapterView<?> parent) {
-                 wage.clearFocus();
-                 taxFree.clearFocus();
+                 calculate.requestFocus();
              }
         });
 
         rv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                wage.clearFocus();
-                taxFree.clearFocus();
 
                 switch(position) {
                     case 0: // kein
@@ -648,8 +845,7 @@ public class InputActivity extends AppCompatActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                wage.clearFocus();
-                taxFree.clearFocus();
+                calculate.requestFocus();
             }
         });
 
@@ -657,9 +853,6 @@ public class InputActivity extends AppCompatActivity
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                wage.clearFocus();
-                taxFree.clearFocus();
 
                 switch(position) {
                     case 0: // kein
@@ -676,8 +869,7 @@ public class InputActivity extends AppCompatActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                wage.clearFocus();
-                taxFree.clearFocus();
+                calculate.requestFocus();
             }
         });
 
@@ -686,12 +878,8 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                wage.clearFocus();
-                taxFree.clearFocus();
-
                 if(position != 0 && insuranceAc.getHint().equals("Nicht erforderlich.") && !selectedInsurance_Text.equals("")) {
                     insuranceAc.setText(selectedInsurance_Text);
-                    insuranceAc.clearFocus();
                 }
 
                 switch(position) {
@@ -718,8 +906,7 @@ public class InputActivity extends AppCompatActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                wage.clearFocus();
-                taxFree.clearFocus();
+                calculate.requestFocus();
             }
         });
 
@@ -729,8 +916,6 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                wage.clearFocus();
-                taxFree.clearFocus();
                 if(position == 0) {
                     selectedTaxClass = 23;
                     regionTaxFreeAmount.setVisibility(View.INVISIBLE);
@@ -742,12 +927,13 @@ public class InputActivity extends AppCompatActivity
                     regionShifting.setVisibility(View.GONE);
                     selectedTaxClass = position;
                 }
+
+                calculateTop.requestFocus();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                wage.clearFocus();
-                taxFree.clearFocus();
+                calculateTop.requestFocus();
             }
         });
 
@@ -757,8 +943,7 @@ public class InputActivity extends AppCompatActivity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedYear = position;
 
-                wage.clearFocus();
-                taxFree.clearFocus();
+                calculateTop.requestFocus();
                 if(selectedEmployeeType > 5 ) {
                     if(selectedYear + Calendar.getInstance().get(Calendar.YEAR) - 1 <= 2016) {
                         selectedAV = 2;
@@ -772,8 +957,7 @@ public class InputActivity extends AppCompatActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                wage.clearFocus();
-                taxFree.clearFocus();
+                calculateTop.requestFocus();
             }
         });
 
@@ -783,14 +967,12 @@ public class InputActivity extends AppCompatActivity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedState = state.getSelectedItem().toString();
 
-                wage.clearFocus();
-                taxFree.clearFocus();
+                calculateTop.requestFocus();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                wage.clearFocus();
-                taxFree.clearFocus();
+                calculateTop.requestFocus();
             }
         });
 
@@ -800,14 +982,12 @@ public class InputActivity extends AppCompatActivity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedState = state.getSelectedItem().toString();
 
-                wage.clearFocus();
-                taxFree.clearFocus();
+                calculateTop.requestFocus();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                wage.clearFocus();
-                taxFree.clearFocus();
+                calculateTop.requestFocus();
             }
         });
 
@@ -818,8 +998,7 @@ public class InputActivity extends AppCompatActivity
                 eventHandler.OnSwitchChildren(isChecked);
                 selectedHasChildren = isChecked;
 
-                wage.clearFocus();
-                taxFree.clearFocus();
+                calculateTop.requestFocus();
             }
         });
 
@@ -827,13 +1006,10 @@ public class InputActivity extends AppCompatActivity
         insuranceAc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Log.d("Insurance", "onItemClick");
                 GetInsuranceId();
 
-                wage.clearFocus();
-                taxFree.clearFocus();
-                insuranceAc.clearFocus();
                 eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                calculate.requestFocus();
             }
         });
 
@@ -844,8 +1020,7 @@ public class InputActivity extends AppCompatActivity
                 eventHandler.OnSwitchChurchType(isChecked);
                 selectedChurchTax = isChecked;
 
-                wage.clearFocus();
-                taxFree.clearFocus();
+                calculateTop.requestFocus();
             }
         });
 
@@ -866,8 +1041,45 @@ public class InputActivity extends AppCompatActivity
                 eventHandler.OnSwitchShifting(isChecked);
                 selectedShifting = isChecked;
 
-                wage.clearFocus();
-                taxFree.clearFocus();
+                calculateTop.requestFocus();
+            }
+        });
+
+        // Altersvorsorge (ja / nein)
+        provision.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                eventHandler.OnSwitchProvision(isChecked);
+                selectedHasProvision = isChecked;
+
+                if(isChecked) {
+                    regionProv.setVisibility(View.VISIBLE);
+                    regionProvGrant.setVisibility(View.VISIBLE);
+                } else {
+                    regionProv.setVisibility(View.GONE);
+                    regionProvGrant.setVisibility(View.GONE);
+                }
+
+                calculate.requestFocus();
+            }
+        });
+
+        // Firmenwagen (ja / nein)
+        car.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                eventHandler.OnSwitchCar(isChecked);
+                selectedHasCar = isChecked;
+
+                if(isChecked) {
+                    regionCarAmount.setVisibility(View.VISIBLE);
+                    regionCarDistance.setVisibility(View.VISIBLE);
+                } else {
+                    regionCarAmount.setVisibility(View.GONE);
+                    regionCarDistance.setVisibility(View.GONE);
+                }
+
+                calculate.requestFocus();
             }
         });
 
@@ -881,10 +1093,6 @@ public class InputActivity extends AppCompatActivity
                 if(!isCalculationEnabled) {
                     return;
                 }
-
-                wage.clearFocus();
-                taxFree.clearFocus();
-                insuranceAc.clearFocus();
 
                 if (!_setAndValidateData()) {
                     isCalculationEnabled = true;
@@ -952,7 +1160,7 @@ public class InputActivity extends AppCompatActivity
                         }
                     }
 
-                }, 500);
+                }, 300);
             }
         };
 
@@ -1230,7 +1438,7 @@ public class InputActivity extends AppCompatActivity
                 } else {
                     taxFree.setText("0,00 €");
                 }
-                taxFree.clearFocus();
+
                 selectedTaxFree = i.StFreibetrag;
 
                 // Kinderfreibetrag
@@ -1240,11 +1448,55 @@ public class InputActivity extends AppCompatActivity
                         )
                 );
                 selectedChildAmount = i.KindFrei;
+
+                // Altersvorsorge
+                selectedHasProvision = i.hatAltersvorsorge;
+                provision.setChecked(i.hatAltersvorsorge);
+                selectedProvisionSum = i.Altersvorsorge_summe;
+                provisionSum.requestFocus();
+                if (i.Altersvorsorge_summe != null) {
+                    provisionSum.setText(i.Altersvorsorge_summe.toString());
+                } else {
+                    provisionSum.setText("0,00 €");
+                }
+
+                // Zuschuss Altersvorsorge
+                selectedProvisionGrant = i.Altersvorsorge_zuschuss;
+                provisionGrant.requestFocus();
+                if (i.Altersvorsorge_zuschuss != null) {
+                    provisionGrant.setText(i.Altersvorsorge_zuschuss.toString());
+                } else {
+                    provisionGrant.setText("0,00 €");
+                }
+                provisionGrant.clearFocus();
+
+                // Firmenwagen
+                selectedHasCar = i.hatFirmenwagen;
+                car.setChecked(i.hatFirmenwagen);
+                selectedCarAmount = i.Firmenwagen_summe;
+                carAmount.requestFocus();
+                if (i.Firmenwagen_summe != null) {
+                    carAmount.setText(i.Firmenwagen_summe.toString());
+                } else {
+                    carAmount.setText("0 €");
+                }
+                carAmount.clearFocus();
+
+                // Firmenwagen Kilometer
+                selectedCarDistance = i.Firmenwagen_km;
+                carDistance.requestFocus();
+                if (i.Firmenwagen_km != null) {
+                    carDistance.setText(i.Firmenwagen_km.toString() + " km");
+                } else {
+                    carDistance.setText("0 km");
+                }
+                calculateTop.requestFocus();
             } else {
                 // erstes Starten
                 employeeType.setSelection(0);
                 state.setSelection(0);
                 updateInsuranceBranches();
+                wage.requestFocus();
             }
         } catch (FileNotFoundException fnfe) {
             employeeType.setSelection(0);
@@ -1761,13 +2013,18 @@ public class InputActivity extends AppCompatActivity
         helper.data.KindU23 = selectedHasChildren;
         helper.data.KindFrei = selectedChildAmount;
         helper.data.abwaelzung_pauschale_steuer = selectedShifting;
+        helper.data.hatAltersvorsorge = selectedHasProvision;
+        helper.data.Altersvorsorge_summe = selectedProvisionSum;
+        helper.data.Altersvorsorge_zuschuss = selectedProvisionGrant;
+        helper.data.hatFirmenwagen = selectedHasCar;
+        helper.data.Firmenwagen_summe = selectedCarAmount;
+        helper.data.Firmenwagen_km = selectedCarDistance;
 
         String message;
 
         try {
             return helper.validate();
         } catch (ValidationInsuranceException e) {
-            insuranceAc.requestFocus();
             message = e.getMessage();
         } catch (ValidationException e) {
             message = e.getMessage();

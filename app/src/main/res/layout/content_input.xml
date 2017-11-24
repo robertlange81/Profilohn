@@ -17,7 +17,8 @@
         android:fitsSystemWindows="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="10dp">
 
 
         <LinearLayout
@@ -151,12 +152,12 @@
                     android:layout_height="wrap_content"
                     android:digits="0123456789,."
                     android:hint="@string/wage_default"
+                    android:imeOptions="actionDone"
                     android:inputType="numberDecimal"
                     android:maxLength="12"
+                    android:maxLines="1"
                     android:selectAllOnFocus="true"
-                    android:textAlignment="center"
-                    android:imeOptions="actionDone"
-                    android:maxLines="1"/>
+                    android:textAlignment="center" />
 
             </LinearLayout>
 
@@ -183,11 +184,11 @@
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
                     android:hint="@string/taxfree_hint"
+                    android:imeOptions="actionDone"
                     android:inputType="numberDecimal"
                     android:maxLength="11"
-                    android:selectAllOnFocus="true"
-                    android:imeOptions="actionDone"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:selectAllOnFocus="true" />
 
             </LinearLayout>
 
@@ -199,8 +200,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="0dp"
-            android:textSize="18sp"
             android:text="@string/btn_calc"
+            android:textSize="18sp"
             android:theme="@style/ResultButtonStyle" />
 
     </LinearLayout>
@@ -332,6 +333,7 @@
             android:layout_marginTop="30dp"
             android:baselineAligned="false"
             android:orientation="horizontal"
+            android:visibility="visible"
             android:weightSum="5">
 
             <LinearLayout
@@ -751,10 +753,271 @@
             android:id="@+id/linearLayout9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/linearLayout8"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="30dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="5">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/retprov_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp"
+                    android:text="@string/provision"
+                    android:textAlignment="viewStart" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:gravity="start"
+                    android:orientation="horizontal"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp">
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/retprov"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp" />
+
+                    <TextView
+                        android:id="@+id/retprov_value"
+                        style="@style/input_label"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="2dp"
+                        android:gravity="end"
+                        android:paddingEnd="0dp"
+                        android:paddingStart="5dp"
+                        android:paddingTop="0dp"
+                        android:text="@string/label_no" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/car_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp"
+                    android:text="@string/car"
+                    android:textAlignment="viewStart" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:gravity="start"
+                    android:orientation="horizontal"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp">
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/car"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp" />
+
+                    <TextView
+                        android:id="@+id/car_value"
+                        style="@style/input_label"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="2dp"
+                        android:gravity="end"
+                        android:paddingEnd="0dp"
+                        android:paddingStart="5dp"
+                        android:paddingTop="0dp"
+                        android:text="@string/label_no" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout9"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="20dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/prov_amount_region"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/prov_amount_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom|center_horizontal"
+                    android:onClick="onWagePeriodClicked"
+                    android:text="@string/provision_sum_month" />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/provision_sum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="0123456789,."
+                    android:hint="@string/wage_default"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal"
+                    android:maxLength="12"
+                    android:maxLines="1"
+                    android:selectAllOnFocus="true"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/prov_grant_region"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/prov_grant_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="bottom|center"
+                    android:text="@string/provision_grant_month"
+                    android:textAlignment="center" />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/provision_grant"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:hint="@string/taxfree_hint"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal"
+                    android:maxLength="11"
+                    android:maxLines="1"
+                    android:selectAllOnFocus="true" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout10"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="20dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/car_amount_region"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/car_amount_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom|center_horizontal"
+                    android:onClick="onWagePeriodClicked"
+                    android:text="@string/car_amount" />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/car_sum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="0123456789,."
+                    android:hint="@string/car_amount_hint"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal"
+                    android:maxLength="12"
+                    android:maxLines="1"
+                    android:selectAllOnFocus="true"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/car_distance_region"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/car_distance_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="bottom|center"
+                    android:text="@string/car_distance"
+                    android:textAlignment="center" />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/car_distance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:hint="@string/car_distance_hint"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal"
+                    android:maxLength="11"
+                    android:maxLines="1"
+                    android:selectAllOnFocus="true" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/linearLayout11"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="5dp"
             android:baselineAligned="false"
             android:orientation="horizontal">
 

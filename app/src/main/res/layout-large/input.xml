@@ -12,9 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:fillViewport="true">
 
-        <include layout="@layout/content_input" />
+        <include
+            layout="@layout/content_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </ScrollView>
 
@@ -28,13 +32,14 @@
         android:layout_alignParentStart="true"
         android:background="@drawable/button_calc"
         android:focusable="true"
-        android:text="@string/calculate" />
+        android:text="@string/calculate"
+        android:visibility="gone" />
 
-    <WebView
+    <!--WebView
         android:id="@+id/webview_calc"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentBottom="true"
-        android:visibility="gone" />
+        android:visibility="gone" /-->
 
 </RelativeLayout>
