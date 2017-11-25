@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="match_parent"
     tools:context=".Activities.InputActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,8 +17,8 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
 
 
         <LinearLayout
@@ -35,6 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:orientation="vertical">
 
                 <TextView
@@ -143,7 +145,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="bottom|center_horizontal"
-                    android:onClick="onWagePeriodClicked"
                     android:text="@string/wageamount_gross_month" />
 
                 <android.support.v7.widget.AppCompatEditText
@@ -182,6 +183,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:digits="0123456789,."
                     android:gravity="center"
                     android:hint="@string/taxfree_hint"
                     android:imeOptions="actionDone"
@@ -874,7 +876,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="bottom|center_horizontal"
-                    android:onClick="onWagePeriodClicked"
                     android:text="@string/provision_sum_month" />
 
                 <android.support.v7.widget.AppCompatEditText
@@ -950,14 +951,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="bottom|center_horizontal"
-                    android:onClick="onWagePeriodClicked"
                     android:text="@string/car_amount" />
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/car_sum"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:digits="0123456789,."
+                    android:digits="0123456789"
                     android:hint="@string/car_amount_hint"
                     android:imeOptions="actionDone"
                     android:inputType="numberDecimal"
@@ -990,6 +990,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:digits="0123456789"
                     android:gravity="center"
                     android:hint="@string/car_distance_hint"
                     android:imeOptions="actionDone"

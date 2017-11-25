@@ -9,26 +9,30 @@
     android:id="@+id/snackbarPosition">
 
     <ScrollView
+        android:id="@+id/scrollview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="45dp">
 
-        <include layout="@layout/content_input" />
+        <include
+            layout="@layout/content_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </ScrollView>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/calculate_general"
-        style="@style/calculate"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:focusable="true"
-        android:theme="@style/ResultButtonStyle1"
         android:text="@string/calculate"
+        android:theme="@style/StartCalculation2"
         android:visibility="visible" />
 
     <WebView

@@ -127,7 +127,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="bottom|start"
-                    android:onClick="onWagePeriodClicked"
                     android:paddingEnd="0dp"
                     android:paddingStart="@dimen/padding_label_left"
                     android:text="@string/wageamount_gross_month"
@@ -1075,18 +1074,6 @@
         </LinearLayout>
 
     </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/layout_content"
-        android:layout_alignParentBottom="true"
-        android:baselineAligned="false"
-        android:gravity="bottom|end"
-        android:orientation="horizontal">
-
-    </LinearLayout>
 
 
 </RelativeLayout>

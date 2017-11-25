@@ -7,5 +7,13 @@
         <item name="android:textSize">@dimen/text_size_h2</item>
         <item name="android:drawableEnd">@drawable/arrow_next</item>
     </style>
+
+    <style name="StartCalculation2" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorAccent</item>
+        <item name="android:textColor">@color/text_white</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:layout_margin">0dp</item>
+    </style>
     
 </resources>
