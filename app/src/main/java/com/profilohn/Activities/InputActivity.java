@@ -217,7 +217,7 @@ public class InputActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
 
         super.onCreate(savedInstanceState);
@@ -320,6 +320,7 @@ public class InputActivity extends AppCompatActivity
         if(calculateButton != null) {
             calculateButton.setFocusable(true);
             calculateButton.setFocusableInTouchMode(true);
+            calculateButton.setBackgroundColor(Color.RED);
         }
 
         kv              = (Spinner) findViewById(R.id.kv_value);
@@ -1091,7 +1092,7 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                v.setBackgroundColor(Color.RED);
+                v.setBackgroundColor(Color.MAGENTA);
 
                 if(!isCalculationEnabled) {
                     return;
@@ -1160,6 +1161,7 @@ public class InputActivity extends AppCompatActivity
                             queue.add(queue.size() + 1);
                             CalculationInput ci = new CalculationInput(data);
                             webService.Calculate(ci);
+                            calculateButton.setBackgroundColor(Color.RED);
                         }
                     }
 
