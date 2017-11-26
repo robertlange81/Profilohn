@@ -18,21 +18,10 @@ import com.profilohn.R;
 
 public class ResultHomeFragment extends Fragment
 {
-    protected static ResultHomeFragment instance;
-
     private TextView wageGross;
     private TextView wageNet;
 
     public ResultHomeFragment() { }
-
-    public static ResultHomeFragment getInstance()
-    {
-        if (null == instance) {
-            instance = new ResultHomeFragment();
-        }
-
-        return instance;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -191,7 +180,7 @@ public class ResultHomeFragment extends Fragment
     {
         super.setUserVisibleHint(v);
         if (v) {
-            instance.getActivity().setTitle(getResources().getString(R.string.result_intro_title));
+            getActivity().setTitle(getResources().getString(R.string.result_intro_title));
         }
     }
 

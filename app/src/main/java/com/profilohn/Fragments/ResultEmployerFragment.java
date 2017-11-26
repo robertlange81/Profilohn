@@ -20,7 +20,6 @@ import com.profilohn.R;
 
 public class ResultEmployerFragment extends Fragment
 {
-    public static ResultEmployerFragment instance;
     private Activity activity;
 
     TextView txtTitle;
@@ -95,21 +94,11 @@ public class ResultEmployerFragment extends Fragment
         return view;
     }
 
-    public static ResultEmployerFragment getInstance(Bundle args)
-    {
-        if (null == instance) {
-            instance = new ResultEmployerFragment();
-        }
-        instance.setArguments(args);
-
-        return instance;
-    }
-
     public void setUserVisibleHint(boolean v)
     {
         super.setUserVisibleHint(v);
         if (v) {
-            instance.getActivity().setTitle(getResources().getString(R.string.result_employer_title));
+            getActivity().setTitle(getResources().getString(R.string.result_employer_title));
         }
     }
 
@@ -485,10 +474,10 @@ public class ResultEmployerFragment extends Fragment
     {
         TextView views[] = {txtTitle, txtWageGross};
 
-        for (int i = 0; i < views.length; i++) {
-            CharSequence text = views[i].getText();
-            if(text.charAt(text.length() -1 ) != '€') {
-                views[i].setText(text + "€");
+        for (TextView view : views) {
+            CharSequence text = view.getText();
+            if (text.charAt(text.length() - 1) != '€') {
+                view.setText(text + "€");
             }
         }
     }
@@ -496,7 +485,7 @@ public class ResultEmployerFragment extends Fragment
     private String _formatCurrency(String text)
     {
         try {
-            return FormatHelper.currency(text.toString());
+            return FormatHelper.currency(text);
         } catch (FormatException e) {
             Log.e("FormatHelperError", "");
         }

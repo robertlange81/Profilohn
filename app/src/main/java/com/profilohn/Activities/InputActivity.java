@@ -87,7 +87,7 @@ public class InputActivity extends AppCompatActivity
     private String  selectedInsurance_Text = "";
     private Double  selectedWage = 0.00;
     private Double  selectedTaxFree = 0.00;
-    private String  selectedWageType = CalculationInputHelper.WAGE_TYPE_GROSS;
+    private String  selectedWageType = CalculationInputHelper.WAGE_TYPE_NET;
     private String  selectedWagePeriod = CalculationInputHelper.WAGE_PERIOD_MONTH;
     private Boolean selectedHasChildren = false;
     private Boolean selectedChurchTax = false;

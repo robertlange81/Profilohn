@@ -11,19 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.profilohn.Exceptions.FormatException;
 import com.profilohn.Helper.FileStore;
 import com.profilohn.Helper.FormatHelper;
 import com.profilohn.Models.Calculation;
 import com.profilohn.R;
 
-/**
- * Created by profilohn on 11.02.2016.
- */
 public class ResultEmployeeFragment extends Fragment
 {
-    public static ResultEmployeeFragment instance;
     private Activity activity;
 
     TextView txtTitle;
@@ -95,21 +90,11 @@ public class ResultEmployeeFragment extends Fragment
         return view;
     }
 
-    public static ResultEmployeeFragment getInstance(Bundle args)
-    {
-        if (null == instance) {
-            instance = new ResultEmployeeFragment();
-        }
-        instance.setArguments(args);
-
-        return instance;
-    }
-
     public void setUserVisibleHint(boolean v)
     {
         super.setUserVisibleHint(v);
         if (v) {
-            instance.getActivity().setTitle(getResources().getString(R.string.result_employee_title));
+            getActivity().setTitle(getResources().getString(R.string.result_employee_title));
         }
     }
 
@@ -480,7 +465,7 @@ public class ResultEmployeeFragment extends Fragment
     private String _formatCurrency(String text)
     {
         try {
-            return FormatHelper.currency(text.toString());
+            return FormatHelper.currency(text);
         } catch (FormatException e) {
             Log.e("FormatHelperError", "");
         }

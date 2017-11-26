@@ -14,13 +14,13 @@ public class CalculationInputHelper
     private Activity a;
     public CalculationInputData data;
 
-    public final String WAGE_TYPE_GROSS   = "Bruttolohn";
-    public final String WAGE_TYPE_NET     = "Nettolohn";
-    public final String WAGE_PERIOD_YEAR  = "y";
-    public final String WAGE_PERIOD_MONTH = "m";
+    public final static String WAGE_TYPE_GROSS   = "Bruttolohn";
+    public final static String WAGE_TYPE_NET     = "Nettolohn";
+    public final static String WAGE_PERIOD_YEAR  = "y";
+    public final static String WAGE_PERIOD_MONTH = "m";
 
-    spublic final HashMap<String, Integer> statesToInt = new HashMap<>();
-    public final HashMap<Integer, String> intToState = new HashMap<>();
+    private final HashMap<String, Integer> statesToInt = new HashMap<>();
+    private final HashMap<Integer, String> intToState = new HashMap<>();
 
     public CalculationInputHelper(Activity a, CalculationInputData data)
     {

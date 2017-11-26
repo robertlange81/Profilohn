@@ -1,5 +1,6 @@
 package com.profilohn.Activities;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
 import android.support.v4.app.Fragment;
@@ -18,7 +19,6 @@ import com.profilohn.R;
 
 public class ResultActivity extends AppCompatActivity {
 
-    public ResultActivity instance;
     private boolean isTablet;
 
     /**
@@ -46,8 +46,6 @@ public class ResultActivity extends AppCompatActivity {
         } else {
             isTablet = true;
         }
-
-        instance = this;
     }
 
     @Override
@@ -88,25 +86,31 @@ public class ResultActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position)
         {
-            Fragment f = new Fragment();
+            Fragment fragment;
             Bundle args = new Bundle();
+            Context context = ResultActivity.this;
 
             switch (position) {
                 case 0:
                     // home fragment
-                    f = ResultHomeFragment.getInstance();
+                    // fragment = ResultHomeFragment.getInstance();
+                    fragment = Fragment.instantiate(context, ResultHomeFragment.class.getName());
                     break;
                 case 1:
                     // employee fragment
-                    f = ResultEmployeeFragment.getInstance(args);
+                    // fragment = ResultEmployeeFragment.getInstance(args);
+                    fragment = Fragment.instantiate(context, ResultEmployeeFragment.class.getName());
                     break;
                 case 2:
                     // employer fragment
-                    f = ResultEmployerFragment.getInstance(args);
+                    fragment = Fragment.instantiate(context, ResultEmployerFragment.class.getName());
+                    // fragment = ResultEmployerFragment.getInstance(args);
                     break;
+                default:
+                    fragment = Fragment.instantiate(context, ResultEmployeeFragment.class.getName());
             }
 
-            return f;
+            return fragment;
         }
 
         @Override
