@@ -512,7 +512,7 @@ public class InputActivity extends AppCompatActivity
                         if(!cur.equals("")) {
                             current = Double.valueOf(cur);
                         }
-                        selectedProvisionGrant = current;
+                        selectedTaxFree = current;
 
                         numberFormat.setMaximumFractionDigits(2);
                         numberFormat.setMinimumFractionDigits(2);
@@ -1202,10 +1202,17 @@ public class InputActivity extends AppCompatActivity
 
                 // Altersvorsorge behandeln
                 if(data.hatAltersvorsorge) {
-                    // TODO Grenzen Abgabenfreiheit BBG
                     if(data.Berechnungsart.equals(CalculationInputHelper.WAGE_TYPE_GROSS)) {
-                        data.Brutto -= data.Altersvorsorge_summe;
-                        data.Brutto += data.Altersvorsorge_zuschuss;
+                        Double an_anteil = data.Altersvorsorge_summe - data.Altersvorsorge_zuschuss;
+                        data.Brutto -= an_anteil;
+                        Double freibetrag = an_anteil;
+                        if(bbg_rv_west.get(data.AbrJahr) != null) {
+                            freibetrag = bbg_rv_west.get(data.AbrJahr).multiply(new BigDecimal(0.04)).doubleValue();
+                        }
+                        data.Altersvorsorge_pflichtig = Math.max(0.00, an_anteil - freibetrag);
+
+                        if(data.Altersvorsorge_pflichtig > 0.005)
+                            data.Brutto += data.Altersvorsorge_pflichtig;
                     } else {
                         // erhöhe bei Simulation das Brutto erst im Ergebnis
                     }
@@ -1549,6 +1556,7 @@ public class InputActivity extends AppCompatActivity
                 } else {
                     carDistance.setText(getResources().getString(R.string.car_distance_hint));
                 }
+                carDistance.clearFocus();
             } else {
                 // erstes Starten
                 employeeType.setSelection(0);
@@ -1646,13 +1654,17 @@ public class InputActivity extends AppCompatActivity
         if(data.hatAltersvorsorge) {
 
             // altes Brutto wieder herstellen
-            // bei Simulation erst jetzt erhöhen
+            // bei Wunschnetto Simulation erst jetzt erhöhen, aber Pflichtgrenze ignorieren
             BigDecimal Brutto = getBigDecimal(calculation.data.LohnsteuerPflBrutto);
             BigDecimal summe = new BigDecimal(data.Altersvorsorge_summe);
             BigDecimal zuschuss = new BigDecimal(data.Altersvorsorge_zuschuss);
             BigDecimal anAnteil = summe.subtract(zuschuss);
 
-            Brutto = Brutto.add(summe).subtract(zuschuss);
+            Brutto = Brutto.add(anAnteil);
+            if(data.Berechnungsart.equals("Bruttolohn") && !isFakeBruttolohn) {
+                BigDecimal pflichtig = new BigDecimal(data.Altersvorsorge_pflichtig);
+                Brutto = Brutto.subtract(pflichtig);
+            }
 
             calculation.data.LohnsteuerPflBrutto = getDecimalString_Down(Brutto);
             calculation.data.SVPflBrutto = calculation.data.LohnsteuerPflBrutto;

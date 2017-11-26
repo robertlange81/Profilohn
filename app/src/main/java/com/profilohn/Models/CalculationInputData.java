@@ -36,6 +36,7 @@ public class CalculationInputData {
     public boolean hatAltersvorsorge = false;
     public Double Altersvorsorge_summe = 0.0;
     public Double Altersvorsorge_zuschuss = 0.0;
+    public Double Altersvorsorge_pflichtig = 0.0;
     public boolean hatFirmenwagen = false;
     public Integer Firmenwagen_summe = 0;
     public Integer Firmenwagen_km = 0;

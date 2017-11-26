@@ -72,6 +72,10 @@ public class CalculationInputHelper
             throw new ValidationException(message);
         }
 
+        if(data.Altersvorsorge_zuschuss > data.Altersvorsorge_summe) {
+            throw new ValidationException("Altersvorsorge: Zuschuss höher als Gesamtsumme?");
+        }
+
         data.dummyInsurance = false;
         //int aok_bayern = 87540905;
         //int knappschaft = 98000006;

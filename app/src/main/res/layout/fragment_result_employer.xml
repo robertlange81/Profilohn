@@ -128,7 +128,7 @@
 
                 <TextView
                     android:id="@+id/result_employer_provision"
-                    style="@style/result_cat_value"
+                    style="@style/result_data_value"
                     android:layout_alignBaseline="@+id/provision_ag" />
             </RelativeLayout>
 

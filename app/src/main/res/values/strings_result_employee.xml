@@ -3,8 +3,8 @@
 
     <string name="result_employee_wage_label">Arbeitnehmer-Netto</string>
     <string name="result_employee_btn_again">Nochmal</string>
-    <string name="result_employee_wage_net">Nettogehalt</string>
-    <string name="result_employee_wage_gross">Bruttogehalt</string>
+    <string name="result_employee_wage_net">Netto</string>
+    <string name="result_employee_wage_gross">Brutto</string>
 
     <string name="result_employee_tax">Steuern</string>
     <string name="result_employee_wagetax">Lohnsteuer</string>
