@@ -18,9 +18,8 @@ import com.profilohn.R;
 
 public class ResultActivity extends AppCompatActivity {
 
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    public static ResultActivity instance;
-    private static boolean isTablet;
+    public ResultActivity instance;
+    private boolean isTablet;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -33,11 +32,12 @@ public class ResultActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.result);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -50,13 +50,6 @@ public class ResultActivity extends AppCompatActivity {
         instance = this;
     }
 
-    /**
-     * On click listener that
-     * finish the activity.
-     *
-     * @param item
-     * @return
-     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -76,13 +69,6 @@ public class ResultActivity extends AppCompatActivity {
         return true;
     }
 
-
-    /**
-     * Slide to position.
-     *
-     * @param position
-     * @param smooth
-     */
     public void setCurrentPage(int position, boolean smooth)
     {
         mViewPager.setCurrentItem(position, smooth);
@@ -93,9 +79,9 @@ public class ResultActivity extends AppCompatActivity {
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    private class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -123,18 +109,11 @@ public class ResultActivity extends AppCompatActivity {
             return f;
         }
 
-
-        /**
-         * Returns the page amount.
-         *
-         * @return
-         */
         @Override
         public int getCount()
         {
             return 3;
         }
-
     }
 
     @Override

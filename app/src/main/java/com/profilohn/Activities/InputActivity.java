@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -62,27 +61,27 @@ import com.profilohn.Models.WebService;
 public class InputActivity extends AppCompatActivity
         implements CompoundButton.OnCheckedChangeListener, ApiCallbackListener {
 
-    public static RadioGroup            calcType;
-    public static EditText              wage;
-    public static EditText              taxFree;
-    public static Spinner               taxClass;
-    public static Spinner               year;
-    public static Spinner               state;
-    public static Spinner               employeeType;
-    public static Spinner               children;
-    public static Spinner               kv;
-    public static Spinner               rv;
-    public static Spinner               av;
-    public static Spinner               pv;
-    public static Button                calculateButton;
-    public static AutoCompleteTextView  insuranceAc;
-    public static SwitchCompat          wagePeriod;
-    public static SwitchCompat          hasChildren;
-    public static SwitchCompat          churchTax;
-    public static SwitchCompat          shifting;
+    public RadioGroup            calcType;
+    public EditText              wage;
+    public EditText              taxFree;
+    public Spinner               taxClass;
+    public Spinner               year;
+    public Spinner               state;
+    public Spinner               employeeType;
+    public Spinner               children;
+    public Spinner               kv;
+    public Spinner               rv;
+    public Spinner               av;
+    public Spinner               pv;
+    public Button                calculateButton;
+    public AutoCompleteTextView  insuranceAc;
+    public SwitchCompat          wagePeriod;
+    public SwitchCompat          hasChildren;
+    public SwitchCompat          churchTax;
+    public SwitchCompat          shifting;
 
-    public static SwitchCompat          car;
-    public static SwitchCompat          provision;
+    public SwitchCompat          car;
+    public SwitchCompat          provision;
 
     private Integer selectedInsuranceId = -1;
     private String  selectedInsurance_Text = "";
@@ -106,13 +105,7 @@ public class InputActivity extends AppCompatActivity
     private Double  selectedChildAmount = 0.0;
     private ArrayAdapter<String> _yearAdapter;
     private ArrayAdapter<String> _statesDataAdapter;
-    private ArrayAdapter<CharSequence> _employeeTypeDataAdapter;
-    private ArrayAdapter<CharSequence> _taxclassAdapter;
     private ArrayAdapter<CharSequence> _childFreeAmountAdapter;
-    private ArrayAdapter<String> _insurancesAdapter;
-    private ArrayAdapter<CharSequence> _kvclassAdapter;
-    private ArrayAdapter<CharSequence> _rvclassAdapter;
-    private ArrayAdapter<CharSequence> _avclassAdapter;
     private List<String> insurancesList = new ArrayList<>();
     private SortedMap<String, Integer> insurancesMap = new TreeMap<>();
 
@@ -123,11 +116,9 @@ public class InputActivity extends AppCompatActivity
     private TextView wageAmountLabel;
     private TextView wagetypeLabel;
     private TextView taxFreeLabel;
-    public static boolean isCalculationEnabled;
-    public static boolean doAbortCalculation;
+    public boolean isCalculationEnabled;
+    public boolean doAbortCalculation;
     public static Queue<Integer> queue;
-
-    public static InputActivity instance;
 
     private CalculationInputHelper helper;
 
@@ -141,6 +132,8 @@ public class InputActivity extends AppCompatActivity
     LinearLayout regionProvGrant;
     LinearLayout regionCarAmount;
     LinearLayout regionCarDistance;
+
+    private ScrollView scrollView;
 
     public EditText provisionSum;
     public EditText provisionGrant;
@@ -217,7 +210,7 @@ public class InputActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 
         super.onCreate(savedInstanceState);
@@ -227,6 +220,9 @@ public class InputActivity extends AppCompatActivity
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         numberFormat = NumberFormat.getCurrencyInstance(Locale.GERMANY);
+        numberFormat.setMaximumFractionDigits(2);
+        numberFormat.setMinimumFractionDigits(2);
+
         eventHandler = new EventHandler(this, getApplicationContext());
         webService = new WebService(getApplicationContext(), this);
         data = new CalculationInputData();
@@ -242,7 +238,6 @@ public class InputActivity extends AppCompatActivity
 
         _loadCachedInputs();
 
-        instance = this;
         isCalculationEnabled = false;
         queue = new LinkedList<>();
 
@@ -259,11 +254,12 @@ public class InputActivity extends AppCompatActivity
         //spamWebView.loadUrl("http://robert-lange.eu/loader2.html");
         //InputActivity.this.isCalculationEnabled = true;
 
-        (findViewById(R.id.scrollview)).post(new Runnable() {
-        public void run() {
-            ((ScrollView) findViewById(R.id.scrollview)).fullScroll(View.FOCUS_UP);
-        }
-    });
+        if(scrollView != null)
+            scrollView.post(new Runnable() {
+                public void run() {
+                    scrollView.fullScroll(View.FOCUS_UP);
+                }
+        });
     }
 
 
@@ -306,6 +302,7 @@ public class InputActivity extends AppCompatActivity
      */
     private void _initializeElements()
     {
+        scrollView      = (ScrollView) findViewById(R.id.scrollview);
         calcType        = (RadioGroup) findViewById(R.id.type);
         wage            = (EditText) findViewById(R.id.wage);
         wagePeriod      = (SwitchCompat) findViewById(R.id.wage_period);
@@ -317,11 +314,6 @@ public class InputActivity extends AppCompatActivity
         children        = (Spinner) findViewById(R.id.children);
 
         calculateButton = (Button) findViewById(R.id.calculate_general);
-        if(calculateButton != null) {
-            calculateButton.setFocusable(true);
-            calculateButton.setFocusableInTouchMode(true);
-            calculateButton.setBackgroundColor(Color.RED);
-        }
 
         kv              = (Spinner) findViewById(R.id.kv_value);
         rv              = (Spinner) findViewById(R.id.rv_value);
@@ -359,7 +351,7 @@ public class InputActivity extends AppCompatActivity
         //taxFree.setFilters(new InputFilter[]{new DecimalDigitsInputHelper(2)});
 
         // tax classes
-        _taxclassAdapter = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> _taxclassAdapter = ArrayAdapter.createFromResource(this,
                 R.array.taxclasses, R.layout.spinner_left_item);
         _taxclassAdapter.setDropDownViewResource(R.layout.spinner_left_item);
         taxClass.setAdapter(_taxclassAdapter);
@@ -377,15 +369,15 @@ public class InputActivity extends AppCompatActivity
         year.setSelection(1);
 
         // insurance classes
-        _kvclassAdapter = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> _kvclassAdapter = ArrayAdapter.createFromResource(this,
                 R.array.kv, R.layout.spinner_left_item);
         kv.setAdapter(_kvclassAdapter);
 
-        _rvclassAdapter = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> _rvclassAdapter = ArrayAdapter.createFromResource(this,
                 R.array.rv, R.layout.spinner_left_item);
         rv.setAdapter(_rvclassAdapter);
 
-        _avclassAdapter = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> _avclassAdapter = ArrayAdapter.createFromResource(this,
                 R.array.av, R.layout.spinner_left_item);
         av.setAdapter(_avclassAdapter);
 
@@ -394,7 +386,7 @@ public class InputActivity extends AppCompatActivity
         pv.setAdapter(_pvclassAdapter);
 
         // employee type
-        _employeeTypeDataAdapter = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> _employeeTypeDataAdapter = ArrayAdapter.createFromResource(this,
                 R.array.employeetypes, R.layout.spinner_left_item);
         employeeType.setAdapter(_employeeTypeDataAdapter);
 
@@ -448,7 +440,9 @@ public class InputActivity extends AppCompatActivity
                     }
                 }
 
+                calculateButton.setFocusableInTouchMode(true);
                 calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
             }
         });
 
@@ -470,15 +464,14 @@ public class InputActivity extends AppCompatActivity
                             current = Double.valueOf(cur);
                         }
                         selectedWage = current;
-
                         numberFormat.setMaximumFractionDigits(2);
+                        numberFormat.setMinimumFractionDigits(2);
                         String output = numberFormat.format(current);
 
                         wage.setText(output);
-
                     } catch (Exception x) {
-                    } finally {
-
+                        selectedWage = 0.00;
+                        provisionGrant.setText(getResources().getString(R.string.taxfree_hint));
                     }
                 }
             }
@@ -491,7 +484,9 @@ public class InputActivity extends AppCompatActivity
                                           KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                    calculateButton.setFocusableInTouchMode(true);
                     calculateButton.requestFocus();
+                    calculateButton.setFocusableInTouchMode(false);
                     return true;
 
                 }
@@ -517,16 +512,16 @@ public class InputActivity extends AppCompatActivity
                         if(!cur.equals("")) {
                             current = Double.valueOf(cur);
                         }
-                        selectedTaxFree = current;
+                        selectedProvisionGrant = current;
 
                         numberFormat.setMaximumFractionDigits(2);
+                        numberFormat.setMinimumFractionDigits(2);
                         String output = numberFormat.format(current);
 
                         taxFree.setText(output);
                     } catch (Exception x) {
-                        String mist = "Mist";
-                    } finally {
-
+                        selectedProvisionGrant = 0.00;
+                        provisionGrant.setText(getResources().getString(R.string.taxfree_hint));
                     }
                 }
             }});
@@ -538,7 +533,9 @@ public class InputActivity extends AppCompatActivity
                                           KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                    calculateButton.setFocusableInTouchMode(true);
                     calculateButton.requestFocus();
+                    calculateButton.setFocusableInTouchMode(false);
                     return true;
 
                 }
@@ -566,13 +563,14 @@ public class InputActivity extends AppCompatActivity
                         selectedProvisionSum = current;
 
                         numberFormat.setMaximumFractionDigits(2);
+                        numberFormat.setMinimumFractionDigits(2);
                         String output = numberFormat.format(current);
 
                         provisionSum.setText(output);
 
                     } catch (Exception x) {
-                    } finally {
-
+                        selectedProvisionSum = 0.00;
+                        provisionSum.setText(getResources().getString(R.string.taxfree_hint));
                     }
                 }
             }
@@ -585,7 +583,9 @@ public class InputActivity extends AppCompatActivity
                                           KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                    calculateButton.setFocusableInTouchMode(true);
                     calculateButton.requestFocus();
+                    calculateButton.setFocusableInTouchMode(false);
                     return true;
 
                 }
@@ -612,13 +612,14 @@ public class InputActivity extends AppCompatActivity
                         selectedProvisionGrant = current;
 
                         numberFormat.setMaximumFractionDigits(2);
+                        numberFormat.setMinimumFractionDigits(2);
                         String output = numberFormat.format(current);
 
                         provisionGrant.setText(output);
 
                     } catch (Exception x) {
-                    } finally {
-
+                        selectedProvisionGrant = 0.00;
+                        provisionGrant.setText(getResources().getString(R.string.taxfree_hint));
                     }
                 }
             }
@@ -631,7 +632,9 @@ public class InputActivity extends AppCompatActivity
                                           KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                    calculateButton.setFocusableInTouchMode(true);
                     calculateButton.requestFocus();
+                    calculateButton.setFocusableInTouchMode(false);
                     return true;
 
                 }
@@ -665,8 +668,8 @@ public class InputActivity extends AppCompatActivity
                         carAmount.setText(output);
 
                     } catch (Exception x) {
-                    } finally {
-
+                        selectedCarAmount = 0;
+                        carAmount.setText(getResources().getString(R.string.car_amount_hint));
                     }
                 }
             }
@@ -679,7 +682,9 @@ public class InputActivity extends AppCompatActivity
                                           KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                    calculateButton.setFocusableInTouchMode(true);
                     calculateButton.requestFocus();
+                    calculateButton.setFocusableInTouchMode(false);
                     return true;
 
                 }
@@ -710,8 +715,8 @@ public class InputActivity extends AppCompatActivity
 
                         carDistance.setText(output);
                     } catch (Exception x) {
-                    } finally {
-
+                        selectedCarDistance = 0;
+                        carAmount.setText(getResources().getString(R.string.car_distance_hint));
                     }
                 }
             }
@@ -724,7 +729,9 @@ public class InputActivity extends AppCompatActivity
                                           KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                    calculateButton.setFocusableInTouchMode(true);
                     calculateButton.requestFocus();
+                    calculateButton.setFocusableInTouchMode(false);
                     return true;
 
                 }
@@ -742,7 +749,7 @@ public class InputActivity extends AppCompatActivity
                 selectedWagePeriod = isChecked
                         ? CalculationInputHelper.WAGE_PERIOD_YEAR : CalculationInputHelper.WAGE_PERIOD_MONTH;
 
-                if (!selectedWageType.equals(null) && selectedWageType == CalculationInputHelper.WAGE_TYPE_GROSS) {
+                if (selectedWageType != null && selectedWageType.equals(CalculationInputHelper.WAGE_TYPE_GROSS)) {
                     if(isChecked) {
                         wageAmountLabel.setText(R.string.wageamount_gross_year);
                         taxFreeLabel.setText(R.string.taxfree_year);
@@ -768,7 +775,9 @@ public class InputActivity extends AppCompatActivity
                     }
                 }
 
+                calculateButton.setFocusableInTouchMode(true);
                 calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
             }
         });
 
@@ -813,7 +822,9 @@ public class InputActivity extends AppCompatActivity
 
              @Override
              public void onNothingSelected(AdapterView<?> parent) {
+                 calculateButton.setFocusableInTouchMode(true);
                  calculateButton.requestFocus();
+                 calculateButton.setFocusableInTouchMode(false);
              }
         });
 
@@ -839,7 +850,9 @@ public class InputActivity extends AppCompatActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                calculateButton.setFocusableInTouchMode(true);
                 calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
             }
         });
 
@@ -863,7 +876,9 @@ public class InputActivity extends AppCompatActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                calculateButton.setFocusableInTouchMode(true);
                 calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
             }
         });
 
@@ -900,7 +915,9 @@ public class InputActivity extends AppCompatActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                calculateButton.setFocusableInTouchMode(true);
                 calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
             }
         });
 
@@ -922,12 +939,16 @@ public class InputActivity extends AppCompatActivity
                     selectedTaxClass = position;
                 }
 
+                calculateButton.setFocusableInTouchMode(true);
                 calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                calculateButton.setFocusableInTouchMode(true);
                 calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
             }
         });
 
@@ -937,7 +958,6 @@ public class InputActivity extends AppCompatActivity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedYear = position;
 
-                calculateButton.requestFocus();
                 if(selectedEmployeeType > 5 ) {
                     if(selectedYear + Calendar.getInstance().get(Calendar.YEAR) - 1 <= 2016) {
                         selectedAV = 2;
@@ -947,11 +967,17 @@ public class InputActivity extends AppCompatActivity
                         av.setSelection(0);
                     }
                 }
+
+                calculateButton.setFocusableInTouchMode(true);
+                calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                calculateButton.setFocusableInTouchMode(true);
                 calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
             }
         });
 
@@ -961,12 +987,16 @@ public class InputActivity extends AppCompatActivity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedState = state.getSelectedItem().toString();
 
+                calculateButton.setFocusableInTouchMode(true);
                 calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                calculateButton.setFocusableInTouchMode(true);
                 calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
             }
         });
 
@@ -976,12 +1006,16 @@ public class InputActivity extends AppCompatActivity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedState = state.getSelectedItem().toString();
 
+                calculateButton.setFocusableInTouchMode(true);
                 calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                calculateButton.setFocusableInTouchMode(true);
                 calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
             }
         });
 
@@ -992,7 +1026,9 @@ public class InputActivity extends AppCompatActivity
                 eventHandler.OnSwitchChildren(isChecked);
                 selectedHasChildren = isChecked;
 
+                calculateButton.setFocusableInTouchMode(true);
                 calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
             }
         });
 
@@ -1003,7 +1039,9 @@ public class InputActivity extends AppCompatActivity
                 GetInsuranceId();
 
                 eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                calculateButton.setFocusableInTouchMode(true);
                 calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
             }
         });
 
@@ -1014,7 +1052,9 @@ public class InputActivity extends AppCompatActivity
                 eventHandler.OnSwitchChurchType(isChecked);
                 selectedChurchTax = isChecked;
 
+                calculateButton.setFocusableInTouchMode(true);
                 calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
             }
         });
 
@@ -1022,7 +1062,7 @@ public class InputActivity extends AppCompatActivity
         children.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedChildAmount = Double.valueOf(position) / 2;
+                selectedChildAmount = (double) position / 2;
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
@@ -1035,7 +1075,9 @@ public class InputActivity extends AppCompatActivity
                 eventHandler.OnSwitchShifting(isChecked);
                 selectedShifting = isChecked;
 
+                calculateButton.setFocusableInTouchMode(true);
                 calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
             }
         });
 
@@ -1049,17 +1091,21 @@ public class InputActivity extends AppCompatActivity
                 if(isChecked) {
                     regionProv.setVisibility(View.VISIBLE);
                     regionProvGrant.setVisibility(View.VISIBLE);
-                    (findViewById(R.id.scrollview)).post(new Runnable() {
-                        public void run() {
-                            ((ScrollView) findViewById(R.id.scrollview)).fullScroll(View.FOCUS_DOWN);
-                        }
-                    });
+                    if(scrollView != null) {
+                        scrollView.post(new Runnable() {
+                            public void run() {
+                                scrollView.fullScroll(View.FOCUS_DOWN);
+                            }
+                        });
+                    }
                 } else {
                     regionProv.setVisibility(View.GONE);
                     regionProvGrant.setVisibility(View.GONE);
                 }
 
+                calculateButton.setFocusableInTouchMode(true);
                 calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
             }
         });
 
@@ -1073,17 +1119,21 @@ public class InputActivity extends AppCompatActivity
                 if(isChecked) {
                     regionCarAmount.setVisibility(View.VISIBLE);
                     regionCarDistance.setVisibility(View.VISIBLE);
-                    (findViewById(R.id.scrollview)).post(new Runnable() {
-                        public void run() {
-                            ((ScrollView) findViewById(R.id.scrollview)).fullScroll(View.FOCUS_DOWN);
-                        }
-                    });
+                    if(scrollView != null) {
+                        scrollView.post(new Runnable() {
+                            public void run() {
+                                scrollView.fullScroll(View.FOCUS_DOWN);
+                            }
+                        });
+                    }
                 } else {
                     regionCarAmount.setVisibility(View.GONE);
                     regionCarDistance.setVisibility(View.GONE);
                 }
 
+                calculateButton.setFocusableInTouchMode(true);
                 calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
             }
         });
 
@@ -1092,7 +1142,9 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                v.setBackgroundColor(Color.MAGENTA);
+                calculateButton.setFocusableInTouchMode(true);
+                calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
 
                 if(!isCalculationEnabled) {
                     return;
@@ -1103,17 +1155,17 @@ public class InputActivity extends AppCompatActivity
                     return;
                 }
 
-                InputActivity.this._cacheInputs(data);
+                _cacheInputs(data);
 
                 // Wunschnetto erhöhen für pauschale Steuern oder Aufstocker Minijobber
-                if(data.Berechnungsart == "Nettolohn") {
+                if(data.Berechnungsart.equals("Nettolohn")) {
                     BigDecimal perc = new BigDecimal(0);
                     if(data.Beschaeftigungsart == 2 && data.RV == 1) { // Sonderfall Aufstocker Minijob
-                        if(data.Zeitraum == "m" && data.Brutto / (1 - 0.053) < 175) {
+                        if(data.Zeitraum.equals("m") && data.Brutto / (1 - 0.053) < 175) {
                             // minumum beitrag
                             data.Brutto += min__aufstocker_Minijob_sv_.doubleValue();
                             data.Berechnungsart = "Bruttolohn";
-                        } else if(data.Zeitraum == "y" && data.Brutto / (1 - 0.053) < 175 * 12) {
+                        } else if(data.Zeitraum.equals("y") && data.Brutto / (1 - 0.053) < 175 * 12) {
                             // minumum beitrag
                             data.Brutto += min__aufstocker_Minijob_sv_.doubleValue() * 12;
                             data.Berechnungsart = "Bruttolohn";
@@ -1161,7 +1213,7 @@ public class InputActivity extends AppCompatActivity
                             queue.add(queue.size() + 1);
                             CalculationInput ci = new CalculationInput(data);
                             webService.Calculate(ci);
-                            calculateButton.setBackgroundColor(Color.RED);
+                            // calculateButton.setBackgroundColor(Color.RED);
                         }
                     }
 
@@ -1179,7 +1231,7 @@ public class InputActivity extends AppCompatActivity
 
         if(companyNumber != null) {
             selectedInsurance_Text = value;
-            selectedInsuranceId = Integer.valueOf(companyNumber);
+            selectedInsuranceId = companyNumber;
             insuranceAc.clearFocus();
         } else {
             selectedInsuranceId = -1;
@@ -1211,7 +1263,7 @@ public class InputActivity extends AppCompatActivity
                 rv.setSelection(3);
                 av.setSelection(0);
                 pv.setSelection(0);
-                insuranceAc.setText("Knappschaft geringf. Beschäftigte");
+                insuranceAc.setText(getResources().getString(R.string.insurance_default_pausch));
                 taxClass.setSelection(0);
                 break;
             case 2: // Minijobber mit RV
@@ -1223,7 +1275,7 @@ public class InputActivity extends AppCompatActivity
                 rv.setSelection(1);
                 av.setSelection(0);
                 pv.setSelection(0);
-                insuranceAc.setText("Knappschaft geringf. Beschäftigte");
+                insuranceAc.setText(getResources().getString(R.string.insurance_default_pausch));
                 taxClass.setSelection(0);
                 break;
             case 3: // privat versichert
@@ -1306,7 +1358,7 @@ public class InputActivity extends AppCompatActivity
     {
         String[] states = getResources().getStringArray(R.array.states);
 
-        _statesDataAdapter = new ArrayAdapter<String>(this, R.layout.spinner_left_item, states);
+        _statesDataAdapter = new ArrayAdapter<>(this, R.layout.spinner_left_item, states);
         state.setAdapter(_statesDataAdapter);
     }
 
@@ -1316,7 +1368,6 @@ public class InputActivity extends AppCompatActivity
     private void _cacheInputs(CalculationInputData data)
     {
         FileStore fileStore = new FileStore(this);
-        CalculationInputData i = null;
         try {
             fileStore.writeInput(data);
         } catch (Exception e) {
@@ -1332,7 +1383,7 @@ public class InputActivity extends AppCompatActivity
     {
         // Log.w("i", "Wo ist der Debugger?");
         FileStore fileStore = new FileStore(this);
-        CalculationInputData i = null;
+        CalculationInputData i;
         try {
             i = fileStore.readInput();
 
@@ -1342,7 +1393,7 @@ public class InputActivity extends AppCompatActivity
                 if (i.Brutto != null) {
                     wage.setText(i.Brutto.toString());
                 } else {
-                    wage.setText("0,00 €");
+                    wage.setText(getResources().getString(R.string.taxfree_hint));
                 }
                 selectedWage = i.Brutto;
                 wage.clearFocus();
@@ -1435,7 +1486,7 @@ public class InputActivity extends AppCompatActivity
                 if (i.StFreibetrag != null) {
                     taxFree.setText(i.StFreibetrag.toString());
                 } else {
-                    taxFree.setText("0,00 €");
+                    taxFree.setText(getResources().getString(R.string.taxfree_hint));
                 }
 
                 selectedTaxFree = i.StFreibetrag;
@@ -1456,7 +1507,7 @@ public class InputActivity extends AppCompatActivity
                 if (i.Altersvorsorge_summe != null) {
                     provisionSum.setText(i.Altersvorsorge_summe.toString());
                 } else {
-                    provisionSum.setText("0,00 €");
+                    provisionSum.setText(getResources().getString(R.string.taxfree_hint));
                 }
 
                 // Zuschuss Altersvorsorge
@@ -1465,7 +1516,7 @@ public class InputActivity extends AppCompatActivity
                 if (i.Altersvorsorge_zuschuss != null) {
                     provisionGrant.setText(i.Altersvorsorge_zuschuss.toString());
                 } else {
-                    provisionGrant.setText("0,00 €");
+                    provisionGrant.setText(getResources().getString(R.string.taxfree_hint));
                 }
                 provisionGrant.clearFocus();
 
@@ -1487,7 +1538,7 @@ public class InputActivity extends AppCompatActivity
                 if (i.Firmenwagen_km != null) {
                     carDistance.setText(i.Firmenwagen_km.toString() + " km");
                 } else {
-                    carDistance.setText("0 km");
+                    carDistance.setText(getResources().getString(R.string.car_distance_hint));
                 }
             } else {
                 // erstes Starten
@@ -1510,20 +1561,22 @@ public class InputActivity extends AppCompatActivity
     private void _prepareInsurance()
     {
         FileStore fileStore = new FileStore(this);
-        Insurances i = null;
+        Insurances i;
         try {
             i = fileStore.readInsurancesResult();
         } catch (Exception e) {
-
+            i = null;
         }
 
-        for (int a = 0; a < i.data.size(); a++) {
-            if(!insurancesMap.containsKey(i.data.get(a).name.replaceAll("\\s+$", "")))
-                insurancesMap.put(i.data.get(a).name.replaceAll("\\s+$", ""), i.data.get(a).id);
+        if(i != null && i.data != null) {
+            for (int a = 0; a < i.data.size(); a++) {
+                if(!insurancesMap.containsKey(i.data.get(a).name.replaceAll("\\s+$", "")))
+                    insurancesMap.put(i.data.get(a).name.replaceAll("\\s+$", ""), i.data.get(a).id);
+            }
         }
 
         // set the list for binding the array adapter
-        insurancesList = new ArrayList<String>(insurancesMap.keySet());
+        insurancesList = new ArrayList<>(insurancesMap.keySet());
         _initInsurancesAdapter();
     }
 
@@ -1532,8 +1585,8 @@ public class InputActivity extends AppCompatActivity
      */
     private void _initInsurancesAdapter()
     {
-        _insurancesAdapter = new ArrayAdapter<String>(this,
-            android.R.layout.simple_dropdown_item_1line, this.insurancesList);
+        ArrayAdapter<String> _insurancesAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_dropdown_item_1line, this.insurancesList);
 
         _insurancesAdapter.setDropDownViewResource(R.layout.spinner_left_item);
         insuranceAc.setAdapter(_insurancesAdapter);
@@ -1541,16 +1594,13 @@ public class InputActivity extends AppCompatActivity
 
 
     @Override
-    /**
-     * What we do if calculation finished.
-     */
     public void responseFinishCalculation(Calculation calculation)
     {
         Intent i = new Intent(this, ResultActivity.class);
         i.putExtra("Calculation", calculation);
 
         if(data.KV != 6 && (data.PV > 1 || data.PV != data.KV)) {
-            if(selectedWageType == CalculationInputHelper.WAGE_TYPE_GROSS) {
+            if(selectedWageType.equals(CalculationInputHelper.WAGE_TYPE_GROSS)) {
                 correctNursingInsurance_Brutto_to_Netto(calculation);
             }
             else {
@@ -1576,9 +1626,9 @@ public class InputActivity extends AppCompatActivity
 
             if(data.Beschaeftigungsart == 4) {
                 if(data.abwaelzung_pauschale_steuer) {
-                    correctPauschaleSteuer_Kurzfristig_Abwaelzung(calculation, data);
+                    correctPauschaleSteuer_Kurzfristig_Abwaelzung(calculation);
                 } else {
-                    correctPauschaleSteuer_Kurzfristig(calculation, data);
+                    correctPauschaleSteuer_Kurzfristig(calculation);
                 }
             }
         }
@@ -1602,9 +1652,6 @@ public class InputActivity extends AppCompatActivity
     }
 
     @Override
-    /**
-     * What we do if calculation failed.
-     */
     public void responseFailedCalculation(String message)
     {
         int last = queue.remove();
@@ -1624,7 +1671,7 @@ public class InputActivity extends AppCompatActivity
                 || percentNursingInsurance.get(data.AbrJahr) == null)
             return;
 
-        BigDecimal bbg_kv_tmp = data.Zeitraum == "m" ?
+        BigDecimal bbg_kv_tmp = data.Zeitraum.equals("m") ?
                 bbg_kv.get(data.AbrJahr) : bbg_kv.get(data.AbrJahr).multiply(new BigDecimal(12));
 
         BigDecimal br = bbg_kv_tmp.min(new BigDecimal(data.Brutto.toString()));
@@ -1633,7 +1680,7 @@ public class InputActivity extends AppCompatActivity
             ag_alt = getBigDecimal(calculation.data.Pflegeversicherung_AG);
             an_alt = getBigDecimal(calculation.data.Pflegeversicherung_AN);
         } catch (Exception e) {
-            String s = e.getMessage();
+            MessageHelper.snackbar(this, e.getMessage());
         }
 
         if (data.PV > 0) {
@@ -1723,9 +1770,9 @@ public class InputActivity extends AppCompatActivity
             BigDecimal pvag_absolut = new BigDecimal(0.00);
 
             BigDecimal kvan_absolut = new BigDecimal(0.00);
-            BigDecimal kvag_absolut = new BigDecimal(0.00);
+            BigDecimal kvag_absolut;
 
-            BigDecimal bbg_kv_tmp = data.Zeitraum == "m" ?
+            BigDecimal bbg_kv_tmp = data.Zeitraum.equals("m") ?
                     bbg_kv.get(data.AbrJahr) : bbg_kv.get(data.AbrJahr).multiply(new BigDecimal(12));
 
             if(bbg_kv_tmp.compareTo(getBigDecimal(calculation.data.SVPflBrutto)) < 0) {
@@ -1743,7 +1790,7 @@ public class InputActivity extends AppCompatActivity
             boolean isBbgOst = GetIsBbgOst(data.Bundesland);
             BigDecimal bbg_rv = isBbgOst ? bbg_rv_ost.get(data.AbrJahr) : bbg_rv_west.get(data.AbrJahr);
 
-            if(data.Zeitraum == "y")
+            if(data.Zeitraum.equals("y"))
                 bbg_rv = bbg_rv.multiply(new BigDecimal(12));
 
             BigDecimal rvan_absolut = new BigDecimal(0.00);
@@ -1782,7 +1829,7 @@ public class InputActivity extends AppCompatActivity
             BigDecimal prozentAbgabenAN_neu = kvan.add(rvan).add(avan).add(pvan).add(kirc).add(lstr).add(soli);
 
             // Double prozentAbgabenAG_alt = kvag + rvag + avag + ag_alt + igum + uml1 + uml2;
-            BigDecimal prozentAbgabenAG_neu = kvag.add(rvag).add(avag).add(pvag).add(igum).add(uml1).add(uml2);
+            // BigDecimal prozentAbgabenAG_neu = kvag.add(rvag).add(avag).add(pvag).add(igum).add(uml1).add(uml2);
 
             netto_as_dividend = netto_as_dividend.add(pvan_absolut).add(kvan_absolut).add(rvan_absolut).add(avan_absolut);
             BigDecimal fiktivesNeuesBrutto = netto_as_dividend.divide(new BigDecimal("1").subtract(prozentAbgabenAN_neu), 2, BigDecimal.ROUND_HALF_UP);
@@ -1804,9 +1851,8 @@ public class InputActivity extends AppCompatActivity
                 calculation.data.Pflegeversicherung_AG  = getDecimalString_Up(pvag_absolut);
             }
 
-            if(isUeberBbg_RV) {
-                // Betraege bleiben
-            } else {
+            if(!isUeberBbg_RV) {
+                // Betraege bleiben nicht
                 rvag_absolut = fiktivesNeuesBrutto.multiply(rvag);
                 calculation.data.Rentenversicherung_AG = getDecimalString_Up(rvag_absolut);
                 rvan_absolut = fiktivesNeuesBrutto.multiply(rvan);
@@ -1857,7 +1903,7 @@ public class InputActivity extends AppCompatActivity
         try {
             BigDecimal rvan_alt = getBigDecimal(calculation.data.Rentenversicherung_AN);
             BigDecimal rvan_neu = getBigDecimal(calculation.data.SVPflBrutto).multiply(anteilAN_aufstocker_Minijob_sv);
-            BigDecimal tmp_min_rv = data.Zeitraum == "y" ? min__aufstocker_Minijob_sv_.multiply(new BigDecimal(12)) : min__aufstocker_Minijob_sv_;
+            BigDecimal tmp_min_rv = data.Zeitraum.equals("y") ? min__aufstocker_Minijob_sv_.multiply(new BigDecimal(12)) : min__aufstocker_Minijob_sv_;
             if(rvan_neu.compareTo(tmp_min_rv) < 0)
                 rvan_neu = tmp_min_rv;
 
@@ -1890,7 +1936,7 @@ public class InputActivity extends AppCompatActivity
 
             calculation.data.Pausch_LohnSteuer_AG = getDecimalString_Up(pauchSt);
         } catch (Exception e) {
-            String s = e.getMessage();
+            MessageHelper.snackbar(this, e.getMessage());
         }
     }
 
@@ -1901,11 +1947,11 @@ public class InputActivity extends AppCompatActivity
 
             calculation.data.Pausch_LohnSteuer_AN = getDecimalString_Up(pauchSt);
         } catch (Exception e) {
-            String s = e.getMessage();
+            MessageHelper.snackbar(this, e.getMessage());
         }
     }
 
-    public void correctPauschaleSteuer_Kurzfristig(Calculation calculation, CalculationInputData input) {
+    public void correctPauschaleSteuer_Kurzfristig(Calculation calculation) {
         try {
             BigDecimal brutto  = getBigDecimal(calculation.data.LohnsteuerPflBrutto);
             BigDecimal pauchSt = brutto.multiply(percent_pausch_steuer_kurzfristig).setScale(2, RoundingMode.DOWN);
@@ -1921,11 +1967,11 @@ public class InputActivity extends AppCompatActivity
             calculation.data.Pausch_Soli_AG = getDecimalString_Down(pauchSoli);
             calculation.data.Pausch_Kirchensteuer_AG = getDecimalString_Down(pauchKiSt);
         } catch (Exception e) {
-            String s = e.getMessage();
+            MessageHelper.snackbar(this, e.getMessage());
         }
     }
 
-    public void correctPauschaleSteuer_Kurzfristig_Abwaelzung(Calculation calculation, CalculationInputData input) {
+    public void correctPauschaleSteuer_Kurzfristig_Abwaelzung(Calculation calculation) {
         try {
             BigDecimal brutto  = getBigDecimal(calculation.data.LohnsteuerPflBrutto);
             BigDecimal pauchSt = brutto.multiply(percent_pausch_steuer_kurzfristig).setScale(2, RoundingMode.HALF_UP);
@@ -1941,7 +1987,7 @@ public class InputActivity extends AppCompatActivity
             calculation.data.Pausch_Soli_AN = getDecimalString_Down(pauchSoli);
             calculation.data.Pausch_Kirchensteuer_AN = getDecimalString_Down(pauchKiSt);
 
-            if(data.Berechnungsart == "Nettolohn" || isFakeBruttolohn) {
+            if(data.Berechnungsart.equals("Nettolohn") || isFakeBruttolohn) {
                 BigDecimal diff = brutto.subtract(wunschnetto).subtract(pauchSt).subtract(pauchSoli).subtract(pauchKiSt);
                 if(Math.abs(diff.doubleValue()) > 0.009) {
                     // Rundungsfehler kaschieren
@@ -1953,15 +1999,12 @@ public class InputActivity extends AppCompatActivity
             }
 
         } catch (Exception e) {
-            String s = e.getMessage();
+            MessageHelper.snackbar(this, e.getMessage());
         }
     }
 
     private static boolean GetIsBbgOst(int bundesland) {
-        if(bundesland == 4 || bundesland == 8|| bundesland == 13|| bundesland == 14|| bundesland == 30)
-            return true;
-
-        return false;
+        return bundesland == 4 || bundesland == 8 || bundesland == 13 || bundesland == 14 || bundesland == 30;
     }
 
     public static BigDecimal getBigDecimal(String s) {
@@ -2023,7 +2066,7 @@ public class InputActivity extends AppCompatActivity
         try {
             return helper.validate();
         } catch (ValidationInsuranceException e) {
-            message = e.getMessage();
+            message = e.getMessage() + "!";
         } catch (ValidationException e) {
             message = e.getMessage();
         }
@@ -2033,16 +2076,16 @@ public class InputActivity extends AppCompatActivity
     }
 
 
-    /**
+    /*
      * Renders and displays a popup window
      * with advertisement and cancel button.
-     */
+
     public void showCalculatePopupWindow()
     {
         //spamWebView.setVisibility(View.VISIBLE);
         //calculateButton.setVisibility(View.INVISIBLE);
     }
-
+    */
 
     /**
      * Renders a calculation dialog.
@@ -2132,8 +2175,8 @@ public class InputActivity extends AppCompatActivity
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch(keyCode){
             case KeyEvent.KEYCODE_BACK:
-                InputActivity.this.isCalculationEnabled = true;
-                InputActivity.this.doAbortCalculation = true;
+                isCalculationEnabled = true;
+                doAbortCalculation = true;
                 this.finish();
                 return true;
         }

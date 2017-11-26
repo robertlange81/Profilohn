@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -79,14 +78,14 @@ public class ResultEmployeeFragment extends Fragment
 
         // get the calculation result from the activity
         Calculation data = activity.getIntent().getExtras().getParcelable("Calculation");
-        Calculation dataCompare = null;
+        Calculation dataCompare;
 
         // try to fetch previous data and set compare layout if so ..
         try {
             FileStore f = new FileStore(getContext());
             dataCompare = f.readCalculationResult();
         } catch (Exception e) {
-            int x = 0;
+            dataCompare = null;
         }
 
         _initViews(view);
@@ -96,13 +95,6 @@ public class ResultEmployeeFragment extends Fragment
         return view;
     }
 
-
-    /**
-     * Instantiates a ResultEmployeeFragment.
-     *
-     * @param args
-     * @return
-     */
     public static ResultEmployeeFragment getInstance(Bundle args)
     {
         if (null == instance) {
@@ -113,13 +105,6 @@ public class ResultEmployeeFragment extends Fragment
         return instance;
     }
 
-
-    /**
-     * Callback to get the visibility
-     * status of this fragment.
-     *
-     * @param v
-     */
     public void setUserVisibleHint(boolean v)
     {
         super.setUserVisibleHint(v);
@@ -128,12 +113,6 @@ public class ResultEmployeeFragment extends Fragment
         }
     }
 
-
-    /**
-     * Init all view activity listeners.
-     *
-     * @param view
-     */
     private void _initializeListener(View view)
     {
         AppCompatButton btnAgain = (AppCompatButton) view.findViewById(R.id.result_employee_btn_again);
@@ -145,12 +124,6 @@ public class ResultEmployeeFragment extends Fragment
         });
     }
 
-
-    /**
-     * Init all available views.
-     *
-     * @param view
-     */
     private void _initViews(View view)
     {
         // Title views
@@ -194,18 +167,12 @@ public class ResultEmployeeFragment extends Fragment
 
         // regions
         regionTax = (RelativeLayout) view.findViewById(R.id.result_employee_tax_region);
-        hr = (View) view.findViewById(R.id.result_employee_tax_hr);
+        hr = view.findViewById(R.id.result_employee_tax_hr);
         regionTaxLst = (RelativeLayout) view.findViewById(R.id.result_employee_base_tax_region);
         regionTaxSoli = (RelativeLayout) view.findViewById(R.id.result_employee_soli_tax_region);
         regionTaxKist = (RelativeLayout) view.findViewById(R.id.result_employee_church_tax_region);
     }
 
-
-    /**
-     * Set all view data.
-     *
-     * @param data
-     */
     private void _setViewData(Calculation data, Calculation dataCompare)
     {
         if(data.data.pauschSt_AN.equals("0,00")

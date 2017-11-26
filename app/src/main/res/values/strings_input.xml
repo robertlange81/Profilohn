@@ -95,6 +95,7 @@
     <string name="has_shifting">Abwälzung auf AN</string>
     <string name="insurance">Krankenkasse</string>
     <string name="insurance_hint">Name der Krankenkasse ..</string>
+    <string name="insurance_default_pausch">Knappschaft geringf. Beschäftigte</string>
     <string name="insurance_init_value">Liste wird aktualisiert ..</string>
     <string name="netwage">Netto</string>
     <string name="provision">Altersvorsorge</string>

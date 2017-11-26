@@ -9,21 +9,18 @@ import com.profilohn.Exceptions.ValidationInsuranceException;
 import com.profilohn.Models.CalculationInputData;
 import com.profilohn.R;
 
-/**
- * Created by profilohn on 10.02.2016.
- */
 public class CalculationInputHelper
 {
     private Activity a;
     public CalculationInputData data;
 
-    public static final String WAGE_TYPE_GROSS   = "Bruttolohn";
-    public static final String WAGE_TYPE_NET     = "Nettolohn";
-    public static final String WAGE_PERIOD_YEAR  = "y";
-    public static final String WAGE_PERIOD_MONTH = "m";
+    public final String WAGE_TYPE_GROSS   = "Bruttolohn";
+    public final String WAGE_TYPE_NET     = "Nettolohn";
+    public final String WAGE_PERIOD_YEAR  = "y";
+    public final String WAGE_PERIOD_MONTH = "m";
 
-    public static final HashMap<String, Integer> statesToInt = new HashMap<String, Integer>();
-    public static final HashMap<Integer, String> intToState = new HashMap<Integer, String>();
+    spublic final HashMap<String, Integer> statesToInt = new HashMap<>();
+    public final HashMap<Integer, String> intToState = new HashMap<>();
 
     public CalculationInputHelper(Activity a, CalculationInputData data)
     {
@@ -68,13 +65,6 @@ public class CalculationInputHelper
 
     }
 
-
-    /**
-     * Validates the inputs.
-     *
-     * @throws ValidationException
-     * @return boolean
-     */
     public boolean validate() throws ValidationException
     {
         if (_nullOrEmpty(data.Brutto)) {
@@ -83,8 +73,8 @@ public class CalculationInputHelper
         }
 
         data.dummyInsurance = false;
-        int aok_bayern = 87540905;
-        int knappschaft = 98000006;
+        //int aok_bayern = 87540905;
+        //int knappschaft = 98000006;
         if(data.KKBetriebsnummer == -1) {
             if (data.KV != 6 && (data.KV != 0 || data.PV != 0)) {
                 String message = a.getResources().getString(R.string.validation_error_insurance);
@@ -99,36 +89,16 @@ public class CalculationInputHelper
         return true;
     }
 
-
-    /**
-     * Checks data if bigger then null and 0.
-     *
-     * @param data
-     * @return
-     */
     private boolean _nullOrEmpty(Double data)
     {
         return (null == data || 0.0 == data);
     }
 
-    /**
-     * Help function for translate
-     * the states.
-     *
-     * @param state
-     */
     public void setBundesland(String state)
     {
         data.Bundesland = this.translateState(state);
     }
 
-
-    /**
-     * States translator.
-     *
-     * @param state
-     * @return
-     */
     private int translateState(String state)
     {
         return statesToInt.get(state);

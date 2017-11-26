@@ -30,7 +30,6 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
     private static final Integer CALC_TYPE_NET = 0;
     private static final Integer CALC_TYPE_GROSS = 1;
 
-    private ConnectivityHandler connectivityHandler;
     private FileStore fileStore;
     private Dialog preparationDialog;
     private WebService webService;
@@ -47,22 +46,25 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
         Button startCalcNet = (Button) findViewById(R.id.hello_start_calculation_net);
         Button startCalcGross = (Button) findViewById(R.id.hello_start_calculation_gross);
 
-        startCalcNet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showInputActivity(CALC_TYPE_NET);
-            }
-        });
+        if(startCalcNet != null)
+            startCalcNet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showInputActivity(CALC_TYPE_NET);
+                }
+            });
 
-        startCalcGross.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showInputActivity(CALC_TYPE_GROSS);
-            }
-        });
+        if(startCalcGross != null)
+            startCalcGross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showInputActivity(CALC_TYPE_GROSS);
+                }
+            });
 
         TextView t = (TextView) findViewById(R.id.hello_credits);
-        t.setText(t.getText().toString().replace("YYYY", Calendar.getInstance().get(Calendar.YEAR) + ""));
+        if(t != null)
+            t.setText(t.getText().toString().replace("YYYY", Calendar.getInstance().get(Calendar.YEAR) + ""));
 
         instance = this;
         fileStore = new FileStore(this);
@@ -75,17 +77,8 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
     protected void onResume()
     {
         super.onResume();
-        InputActivity.isCalculationEnabled = true;
     }
 
-
-    /**
-     * Inflate the menu.
-     * This adds items to the action bar if it is present.
-     *
-     * @param menu
-     * @return
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -100,7 +93,7 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
      */
     private void _registerConnectivityReceiver()
     {
-        connectivityHandler = new ConnectivityHandler(this);
+        ConnectivityHandler connectivityHandler = new ConnectivityHandler(this);
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 
         registerReceiver(
@@ -109,13 +102,6 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
         );
     }
 
-
-    /**
-     * Select and display the
-     * calculation input activity.
-     *
-     * @param type
-     */
     public void showInputActivity(Integer type)
     {
         Intent i = new Intent(this, InputActivity.class);
@@ -125,9 +111,6 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
 
 
     @Override
-    /**
-     * Main menu selection callback handling.
-     */
     public boolean onOptionsItemSelected(MenuItem item)
     {
         int id = item.getItemId();
@@ -157,7 +140,7 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
     public void _prefetchInsurances()
     {
         try {
-            Insurances i = fileStore.readInsurancesResult();
+            fileStore.readInsurancesResult();
             return;
         } catch (FileNotFoundException e) {
             // fetch insurances ..
@@ -170,9 +153,6 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
 
 
     @Override
-    /**
-     *  Callback for insurances api call.
-     */
     public void responseFinishInsurances(Insurances i)
     {
         dismissDialog();

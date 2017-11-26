@@ -16,21 +16,12 @@ import com.profilohn.Models.Calculation;
 import com.profilohn.Helper.FileStore;
 import com.profilohn.R;
 
-/**
- * Created by profilohn on 11.02.2016.
- */
 public class ResultHomeFragment extends Fragment
 {
     protected static ResultHomeFragment instance;
 
     private TextView wageGross;
     private TextView wageNet;
-
-    private TextView compareWageGross;
-    private TextView compareWageNet;
-
-    private TextView wageDiffGross;
-    private TextView wageDiffNet;
 
     public ResultHomeFragment() { }
 
@@ -43,27 +34,11 @@ public class ResultHomeFragment extends Fragment
         return instance;
     }
 
-
-    /**
-     * Instantiates a new Fragment.
-     *
-     * @param args
-     * @return
-     */
-    public static ResultHomeFragment getInstance(Bundle args)
-    {
-        instance = getInstance();
-        instance.setArguments(args);
-
-        return instance;
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View v = null;
+        View v;
 
         // prepare the calculation data
         Calculation data = getActivity().getIntent().getExtras().getParcelable("Calculation");
@@ -80,15 +55,6 @@ public class ResultHomeFragment extends Fragment
         return v;
     }
 
-
-    /**
-     * Prepares the result layout.
-     *
-     * @param inflater
-     * @param data
-     * @param container
-     * @return
-     */
     private View _prepareResultLayout(LayoutInflater inflater,
                                       Calculation data, ViewGroup container)
     {
@@ -104,21 +70,14 @@ public class ResultHomeFragment extends Fragment
                     FormatHelper.currency(data.data.LohnsteuerPflBrutto));
             wageNet.setText(
                     FormatHelper.currency(data.data.Netto));
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            wageGross.setText(getResources().getString(R.string.taxfree_hint));
+            wageNet.setText(getResources().getString(R.string.taxfree_hint));
+        }
 
         return view;
     }
 
-
-    /**
-     * Prepares the compare layout.
-     *
-     * @param inflater
-     * @param dataResult
-     * @param dataCompare
-     * @param container
-     * @return
-     */
     private View _prepareCompareLayout(LayoutInflater inflater, Calculation dataResult,
                                        Calculation dataCompare, ViewGroup container)
     {
@@ -130,10 +89,10 @@ public class ResultHomeFragment extends Fragment
         wageNet = (TextView) view.findViewById(R.id.result_intro_wage_net);
 
         // compare data
-        compareWageGross = (TextView) view.findViewById(R.id.compare_intro_wage_gross);
-        compareWageNet = (TextView) view.findViewById(R.id.compare_intro_wage_net);
-        wageDiffGross = (TextView) view.findViewById(R.id.wage_diff_gross);
-        wageDiffNet = (TextView) view.findViewById(R.id.wage_diff_net);
+        TextView compareWageGross = (TextView) view.findViewById(R.id.compare_intro_wage_gross);
+        TextView compareWageNet = (TextView) view.findViewById(R.id.compare_intro_wage_net);
+        TextView wageDiffGross = (TextView) view.findViewById(R.id.wage_diff_gross);
+        TextView wageDiffNet = (TextView) view.findViewById(R.id.wage_diff_net);
 
         // differences
         if(dataCompare != null) {
@@ -174,25 +133,21 @@ public class ResultHomeFragment extends Fragment
         }
 
         try {
-            wageGross.setText(
-                    FormatHelper.currency(dataResult.data.LohnsteuerPflBrutto));
-            wageNet.setText(
-                    FormatHelper.currency(dataResult.data.Netto));
-            compareWageGross.setText(
-                    FormatHelper.currency(dataCompare.data.LohnsteuerPflBrutto));
-            compareWageNet.setText(
-                    FormatHelper.currency(dataCompare.data.Netto));
+            if(dataCompare != null) {
+                wageGross.setText(
+                        FormatHelper.currency(dataResult.data.LohnsteuerPflBrutto));
+                wageNet.setText(
+                        FormatHelper.currency(dataResult.data.Netto));
+                compareWageGross.setText(
+                        FormatHelper.currency(dataCompare.data.LohnsteuerPflBrutto));
+                compareWageNet.setText(
+                        FormatHelper.currency(dataCompare.data.Netto));
+            }
         } catch (Exception e) { }
 
         return view;
     }
 
-
-    /**
-     * Initialize the on click events.
-     *
-     * @param view
-     */
     private void _initListener(View view)
     {
         // listen on the button clicks
@@ -232,13 +187,6 @@ public class ResultHomeFragment extends Fragment
         }
     }
 
-
-    /**
-     * Callback to get the visibility
-     * status of this fragment.
-     *
-     * @param v
-     */
     public void setUserVisibleHint(boolean v)
     {
         super.setUserVisibleHint(v);

@@ -12,9 +12,6 @@ import java.net.InetAddress;
 
 import com.profilohn.R;
 
-/**
- * Created by profilohn on 01.02.2016.
- */
 public class ConnectivityHandler extends BroadcastReceiver {
 
     private ConnectivityManager cm;
@@ -70,12 +67,6 @@ public class ConnectivityHandler extends BroadcastReceiver {
         }
     }
 
-
-    /**
-     * Checks if the calculation webservice on online.
-     *
-     * @return
-     */
     public boolean serviceAvailable()
     {
         try {
@@ -89,13 +80,6 @@ public class ConnectivityHandler extends BroadcastReceiver {
         return false;
     }
 
-
-    /**
-     * Checks internet connection and
-     * the availability of the api.
-     *
-     * @return
-     */
     public boolean connectionReady()
     {
         try {
@@ -105,11 +89,6 @@ public class ConnectivityHandler extends BroadcastReceiver {
         }
     }
 
-
-    /**
-     * Renders a modal dialog with
-     * connection error message.
-     */
     public void showConnectionWarning()
     {
         dialog.setMessage(activity.getResources().getString(R.string.app_connection_not_available));

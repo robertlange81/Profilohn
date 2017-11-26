@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,9 +18,6 @@ import com.profilohn.Helper.FormatHelper;
 import com.profilohn.Models.Calculation;
 import com.profilohn.R;
 
-/**
- * Created by profilohn on 11.02.2016.
- */
 public class ResultEmployerFragment extends Fragment
 {
     public static ResultEmployerFragment instance;
@@ -81,14 +77,14 @@ public class ResultEmployerFragment extends Fragment
 
         // get the calculation result from the activity
         Calculation data = activity.getIntent().getExtras().getParcelable("Calculation");
-        Calculation dataCompare = null;
+        Calculation dataCompare;
 
         // try to fetch previous data and set compare layout if so ..
         try {
             FileStore f = new FileStore(getContext());
             dataCompare = f.readCalculationResult();
         } catch (Exception e) {
-
+            dataCompare = null;
         }
 
         _initViews(view);
@@ -99,13 +95,6 @@ public class ResultEmployerFragment extends Fragment
         return view;
     }
 
-
-    /**
-     * Instantiates a ResultEmployerFragment.
-     *
-     * @param args
-     * @return
-     */
     public static ResultEmployerFragment getInstance(Bundle args)
     {
         if (null == instance) {
@@ -116,13 +105,6 @@ public class ResultEmployerFragment extends Fragment
         return instance;
     }
 
-
-    /**
-     * Callback to get the visibility
-     * status of this fragment.
-     *
-     * @param v
-     */
     public void setUserVisibleHint(boolean v)
     {
         super.setUserVisibleHint(v);
@@ -131,12 +113,6 @@ public class ResultEmployerFragment extends Fragment
         }
     }
 
-
-    /**
-     * Init all view activity listeners.
-     *
-     * @param view
-     */
     private void _initializeListener(View view)
     {
         AppCompatButton btnAgain = (AppCompatButton) view.findViewById(R.id.result_employer_btn_again);
@@ -148,12 +124,6 @@ public class ResultEmployerFragment extends Fragment
         });
     }
 
-
-    /**
-     * Init all available views.
-     *
-     * @param view
-     */
     private void _initViews(View view)
     {
         // Title views
@@ -186,7 +156,7 @@ public class ResultEmployerFragment extends Fragment
 
         // regions
         regionTax = (RelativeLayout) view.findViewById(R.id.result_employer_tax_region);
-        hr = (View) view.findViewById(R.id.result_employer_tax_hr);
+        hr = view.findViewById(R.id.result_employer_tax_hr);
 
         regionTaxLst = (RelativeLayout) view.findViewById(R.id.result_employer_base_tax_region);
         regionTaxSoli = (RelativeLayout) view.findViewById(R.id.result_employer_soli_tax_region);
@@ -205,12 +175,6 @@ public class ResultEmployerFragment extends Fragment
         txtCumCat_compare = (TextView) view.findViewById(R.id.result_employer_cum_cat_compare);
     }
 
-
-    /**
-     * Set all view data.
-     *
-     * @param data
-     */
     private void _setViewData(Calculation data, Calculation dataCompare)
     {
         txtTitle.setText(_formatCurrency(data.data.Abgaben_AG));

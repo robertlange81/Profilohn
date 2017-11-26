@@ -10,23 +10,24 @@ import com.profilohn.R;
 
 public class AboutActivity extends AppCompatActivity {
 
-    private WebView wv;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         setContentView(R.layout.about);
 
-        wv =(WebView) findViewById(R.id.webview_about);
-        wv.setWebViewClient(new WebViewClient() {
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }});
-        wv.loadUrl("http://robert-lange.eu/about_profilohn.html");
-
+        WebView wv = (WebView) findViewById(R.id.webview_about);
+        if (wv != null) {
+            wv.setWebViewClient(new WebViewClient() {
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    view.loadUrl(url);
+                    return true;
+                }});
+            wv.loadUrl("http://robert-lange.eu/about_profilohn.html");
+        }
     }
 
     @Override
@@ -36,6 +37,7 @@ public class AboutActivity extends AppCompatActivity {
         return true;
     }
 
+    /*
     private class WebClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -43,4 +45,5 @@ public class AboutActivity extends AppCompatActivity {
             return true;
         }
     }
+    */
 }
