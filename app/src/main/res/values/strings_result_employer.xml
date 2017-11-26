@@ -14,6 +14,8 @@
     <string name="result_employer_insurance_care">Pflegeversicherung</string>
     <string name="result_employer_insurance_health">Krankenversicherung</string>
 
+    <string name="result_employer_provision">Zuschuss Altersvorsorge</string>
+
     <string name="result_employer_contribution">Umlagen</string>
     <string name="result_employer_contribution1">U1 (Krankheit)</string>
     <string name="result_employer_contribution2">U2 (Mutterschutz)</string>

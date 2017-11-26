@@ -11,6 +11,8 @@
     <string name="result_employee_solidarity">Solidaritätszuschlag</string>
     <string name="result_employee_churchtax">Kirchensteuer</string>
 
+    <string name="result_employee_provision">Abzug Altersvorsorge</string>
+
     <string name="result_employee_social_contribution">Sozialabgaben</string>
     <string name="result_employee_insurance_pension">Rentenversicherung</string>
     <string name="result_employee_insurance_unemployment">Arbeitslosenversicherung</string>

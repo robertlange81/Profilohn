@@ -87,24 +87,20 @@ public class ResultActivity extends AppCompatActivity {
         public Fragment getItem(int position)
         {
             Fragment fragment;
-            Bundle args = new Bundle();
             Context context = ResultActivity.this;
 
             switch (position) {
                 case 0:
                     // home fragment
-                    // fragment = ResultHomeFragment.getInstance();
                     fragment = Fragment.instantiate(context, ResultHomeFragment.class.getName());
                     break;
                 case 1:
                     // employee fragment
-                    // fragment = ResultEmployeeFragment.getInstance(args);
                     fragment = Fragment.instantiate(context, ResultEmployeeFragment.class.getName());
                     break;
                 case 2:
                     // employer fragment
                     fragment = Fragment.instantiate(context, ResultEmployerFragment.class.getName());
-                    // fragment = ResultEmployerFragment.getInstance(args);
                     break;
                 default:
                     fragment = Fragment.instantiate(context, ResultEmployeeFragment.class.getName());

@@ -99,6 +99,34 @@
                     android:layout_toEndOf="@+id/wage_gross_label" />
             </RelativeLayout>
 
+            <!-- provision cat -->
+            <RelativeLayout
+                android:id="@+id/result_employee_provision_region"
+                style="@style/result_data_row"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/provision_an"
+                    style="@style/result_data_label"
+                    android:text="@string/result_employee_provision" />
+
+                <TextView
+                    android:id="@+id/result_employee_provision_compare"
+                    style="@style/result_data_value_compare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/provision_an"
+                    android:layout_toEndOf="@+id/provision_an"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/result_employee_provision"
+                    style="@style/result_cat_value"
+                    android:layout_alignBaseline="@+id/provision_an" />
+            </RelativeLayout>
+
             <View
                 style="@style/hr"
                 android:layout_width="match_parent" />

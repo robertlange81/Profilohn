@@ -11,6 +11,7 @@ import com.profilohn.Helper.CalculationInputHelper;
  */
 public class CalculationInputData {
 
+
     public String Berechnungsart = CalculationInputHelper.WAGE_TYPE_NET;
     public String Zeitraum = CalculationInputHelper.WAGE_PERIOD_MONTH;
     public int StKl = 1;

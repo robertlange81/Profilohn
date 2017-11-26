@@ -87,7 +87,7 @@ public class InputActivity extends AppCompatActivity
     private String  selectedInsurance_Text = "";
     private Double  selectedWage = 0.00;
     private Double  selectedTaxFree = 0.00;
-    private String  selectedWageType = CalculationInputHelper.WAGE_TYPE_NET;
+    private String  selectedWageType = CalculationInputHelper.WAGE_TYPE_GROSS;
     private String  selectedWagePeriod = CalculationInputHelper.WAGE_PERIOD_MONTH;
     private Boolean selectedHasChildren = false;
     private Boolean selectedChurchTax = false;
@@ -1200,11 +1200,21 @@ public class InputActivity extends AppCompatActivity
                     }
                 }
 
+                // Altersvorsorge behandeln
+                if(data.hatAltersvorsorge) {
+                    // TODO Grenzen Abgabenfreiheit BBG
+                    if(data.Berechnungsart.equals(CalculationInputHelper.WAGE_TYPE_GROSS)) {
+                        data.Brutto -= data.Altersvorsorge_summe;
+                        data.Brutto += data.Altersvorsorge_zuschuss;
+                    } else {
+                        // erhöhe bei Simulation das Brutto erst im Ergebnis
+                    }
+                }
+
                 eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
                 doAbortCalculation = false;
                 showCalculationOverlay();
 
-                // do the calculation delayed for advertising
                 new Handler().postDelayed(new Runnable() {
 
                     @Override
@@ -1213,7 +1223,6 @@ public class InputActivity extends AppCompatActivity
                             queue.add(queue.size() + 1);
                             CalculationInput ci = new CalculationInput(data);
                             webService.Calculate(ci);
-                            // calculateButton.setBackgroundColor(Color.RED);
                         }
                     }
 
@@ -1631,6 +1640,25 @@ public class InputActivity extends AppCompatActivity
                     correctPauschaleSteuer_Kurzfristig(calculation);
                 }
             }
+        }
+
+        // TODO Grenzen beachten
+        if(data.hatAltersvorsorge) {
+
+            // altes Brutto wieder herstellen
+            // bei Simulation erst jetzt erhöhen
+            BigDecimal Brutto = getBigDecimal(calculation.data.LohnsteuerPflBrutto);
+            BigDecimal summe = new BigDecimal(data.Altersvorsorge_summe);
+            BigDecimal zuschuss = new BigDecimal(data.Altersvorsorge_zuschuss);
+            BigDecimal anAnteil = summe.subtract(zuschuss);
+
+            Brutto = Brutto.add(summe).subtract(zuschuss);
+
+            calculation.data.LohnsteuerPflBrutto = getDecimalString_Down(Brutto);
+            calculation.data.SVPflBrutto = calculation.data.LohnsteuerPflBrutto;
+            calculation.data.AG_Zuschuss_Altersvorsorge = getDecimalString_Down(zuschuss);
+            calculation.data.Summe_Altersvorsorge = getDecimalString_Down(summe);
+            calculation.data.AN_Anteil_Altersvorsorge = getDecimalString_Down(anAnteil);
         }
 
         dismissCalculationOverlay();

@@ -48,11 +48,16 @@ public class ResultEmployeeFragment extends Fragment
     TextView txtHealth;
     TextView txtHealth_compare;
 
+    TextView txtProvision;
+    TextView txtProvision_compare;
+
     RelativeLayout regionTax;
     View hr;
     RelativeLayout regionTaxLst;
     RelativeLayout regionTaxSoli;
     RelativeLayout regionTaxKist;
+    RelativeLayout regionProvision;
+
     TextView txtPauschTaxEmployee;
     TextView txtPauschTaxEmployeeLst;
     TextView txtPauschTaxEmployeeSoli;
@@ -150,12 +155,16 @@ public class ResultEmployeeFragment extends Fragment
         txtPauschTaxEmployeeKiSt_compare = (TextView) view.findViewById(R.id.result_employee_church_tax_compare);
         txtPauschTaxEmployee_compare = (TextView) view.findViewById(R.id.result_employee_tax_p_compare);
 
+        txtProvision = (TextView) view.findViewById(R.id.result_employee_provision);
+        txtProvision_compare = (TextView) view.findViewById(R.id.result_employee_provision_compare);
+
         // regions
         regionTax = (RelativeLayout) view.findViewById(R.id.result_employee_tax_region);
         hr = view.findViewById(R.id.result_employee_tax_hr);
         regionTaxLst = (RelativeLayout) view.findViewById(R.id.result_employee_base_tax_region);
         regionTaxSoli = (RelativeLayout) view.findViewById(R.id.result_employee_soli_tax_region);
         regionTaxKist = (RelativeLayout) view.findViewById(R.id.result_employee_church_tax_region);
+        regionProvision = (RelativeLayout) view.findViewById(R.id.result_employee_provision_region);
     }
 
     private void _setViewData(Calculation data, Calculation dataCompare)
@@ -179,6 +188,13 @@ public class ResultEmployeeFragment extends Fragment
             txtPauschTaxEmployee.setText(_formatCurrency(data.data.pauschSt_AN));
         }
 
+        if(data.data.AN_Anteil_Altersvorsorge.equals("0,00")
+                || data.data.AN_Anteil_Altersvorsorge.equals("")) {
+            regionProvision.setVisibility(View.GONE);
+        } else {
+            regionProvision.setVisibility(View.VISIBLE);
+        }
+
         txtTitle.setText(_formatCurrency(data.data.Netto));
 
         txtWageGross.setText(_formatCurrency(data.data.LohnsteuerPflBrutto));
@@ -193,6 +209,8 @@ public class ResultEmployeeFragment extends Fragment
         txtCare.setText(_formatCurrency(data.data.Pflegeversicherung_AN));
         txtHealth.setText(_formatCurrency(data.data.Krankenversicherung_AN));
 
+        txtProvision.setText(_formatCurrency(data.data.AN_Anteil_Altersvorsorge));
+
         _compareView(data, dataCompare);
     }
 
@@ -202,6 +220,7 @@ public class ResultEmployeeFragment extends Fragment
         txtSocial_compare.setVisibility(View.INVISIBLE);
         txtPauschTaxEmployee_compare.setVisibility(View.INVISIBLE);
         txtWageGrossCompare.setVisibility(View.INVISIBLE);
+        txtProvision_compare.setVisibility(View.INVISIBLE);
 
         if(dataCompare == null) {
             return;
@@ -230,6 +249,24 @@ public class ResultEmployeeFragment extends Fragment
             txtWageGrossCompare.setTextColor(Color.WHITE);
         }
         txtWageGrossCompare.setText((diffBrutto > 0 ? "+" : "") +_formatCurrency(diffBrutto));
+
+        // veränderte Altersvorsorge
+        if(dataCompare.data.AN_Anteil_Altersvorsorge != null) {
+            Double oldProvision = FormatHelper.toDouble(dataCompare.data.AN_Anteil_Altersvorsorge);
+            Double newProvision = FormatHelper.toDouble(data.data.AN_Anteil_Altersvorsorge);
+            Double diffProvision = newProvision - oldProvision;
+            if(diffProvision >= 0.01) {
+                txtProvision_compare.setVisibility(View.VISIBLE);
+                txtProvision_compare.setTextColor(Color.RED);
+            } else if(diffProvision <= -0.01) {
+                txtProvision_compare.setVisibility(View.VISIBLE);
+                txtProvision_compare.setTextColor(green);
+            } else {
+                txtProvision_compare.setVisibility(View.INVISIBLE);
+                txtProvision_compare.setTextColor(Color.WHITE);
+            }
+            txtProvision_compare.setText((diffProvision > 0 ? "+" : "") +_formatCurrency(diffProvision));
+        }
 
         Double oldNetto = FormatHelper.toDouble(dataCompare.data.Netto);
         Double newNetto = FormatHelper.toDouble(data.data.Netto);
@@ -467,10 +504,8 @@ public class ResultEmployeeFragment extends Fragment
         try {
             return FormatHelper.currency(text);
         } catch (FormatException e) {
-            Log.e("FormatHelperError", "");
+            return "FormatError";
         }
-
-        return "FormatError";
     }
 
     private String _formatCurrency(Double number)
@@ -478,10 +513,8 @@ public class ResultEmployeeFragment extends Fragment
         try {
             return FormatHelper.currency(number);
         } catch (FormatException e) {
-            Log.e("FormatHelperError", "");
+            return "FormatError";
         }
-
-        return "FormatError";
     }
 
 }

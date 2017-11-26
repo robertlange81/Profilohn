@@ -23,7 +23,13 @@ public class Calculation implements Parcelable {
     public static final Creator<Calculation> CREATOR = new Creator<Calculation>() {
         @Override
         public Calculation createFromParcel(Parcel in) {
-            return new Calculation(in);
+            try {
+                return new Calculation(in);
+            } catch (Exception x) {
+                String y = x.getMessage();
+                return null;
+            }
+
         }
 
         @Override

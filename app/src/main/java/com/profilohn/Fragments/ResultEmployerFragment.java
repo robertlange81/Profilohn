@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.profilohn.Exceptions.FormatException;
 import com.profilohn.Helper.FileStore;
 import com.profilohn.Helper.FormatHelper;
@@ -32,11 +31,16 @@ public class ResultEmployerFragment extends Fragment
     TextView txtSocialEmployer;
     TextView txtSocialEmployer_compare;
 
+    TextView txtProvision;
+    TextView txtProvision_compare;
+
     RelativeLayout regionTax;
     View hr;
     RelativeLayout regionTaxLst;
     RelativeLayout regionTaxSoli;
     RelativeLayout regionTaxKist;
+    RelativeLayout regionProvision;
+
     TextView txtTaxEmployer;
     TextView txtTaxEmployer_compare;
     TextView txtTaxEmployerLst;
@@ -143,6 +147,9 @@ public class ResultEmployerFragment extends Fragment
         txtTaxEmployer = (TextView) view.findViewById(R.id.result_employer_tax);
         txtTaxEmployer_compare = (TextView) view.findViewById(R.id.result_employer_tax_compare);
 
+        txtProvision = (TextView) view.findViewById(R.id.result_employer_provision);
+        txtProvision_compare = (TextView) view.findViewById(R.id.result_employer_provision_compare);
+
         // regions
         regionTax = (RelativeLayout) view.findViewById(R.id.result_employer_tax_region);
         hr = view.findViewById(R.id.result_employer_tax_hr);
@@ -150,6 +157,7 @@ public class ResultEmployerFragment extends Fragment
         regionTaxLst = (RelativeLayout) view.findViewById(R.id.result_employer_base_tax_region);
         regionTaxSoli = (RelativeLayout) view.findViewById(R.id.result_employer_soli_tax_region);
         regionTaxKist = (RelativeLayout) view.findViewById(R.id.result_employer_church_tax_region);
+        regionProvision = (RelativeLayout) view.findViewById(R.id.result_employer_provision_region);
 
         txtContribution  = (TextView) view.findViewById(R.id.result_employer_contribution);
         txtContribution_compare  = (TextView) view.findViewById(R.id.result_employer_contribution_compare);
@@ -188,6 +196,13 @@ public class ResultEmployerFragment extends Fragment
             txtTaxEmployer.setText(_formatCurrency(data.data.pauschSt_AG));
         }
 
+        if(data.data.AG_Zuschuss_Altersvorsorge.equals("0,00")
+            || data.data.AG_Zuschuss_Altersvorsorge.equals("")) {
+            regionProvision.setVisibility(View.GONE);
+        } else {
+            regionProvision.setVisibility(View.VISIBLE);
+        }
+
         txtSocialEmployer.setText(_formatCurrency(data.data.AGAnteil));
         txtPensionEmployer.setText(_formatCurrency(data.data.Rentenversicherung_AG));
         txtUnemploymentEmployer.setText(_formatCurrency(data.data.Arbeitslosenversicherung_AG));
@@ -199,6 +214,8 @@ public class ResultEmployerFragment extends Fragment
         txtContribution2.setText(_formatCurrency(data.data.Umlage2));
         txtContributionIgu.setText(_formatCurrency(data.data.IGU));
 
+        txtProvision.setText(_formatCurrency(data.data.AG_Zuschuss_Altersvorsorge));
+
         _compareView(data, dataCompare);
     }
 
@@ -208,6 +225,7 @@ public class ResultEmployerFragment extends Fragment
         txtSocialEmployer_compare.setVisibility(View.INVISIBLE);
         txtTaxEmployer_compare.setVisibility(View.INVISIBLE);
         txtContribution_compare.setVisibility(View.INVISIBLE);
+        txtProvision_compare.setVisibility(View.INVISIBLE);
 
         if(dataCompare == null) {
             return;
@@ -234,6 +252,25 @@ public class ResultEmployerFragment extends Fragment
             txtWageGross_compare.setTextColor(Color.WHITE);
         }
         txtWageGross_compare.setText((diffBrutto > 0 ? "+" : "") +_formatCurrency(diffBrutto));
+
+        // veränderte Altersvorsorge
+        if(dataCompare.data.AG_Zuschuss_Altersvorsorge != null) {
+            Double oldProvision = FormatHelper.toDouble(dataCompare.data.AG_Zuschuss_Altersvorsorge);
+            Double newProvision = FormatHelper.toDouble(data.data.AG_Zuschuss_Altersvorsorge);
+            Double diffProvision = newProvision - oldProvision;
+            if(diffProvision >= 0.01) {
+                txtProvision_compare.setVisibility(View.VISIBLE);
+                txtProvision_compare.setTextColor(Color.RED);
+            } else if(diffProvision <= -0.01) {
+                txtProvision_compare.setVisibility(View.VISIBLE);
+                txtProvision_compare.setTextColor(green);
+            } else {
+                txtProvision_compare.setVisibility(View.INVISIBLE);
+                txtProvision_compare.setTextColor(Color.WHITE);
+            }
+            txtProvision_compare.setText((diffProvision > 0 ? "+" : "") +_formatCurrency(diffProvision));
+
+        }
 
         Double oldAbgaben = FormatHelper.toDouble(dataCompare.data.Abgaben_AG);
         Double newAbgaben = FormatHelper.toDouble(data.data.Abgaben_AG);

@@ -20,6 +20,9 @@ public class CalculationData implements Parcelable {
 
     public String LohnsteuerPflBrutto;
     public String SVPflBrutto;
+    public String Summe_Altersvorsorge;
+    public String AG_Zuschuss_Altersvorsorge;
+    public String AN_Anteil_Altersvorsorge;
     public String Lohnsteuer;
     public String Pausch_LohnSteuer_AG;
     public String Pausch_LohnSteuer_AN;
@@ -49,12 +52,18 @@ public class CalculationData implements Parcelable {
     public String pauschSt_AG;
     public String pauschSt_AN;
     public String Abgaben_AG;
+    //public String brutto_pflichtig_Altersvorsorge;
+    //public String brutto_pflichtig_Firmenwagen;
+
 
     private static NumberFormat format;
 
     protected CalculationData(Parcel in) {
         LohnsteuerPflBrutto = in.readString();
         SVPflBrutto = in.readString();
+        Summe_Altersvorsorge = in.readString();
+        AG_Zuschuss_Altersvorsorge = in.readString();
+        AN_Anteil_Altersvorsorge = in.readString();
         Lohnsteuer = in.readString();
         Pausch_LohnSteuer_AG = in.readString();
         Pausch_LohnSteuer_AN = in.readString();
@@ -88,7 +97,12 @@ public class CalculationData implements Parcelable {
     public static final Creator<CalculationData> CREATOR = new Creator<CalculationData>() {
         @Override
         public CalculationData createFromParcel(Parcel in) {
-            return new CalculationData(in);
+            try {
+                return new CalculationData(in);
+            } catch (Exception x) {
+                String y = x.getMessage();
+                return null;
+            }
         }
 
         @Override
@@ -106,6 +120,9 @@ public class CalculationData implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(LohnsteuerPflBrutto == null ? "0,00" : LohnsteuerPflBrutto);
         dest.writeString(SVPflBrutto == null ? "0,00" : SVPflBrutto);
+        dest.writeString(Summe_Altersvorsorge == null ? "0,00" : Summe_Altersvorsorge);
+        dest.writeString(AG_Zuschuss_Altersvorsorge == null ? "0,00" : AG_Zuschuss_Altersvorsorge);
+        dest.writeString(AN_Anteil_Altersvorsorge == null ? "0,00" : AN_Anteil_Altersvorsorge);
         dest.writeString(Lohnsteuer == null ? "0,00" : Lohnsteuer);
         dest.writeString(Pausch_LohnSteuer_AG == null ? "0,00" : Pausch_LohnSteuer_AG);
         dest.writeString(Pausch_LohnSteuer_AN == null ? "0,00" : Pausch_LohnSteuer_AN);
@@ -157,6 +174,9 @@ public class CalculationData implements Parcelable {
         BigDecimal taxKiStAn         = new BigDecimal(0.00);
         BigDecimal sumTaxAn          = new BigDecimal(0.00);
 
+        BigDecimal provisionEmployer          = new BigDecimal(0.00);
+        BigDecimal provisionEmployee          = new BigDecimal(0.00);
+
         try {
             grossPayEmpl    = getBigDecimal(LohnsteuerPflBrutto);
             contributionSum = getBigDecimal(Umlagen_AG);
@@ -177,11 +197,14 @@ public class CalculationData implements Parcelable {
             taxKiStAn         = getBigDecimal(Pausch_Kirchensteuer_AN);
             sumTaxAn          = taxLstAn.add(taxSoliAN).add(taxKiStAn);
 
+            provisionEmployer = getBigDecimal(AG_Zuschuss_Altersvorsorge);
+            provisionEmployee = getBigDecimal(AN_Anteil_Altersvorsorge);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        sumEmployer = grossPayEmpl.add(contributionSum).add(sumSocial).add(sumTax);
+        sumEmployer = grossPayEmpl.add(contributionSum).add(sumSocial).add(sumTax).add(provisionEmployer);
 
         AGAnteil    = getDecimalString_Up(sumSocial);
         pauschSt_AG = getDecimalString_Up(sumTax);
@@ -190,13 +213,5 @@ public class CalculationData implements Parcelable {
         pauschSt_AN = getDecimalString_Up(sumTaxAn);
         Auszahlung = getDecimalString_Up(getBigDecimal(Auszahlung).subtract(sumTaxAn));
         Netto = getDecimalString_Up(getBigDecimal(Netto).subtract(sumTaxAn));
-    }
-
-    private static Double parse(String value) throws ParseException {
-        if(format == null) {
-            format = NumberFormat.getInstance(Locale.GERMANY);
-        }
-
-        return format.parse(value).doubleValue();
     }
 }

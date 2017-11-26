@@ -23,18 +23,6 @@
 
     </ScrollView>
 
-    <!--android.support.v7.widget.AppCompatButton
-        android:id="@+id/calculate_general"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:focusable="true"
-        android:text="@string/calculate"
-        android:theme="@style/StartCalculation2"
-        android:visibility="visible" /-->
-
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/calculate_general"
         style="@style/calculate"
