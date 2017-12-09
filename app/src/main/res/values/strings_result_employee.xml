@@ -14,9 +14,14 @@
     <string name="result_employee_provision">Abzug Altersvorsorge</string>
 
     <string name="result_employee_social_contribution">Sozialabgaben</string>
-    <string name="result_employee_insurance_pension">Rentenversicherung</string>
-    <string name="result_employee_insurance_unemployment">Arbeitslosenversicherung</string>
-    <string name="result_employee_insurance_care">Pflegeversicherung</string>
-    <string name="result_employee_insurance_health">Krankenversicherung</string>
+    <string name="result_employee_insurance_pension">Rentenvers.</string>
+    <string name="result_employee_insurance_unemployment">Arbeitslosenvers.</string>
+    <string name="result_employee_insurance_care">Pflegevers.</string>
+    <string name="result_employee_insurance_health">Krankenvers.</string>
+
+    <string name="result_employee_insurance_pension_long">Rentenversicherung</string>
+    <string name="result_employee_insurance_unemployment_long">Arbeitslosenversicherung</string>
+    <string name="result_employee_insurance_care_long">Pflegeversicherung</string>
+    <string name="result_employee_insurance_health_long">Krankenversicherung</string>
 
 </resources>

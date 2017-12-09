@@ -40,4 +40,5 @@ public class CalculationInputData {
     public boolean hatFirmenwagen = false;
     public Integer Firmenwagen_summe = 0;
     public Integer Firmenwagen_km = 0;
+    public Double Firmenwagen_pflichtig = 0.0;
 }

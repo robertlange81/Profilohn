@@ -9,17 +9,22 @@
     <string name="result_employer_soli_tax">Soli</string>
     <string name="result_employer_church_tax">Kirchensteuern</string>
     <string name="result_employer_social_contribution">Sozialabgaben</string>
-    <string name="result_employer_insurance_pension">Rentenversicherung</string>
-    <string name="result_employer_insurance_unemployment">Arbeitslosenversicherung</string>
-    <string name="result_employer_insurance_care">Pflegeversicherung</string>
-    <string name="result_employer_insurance_health">Krankenversicherung</string>
+    <string name="result_employer_insurance_pension">Rentenvers.</string>
+    <string name="result_employer_insurance_unemployment">Arbeitslosenvers.</string>
+    <string name="result_employer_insurance_care">Pflegevers.</string>
+    <string name="result_employer_insurance_health">Krankenvers.</string>
+
+    <string name="result_employer_insurance_pension_long">Rentenversicherung</string>
+    <string name="result_employer_insurance_unemployment_long">Arbeitslosenversicherung</string>
+    <string name="result_employer_insurance_care_long">Pflegeversicherung</string>
+    <string name="result_employer_insurance_health_long">Krankenversicherung</string>
 
     <string name="result_employer_provision">Zuschuss Altersvorsorge</string>
 
     <string name="result_employer_contribution">Umlagen</string>
     <string name="result_employer_contribution1">U1 (Krankheit)</string>
     <string name="result_employer_contribution2">U2 (Mutterschutz)</string>
-    <string name="result_employer_insolvency_contribution">IGU (Insolvenzgeldumlage)</string>
+    <string name="result_employer_insolvency_contribution">IGU (Insolvenzgeld)</string>
 
 
 </resources>

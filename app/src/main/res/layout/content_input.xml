@@ -917,6 +917,7 @@
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
                     android:hint="@string/taxfree_hint"
+                    android:digits="0123456789,."
                     android:imeOptions="actionDone"
                     android:inputType="numberDecimal"
                     android:maxLength="11"

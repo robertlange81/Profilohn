@@ -122,6 +122,8 @@ public class InputActivity extends AppCompatActivity
 
     private CalculationInputHelper helper;
 
+    CalculationInputData cache;
+
     //private WebView spamWebView;
     AlertDialog calcDialog;
 
@@ -148,8 +150,18 @@ public class InputActivity extends AppCompatActivity
 
     BigDecimal percent_pausch_steuer_minijob = new BigDecimal(0.02);
     BigDecimal anteilAG_pauschRV_Minijob_sv = new BigDecimal(0.15);
-    BigDecimal anteilAN_aufstocker_Minijob_sv = new BigDecimal(0.037);
-    BigDecimal min__aufstocker_Minijob_sv_ = new BigDecimal(6.48);
+    Map<Integer, BigDecimal> anteilAN_aufstocker_Minijob_sv = new HashMap<Integer, BigDecimal>() {{
+        put(2016, new BigDecimal(0.037));
+        put(2017, new BigDecimal(0.037));
+        put(2018, new BigDecimal(0.036));
+        put(2019, new BigDecimal(0.036));
+    }};
+    Map<Integer, BigDecimal> min__aufstocker_Minijob_sv = new HashMap<Integer, BigDecimal>() {{
+        put(2016, new BigDecimal(6.48));
+        put(2017, new BigDecimal(6.48));
+        put(2018, new BigDecimal(6.3));
+        put(2019, new BigDecimal(6.3));
+    }};
     BigDecimal percent_pausch_steuer_kurzfristig = new BigDecimal(0.25);
     BigDecimal percent_soli = new BigDecimal(0.055);
     boolean isFakeBruttolohn = false;
@@ -428,6 +440,10 @@ public class InputActivity extends AppCompatActivity
                         wageAmountLabel.setText(R.string.wageamount_gross_month);
                         taxFreeLabel.setText(R.string.taxfree_month);
                     }
+
+                    car.setEnabled(true);
+                    if(cache != null)
+                        car.setChecked(cache.hatFirmenwagen);
                 } else {
                     selectedWageType = CalculationInputHelper.WAGE_TYPE_NET;
                     wagetypeLabel.setText(R.string.wage_type_label_2);
@@ -438,6 +454,9 @@ public class InputActivity extends AppCompatActivity
                         wageAmountLabel.setText(R.string.wageamount_net_month);
                         taxFreeLabel.setText(R.string.taxfree_month);
                     }
+
+                    car.setEnabled(false);
+                    car.setChecked(false);
                 }
 
                 calculateButton.setFocusableInTouchMode(true);
@@ -1163,14 +1182,14 @@ public class InputActivity extends AppCompatActivity
                     if(data.Beschaeftigungsart == 2 && data.RV == 1) { // Sonderfall Aufstocker Minijob
                         if(data.Zeitraum.equals("m") && data.Brutto / (1 - 0.053) < 175) {
                             // minumum beitrag
-                            data.Brutto += min__aufstocker_Minijob_sv_.doubleValue();
+                            data.Brutto += min__aufstocker_Minijob_sv.get(data.AbrJahr).doubleValue();
                             data.Berechnungsart = "Bruttolohn";
                         } else if(data.Zeitraum.equals("y") && data.Brutto / (1 - 0.053) < 175 * 12) {
                             // minumum beitrag
-                            data.Brutto += min__aufstocker_Minijob_sv_.doubleValue() * 12;
+                            data.Brutto += min__aufstocker_Minijob_sv.get(data.AbrJahr).doubleValue() * 12;
                             data.Berechnungsart = "Bruttolohn";
                         } else {
-                            perc = perc.add(anteilAN_aufstocker_Minijob_sv);
+                            perc = perc.add(anteilAN_aufstocker_Minijob_sv.get(data.AbrJahr));
                         }
                     }
 
@@ -1206,8 +1225,16 @@ public class InputActivity extends AppCompatActivity
                         Double an_anteil = data.Altersvorsorge_summe - data.Altersvorsorge_zuschuss;
                         data.Brutto -= an_anteil;
                         Double freibetrag = an_anteil;
-                        if(bbg_rv_west.get(data.AbrJahr) != null) {
-                            freibetrag = bbg_rv_west.get(data.AbrJahr).multiply(new BigDecimal(0.04)).doubleValue();
+                        BigDecimal bbg = bbg_rv_west.get(data.AbrJahr);
+                        if(bbg != null) {
+                            if(data.Zeitraum.equals("y"))
+                                bbg = bbg.multiply(new BigDecimal(12)).setScale(2, BigDecimal.ROUND_HALF_UP);;
+
+                            if(data.AbrJahr <= 2017) {
+                                freibetrag = bbg.multiply(new BigDecimal(0.04)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                            } else {
+                                freibetrag = bbg.multiply(new BigDecimal(0.08)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                            }
                         }
                         data.Altersvorsorge_pflichtig = Math.max(0.00, an_anteil - freibetrag);
 
@@ -1216,6 +1243,22 @@ public class InputActivity extends AppCompatActivity
                     } else {
                         // erhöhe bei Simulation das Brutto erst im Ergebnis
                     }
+                }
+
+                // Firmenwagen behandeln
+                // http://www.autoscout24.de/themen/spezialthemen/rechner/firmenwagenrechner
+                if(data.hatFirmenwagen) {
+                    BigDecimal price = new BigDecimal(data.Firmenwagen_summe);
+                    BigDecimal summePkw = price.multiply(new BigDecimal(0.01)).setScale(2, BigDecimal.ROUND_HALF_UP);
+                    summePkw = summePkw.add(price.multiply(new BigDecimal(data.Firmenwagen_km)).multiply(new BigDecimal(0.0003))).setScale(2, BigDecimal.ROUND_HALF_UP);
+
+                    if(data.Zeitraum.equals("y"))
+                        summePkw = summePkw.multiply(new BigDecimal(12)).setScale(2, BigDecimal.ROUND_HALF_UP);
+
+                    data.Firmenwagen_pflichtig = summePkw.doubleValue();
+
+                    if(data.Firmenwagen_pflichtig > 0.005)
+                        data.Brutto += data.Firmenwagen_pflichtig;
                 }
 
                 eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
@@ -1397,35 +1440,35 @@ public class InputActivity extends AppCompatActivity
      */
     private void _loadCachedInputs()
     {
-        // Log.w("i", "Wo ist der Debugger?");
+        // Log.w("cache", "Wo ist der Debugger?");
         FileStore fileStore = new FileStore(this);
-        CalculationInputData i;
-        try {
-            i = fileStore.readInput();
 
-            if (i != null) {
+        try {
+            cache = fileStore.readInput();
+
+            if (cache != null) {
                 // Brutto / Nettobetrag
                 wage.requestFocus();
-                if (i.Brutto != null) {
-                    wage.setText(i.Brutto.toString());
+                if (cache.Brutto != null) {
+                    wage.setText(cache.Brutto.toString());
                 } else {
                     wage.setText(getResources().getString(R.string.taxfree_hint));
                 }
-                selectedWage = i.Brutto;
+                selectedWage = cache.Brutto;
                 wage.clearFocus();
 
                 // Jahr oder Monat
-                wagePeriod.setChecked(i.Zeitraum.equalsIgnoreCase("y"));
+                wagePeriod.setChecked(cache.Zeitraum.equalsIgnoreCase("y"));
 
                 // Krankenkasse
-                if (!i.dummyInsurance) {
-                    selectedInsuranceId = i.KKBetriebsnummer;
-                    insuranceAc.setText(i.KK_text);
-                    selectedInsurance_Text = i.KK_text;
+                if (!cache.dummyInsurance) {
+                    selectedInsuranceId = cache.KKBetriebsnummer;
+                    insuranceAc.setText(cache.KK_text);
+                    selectedInsurance_Text = cache.KK_text;
                 }
 
                 // Bundesland
-                String stateString = helper.retranslateState(i.Bundesland);
+                String stateString = helper.retranslateState(cache.Bundesland);
                 state.setSelection(
                         _statesDataAdapter.getPosition(
                                 stateString
@@ -1434,24 +1477,24 @@ public class InputActivity extends AppCompatActivity
                 selectedState = stateString;
 
                 // Beschäftigungsverhältnis
-                employeeType.setSelection(i.Beschaeftigungsart);
-                selectedEmployeeType = i.Beschaeftigungsart;
+                employeeType.setSelection(cache.Beschaeftigungsart);
+                selectedEmployeeType = cache.Beschaeftigungsart;
 
                 // kv
-                int set = i.KV;
-                if (i.KV == 3)
+                int set = cache.KV;
+                if (cache.KV == 3)
                     set = 2;
-                if (i.KV == 6)
+                if (cache.KV == 6)
                     set = 3;
                 kv.setSelection(
                         set
                 );
 
                 // rv
-                set = i.RV;
-                if (i.RV == 3)
+                set = cache.RV;
+                if (cache.RV == 3)
                     set = 2;
-                if (i.RV == 5)
+                if (cache.RV == 5)
                     set = 3;
                 rv.setSelection(
                         set
@@ -1459,104 +1502,111 @@ public class InputActivity extends AppCompatActivity
 
                 // av
                 av.setSelection(
-                        i.AV
+                        cache.AV
                 );
 
                 // pv
                 pv.setSelection(
-                        i.PV
+                        cache.PV
                 );
 
                 // Steuerklasse
-                if(i.StKl == 23) {
+                if(cache.StKl == 23) {
                     // pauschal
                     taxClass.setSelection(0);
                 } else {
-                    if(i.StKl < 0 || i.StKl > 6)
-                        i.StKl = 1;
+                    if(cache.StKl < 0 || cache.StKl > 6)
+                        cache.StKl = 1;
 
-                    taxClass.setSelection(i.StKl);
+                    taxClass.setSelection(cache.StKl);
                 }
-                selectedTaxClass = i.StKl;
-                selectedShifting = i.abwaelzung_pauschale_steuer;
+                selectedTaxClass = cache.StKl;
+                selectedShifting = cache.abwaelzung_pauschale_steuer;
                 shifting.setChecked(selectedShifting);
 
                 // Abrechnungsjahr
                 year.setSelection(
                         _yearAdapter.getPosition(
-                                String.valueOf(i.AbrJahr)
+                                String.valueOf(cache.AbrJahr)
                         )
                 );
-                selectedYear = i.AbrJahr;
+                selectedYear = cache.AbrJahr;
 
                 // Elterneigenschaft
-                hasChildren.setChecked(i.KindU23);
-                selectedHasChildren = i.KindU23;
+                hasChildren.setChecked(cache.KindU23);
+                selectedHasChildren = cache.KindU23;
 
                 // Kirchensteuer
-                churchTax.setChecked(i.Kirche);
-                selectedChurchTax = i.Kirche;
+                churchTax.setChecked(cache.Kirche);
+                selectedChurchTax = cache.Kirche;
 
                 // Steuerfreibetrag
                 taxFree.requestFocus();
-                if (i.StFreibetrag != null) {
-                    taxFree.setText(i.StFreibetrag.toString());
+                if (cache.StFreibetrag != null) {
+                    taxFree.setText(cache.StFreibetrag.toString());
                 } else {
                     taxFree.setText(getResources().getString(R.string.taxfree_hint));
                 }
 
-                selectedTaxFree = i.StFreibetrag;
+                selectedTaxFree = cache.StFreibetrag;
 
                 // Kinderfreibetrag
                 children.setSelection(
                         _childFreeAmountAdapter.getPosition(
-                                i.KindFrei.toString()
+                                cache.KindFrei.toString()
                         )
                 );
-                selectedChildAmount = i.KindFrei;
+                selectedChildAmount = cache.KindFrei;
 
                 // Altersvorsorge
-                selectedHasProvision = i.hatAltersvorsorge;
-                provision.setChecked(i.hatAltersvorsorge);
-                selectedProvisionSum = i.Altersvorsorge_summe;
+                selectedHasProvision = cache.hatAltersvorsorge;
+                provision.setChecked(cache.hatAltersvorsorge);
+                selectedProvisionSum = cache.Altersvorsorge_summe;
                 provisionSum.requestFocus();
-                if (i.Altersvorsorge_summe != null) {
-                    provisionSum.setText(i.Altersvorsorge_summe.toString());
+                if (cache.Altersvorsorge_summe != null) {
+                    provisionSum.setText(cache.Altersvorsorge_summe.toString());
                 } else {
                     provisionSum.setText(getResources().getString(R.string.taxfree_hint));
                 }
 
                 // Zuschuss Altersvorsorge
-                selectedProvisionGrant = i.Altersvorsorge_zuschuss;
+                selectedProvisionGrant = cache.Altersvorsorge_zuschuss;
                 provisionGrant.requestFocus();
-                if (i.Altersvorsorge_zuschuss != null) {
-                    provisionGrant.setText(i.Altersvorsorge_zuschuss.toString());
+                if (cache.Altersvorsorge_zuschuss != null) {
+                    provisionGrant.setText(cache.Altersvorsorge_zuschuss.toString());
                 } else {
                     provisionGrant.setText(getResources().getString(R.string.taxfree_hint));
                 }
                 provisionGrant.clearFocus();
 
                 // Firmenwagen
-                selectedHasCar = i.hatFirmenwagen;
-                car.setChecked(i.hatFirmenwagen);
-                selectedCarAmount = i.Firmenwagen_summe;
+                selectedHasCar = cache.hatFirmenwagen;
+                car.setChecked(cache.hatFirmenwagen);
+                selectedCarAmount = cache.Firmenwagen_summe;
                 carAmount.requestFocus();
-                if (i.Firmenwagen_summe != null) {
-                    carAmount.setText(i.Firmenwagen_summe.toString());
+                if (cache.Firmenwagen_summe != null) {
+                    carAmount.setText(cache.Firmenwagen_summe.toString());
                 } else {
                     carAmount.setText("0 €");
                 }
                 carAmount.clearFocus();
 
                 // Firmenwagen Kilometer
-                selectedCarDistance = i.Firmenwagen_km;
+                selectedCarDistance = cache.Firmenwagen_km;
                 carDistance.requestFocus();
-                if (i.Firmenwagen_km != null) {
-                    carDistance.setText(i.Firmenwagen_km.toString() + " km");
+                if (cache.Firmenwagen_km != null) {
+                    carDistance.setText(cache.Firmenwagen_km.toString() + " km");
                 } else {
                     carDistance.setText(getResources().getString(R.string.car_distance_hint));
                 }
                 carDistance.clearFocus();
+
+                if(selectedWageType == CalculationInputHelper.WAGE_TYPE_NET) {
+                    car.setEnabled(false);
+                    car.setChecked(false);
+                } else {
+                    car.setEnabled(true);
+                }
             } else {
                 // erstes Starten
                 employeeType.setSelection(0);
@@ -1650,27 +1700,40 @@ public class InputActivity extends AppCompatActivity
             }
         }
 
-        // TODO Grenzen beachten
-        if(data.hatAltersvorsorge) {
+        if(data.hatAltersvorsorge || data.hatFirmenwagen) {
 
             // altes Brutto wieder herstellen
             // bei Wunschnetto Simulation erst jetzt erhöhen, aber Pflichtgrenze ignorieren
             BigDecimal Brutto = getBigDecimal(calculation.data.LohnsteuerPflBrutto);
-            BigDecimal summe = new BigDecimal(data.Altersvorsorge_summe);
-            BigDecimal zuschuss = new BigDecimal(data.Altersvorsorge_zuschuss);
-            BigDecimal anAnteil = summe.subtract(zuschuss);
+            BigDecimal Netto = getBigDecimal(calculation.data.Netto);
 
-            Brutto = Brutto.add(anAnteil);
-            if(data.Berechnungsart.equals("Bruttolohn") && !isFakeBruttolohn) {
-                BigDecimal pflichtig = new BigDecimal(data.Altersvorsorge_pflichtig);
-                Brutto = Brutto.subtract(pflichtig);
+            if(data.hatAltersvorsorge) {
+                BigDecimal summe = new BigDecimal(data.Altersvorsorge_summe);
+                BigDecimal zuschuss = new BigDecimal(data.Altersvorsorge_zuschuss);
+                BigDecimal anAnteil = summe.subtract(zuschuss);
+
+                Brutto = Brutto.add(anAnteil);
+                if(data.Berechnungsart.equals("Bruttolohn") && data.Altersvorsorge_pflichtig > 0.005) {
+                    BigDecimal pflichtigAltersvorsorge = new BigDecimal(data.Altersvorsorge_pflichtig);
+                    Brutto = Brutto.subtract(pflichtigAltersvorsorge);
+                    Netto = Netto.subtract(pflichtigAltersvorsorge);
+                }
+                calculation.data.AG_Zuschuss_Altersvorsorge = getDecimalString_Down(zuschuss);
+                calculation.data.AN_Anteil_Altersvorsorge = getDecimalString_Down(anAnteil);
+                calculation.data.Summe_Altersvorsorge = getDecimalString_Down(summe);
             }
 
+            if(data.hatFirmenwagen) {
+                if(data.Berechnungsart.equals("Bruttolohn") && data.Firmenwagen_pflichtig > 0.005) {
+                    BigDecimal pflichtigFirmenwagen = new BigDecimal(data.Firmenwagen_pflichtig);
+                    Brutto = Brutto.subtract(pflichtigFirmenwagen);
+                    Netto = Netto.subtract(pflichtigFirmenwagen);
+                }
+            }
+
+            calculation.data.Netto = getDecimalString_Down(Netto);
             calculation.data.LohnsteuerPflBrutto = getDecimalString_Down(Brutto);
             calculation.data.SVPflBrutto = calculation.data.LohnsteuerPflBrutto;
-            calculation.data.AG_Zuschuss_Altersvorsorge = getDecimalString_Down(zuschuss);
-            calculation.data.Summe_Altersvorsorge = getDecimalString_Down(summe);
-            calculation.data.AN_Anteil_Altersvorsorge = getDecimalString_Down(anAnteil);
         }
 
         dismissCalculationOverlay();
@@ -1942,8 +2005,11 @@ public class InputActivity extends AppCompatActivity
 
         try {
             BigDecimal rvan_alt = getBigDecimal(calculation.data.Rentenversicherung_AN);
-            BigDecimal rvan_neu = getBigDecimal(calculation.data.SVPflBrutto).multiply(anteilAN_aufstocker_Minijob_sv);
-            BigDecimal tmp_min_rv = data.Zeitraum.equals("y") ? min__aufstocker_Minijob_sv_.multiply(new BigDecimal(12)) : min__aufstocker_Minijob_sv_;
+            BigDecimal rvan_neu = getBigDecimal(calculation.data.SVPflBrutto).multiply(anteilAN_aufstocker_Minijob_sv.get(data.AbrJahr));
+            BigDecimal tmp_min_rv = data.Zeitraum.equals("y")
+                    ? min__aufstocker_Minijob_sv.get(data.AbrJahr).multiply(new BigDecimal(12))
+                    : min__aufstocker_Minijob_sv.get(data.AbrJahr);
+
             if(rvan_neu.compareTo(tmp_min_rv) < 0)
                 rvan_neu = tmp_min_rv;
 
