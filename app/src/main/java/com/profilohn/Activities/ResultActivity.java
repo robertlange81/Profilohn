@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.profilohn.Fragments.ResultEmployeeFragment;
 import com.profilohn.Fragments.ResultEmployerFragment;
@@ -44,6 +45,9 @@ public class ResultActivity extends AppCompatActivity {
         if(mViewPager != null) {
             mViewPager.setAdapter(mSectionsPagerAdapter);
         } else {
+            View area_for_smartphone = findViewById(R.id.button_result_area_handy);
+            if(area_for_smartphone != null)
+                area_for_smartphone.setVisibility(View.GONE);
             isTablet = true;
         }
     }

@@ -70,51 +70,52 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
-        android:padding="@dimen/activity_default_margin"
+        android:id="@+id/button_result_area_handy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.7">
+        android:layout_weight="0.7"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_default_margin">
 
         <TextView
-            android:text="@string/result_intro_intro"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/result_intro_intro" />
 
         <LinearLayout
-            android:orientation="vertical"
-            android:weightSum="1"
-            android:padding="@dimen/activity_default_margin"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_default_margin"
+            android:weightSum="1">
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_weight="0.5"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent">
+                android:layout_weight="0.5"
+                android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/result_intro_btn_employee"
-                    android:theme="@style/ResultButtonStyle1"
-                    android:text="@string/result_intro_btn_employee"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:text="@string/result_intro_btn_employee"
+                    android:theme="@style/ResultButtonStyle1" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_weight="0.5"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent">
+                android:layout_weight="0.5"
+                android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/result_intro_btn_employer"
-                    android:theme="@style/ResultButtonStyle2"
-                    android:text="@string/result_intro_btn_employer"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:text="@string/result_intro_btn_employer"
+                    android:theme="@style/ResultButtonStyle2" />
 
             </LinearLayout>
 
