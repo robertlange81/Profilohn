@@ -73,12 +73,14 @@ public class InputActivity extends AppCompatActivity
     public Spinner               rv;
     public Spinner               av;
     public Spinner               pv;
+    public Spinner               seizureKids;
     public Button                calculateButton;
     public AutoCompleteTextView  insuranceAc;
     public SwitchCompat          wagePeriod;
     public SwitchCompat          hasChildren;
     public SwitchCompat          churchTax;
-    public SwitchCompat          shifting;
+    public SwitchCompat          isShifting;
+    public SwitchCompat          isSeizure;
 
     public SwitchCompat          car;
     public SwitchCompat          provision;
@@ -92,6 +94,7 @@ public class InputActivity extends AppCompatActivity
     private Boolean selectedHasChildren = false;
     private Boolean selectedChurchTax = false;
     private Boolean selectedShifting = false;
+    private Boolean selectedSeizure = true;
     private Boolean selectedHasCar = false;
     private Boolean selectedHasProvision = false;
     private Integer selectedTaxClass = 0;
@@ -106,6 +109,8 @@ public class InputActivity extends AppCompatActivity
     private ArrayAdapter<String> _yearAdapter;
     private ArrayAdapter<String> _statesDataAdapter;
     private ArrayAdapter<CharSequence> _childFreeAmountAdapter;
+    private ArrayAdapter<CharSequence> _seizureKidsAdapter;
+    private Integer selectedSeizureKids = 0;
     private List<String> insurancesList = new ArrayList<>();
     private SortedMap<String, Integer> insurancesMap = new TreeMap<>();
 
@@ -129,9 +134,14 @@ public class InputActivity extends AppCompatActivity
 
     LinearLayout regionShifting;
     LinearLayout regionChildAmount;
+    LinearLayout regionSeizureKids;
+
+
     LinearLayout regionTaxFreeAmount;
+
     LinearLayout regionProv;
     LinearLayout regionProvGrant;
+
     LinearLayout regionCarAmount;
     LinearLayout regionCarDistance;
 
@@ -343,6 +353,7 @@ public class InputActivity extends AppCompatActivity
         provGrantLabel  = (TextView) findViewById(R.id.prov_grant_label);
 
         regionShifting  = (LinearLayout) findViewById(R.id.shifting_area);
+        regionSeizureKids = (LinearLayout) findViewById(R.id.seizure_kids_region);
         regionProv      = (LinearLayout) findViewById(R.id.prov_amount_region);
         regionProvGrant = (LinearLayout) findViewById(R.id.prov_grant_region);
         regionCarAmount = (LinearLayout) findViewById(R.id.car_amount_region);
@@ -350,7 +361,10 @@ public class InputActivity extends AppCompatActivity
         regionChildAmount   = (LinearLayout) findViewById(R.id.child_amount_region);
         regionTaxFreeAmount = (LinearLayout) findViewById(R.id.tax_free_amount_region);
 
-        shifting        = (SwitchCompat) findViewById(R.id.has_shifting);
+        isShifting      = (SwitchCompat) findViewById(R.id.has_shifting);
+
+        isSeizure       = (SwitchCompat) findViewById(R.id.has_seizure);
+        seizureKids     = (Spinner) findViewById(R.id.seizure_kids);
 
         provision       = (SwitchCompat) findViewById(R.id.retprov);
         provisionSum    = (EditText) findViewById(R.id.provision_sum);
@@ -406,6 +420,10 @@ public class InputActivity extends AppCompatActivity
         _childFreeAmountAdapter = ArrayAdapter.createFromResource(this,
                 R.array.childfree, R.layout.spinner_left_item);
         children.setAdapter(_childFreeAmountAdapter);
+
+        _seizureKidsAdapter = ArrayAdapter.createFromResource(this,
+                R.array.seizure_kids, R.layout.spinner_left_item);
+        seizureKids.setAdapter(_seizureKidsAdapter);
     }
 
     @Override
@@ -1087,8 +1105,37 @@ public class InputActivity extends AppCompatActivity
             public void onNothingSelected(AdapterView<?> parent) { }
         });
 
+        // Pfaendung (ja / nein)
+        isSeizure.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                eventHandler.OnSwitchSeizure(isChecked);
+                selectedSeizure = isChecked;
+
+                if(isChecked) {
+                    regionSeizureKids.setVisibility(View.VISIBLE);
+                } else {
+                    regionSeizureKids.setVisibility(View.INVISIBLE);
+                }
+
+                calculateButton.setFocusableInTouchMode(true);
+                calculateButton.requestFocus();
+                calculateButton.setFocusableInTouchMode(false);
+            }
+        });
+
+        // Unterhaltspfl. Personen
+        seizureKids.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedSeizureKids = position;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
+
         // Abwälzung (ja / nein)
-        shifting.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        isShifting.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 eventHandler.OnSwitchShifting(isChecked);
@@ -1522,7 +1569,7 @@ public class InputActivity extends AppCompatActivity
                 }
                 selectedTaxClass = cache.StKl;
                 selectedShifting = cache.abwaelzung_pauschale_steuer;
-                shifting.setChecked(selectedShifting);
+                isShifting.setChecked(selectedShifting);
 
                 // Abrechnungsjahr
                 year.setSelection(
@@ -1557,6 +1604,16 @@ public class InputActivity extends AppCompatActivity
                         )
                 );
                 selectedChildAmount = cache.KindFrei;
+
+                // Pfaendung
+                selectedSeizure = cache.hatPfaendung;
+                isSeizure.setChecked(selectedSeizure);
+
+                // unterhaltspfl. Pers
+                if(cache.unterhaltspflPers != null) {
+                    seizureKids.setSelection(cache.unterhaltspflPers);
+                    selectedSeizureKids = cache.unterhaltspflPers;
+                }
 
                 // Altersvorsorge
                 selectedHasProvision = cache.hatAltersvorsorge;
@@ -1609,15 +1666,24 @@ public class InputActivity extends AppCompatActivity
                 }
             } else {
                 // erstes Starten
+                isSeizure.requestFocus();
+                isSeizure.setChecked(true);
+                regionSeizureKids.setVisibility(View.VISIBLE);
                 employeeType.setSelection(0);
                 state.setSelection(0);
                 updateInsuranceBranches();
                 wage.requestFocus();
             }
         } catch (FileNotFoundException fnfe) {
+            // erstes Starten
+            isSeizure.requestFocus();
+            isSeizure.setChecked(true);
+            selectedSeizure = true;
+            regionSeizureKids.setVisibility(View.VISIBLE);
             employeeType.setSelection(0);
             state.setSelection(0);
             updateInsuranceBranches();
+            wage.requestFocus();
         } catch (Exception e) {
             //Log.w("auauau", e.getMessage());
         }
@@ -2166,6 +2232,8 @@ public class InputActivity extends AppCompatActivity
         helper.data.hatFirmenwagen = selectedHasCar;
         helper.data.Firmenwagen_summe = selectedCarAmount;
         helper.data.Firmenwagen_km = selectedCarDistance;
+        helper.data.hatPfaendung = selectedSeizure;
+        helper.data.unterhaltspflPers = selectedSeizureKids;
 
         String message;
 

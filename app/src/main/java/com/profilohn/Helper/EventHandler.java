@@ -82,14 +82,33 @@ public class EventHandler extends AppCompatActivity {
     }
 
     /**
-     * Displays the shifting value text field
-     * if the shifting selected.
+     * Displays the isShifting value text field
+     * if the isShifting selected.
      *
      * @param isChecked
      */
     public void OnSwitchShifting(boolean isChecked)
     {
         TextView l = (TextView) _activity.findViewById(R.id.shifting_value);
+
+        if (isChecked) {
+            l.setTextColor(ContextCompat.getColor(_context, R.color.text_darkgrey));
+            l.setText(R.string.label_yes);
+        } else {
+            l.setTextColor(ContextCompat.getColor(_context, R.color.text_grey));
+            l.setText(R.string.label_no);
+        }
+    }
+
+    /**
+     * Displays the isSeizure value text field
+     * if the isSeizure selected.
+     *
+     * @param isChecked
+     */
+    public void OnSwitchSeizure(boolean isChecked)
+    {
+        TextView l = (TextView) _activity.findViewById(R.id.seizure_value);
 
         if (isChecked) {
             l.setTextColor(ContextCompat.getColor(_context, R.color.text_darkgrey));

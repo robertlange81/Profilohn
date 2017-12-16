@@ -53,6 +53,15 @@
         <item>7.0</item>
     </string-array>
 
+    <string-array name="seizure_kids">
+        <item>0 Personen</item>
+        <item>1 Person</item>
+        <item>2 Personen</item>
+        <item>3 Personen</item>
+        <item>4 Personen</item>
+        <item>5 Personen</item>
+    </string-array>
+
     <string name="kist_prompt">Kirchensteuer</string>
     <string name="kinder_prompt">Kinderfreibetrag</string>
     <string name="krankenkassen_prompt">Krankenkasse angeben</string>
@@ -104,7 +113,7 @@
     <string name="provision_grant_year">AG-Zuschuss (J)</string>
     <string name="provision_grant_month">AG-Zuschuss (M)</string>
     <string name="seizure">Pfändung</string>
-    <string name="seizure_kids">unsterhaltspfl. Personen</string>
+    <string name="seizure_kids">Unterhaltspflicht für</string>
     <string name="state">Bundesland</string>
     <string name="taxclass">Steuer(klasse)</string>
     <string name="taxfree_year">Steuerfreibetrag (J)</string>

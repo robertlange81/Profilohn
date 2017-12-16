@@ -41,4 +41,6 @@ public class CalculationInputData {
     public Integer Firmenwagen_summe = 0;
     public Integer Firmenwagen_km = 0;
     public Double Firmenwagen_pflichtig = 0.0;
+    public boolean hatPfaendung = false;
+    public Integer unterhaltspflPers;
 }

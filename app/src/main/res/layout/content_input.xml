@@ -568,7 +568,7 @@
                 android:gravity="start"
                 android:orientation="vertical"
                 android:textAlignment="viewStart"
-                android:visibility="visible">
+                android:visibility="invisible">
 
                 <TextView
                     android:id="@+id/seizure_kids_label"
@@ -617,7 +617,7 @@
                     android:paddingStart="10dp">
 
                     <android.support.v7.widget.SwitchCompat
-                        android:id="@+id/seizure"
+                        android:id="@+id/has_seizure"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp" />
@@ -1029,7 +1029,7 @@
             android:layout_marginTop="20dp"
             android:baselineAligned="false"
             android:orientation="horizontal"
-            android:visibility="visible">
+            android:visibility="invisible">
 
             <LinearLayout
                 android:id="@+id/car_amount_region"
