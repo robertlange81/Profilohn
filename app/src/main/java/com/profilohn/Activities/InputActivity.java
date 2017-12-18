@@ -64,6 +64,7 @@ public class InputActivity extends AppCompatActivity
     public RadioGroup            calcType;
     public EditText              wage;
     public EditText              taxFree;
+    public EditText              seizureFree;
     public Spinner               taxClass;
     public Spinner               year;
     public Spinner               state;
@@ -89,6 +90,7 @@ public class InputActivity extends AppCompatActivity
     private String  selectedInsurance_Text = "";
     private Double  selectedWage = 0.00;
     private Double  selectedTaxFree = 0.00;
+    private Double  selectedSeizureFree = 0.00;
     private String  selectedWageType = CalculationInputHelper.WAGE_TYPE_GROSS;
     private String  selectedWagePeriod = CalculationInputHelper.WAGE_PERIOD_MONTH;
     private Boolean selectedHasChildren = false;
@@ -135,6 +137,7 @@ public class InputActivity extends AppCompatActivity
     LinearLayout regionShifting;
     LinearLayout regionChildAmount;
     LinearLayout regionSeizureKids;
+    LinearLayout regionSeizureFree;
 
 
     LinearLayout regionTaxFreeAmount;
@@ -354,6 +357,7 @@ public class InputActivity extends AppCompatActivity
 
         regionShifting  = (LinearLayout) findViewById(R.id.shifting_area);
         regionSeizureKids = (LinearLayout) findViewById(R.id.seizure_kids_region);
+        regionSeizureFree = (LinearLayout) findViewById(R.id.linearLayout5b);
         regionProv      = (LinearLayout) findViewById(R.id.prov_amount_region);
         regionProvGrant = (LinearLayout) findViewById(R.id.prov_grant_region);
         regionCarAmount = (LinearLayout) findViewById(R.id.car_amount_region);
@@ -365,6 +369,7 @@ public class InputActivity extends AppCompatActivity
 
         isSeizure       = (SwitchCompat) findViewById(R.id.has_seizure);
         seizureKids     = (Spinner) findViewById(R.id.seizure_kids);
+        seizureFree     = (EditText) findViewById(R.id.seizure_free);
 
         provision       = (SwitchCompat) findViewById(R.id.retprov);
         provisionSum    = (EditText) findViewById(R.id.provision_sum);
@@ -508,7 +513,7 @@ public class InputActivity extends AppCompatActivity
                         wage.setText(output);
                     } catch (Exception x) {
                         selectedWage = 0.00;
-                        provisionGrant.setText(getResources().getString(R.string.taxfree_hint));
+                        wage.setText(getResources().getString(R.string.taxfree_hint));
                     }
                 }
             }
@@ -557,13 +562,61 @@ public class InputActivity extends AppCompatActivity
 
                         taxFree.setText(output);
                     } catch (Exception x) {
-                        selectedProvisionGrant = 0.00;
-                        provisionGrant.setText(getResources().getString(R.string.taxfree_hint));
+                        selectedTaxFree = 0.00;
+                        taxFree.setText(getResources().getString(R.string.taxfree_hint));
                     }
                 }
             }});
 
         taxFree.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                                          KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                    calculateButton.setFocusableInTouchMode(true);
+                    calculateButton.requestFocus();
+                    calculateButton.setFocusableInTouchMode(false);
+                    return true;
+
+                }
+                return false;
+            }
+        });
+
+        // Betrag (Brutto oder Wunsch-Netto)
+        seizureFree.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!seizureFree.hasFocus()) {
+                    try {
+                        String cur = seizureFree.getText().toString();
+                        cur = cur.replaceAll("€", "");
+                        cur = cur.replaceAll("\\s+","");
+                        cur = cur.replaceAll("\\.", ",");
+                        cur = cur.replaceAll(",(?=.*?,)", "");
+                        cur = cur.replaceAll(",", ".");
+
+                        Double current = 0.00;
+                        if(!cur.equals("")) {
+                            current = Double.valueOf(cur);
+                        }
+                        selectedSeizureFree = current;
+                        numberFormat.setMaximumFractionDigits(2);
+                        numberFormat.setMinimumFractionDigits(2);
+                        String output = numberFormat.format(current);
+
+                        seizureFree.setText(output);
+                    } catch (Exception x) {
+                        selectedSeizureFree = 0.00;
+                        seizureFree.setText(getResources().getString(R.string.taxfree_hint));
+                    }
+                }
+            }
+        });
+
+        seizureFree.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId,
@@ -1114,8 +1167,10 @@ public class InputActivity extends AppCompatActivity
 
                 if(isChecked) {
                     regionSeizureKids.setVisibility(View.VISIBLE);
+                    regionSeizureFree.setVisibility(View.VISIBLE);
                 } else {
                     regionSeizureKids.setVisibility(View.INVISIBLE);
+                    regionSeizureFree.setVisibility(View.GONE);
                 }
 
                 calculateButton.setFocusableInTouchMode(true);
@@ -1160,6 +1215,7 @@ public class InputActivity extends AppCompatActivity
                     if(scrollView != null) {
                         scrollView.post(new Runnable() {
                             public void run() {
+                                // scrollView.scrollTo(0, scrollView.getBottom()); tablet
                                 scrollView.fullScroll(View.FOCUS_DOWN);
                             }
                         });
@@ -1188,6 +1244,7 @@ public class InputActivity extends AppCompatActivity
                     if(scrollView != null) {
                         scrollView.post(new Runnable() {
                             public void run() {
+                                // scrollView.scrollTo(0, scrollView.getBottom()); tablet
                                 scrollView.fullScroll(View.FOCUS_DOWN);
                             }
                         });
@@ -1615,6 +1672,16 @@ public class InputActivity extends AppCompatActivity
                     selectedSeizureKids = cache.unterhaltspflPers;
                 }
 
+                // pfändungsfrei
+                seizureFree.requestFocus();
+                if (cache.pfaendungsfreierBetrag != null) {
+                    seizureFree.setText(cache.pfaendungsfreierBetrag.toString());
+                } else {
+                    seizureFree.setText(getResources().getString(R.string.taxfree_hint));
+                }
+                selectedSeizureFree = cache.pfaendungsfreierBetrag;
+                seizureFree.clearFocus();
+
                 // Altersvorsorge
                 selectedHasProvision = cache.hatAltersvorsorge;
                 provision.setChecked(cache.hatAltersvorsorge);
@@ -1668,6 +1735,7 @@ public class InputActivity extends AppCompatActivity
                 // erstes Starten
                 isSeizure.requestFocus();
                 isSeizure.setChecked(true);
+                eventHandler.OnSwitchSeizure(true);
                 regionSeizureKids.setVisibility(View.VISIBLE);
                 employeeType.setSelection(0);
                 state.setSelection(0);
@@ -2234,6 +2302,7 @@ public class InputActivity extends AppCompatActivity
         helper.data.Firmenwagen_km = selectedCarDistance;
         helper.data.hatPfaendung = selectedSeizure;
         helper.data.unterhaltspflPers = selectedSeizureKids;
+        helper.data.pfaendungsfreierBetrag = selectedSeizureFree;
 
         String message;
 

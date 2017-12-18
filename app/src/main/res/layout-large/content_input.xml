@@ -825,11 +825,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
                     android:gravity="start"
                     android:orientation="horizontal"
                     android:paddingEnd="0dp"
                     android:paddingStart="@dimen/padding_label_left"
-                    android:paddingTop="5dp">
+                    android:paddingTop="15dp">
 
 
                     <android.support.v7.widget.SwitchCompat
@@ -951,7 +952,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="10dp">
 
                 <TextView
                     android:id="@+id/car_label"
@@ -966,11 +968,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
                     android:gravity="start"
                     android:orientation="horizontal"
                     android:paddingEnd="0dp"
                     android:paddingStart="@dimen/padding_label_left"
-                    android:paddingTop="5dp">
+                    android:paddingTop="15dp">
 
 
                     <android.support.v7.widget.SwitchCompat
@@ -1017,14 +1020,14 @@
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/car_sum"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginEnd="0dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="0dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:gravity="center"
+                    android:gravity="top|center"
                     android:hint="@string/car_amount_hint"
                     android:inputType="numberDecimal"
                     android:maxLength="11"
@@ -1056,14 +1059,14 @@
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/car_distance"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginEnd="0dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="0dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:gravity="center"
+                    android:gravity="top|center"
                     android:hint="@string/car_distance_hint"
                     android:inputType="numberDecimal"
                     android:maxLength="11"
@@ -1081,14 +1084,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/linearLayout11"
             android:layout_marginEnd="0dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             android:baselineAligned="false"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_weight="3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="3"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
@@ -1105,11 +1108,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
                     android:gravity="start"
                     android:orientation="horizontal"
                     android:paddingEnd="0dp"
                     android:paddingStart="@dimen/padding_label_left"
-                    android:paddingTop="5dp">
+                    android:paddingTop="15dp">
 
 
                     <android.support.v7.widget.SwitchCompat
@@ -1134,19 +1138,17 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_weight="3"
                 android:id="@+id/seizure_kids_region"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="3"
                 android:orientation="vertical"
-                android:visibility="invisible">
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/seizure_kids_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="bottom"
                     android:paddingEnd="0dp"
                     android:paddingStart="@dimen/padding_label_left"
                     android:text="@string/seizure_kids"
@@ -1156,10 +1158,50 @@
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/seizure_kids"
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="5dp"
+                    android:textAlignment="viewStart" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout5b"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/seizure_free_label"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_gravity="center"
+                    android:gravity="bottom"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="@dimen/padding_label_left"
+                    android:text="@string/seizure_free"
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/seizure_free"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginStart="10dp"
+                    android:digits="0123456789,."
+                    android:gravity="center"
+                    android:hint="@string/wage_default"
+                    android:inputType="numberDecimal"
+                    android:maxLength="11"
+                    android:selectAllOnFocus="true"
                     android:textAlignment="viewStart" />
 
             </LinearLayout>

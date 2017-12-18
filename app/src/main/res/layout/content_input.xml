@@ -637,6 +637,61 @@
 
             </LinearLayout>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout5b"
+            android:layout_below="@+id/linearLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="30dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="4">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/seizure_free_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp"
+                    android:text="@string/seizure_free"
+                    android:textAlignment="viewStart" />
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/seizure_free"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="0123456789,."
+                        android:hint="@string/wage_default"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberDecimal"
+                        android:maxLength="12"
+                        android:maxLines="1"
+                        android:selectAllOnFocus="true"
+                        android:textAlignment="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+            android:id="@+id/handy_dummy"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+        </LinearLayout>
 
         </LinearLayout>
 
@@ -644,7 +699,7 @@
             android:id="@+id/linearLayout6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/linearLayout5"
+            android:layout_below="@id/linearLayout5b"
             android:layout_marginEnd="0dp"
             android:layout_marginTop="35dp"
             android:baselineAligned="false"
@@ -1029,7 +1084,7 @@
             android:layout_marginTop="20dp"
             android:baselineAligned="false"
             android:orientation="horizontal"
-            android:visibility="invisible">
+            android:visibility="visible">
 
             <LinearLayout
                 android:id="@+id/car_amount_region"

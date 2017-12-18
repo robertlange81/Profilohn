@@ -114,6 +114,7 @@
     <string name="provision_grant_month">AG-Zuschuss (M)</string>
     <string name="seizure">Pfändung</string>
     <string name="seizure_kids">Unterhaltspflicht für</string>
+    <string name="seizure_free">unpfändbarer Betrag</string>
     <string name="state">Bundesland</string>
     <string name="taxclass">Steuer(klasse)</string>
     <string name="taxfree_year">Steuerfreibetrag (J)</string>

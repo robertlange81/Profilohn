@@ -2,6 +2,7 @@ package com.profilohn.Helper;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -111,10 +112,11 @@ public class EventHandler extends AppCompatActivity {
         TextView l = (TextView) _activity.findViewById(R.id.seizure_value);
 
         if (isChecked) {
-            l.setTextColor(ContextCompat.getColor(_context, R.color.text_darkgrey));
+            l.setTextColor(Color.RED);
             l.setText(R.string.label_yes);
         } else {
-            l.setTextColor(ContextCompat.getColor(_context, R.color.text_grey));
+            int green = Color.parseColor("#008000");
+            l.setTextColor(green);
             l.setText(R.string.label_no);
         }
     }

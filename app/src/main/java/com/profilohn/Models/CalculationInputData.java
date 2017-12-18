@@ -43,4 +43,5 @@ public class CalculationInputData {
     public Double Firmenwagen_pflichtig = 0.0;
     public boolean hatPfaendung = false;
     public Integer unterhaltspflPers;
+    public Double pfaendungsfreierBetrag = 0.0;
 }
