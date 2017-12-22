@@ -503,6 +503,68 @@
                     android:layout_toEndOf="@+id/result_employee_wage_label" />
             </RelativeLayout>
 
+            <View
+                style="@style/hr"
+                android:layout_width="match_parent" />
+
+            <RelativeLayout
+                android:id="@+id/result_employee_seizure_region"
+                style="@style/result_data_row">
+
+                <TextView
+                    android:id="@+id/seizure"
+                    style="@style/result_data_label"
+                    android:text="@string/result_employee_seizure" />
+
+                <TextView
+                    android:id="@+id/result_employee_seizure_compare"
+                    style="@style/result_data_value_compare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/seizure"
+                    android:layout_toEndOf="@+id/seizure"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp" />
+
+                <TextView
+                    android:id="@+id/result_employee_seizure"
+                    style="@style/result_data_value"
+                    android:layout_alignBaseline="@+id/seizure"
+                    android:layout_toEndOf="@+id/seizure" />
+            </RelativeLayout>
+
+            <View
+                style="@style/hr"
+                android:layout_width="match_parent" />
+
+            <!-- net cash -->
+            <RelativeLayout
+                android:id="@+id/result_employee_cash_region"
+                style="@style/result_data_row"
+                android:layout_marginBottom="2dp">
+
+                <TextView
+                    android:id="@+id/result_employee_cash_label"
+                    style="@style/result_main_label"
+                    android:text="@string/result_employee_cash_net" />
+
+                <TextView
+                    android:id="@+id/result_employee_cash_net_compare"
+                    style="@style/result_data_value_compare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/result_employee_cash_label"
+                    android:layout_toEndOf="@+id/result_employee_cash_label"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp" />
+
+                <TextView
+                    android:id="@+id/result_employee_cash_net"
+                    style="@style/result_main_value"
+                    android:layout_alignBaseline="@+id/result_employee_cash_label"
+                    android:layout_toEndOf="@+id/result_employee_cash_label" />
+            </RelativeLayout>
+
         </android.support.v7.widget.LinearLayoutCompat>
 
     </ScrollView>

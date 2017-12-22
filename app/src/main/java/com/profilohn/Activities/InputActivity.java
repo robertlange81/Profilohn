@@ -1885,6 +1885,10 @@ public class InputActivity extends AppCompatActivity
             return;
         }
 
+        if(data.hatPfaendung) {
+            calcSeizure(data, calculation);
+        }
+
         startActivity(i);
     }
 
@@ -2241,6 +2245,80 @@ public class InputActivity extends AppCompatActivity
         } catch (Exception e) {
             MessageHelper.snackbar(this, e.getMessage());
         }
+    }
+
+    public void calcSeizure(CalculationInputData input, Calculation calculation) {
+        try {
+            BigDecimal netto  = getBigDecimal(calculation.data.Netto);
+
+            if(input.pfaendungsfreierBetrag < 0.01 && !input.hatAltersvorsorge) {
+                // keine fiktive Berechnung notwendig (einfachster Fall)
+
+                if(input.Zeitraum.equals('y'))
+                    netto = netto.divide(new BigDecimal(12));
+
+                BigDecimal seizurePerMonth = getSeizureFor(netto, input.unterhaltspflPers);
+
+                if(input.Zeitraum.equals('y'))
+                    seizurePerMonth = seizurePerMonth.multiply(new BigDecimal(12));
+            }
+
+        } catch (Exception e) {
+            MessageHelper.snackbar(this, e.getMessage());
+        }
+    }
+
+    private BigDecimal getSeizureFor(BigDecimal netto, Integer unterhaltspflPers) {
+        BigDecimal startSeizure, startSeizureAmount, percent;
+
+        switch (unterhaltspflPers.toString()) {
+            case "0":
+                startSeizure        = new BigDecimal(1140);
+                startSeizureAmount  = new BigDecimal(4.34);
+                percent             = new BigDecimal(0.7);
+                break;
+            case "1":
+                startSeizure        = new BigDecimal(1570);
+                startSeizureAmount  = new BigDecimal(4.75);
+                percent             = new BigDecimal(0.5);
+                break;
+            case "2":
+                startSeizure        = new BigDecimal(1810);
+                startSeizureAmount  = new BigDecimal(4.70);
+                percent             = new BigDecimal(0.4);
+                break;
+            case "3":
+                startSeizure        = new BigDecimal(2040);
+                startSeizureAmount  = new BigDecimal(1.21);
+                percent             = new BigDecimal(0.3);
+                break;
+            case "4":
+                startSeizure        = new BigDecimal(2280);
+                startSeizureAmount  = new BigDecimal(1.26);
+                percent             = new BigDecimal(0.2);
+                break;
+            case "5":
+                startSeizure        = new BigDecimal(2520);
+                startSeizureAmount  = new BigDecimal(0.86);
+                percent             = new BigDecimal(0.1);
+                break;
+            default:
+                startSeizure        = new BigDecimal(1140);
+                startSeizureAmount  = new BigDecimal(4.34);
+                percent             = new BigDecimal(0.7);
+        }
+
+        if(netto.compareTo(startSeizure) == -1)
+            return new BigDecimal(0);
+
+        BigDecimal compulsury = netto.subtract(startSeizure);
+        BigDecimal dummyForRoundToTenth = new BigDecimal(10);
+        compulsury = compulsury.divide(dummyForRoundToTenth).setScale(0, RoundingMode.DOWN).multiply(dummyForRoundToTenth);
+        compulsury = compulsury.multiply(percent);
+        compulsury = compulsury.add(startSeizureAmount);
+        compulsury = compulsury.setScale(2, RoundingMode.HALF_DOWN);
+
+        return compulsury;
     }
 
     private static boolean GetIsBbgOst(int bundesland) {

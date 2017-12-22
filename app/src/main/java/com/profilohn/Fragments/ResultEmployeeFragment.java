@@ -57,6 +57,8 @@ public class ResultEmployeeFragment extends Fragment
     RelativeLayout regionTaxSoli;
     RelativeLayout regionTaxKist;
     RelativeLayout regionProvision;
+    RelativeLayout regionSeizure;
+    RelativeLayout regionCash;
 
     TextView txtPauschTaxEmployee;
     TextView txtPauschTaxEmployeeLst;
@@ -165,6 +167,8 @@ public class ResultEmployeeFragment extends Fragment
         regionTaxSoli = (RelativeLayout) view.findViewById(R.id.result_employee_soli_tax_region);
         regionTaxKist = (RelativeLayout) view.findViewById(R.id.result_employee_church_tax_region);
         regionProvision = (RelativeLayout) view.findViewById(R.id.result_employee_provision_region);
+        regionSeizure = (RelativeLayout) view.findViewById(R.id.result_employee_seizure_region);
+        regionCash = (RelativeLayout) view.findViewById(R.id.result_employee_cash_region);
     }
 
     private void _setViewData(Calculation data, Calculation dataCompare)
@@ -193,6 +197,14 @@ public class ResultEmployeeFragment extends Fragment
             regionProvision.setVisibility(View.GONE);
         } else {
             regionProvision.setVisibility(View.VISIBLE);
+        }
+
+        if(data.data.Pfaendung.equals("0,00")) {
+            regionSeizure.setVisibility(View.GONE);
+            regionCash.setVisibility(View.GONE);
+        } else {
+            regionSeizure.setVisibility(View.VISIBLE);
+            regionCash.setVisibility(View.VISIBLE);
         }
 
         txtTitle.setText(_formatCurrency(data.data.Netto));

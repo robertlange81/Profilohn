@@ -52,6 +52,7 @@ public class CalculationData implements Parcelable {
     public String pauschSt_AG;
     public String pauschSt_AN;
     public String Abgaben_AG;
+    public String Pfaendung;
     //public String brutto_pflichtig_Altersvorsorge;
     //public String brutto_pflichtig_Firmenwagen;
 
@@ -90,6 +91,7 @@ public class CalculationData implements Parcelable {
         ANAnteil = in.readString();
         Steuern = in.readString();
         Umlagen_AG = in.readString();
+        Pfaendung = in.readString();
 
         _summarizeEmployerAndEmployeeCats();
     }
@@ -150,6 +152,7 @@ public class CalculationData implements Parcelable {
         dest.writeString(Steuern == null ? "0,00" : Steuern);
         dest.writeString(Umlagen_AG == null ? "0,00" : Umlagen_AG);
         dest.writeString(Abgaben_AG == null ? "0,00" : Abgaben_AG);
+        dest.writeString(Pfaendung == null ? "0,00" : Pfaendung);
     }
 
     private void _summarizeEmployerAndEmployeeCats()
@@ -211,7 +214,9 @@ public class CalculationData implements Parcelable {
         Abgaben_AG  = getDecimalString_Up(sumEmployer);
 
         pauschSt_AN = getDecimalString_Up(sumTaxAn);
-        Auszahlung = getDecimalString_Up(getBigDecimal(Auszahlung).subtract(sumTaxAn));
-        Netto = getDecimalString_Up(getBigDecimal(Netto).subtract(sumTaxAn));
+
+        BigDecimal netto = getBigDecimal(Netto).subtract(sumTaxAn);
+        Auszahlung = getDecimalString_Up(netto.subtract(getBigDecimal(Pfaendung)));
+        Netto = getDecimalString_Up(netto);
     }
 }
