@@ -91,6 +91,7 @@ public class CalculationData implements Parcelable {
         ANAnteil = in.readString();
         Steuern = in.readString();
         Umlagen_AG = in.readString();
+        Abgaben_AG = in.readString();
         Pfaendung = in.readString();
 
         _summarizeEmployerAndEmployeeCats();

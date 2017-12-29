@@ -504,6 +504,7 @@
             </RelativeLayout>
 
             <View
+                android:id="@+id/result_employee_seizure_hr"
                 style="@style/hr"
                 android:layout_width="match_parent" />
 
@@ -534,6 +535,7 @@
             </RelativeLayout>
 
             <View
+                android:id="@+id/result_employee_cash_hr"
                 style="@style/hr"
                 android:layout_width="match_parent" />
 

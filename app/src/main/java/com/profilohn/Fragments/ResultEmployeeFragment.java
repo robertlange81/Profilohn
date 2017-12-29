@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +51,10 @@ public class ResultEmployeeFragment extends Fragment
     TextView txtProvision_compare;
 
     RelativeLayout regionTax;
-    View hr;
+    View hr_tax;
+    View hr_seizure;
+    View hr_cash;
+
     RelativeLayout regionTaxLst;
     RelativeLayout regionTaxSoli;
     RelativeLayout regionTaxKist;
@@ -68,6 +70,12 @@ public class ResultEmployeeFragment extends Fragment
     TextView txtPauschTaxEmployeeLst_compare;
     TextView txtPauschTaxEmployeeSoli_compare;
     TextView txtPauschTaxEmployeeKiSt_compare;
+
+    TextView txtSeizure;
+    TextView txtSeizure_compare;
+
+    TextView txtCash;
+    TextView txtCash_compare;
 
     public ResultEmployeeFragment() { }
 
@@ -160,9 +168,17 @@ public class ResultEmployeeFragment extends Fragment
         txtProvision = (TextView) view.findViewById(R.id.result_employee_provision);
         txtProvision_compare = (TextView) view.findViewById(R.id.result_employee_provision_compare);
 
+        txtSeizure = (TextView) view.findViewById(R.id.result_employee_seizure);
+        txtSeizure_compare = (TextView) view.findViewById(R.id.result_employee_seizure_compare);
+
+        txtCash = (TextView) view.findViewById(R.id.result_employee_cash_net);
+        txtCash_compare = (TextView) view.findViewById(R.id.result_employee_cash_net_compare);
+
         // regions
         regionTax = (RelativeLayout) view.findViewById(R.id.result_employee_tax_region);
-        hr = view.findViewById(R.id.result_employee_tax_hr);
+        hr_tax = view.findViewById(R.id.result_employee_tax_hr);
+        hr_seizure = view.findViewById(R.id.result_employee_seizure_hr);
+        hr_cash = view.findViewById(R.id.result_employee_cash_hr);
         regionTaxLst = (RelativeLayout) view.findViewById(R.id.result_employee_base_tax_region);
         regionTaxSoli = (RelativeLayout) view.findViewById(R.id.result_employee_soli_tax_region);
         regionTaxKist = (RelativeLayout) view.findViewById(R.id.result_employee_church_tax_region);
@@ -176,13 +192,13 @@ public class ResultEmployeeFragment extends Fragment
         if(data.data.pauschSt_AN.equals("0,00")
                 && data.data.pauschSt_AG.equals("0,00")) {
             regionTax.setVisibility(View.GONE);
-            hr.setVisibility(View.GONE);
+            hr_tax.setVisibility(View.GONE);
             regionTaxLst.setVisibility(View.GONE);
             regionTaxSoli.setVisibility(View.GONE);
             regionTaxKist.setVisibility(View.GONE);
         } else {
             regionTax.setVisibility(View.VISIBLE);
-            hr.setVisibility(View.VISIBLE);
+            hr_tax.setVisibility(View.VISIBLE);
             regionTaxLst.setVisibility(View.VISIBLE);
             regionTaxSoli.setVisibility(View.VISIBLE);
             regionTaxKist.setVisibility(View.VISIBLE);
@@ -199,12 +215,18 @@ public class ResultEmployeeFragment extends Fragment
             regionProvision.setVisibility(View.VISIBLE);
         }
 
-        if(data.data.Pfaendung.equals("0,00")) {
+        if(data.data.Pfaendung.equals("0,00") && dataCompare.data.Pfaendung.equals("0,00")) {
             regionSeizure.setVisibility(View.GONE);
             regionCash.setVisibility(View.GONE);
+            hr_seizure.setVisibility(View.GONE);
+            hr_cash.setVisibility(View.GONE);
         } else {
             regionSeizure.setVisibility(View.VISIBLE);
             regionCash.setVisibility(View.VISIBLE);
+            hr_seizure.setVisibility(View.VISIBLE);
+            hr_cash.setVisibility(View.VISIBLE);
+            txtSeizure.setText(_formatCurrency(data.data.Pfaendung));
+            txtCash.setText(_formatCurrency(data.data.Auszahlung));
         }
 
         txtTitle.setText(_formatCurrency(data.data.Netto));
@@ -279,28 +301,6 @@ public class ResultEmployeeFragment extends Fragment
             }
             txtProvision_compare.setText((diffProvision > 0 ? "+" : "") +_formatCurrency(diffProvision));
         }
-
-        Double oldNetto = FormatHelper.toDouble(dataCompare.data.Netto);
-        Double newNetto = FormatHelper.toDouble(data.data.Netto);
-        Double diffNetto = newNetto - oldNetto;
-        if(diffNetto >= 0.01) {
-            txtTitleCompare.setVisibility(View.VISIBLE);
-            txtTitleCompare.setTextColor(Color.GREEN);
-            txtWageNet_compare.setVisibility(View.VISIBLE);
-            txtWageNet_compare.setTextColor(green);
-        } else if(diffNetto <= -0.01) {
-            txtTitleCompare.setVisibility(View.VISIBLE);
-            txtTitleCompare.setTextColor(Color.RED);
-            txtWageNet_compare.setVisibility(View.VISIBLE);
-            txtWageNet_compare.setTextColor(Color.RED);
-        } else {
-            txtTitleCompare.setVisibility(View.INVISIBLE);
-            txtTitleCompare.setTextColor(Color.WHITE);
-            txtWageNet_compare.setVisibility(View.INVISIBLE);
-            txtWageNet_compare.setTextColor(Color.WHITE);
-        }
-        txtTitleCompare.setText((diffNetto > 0 ? "+" : "") +_formatCurrency(diffNetto));
-        txtWageNet_compare.setText((diffNetto > 0 ? "+" : "") +_formatCurrency(diffNetto));
 
         // veränderte Summe Steuern
         Double oldSteuern = FormatHelper.toDouble(dataCompare.data.Steuern);
@@ -509,6 +509,59 @@ public class ResultEmployeeFragment extends Fragment
             txtPauschTaxEmployeeSoli_compare.setTextColor(Color.WHITE);
         }
         txtPauschTaxEmployeeSoli_compare.setText((diffPauschSoli > 0 ? "+" : "") +_formatCurrency(diffPauschSoli));
+
+
+        Double oldNetto = FormatHelper.toDouble(dataCompare.data.Netto);
+        Double newNetto = FormatHelper.toDouble(data.data.Netto);
+        Double diffNetto = newNetto - oldNetto;
+        if(diffNetto >= 0.01) {
+            txtTitleCompare.setVisibility(View.VISIBLE);
+            txtTitleCompare.setTextColor(Color.GREEN);
+            txtWageNet_compare.setVisibility(View.VISIBLE);
+            txtWageNet_compare.setTextColor(green);
+        } else if(diffNetto <= -0.01) {
+            txtTitleCompare.setVisibility(View.VISIBLE);
+            txtTitleCompare.setTextColor(Color.RED);
+            txtWageNet_compare.setVisibility(View.VISIBLE);
+            txtWageNet_compare.setTextColor(Color.RED);
+        } else {
+            txtTitleCompare.setVisibility(View.INVISIBLE);
+            txtTitleCompare.setTextColor(Color.WHITE);
+            txtWageNet_compare.setVisibility(View.INVISIBLE);
+            txtWageNet_compare.setTextColor(Color.WHITE);
+        }
+        txtTitleCompare.setText((diffNetto > 0 ? "+" : "") +_formatCurrency(diffNetto));
+        txtWageNet_compare.setText((diffNetto > 0 ? "+" : "") +_formatCurrency(diffNetto));
+
+        // Pfaendung
+        Double oldSeizure = FormatHelper.toDouble(dataCompare.data.Pfaendung);
+        Double newSeizure = FormatHelper.toDouble(data.data.Pfaendung);
+        Double diffSeizure = newSeizure - oldSeizure;
+        if(diffSeizure <= -0.01) {
+            txtSeizure_compare.setVisibility(View.VISIBLE);
+            txtSeizure_compare.setTextColor(green);
+        } else if(diffSeizure >= 0.01) {
+            txtSeizure_compare.setVisibility(View.VISIBLE);
+            txtSeizure_compare.setTextColor(Color.RED);
+        } else {
+            txtSeizure_compare.setTextColor(Color.WHITE);
+        }
+        txtSeizure_compare.setText((diffSeizure > 0 ? "+" : "") +_formatCurrency(diffSeizure));
+
+        // Auszahlung
+        Double oldCash = FormatHelper.toDouble(dataCompare.data.Auszahlung);
+        Double newCash = FormatHelper.toDouble(data.data.Auszahlung);
+        Double diffCash = newCash - oldCash;
+        if(diffCash >= 0.01) {
+            txtCash_compare.setVisibility(View.VISIBLE);
+            txtCash_compare.setTextColor(green);
+        } else if(diffCash <= -0.01) {
+            txtCash_compare.setVisibility(View.VISIBLE);
+            txtCash_compare.setTextColor(Color.RED);
+        } else {
+            txtCash_compare.setTextColor(Color.WHITE);
+        }
+        txtCash_compare.setText((diffCash > 0 ? "+" : "") +_formatCurrency(diffCash));
     }
 
     private String _formatCurrency(String text)

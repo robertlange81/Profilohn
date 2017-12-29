@@ -2261,6 +2261,8 @@ public class InputActivity extends AppCompatActivity
 
                 if(input.Zeitraum.equals('y'))
                     seizurePerMonth = seizurePerMonth.multiply(new BigDecimal(12));
+
+                calculation.data.Pfaendung = getDecimalString_Down(seizurePerMonth);
             }
 
         } catch (Exception e) {
