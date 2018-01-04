@@ -211,5 +211,6 @@
     <string name="validation_error_insurance">Bitte Krankenkasse wählen.</string>
     <string name="format_error">Allgemeiner Formatierungsfehler.</string>
     <string name="calculation_started">Die Berechnung wird durchgeführt. Bitte warten ..</string>
+    <string name="seizure_and_pension_provision">Arbeitnehmer-Beiträge und Arbeitgeber-Zuschüsse (bzw. VWL) zur Altersvorsorge sind grundsätzlich pfändungsfrei. Sollte die Altersvorsorge NACH Pfändungsbeschluss abgeschlossen worden sein, ist diese pfändungspflichtig und muss von dem Betrag im Feld "unpfändbarer Betrag" abgezogen werden. Negative Summen sind in diesem Feld daher auch erlaubt.</string>
 
 </resources>

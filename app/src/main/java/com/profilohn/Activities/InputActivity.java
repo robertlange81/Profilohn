@@ -128,6 +128,7 @@ public class InputActivity extends AppCompatActivity
     public static Queue<Integer> queue;
 
     private CalculationInputHelper helper;
+    boolean isSettingInputsByAuto = false;
 
     CalculationInputData cache;
 
@@ -179,6 +180,10 @@ public class InputActivity extends AppCompatActivity
     BigDecimal percent_soli = new BigDecimal(0.055);
     boolean isFakeBruttolohn = false;
     BigDecimal wunschnetto;
+
+    private FiktiveBerechnung isFiktiv = FiktiveBerechnung.NEIN;
+    private String fiktivSeizureAmount = "0,00";
+    private int delayInMilliSeconds = 300;
 
     Map<Integer, BigDecimal> percentErmaessigteKirchensteuer = new HashMap<Integer, BigDecimal>() {{
         put(1, new BigDecimal("0.08"));
@@ -639,6 +644,7 @@ public class InputActivity extends AppCompatActivity
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!provisionSum.hasFocus()) {
                     try {
+                        Double selectedProvisionSumOld = selectedProvisionSum;
                         String cur = provisionSum.getText().toString();
                         cur = cur.replaceAll("€", "");
                         cur = cur.replaceAll("\\s+","");
@@ -658,6 +664,10 @@ public class InputActivity extends AppCompatActivity
 
                         provisionSum.setText(output);
 
+                        if(!isSettingInputsByAuto && selectedSeizure && !selectedProvisionSumOld.equals(selectedProvisionSum)) {
+                            MessageHelper.dialog(InputActivity.this, true, getResources().getString(R.string.seizure_and_pension_provision), 1).show();
+                        }
+
                     } catch (Exception x) {
                         selectedProvisionSum = 0.00;
                         provisionSum.setText(getResources().getString(R.string.taxfree_hint));
@@ -676,9 +686,10 @@ public class InputActivity extends AppCompatActivity
                     calculateButton.setFocusableInTouchMode(true);
                     calculateButton.requestFocus();
                     calculateButton.setFocusableInTouchMode(false);
-                    return true;
 
+                    return true;
                 }
+
                 return false;
             }
         });
@@ -1369,6 +1380,13 @@ public class InputActivity extends AppCompatActivity
                 doAbortCalculation = false;
                 showCalculationOverlay();
 
+                if(data.hatPfaendung && data.pfaendungsfreierBetrag > 0.01) {
+                    // fiktive Berechnung notwendig
+                    isFiktiv = FiktiveBerechnung.GESTARTET;
+                    delayInMilliSeconds = 0;
+                    data.Brutto -= data.pfaendungsfreierBetrag;
+                }
+
                 new Handler().postDelayed(new Runnable() {
 
                     @Override
@@ -1380,7 +1398,7 @@ public class InputActivity extends AppCompatActivity
                         }
                     }
 
-                }, 300);
+                }, delayInMilliSeconds);
             }
         };
 
@@ -1546,6 +1564,7 @@ public class InputActivity extends AppCompatActivity
     {
         // Log.w("cache", "Wo ist der Debugger?");
         FileStore fileStore = new FileStore(this);
+        isSettingInputsByAuto = true;
 
         try {
             cache = fileStore.readInput();
@@ -1755,6 +1774,7 @@ public class InputActivity extends AppCompatActivity
         } catch (Exception e) {
             //Log.w("auauau", e.getMessage());
         }
+        isSettingInputsByAuto = false;
     }
     /**
      * Initializes the service call.
@@ -1834,6 +1854,13 @@ public class InputActivity extends AppCompatActivity
             }
         }
 
+        // !!! noch vor Abzug Firmenwagen oder Zuschlag Altersvorsorge muss Pfändung berechnet werden
+        if(data.hatPfaendung) {
+            if(calcSeizure(data, calculation) != 0){
+                return;
+            }
+        }
+
         if(data.hatAltersvorsorge || data.hatFirmenwagen) {
 
             // altes Brutto wieder herstellen
@@ -1868,6 +1895,7 @@ public class InputActivity extends AppCompatActivity
             calculation.data.Netto = getDecimalString_Down(Netto);
             calculation.data.LohnsteuerPflBrutto = getDecimalString_Down(Brutto);
             calculation.data.SVPflBrutto = calculation.data.LohnsteuerPflBrutto;
+
         }
 
         dismissCalculationOverlay();
@@ -1883,10 +1911,6 @@ public class InputActivity extends AppCompatActivity
                 doAbortCalculation = false;
 
             return;
-        }
-
-        if(data.hatPfaendung) {
-            calcSeizure(data, calculation);
         }
 
         startActivity(i);
@@ -2247,27 +2271,54 @@ public class InputActivity extends AppCompatActivity
         }
     }
 
-    public void calcSeizure(CalculationInputData input, Calculation calculation) {
+    public int calcSeizure(CalculationInputData input, Calculation calculation) {
         try {
+
+            if(isFiktiv == FiktiveBerechnung.EBEN_BEENDET) {
+                isFiktiv = FiktiveBerechnung.NEIN;
+                calculation.data.Pfaendung = fiktivSeizureAmount;
+                delayInMilliSeconds = 300;
+                return 0;
+            }
+
             BigDecimal netto  = getBigDecimal(calculation.data.Netto);
 
-            if(input.pfaendungsfreierBetrag < 0.01 && !input.hatAltersvorsorge) {
-                // keine fiktive Berechnung notwendig (einfachster Fall)
+            if(input.Zeitraum.equals('y'))
+                netto = netto.divide(new BigDecimal(12));
 
-                if(input.Zeitraum.equals('y'))
-                    netto = netto.divide(new BigDecimal(12));
+            BigDecimal seizureAmount = getSeizureFor(netto, input.unterhaltspflPers);
 
-                BigDecimal seizurePerMonth = getSeizureFor(netto, input.unterhaltspflPers);
+            if(input.Zeitraum.equals('y'))
+                seizureAmount = seizureAmount.multiply(new BigDecimal(12));
 
-                if(input.Zeitraum.equals('y'))
-                    seizurePerMonth = seizurePerMonth.multiply(new BigDecimal(12));
+            if(isFiktiv == FiktiveBerechnung.GESTARTET) {
+                isFiktiv = FiktiveBerechnung.EBEN_BEENDET;
 
-                calculation.data.Pfaendung = getDecimalString_Down(seizurePerMonth);
+                data.Brutto += data.pfaendungsfreierBetrag;
+                fiktivSeizureAmount = getDecimalString_Down(seizureAmount);
+
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if(!doAbortCalculation) {
+                            queue.add(queue.size() + 1);
+                            CalculationInput ci = new CalculationInput(data);
+                            webService.Calculate(ci);
+                        }
+                    }
+
+                }, delayInMilliSeconds);
+
+                return -1;
+            } else {
+                calculation.data.Pfaendung = getDecimalString_Down(seizureAmount);
             }
 
         } catch (Exception e) {
             MessageHelper.snackbar(this, e.getMessage());
         }
+        return 0;
     }
 
     private BigDecimal getSeizureFor(BigDecimal netto, Integer unterhaltspflPers) {
@@ -2506,4 +2557,7 @@ public class InputActivity extends AppCompatActivity
         return super.onKeyDown(keyCode, event);
     }
 
+    public enum FiktiveBerechnung {
+        NEIN, GESTARTET, EBEN_BEENDET
+    }
 }
