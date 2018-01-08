@@ -134,7 +134,11 @@ public class FileStore {
         String json = null;
 
         try {
-            json = read(cacheFile);
+            if(cacheFile.exists())
+                json = read(cacheFile);
+            else
+                return null;
+
         } catch (Exception e) {
             throw new FileNotFoundException("File not in cache");
         }

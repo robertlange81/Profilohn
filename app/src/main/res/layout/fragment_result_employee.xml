@@ -261,7 +261,9 @@
                 android:layout_width="match_parent" />
 
             <!-- tax cat -->
-            <RelativeLayout style="@style/result_data_row">
+            <RelativeLayout
+                style="@style/result_data_row"
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/steur"

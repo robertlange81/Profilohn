@@ -207,10 +207,12 @@
         <item>halb</item>
     </string-array>
 
-    <string name="validation_error_wage">Bitte Lohn/Gehalt angeben.</string>
     <string name="validation_error_insurance">Bitte Krankenkasse wählen.</string>
+    <string name="validation_error_wage">Bitte Lohn/Gehalt angeben.</string>
+    <string name="validation_error_provision_grant">Altersvorsorge: Gesamtsumme darf nicht kleiner als Zuschuss sein.</string>
     <string name="format_error">Allgemeiner Formatierungsfehler.</string>
     <string name="calculation_started">Die Berechnung wird durchgeführt. Bitte warten ..</string>
-    <string name="seizure_and_pension_provision">Arbeitnehmer-Beiträge und Arbeitgeber-Zuschüsse (bzw. VWL) zur Altersvorsorge sind grundsätzlich pfändungsfrei. Sollte die Altersvorsorge NACH Pfändungsbeschluss abgeschlossen worden sein, ist diese pfändungspflichtig und muss von dem Betrag im Feld "unpfändbarer Betrag" abgezogen werden. Negative Summen sind in diesem Feld daher auch erlaubt.</string>
+    <string name="seizure_and_pension_provision">Arbeitnehmer-Beiträge und Arbeitgeber-Zuschüsse zur Altersvorsorge sind in der Regel pfändungsfrei. Sollte die Altersvorsorge jedoch NACH Pfändungsbeschluss abgeschlossen worden sein, ist sie pfändungspflichtig und muss von dem Betrag im Feld "unpfändbarer Betrag" abgezogen werden. Negative Summen sind in diesem Feld daher auch erlaubt.</string>
+    <string name="seizure_and_company_car">Geldwerter Vorteil aus der privaten Nutzung eines Firmenwagens ist ebenso pfändungspflichtig wie zu versteuern und sozialversicherungstechnisch zu verbeitragen. Sollte Sie Ihren Firmenwagen individuell (keine 1%-Regel) abrechnen, müssen Sie den Differenzbetrag unter "pfändungfreie Beträge" manuell abziehen bzw. hinzurechnen.</string>
 
 </resources>

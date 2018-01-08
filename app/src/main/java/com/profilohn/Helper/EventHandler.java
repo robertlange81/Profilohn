@@ -102,8 +102,8 @@ public class EventHandler extends AppCompatActivity {
     }
 
     /**
-     * Displays the isSeizure value text field
-     * if the isSeizure selected.
+     * Displays the hasSeizure value text field
+     * if the hasSeizure selected.
      *
      * @param isChecked
      */
@@ -167,6 +167,17 @@ public class EventHandler extends AppCompatActivity {
         View view = _activity.getCurrentFocus();
         if (view != null) {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    /**
+     * Shows the input keyboard.
+     */
+    public void showKeyboardInput(InputMethodManager imm)
+    {
+        View view = _activity.getCurrentFocus();
+        if (view != null) {
+            imm.showSoftInput(view, 0);
         }
     }
 }

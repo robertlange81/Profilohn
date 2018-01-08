@@ -17,8 +17,8 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp">
 
 
         <LinearLayout
@@ -673,7 +673,7 @@
                         android:id="@+id/seizure_free"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:digits="0123456789,."
+                        android:digits="0123456789,.-"
                         android:hint="@string/wage_default"
                         android:imeOptions="actionDone"
                         android:inputType="numberDecimal"

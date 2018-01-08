@@ -81,7 +81,7 @@ public class InputActivity extends AppCompatActivity
     public SwitchCompat          hasChildren;
     public SwitchCompat          churchTax;
     public SwitchCompat          isShifting;
-    public SwitchCompat          isSeizure;
+    public SwitchCompat hasSeizure;
 
     public SwitchCompat          car;
     public SwitchCompat          provision;
@@ -372,7 +372,7 @@ public class InputActivity extends AppCompatActivity
 
         isShifting      = (SwitchCompat) findViewById(R.id.has_shifting);
 
-        isSeizure       = (SwitchCompat) findViewById(R.id.has_seizure);
+        hasSeizure = (SwitchCompat) findViewById(R.id.has_seizure);
         seizureKids     = (Spinner) findViewById(R.id.seizure_kids);
         seizureFree     = (EditText) findViewById(R.id.seizure_free);
 
@@ -664,13 +664,13 @@ public class InputActivity extends AppCompatActivity
 
                         provisionSum.setText(output);
 
-                        if(!isSettingInputsByAuto && selectedSeizure && !selectedProvisionSumOld.equals(selectedProvisionSum)) {
-                            MessageHelper.dialog(InputActivity.this, true, getResources().getString(R.string.seizure_and_pension_provision), 1).show();
-                        }
-
                     } catch (Exception x) {
                         selectedProvisionSum = 0.00;
                         provisionSum.setText(getResources().getString(R.string.taxfree_hint));
+                    }
+                } else {
+                    if(selectedSeizure && selectedProvisionSum.equals(0.00) && !isSettingInputsByAuto) {
+                        MessageHelper.dialog(InputActivity.this, true, getResources().getString(R.string.seizure_and_pension_provision), 1).show();
                     }
                 }
             }
@@ -771,6 +771,10 @@ public class InputActivity extends AppCompatActivity
                     } catch (Exception x) {
                         selectedCarAmount = 0;
                         carAmount.setText(getResources().getString(R.string.car_amount_hint));
+                    }
+                } else {
+                    if(selectedSeizure && selectedCarAmount.equals(0) && !isSettingInputsByAuto) {
+                        MessageHelper.dialog(InputActivity.this, true, getResources().getString(R.string.seizure_and_company_car), 1).show();
                     }
                 }
             }
@@ -1170,7 +1174,7 @@ public class InputActivity extends AppCompatActivity
         });
 
         // Pfaendung (ja / nein)
-        isSeizure.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        hasSeizure.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 eventHandler.OnSwitchSeizure(isChecked);
@@ -1183,10 +1187,6 @@ public class InputActivity extends AppCompatActivity
                     regionSeizureKids.setVisibility(View.INVISIBLE);
                     regionSeizureFree.setVisibility(View.GONE);
                 }
-
-                calculateButton.setFocusableInTouchMode(true);
-                calculateButton.requestFocus();
-                calculateButton.setFocusableInTouchMode(false);
             }
         });
 
@@ -1227,7 +1227,19 @@ public class InputActivity extends AppCompatActivity
                         scrollView.post(new Runnable() {
                             public void run() {
                                 // scrollView.scrollTo(0, scrollView.getBottom()); tablet
-                                scrollView.fullScroll(View.FOCUS_DOWN);
+
+                                isSettingInputsByAuto = true;
+                                if(selectedProvisionSum.equals(0.00)) {
+                                    provisionSum.requestFocus();
+                                    eventHandler.showKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                                } else if(selectedProvisionGrant.equals(0.00)) {
+                                    provisionGrant.requestFocus();
+                                    eventHandler.showKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                                } else {
+                                    scrollView.fullScroll(View.FOCUS_DOWN);
+                                    provisionSum.requestFocus();
+                                }
+                                isSettingInputsByAuto = false;
                             }
                         });
                     }
@@ -1235,10 +1247,6 @@ public class InputActivity extends AppCompatActivity
                     regionProv.setVisibility(View.GONE);
                     regionProvGrant.setVisibility(View.GONE);
                 }
-
-                calculateButton.setFocusableInTouchMode(true);
-                calculateButton.requestFocus();
-                calculateButton.setFocusableInTouchMode(false);
             }
         });
 
@@ -1256,7 +1264,19 @@ public class InputActivity extends AppCompatActivity
                         scrollView.post(new Runnable() {
                             public void run() {
                                 // scrollView.scrollTo(0, scrollView.getBottom()); tablet
-                                scrollView.fullScroll(View.FOCUS_DOWN);
+
+                                isSettingInputsByAuto = true;
+                                if(selectedCarAmount.equals(0)) {
+                                    carAmount.requestFocus();
+                                    eventHandler.showKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                                } else if(selectedCarDistance.equals(0)) {
+                                    carDistance.requestFocus();
+                                    eventHandler.showKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                                } else {
+                                    scrollView.fullScroll(View.FOCUS_DOWN);
+                                    carAmount.requestFocus();
+                                }
+                                isSettingInputsByAuto = false;
                             }
                         });
                     }
@@ -1264,10 +1284,6 @@ public class InputActivity extends AppCompatActivity
                     regionCarAmount.setVisibility(View.GONE);
                     regionCarDistance.setVisibility(View.GONE);
                 }
-
-                calculateButton.setFocusableInTouchMode(true);
-                calculateButton.requestFocus();
-                calculateButton.setFocusableInTouchMode(false);
             }
         });
 
@@ -1380,7 +1396,7 @@ public class InputActivity extends AppCompatActivity
                 doAbortCalculation = false;
                 showCalculationOverlay();
 
-                if(data.hatPfaendung && data.pfaendungsfreierBetrag > 0.01) {
+                if(data.hatPfaendung && (data.pfaendungsfreierBetrag > 0.005 || data.pfaendungsfreierBetrag < -0.005)) {
                     // fiktive Berechnung notwendig
                     isFiktiv = FiktiveBerechnung.GESTARTET;
                     delayInMilliSeconds = 0;
@@ -1683,7 +1699,7 @@ public class InputActivity extends AppCompatActivity
 
                 // Pfaendung
                 selectedSeizure = cache.hatPfaendung;
-                isSeizure.setChecked(selectedSeizure);
+                hasSeizure.setChecked(selectedSeizure);
 
                 // unterhaltspfl. Pers
                 if(cache.unterhaltspflPers != null) {
@@ -1752,8 +1768,8 @@ public class InputActivity extends AppCompatActivity
                 }
             } else {
                 // erstes Starten
-                isSeizure.requestFocus();
-                isSeizure.setChecked(true);
+                hasSeizure.requestFocus();
+                hasSeizure.setChecked(true);
                 eventHandler.OnSwitchSeizure(true);
                 regionSeizureKids.setVisibility(View.VISIBLE);
                 employeeType.setSelection(0);
@@ -1763,8 +1779,8 @@ public class InputActivity extends AppCompatActivity
             }
         } catch (FileNotFoundException fnfe) {
             // erstes Starten
-            isSeizure.requestFocus();
-            isSeizure.setChecked(true);
+            hasSeizure.requestFocus();
+            hasSeizure.setChecked(true);
             selectedSeizure = true;
             regionSeizureKids.setVisibility(View.VISIBLE);
             employeeType.setSelection(0);
@@ -2281,15 +2297,15 @@ public class InputActivity extends AppCompatActivity
                 return 0;
             }
 
-            BigDecimal netto  = getBigDecimal(calculation.data.Netto);
+            BigDecimal netto  = getBigDecimal(calculation.data.Netto).setScale(2, RoundingMode.DOWN);
 
-            if(input.Zeitraum.equals('y'))
-                netto = netto.divide(new BigDecimal(12));
+            if(input.Zeitraum.equals("y"))
+                netto = netto.divide(new BigDecimal(12), 4, BigDecimal.ROUND_HALF_DOWN).setScale(2, RoundingMode.HALF_UP);
 
             BigDecimal seizureAmount = getSeizureFor(netto, input.unterhaltspflPers);
 
-            if(input.Zeitraum.equals('y'))
-                seizureAmount = seizureAmount.multiply(new BigDecimal(12));
+            if(input.Zeitraum.equals("y"))
+                seizureAmount = seizureAmount.multiply(new BigDecimal(12)).setScale(2, RoundingMode.HALF_UP);
 
             if(isFiktiv == FiktiveBerechnung.GESTARTET) {
                 isFiktiv = FiktiveBerechnung.EBEN_BEENDET;
@@ -2323,6 +2339,7 @@ public class InputActivity extends AppCompatActivity
 
     private BigDecimal getSeizureFor(BigDecimal netto, Integer unterhaltspflPers) {
         BigDecimal startSeizure, startSeizureAmount, percent;
+        BigDecimal upperThreshold = new BigDecimal(3475.79);
 
         switch (unterhaltspflPers.toString()) {
             case "0":
@@ -2361,14 +2378,27 @@ public class InputActivity extends AppCompatActivity
                 percent             = new BigDecimal(0.7);
         }
 
+        upperThreshold = upperThreshold.setScale(2, BigDecimal.ROUND_HALF_DOWN);
+        startSeizure = startSeizure.setScale(2, BigDecimal.ROUND_HALF_DOWN);
+        startSeizureAmount = startSeizureAmount.setScale(2, BigDecimal.ROUND_HALF_DOWN);
+        percent = percent.setScale(2, BigDecimal.ROUND_HALF_DOWN);
+
         if(netto.compareTo(startSeizure) == -1)
             return new BigDecimal(0);
 
+        BigDecimal upperCut = new BigDecimal(0);
+        if(netto.compareTo(upperThreshold) == 1) {
+            upperCut = netto.subtract(upperThreshold);
+            netto = upperThreshold;
+        }
         BigDecimal compulsury = netto.subtract(startSeizure);
         BigDecimal dummyForRoundToTenth = new BigDecimal(10);
-        compulsury = compulsury.divide(dummyForRoundToTenth).setScale(0, RoundingMode.DOWN).multiply(dummyForRoundToTenth);
+        compulsury = compulsury.divide(dummyForRoundToTenth, 0, BigDecimal.ROUND_DOWN)
+                .setScale(0, RoundingMode.DOWN)
+                .multiply(dummyForRoundToTenth);
         compulsury = compulsury.multiply(percent);
         compulsury = compulsury.add(startSeizureAmount);
+        compulsury = compulsury.add(upperCut);
         compulsury = compulsury.setScale(2, RoundingMode.HALF_DOWN);
 
         return compulsury;
@@ -2443,6 +2473,23 @@ public class InputActivity extends AppCompatActivity
             message = e.getMessage() + "!";
         } catch (ValidationException e) {
             message = e.getMessage();
+        }
+
+        if(message != null) {
+            if(message.contains("Lohn/Gehalt")) {
+                wage.requestFocus();
+                eventHandler.showKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+            }
+
+            if(message.contains("Zuschuss")) {
+                provisionGrant.requestFocus();
+                eventHandler.showKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+            }
+
+            if(message.contains("Krankenkasse")) {
+                insuranceAc.requestFocus();
+                eventHandler.showKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+            }
         }
 
         MessageHelper.snackbar(this, message);

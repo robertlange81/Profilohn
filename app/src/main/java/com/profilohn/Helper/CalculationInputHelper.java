@@ -73,7 +73,8 @@ public class CalculationInputHelper
         }
 
         if(data.Altersvorsorge_zuschuss > data.Altersvorsorge_summe) {
-            throw new ValidationException("Altersvorsorge: Zuschuss höher als Gesamtsumme?");
+            String message = a.getResources().getString(R.string.validation_error_provision_grant);
+            throw new ValidationException(message);
         }
 
         data.dummyInsurance = false;
