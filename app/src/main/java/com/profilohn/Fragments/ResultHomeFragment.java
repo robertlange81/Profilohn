@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -149,7 +150,9 @@ public class ResultHomeFragment extends Fragment
 
                         @Override
                         public void run() {
-                            ((ResultActivity) getActivity()).setCurrentPage(1, true);
+                            FragmentActivity fa = getActivity();
+                            if(fa != null)
+                                ((ResultActivity) fa).setCurrentPage(1, true);
                         }
 
                     }, getResources().getInteger(R.integer.calculation_timeout));
@@ -167,7 +170,9 @@ public class ResultHomeFragment extends Fragment
 
                         @Override
                         public void run() {
-                            ((ResultActivity) getActivity()).setCurrentPage(2, true);
+                            FragmentActivity fa = getActivity();
+                            if(fa != null)
+                                ((ResultActivity) fa).setCurrentPage(2, true);
                         }
 
                     }, getResources().getInteger(R.integer.calculation_timeout));

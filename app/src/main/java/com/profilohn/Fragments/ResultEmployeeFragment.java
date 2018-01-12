@@ -215,20 +215,6 @@ public class ResultEmployeeFragment extends Fragment
             regionProvision.setVisibility(View.VISIBLE);
         }
 
-        if(data.data.Pfaendung.equals("0,00") && dataCompare.data.Pfaendung.equals("0,00")) {
-            regionSeizure.setVisibility(View.GONE);
-            regionCash.setVisibility(View.GONE);
-            hr_seizure.setVisibility(View.GONE);
-            hr_cash.setVisibility(View.GONE);
-        } else {
-            regionSeizure.setVisibility(View.VISIBLE);
-            regionCash.setVisibility(View.VISIBLE);
-            hr_seizure.setVisibility(View.VISIBLE);
-            hr_cash.setVisibility(View.VISIBLE);
-            txtSeizure.setText(_formatCurrency(data.data.Pfaendung));
-            txtCash.setText(_formatCurrency(data.data.Auszahlung));
-        }
-
         txtTitle.setText(_formatCurrency(data.data.Netto));
 
         txtWageGross.setText(_formatCurrency(data.data.LohnsteuerPflBrutto));
@@ -257,6 +243,12 @@ public class ResultEmployeeFragment extends Fragment
         txtProvision_compare.setVisibility(View.INVISIBLE);
 
         if(dataCompare == null) {
+            if(data.data.Pfaendung == null || (data.data.Pfaendung.equals("0,00"))) {
+                regionSeizure.setVisibility(View.GONE);
+                regionCash.setVisibility(View.GONE);
+                hr_seizure.setVisibility(View.GONE);
+                hr_cash.setVisibility(View.GONE);
+            }
             return;
         }
 
@@ -547,6 +539,20 @@ public class ResultEmployeeFragment extends Fragment
             txtSeizure_compare.setTextColor(Color.WHITE);
         }
         txtSeizure_compare.setText((diffSeizure > 0 ? "+" : "") +_formatCurrency(diffSeizure));
+
+        if(data.data.Pfaendung == null || (data.data.Pfaendung.equals("0,00") && dataCompare.data.Pfaendung.equals("0,00"))) {
+            regionSeizure.setVisibility(View.GONE);
+            regionCash.setVisibility(View.GONE);
+            hr_seizure.setVisibility(View.GONE);
+            hr_cash.setVisibility(View.GONE);
+        } else {
+            regionSeizure.setVisibility(View.VISIBLE);
+            regionCash.setVisibility(View.VISIBLE);
+            hr_seizure.setVisibility(View.VISIBLE);
+            hr_cash.setVisibility(View.VISIBLE);
+            txtSeizure.setText(_formatCurrency(data.data.Pfaendung));
+            txtCash.setText(_formatCurrency(data.data.Auszahlung));
+        }
 
         // Auszahlung
         Double oldCash = FormatHelper.toDouble(dataCompare.data.Auszahlung);

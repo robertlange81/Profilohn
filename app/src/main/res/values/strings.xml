@@ -1,6 +1,6 @@
 <resources>
     <!-- menu actions -->
-    <string name="action_about">Über ProfiLohn</string>
+    <string name="action_about">Tipps und Tricks</string>
     <string name="action_check">Erneut prüfen</string>
     <string name="action_quit">Anwendung beenden</string>
     <string name="action_cache">App zurücksetzen</string>
