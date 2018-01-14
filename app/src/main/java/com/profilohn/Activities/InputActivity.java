@@ -1,6 +1,7 @@
 package com.profilohn.Activities;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -2513,6 +2514,7 @@ public class InputActivity extends AppCompatActivity
      */
     private void showCalculationDialog()
     {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         //builder.setTitle("Berechnung läuft");
@@ -2554,6 +2556,14 @@ public class InputActivity extends AppCompatActivity
         calcDialog.show();
         isCalculationEnabled = false;
 
+        /*
+        ProgressDialog progress = new ProgressDialog(this);
+        progress.setTitle("BERECHNUNG LÄUFT");
+        progress.setMessage("BITTE WARTEN...");
+        progress.setCancelable(true); // disable dismiss by tapping outside of the dialog
+        progress.show();
+        progress.dismiss();
+*/
 
         /*
         Dialog calcDialog = MessageHelper.dialog(instance, true,
