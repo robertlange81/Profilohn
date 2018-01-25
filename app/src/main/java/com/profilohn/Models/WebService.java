@@ -23,6 +23,9 @@ public class WebService
     private Context context;
     private Call call;
 
+    public static String host;
+
+
     /**
      * The constructor.
      */
@@ -41,13 +44,15 @@ public class WebService
      */
     private void init()
     {
-        String proto = context.getResources().getString(R.string.api_uri_proto);
-        String host = context.getResources().getString(R.string.api_uri_host);
+        if(host == null || host == "") {
+            host = context.getResources().getString(R.string.api_default_uri_host);
+        }
+
         String url  = context.getResources().getString(R.string.api_uri_base);
         String credentials = context.getResources().getString(R.string.basic_credentials);
         int timeout = context.getResources().getInteger(R.integer.api_connection_timeout);
 
-        String apiUriBase = proto + host + url;
+        String apiUriBase = host + url;
 
         retrofitClient = new RetrofitRestClient();
         apiService = retrofitClient.RetrofitRestClient(apiUriBase, credentials, timeout)

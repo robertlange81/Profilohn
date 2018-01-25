@@ -1,6 +1,7 @@
 package com.profilohn.Activities;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -33,6 +34,7 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
     private FileStore fileStore;
     private Dialog preparationDialog;
     private WebService webService;
+    private ConnectivityHandler connectivityHandler;
 
     public static HelloActivity instance;
 
@@ -69,6 +71,10 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
         instance = this;
         fileStore = new FileStore(this);
 
+        if(connectivityHandler != null) {
+            WebService.host = connectivityHandler.getHost();
+        }
+
         webService = new WebService(getApplicationContext(), this);
         _prefetchInsurances();
     }
@@ -93,7 +99,7 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
      */
     private void _registerConnectivityReceiver()
     {
-        ConnectivityHandler connectivityHandler = new ConnectivityHandler(this);
+        connectivityHandler = new ConnectivityHandler(this);
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 
         registerReceiver(
@@ -144,6 +150,7 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
             return;
         } catch (FileNotFoundException e) {
             // fetch insurances ..
+            String x = e.getMessage();
         }
 
         dialog(getResources().getString(R.string.preparation_dialog), true);
@@ -157,13 +164,15 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
     {
         dismissDialog();
         fileStore.writeInsurancesResult(i);
+        MessageHelper.snackbar(this, "Krankenkassendaten wurden aktualisiert");
     }
 
     @Override
     public void responseFailedInsurances(String message)
     {
         dismissDialog();
-        dialog(message, false);
+        // dialog(message, false);
+        MessageHelper.snackbar(this, "Fehler beim Aktualisieren der Krankenkassen: " + message);
     }
 
     @Override
@@ -180,6 +189,13 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
     private void dialog(String message, boolean modal)
     {
         Dialog d = MessageHelper.dialog(this, modal, message);
+        d.setCancelable(false);
+        d.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                String x = "";
+            }
+        });
         d.show();
 
         preparationDialog = d;

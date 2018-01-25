@@ -13,6 +13,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -124,17 +125,16 @@ public class InputActivity extends AppCompatActivity
     private TextView wageAmountLabel;
     private TextView wagetypeLabel;
     private TextView taxFreeLabel;
-    public boolean isCalculationEnabled;
-    public boolean doAbortCalculation;
-    public static Queue<Integer> queue;
 
     private CalculationInputHelper helper;
     boolean isSettingInputsByAuto = false;
 
+    boolean isCalculationRunning = false;
+
     CalculationInputData cache;
 
     //private WebView spamWebView;
-    AlertDialog calcDialog;
+    ProgressDialog calcDialog;
 
     LinearLayout regionShifting;
     LinearLayout regionChildAmount;
@@ -241,6 +241,7 @@ public class InputActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        isCalculationRunning = false;
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 
@@ -269,9 +270,6 @@ public class InputActivity extends AppCompatActivity
 
         _loadCachedInputs();
 
-        isCalculationEnabled = false;
-        queue = new LinkedList<>();
-
 /*
         spamWebView =(WebView) findViewById(R.id.webview_calc);
 
@@ -299,7 +297,7 @@ public class InputActivity extends AppCompatActivity
     {
         super.onResume();
         dismissCalculationOverlay();
-        isCalculationEnabled = true;
+        isCalculationRunning = false;
     }
 
     @Override
@@ -1293,16 +1291,13 @@ public class InputActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
+                isCalculationRunning = true;
                 calculateButton.setFocusableInTouchMode(true);
                 calculateButton.requestFocus();
                 calculateButton.setFocusableInTouchMode(false);
 
-                if(!isCalculationEnabled) {
-                    return;
-                }
-
                 if (!_setAndValidateData()) {
-                    isCalculationEnabled = true;
+                    isCalculationRunning = false;
                     return;
                 }
 
@@ -1394,7 +1389,6 @@ public class InputActivity extends AppCompatActivity
                 }
 
                 eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
-                doAbortCalculation = false;
                 showCalculationOverlay();
 
                 if(data.hatPfaendung && (data.pfaendungsfreierBetrag > 0.005 || data.pfaendungsfreierBetrag < -0.005)) {
@@ -1408,11 +1402,8 @@ public class InputActivity extends AppCompatActivity
 
                     @Override
                     public void run() {
-                        if(!doAbortCalculation) {
-                            queue.add(queue.size() + 1);
-                            CalculationInput ci = new CalculationInput(data);
-                            webService.Calculate(ci);
-                        }
+                        CalculationInput ci = new CalculationInput(data);
+                        webService.Calculate(ci);
                     }
 
                 }, delayInMilliSeconds);
@@ -1918,17 +1909,6 @@ public class InputActivity extends AppCompatActivity
         dismissCalculationOverlay();
 
         Integer last = 0;
-        if(queue.size() > 0)
-            last = queue.remove();
-
-        if(doAbortCalculation || last == -1) {
-            isCalculationEnabled = true;
-
-            if(queue.size() == 0)
-                doAbortCalculation = false;
-
-            return;
-        }
 
         startActivity(i);
     }
@@ -1936,13 +1916,10 @@ public class InputActivity extends AppCompatActivity
     @Override
     public void responseFailedCalculation(String message)
     {
-        int last = queue.remove();
         dismissCalculationOverlay();
+        MessageHelper.snackbar(this, message, Snackbar.LENGTH_INDEFINITE);
 
-        if(!doAbortCalculation && last != -1)
-            MessageHelper.snackbar(this, message, Snackbar.LENGTH_INDEFINITE);
-
-        isCalculationEnabled = true;
+        isCalculationRunning = false;
     }
 
     public void correctNursingInsurance_Brutto_to_Netto(Calculation calculation) {
@@ -2284,13 +2261,14 @@ public class InputActivity extends AppCompatActivity
             }
 
         } catch (Exception e) {
+            isCalculationRunning = false;
             MessageHelper.snackbar(this, e.getMessage());
         }
     }
 
     public int calcSeizure(CalculationInputData input, Calculation calculation) {
         try {
-
+            isCalculationRunning = true;
             if(isFiktiv == FiktiveBerechnung.EBEN_BEENDET) {
                 isFiktiv = FiktiveBerechnung.NEIN;
                 calculation.data.Pfaendung = fiktivSeizureAmount;
@@ -2318,11 +2296,8 @@ public class InputActivity extends AppCompatActivity
 
                     @Override
                     public void run() {
-                        if(!doAbortCalculation) {
-                            queue.add(queue.size() + 1);
-                            CalculationInput ci = new CalculationInput(data);
-                            webService.Calculate(ci);
-                        }
+                        CalculationInput ci = new CalculationInput(data);
+                        webService.Calculate(ci);
                     }
 
                 }, delayInMilliSeconds);
@@ -2333,6 +2308,7 @@ public class InputActivity extends AppCompatActivity
             }
 
         } catch (Exception e) {
+            isCalculationRunning = false;
             MessageHelper.snackbar(this, e.getMessage());
         }
         return 0;
@@ -2497,80 +2473,16 @@ public class InputActivity extends AppCompatActivity
         return false;
     }
 
-
-    /*
-     * Renders and displays a popup window
-     * with advertisement and cancel button.
-
-    public void showCalculatePopupWindow()
-    {
-        //spamWebView.setVisibility(View.VISIBLE);
-        //calculateButton.setVisibility(View.INVISIBLE);
-    }
-    */
-
     /**
      * Renders a calculation dialog.
      */
     private void showCalculationDialog()
     {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        //builder.setTitle("Berechnung läuft");
-        //builder.setMessage("Wollen Sie die Berechnung abbrechen?");
-
-        builder.setTitle("Berechnung läuft");
-
-        builder.setNegativeButton("Berechnung abbrechen", new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int which) {
-                doAbortCalculation = true;
-                if(queue.size() > 0) {
-                    queue.remove();
-                    queue.add(-1);
-                }
-                isCalculationEnabled = true;
-                dialog.dismiss();
-            }
-        });
-
-        builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey (DialogInterface dialog, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK ) {
-                    doAbortCalculation = true;
-                    if(queue.size() > 0) {
-                        queue.remove();
-                        queue.add(-1);
-                    }
-                    isCalculationEnabled = true;
-                    dialog.dismiss();
-                    return true;
-                }
-                return false;
-            }
-        });
-        this.calcDialog = builder.create();
-        this.calcDialog.getCurrentFocus();
-        calcDialog.show();
-        isCalculationEnabled = false;
-
-        /*
-        ProgressDialog progress = new ProgressDialog(this);
-        progress.setTitle("BERECHNUNG LÄUFT");
-        progress.setMessage("BITTE WARTEN...");
-        progress.setCancelable(true); // disable dismiss by tapping outside of the dialog
-        progress.show();
-        progress.dismiss();
-*/
-
-        /*
-        Dialog calcDialog = MessageHelper.dialog(instance, true,
-        getResources().getString(R.string.calculation_started), MessageHelper.DIALOG_TYPE_ALERT);
-        calcDialog.show();
-        this.calcDialog = calcDialog;
-        */
+        this.calcDialog = new ProgressDialog(this);
+        this.calcDialog.setTitle("BERECHNUNG LÄUFT");
+        this.calcDialog.setMessage("BITTE WARTEN... \n(erste Berechnung dauert länger)");
+        this.calcDialog.setCancelable(false); // disable dismiss by tapping outside of the dialog
+        this.calcDialog.show();
     }
 
 
@@ -2581,7 +2493,6 @@ public class InputActivity extends AppCompatActivity
     private void showCalculationOverlay()
     {
         showCalculationDialog();
-        // showCalculatePopupWindow();
     }
 
 
@@ -2590,26 +2501,16 @@ public class InputActivity extends AppCompatActivity
      */
     private void dismissCalculationOverlay()
     {
-        //spamWebView.setVisibility(View.INVISIBLE);
-        //calculateButton.setVisibility(View.VISIBLE);
-
         if (null != calcDialog && calcDialog.isShowing())
             calcDialog.dismiss();
-
-        /*
-        if (null != calcPopup && calcPopup.isShowing())
-            calcPopup.dismiss();*/
-
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch(keyCode){
             case KeyEvent.KEYCODE_BACK:
-                isCalculationEnabled = true;
-                doAbortCalculation = true;
-                this.finish();
-                return true;
+                if(isCalculationRunning)
+                    return true;
         }
         return super.onKeyDown(keyCode, event);
     }

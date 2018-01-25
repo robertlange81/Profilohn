@@ -8,8 +8,7 @@
     <!-- API settings -->
     <integer name="api_connection_timeout">10000</integer>
 
-    <string name="api_uri_proto">https://</string>
-    <string name="api_uri_host">test-sageone.einfach-lohn.de</string>
+    <string name="api_default_uri_host">https://test-sageone.einfach-lohn.de</string>
     <string name="api_uri_base">/abacus-api/api/wage/</string>
 
     <string name="basic_credentials">test:test</string>
