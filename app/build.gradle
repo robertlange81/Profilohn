@@ -6,8 +6,8 @@ android {
         applicationId "com.profilohn.pfaendung"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 11
-            versionName '11.0'
+        versionCode 12
+            versionName '12.0'
     }
     buildTypes {
         release {

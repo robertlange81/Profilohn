@@ -139,7 +139,7 @@ class RetrieveHost extends AsyncTask<String, Void, String> {
         try {
             URL url = new URL(strings[0]);
             HttpURLConnection conn=(HttpURLConnection) url.openConnection();
-            conn.setConnectTimeout(60000); // timing out in a minute
+            conn.setConnectTimeout(2500); // timout in 2,5 Sekunden
 
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
