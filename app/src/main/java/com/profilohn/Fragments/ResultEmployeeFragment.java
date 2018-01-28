@@ -231,7 +231,8 @@ public class ResultEmployeeFragment extends Fragment
 
         txtProvision.setText(_formatCurrency(data.data.AN_Anteil_Altersvorsorge));
 
-        if(data.data.Pfaendung == null || (data.data.Pfaendung.equals("0,00") && (dataCompare == null || dataCompare.data.Pfaendung.equals("0,00")))) {
+        if(data.data.Pfaendung == null || (data.data.Pfaendung.equals("0,00")
+                && (dataCompare == null || dataCompare.data == null || dataCompare.data.Pfaendung == null || dataCompare.data.Pfaendung.equals("0,00")))) {
             regionSeizure.setVisibility(View.GONE);
             regionCash.setVisibility(View.GONE);
             hr_seizure.setVisibility(View.GONE);

@@ -23,6 +23,10 @@
         <item>Kurzfristig</item>
         <item>Rentner (RV-frei)</item>
         <item>Flexi-Rentner (RV-Aufstocker)</item>
+        <item>Werkstudent</item>
+        <item>Praktikant</item> <!-- Vor- oder Nachpraktikum PersGr 105  -->
+        <item>Praktikant, max. 70 Tage</item> <!-- Vor- oder Nachpraktikum PersGr 105  -->
+        <item>Praktikant, Zwischenpraktikum</item> <!-- PersGr 190 -->
     </string-array>
 
     <string-array name="taxclasses">
@@ -85,7 +89,7 @@
     <string name="label_nursing_insurance_full">Pflegeversicherung</string>
     <string name="label_pension_insurance">Rentenversicherung</string>
     <string name="label_unemployment_insurance">Arbeitsl.-vers.</string>
-    <string name="label_unemployment_insurance_full">Arbeitslosenversicherung</string>
+    <string name="label_unemployment_insurance_full">Arbeitslosenversg.</string>
 
     <string name="wage_default">0,00 €</string>
 
@@ -172,7 +176,7 @@
         <item>1 - allgemeiner Beitrag</item>
         <item>3 - ermäßigter Beitrag</item>
         <item>6 - Pauschalbeitrag</item-->
-        <item>keine Beiträge</item>
+        <item>keine</item>
         <item>voll</item>
         <item>ermäßigt</item>
         <item>pauschal</item>

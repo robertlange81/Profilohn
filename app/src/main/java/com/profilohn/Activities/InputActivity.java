@@ -1524,6 +1524,54 @@ public class InputActivity extends AppCompatActivity
                 if(taxClass.getSelectedItemPosition() == 0)
                     taxClass.setSelection(1);
                 break;
+            case 7: // Werkstudent (106)
+                selectedKV = 0;
+                selectedRV = 1;
+                selectedAV = 0;
+                selectedPV = 0;
+                kv.setSelection(0);
+                rv.setSelection(1);
+                av.setSelection(0);
+                pv.setSelection(0);
+                if(taxClass.getSelectedItemPosition() == 0)
+                    taxClass.setSelection(1);
+                break;
+            case 8: // Praktikant 105
+                selectedKV = 1;
+                selectedRV = 1;
+                selectedAV = 1;
+                selectedPV = 1;
+                kv.setSelection(1);
+                rv.setSelection(1);
+                av.setSelection(1);
+                pv.setSelection(1);
+                if(taxClass.getSelectedItemPosition() == 0)
+                    taxClass.setSelection(1);
+                break;
+            case 9: // Praktikant 105, max 70 Tage
+                selectedKV = 3;
+                selectedRV = 1;
+                selectedPV = 1;
+                selectedPV = 1;
+                kv.setSelection(2);
+                rv.setSelection(1);
+                av.setSelection(1);
+                pv.setSelection(1);
+                if(taxClass.getSelectedItemPosition() == 0)
+                    taxClass.setSelection(1);
+                break;
+            case 10: // Praktikant 190 im Zwischenpraktikum
+                selectedKV = 0;
+                selectedRV = 0;
+                selectedAV = 0;
+                selectedPV = 0;
+                kv.setSelection(0);
+                rv.setSelection(0);
+                av.setSelection(0);
+                pv.setSelection(0);
+                if(taxClass.getSelectedItemPosition() == 0)
+                    taxClass.setSelection(1);
+                break;
             default:
                 // volle Versicherung
                 selectedKV = 1;
@@ -1761,9 +1809,10 @@ public class InputActivity extends AppCompatActivity
             } else {
                 // erstes Starten
                 hasSeizure.requestFocus();
-                hasSeizure.setChecked(true);
-                eventHandler.OnSwitchSeizure(true);
-                regionSeizureKids.setVisibility(View.VISIBLE);
+                hasSeizure.setChecked(false);
+                eventHandler.OnSwitchSeizure(false);
+                regionSeizureKids.setVisibility(View.INVISIBLE);
+                regionSeizureFree.setVisibility(View.GONE);
                 employeeType.setSelection(0);
                 state.setSelection(0);
                 updateInsuranceBranches();
@@ -1772,9 +1821,10 @@ public class InputActivity extends AppCompatActivity
         } catch (FileNotFoundException fnfe) {
             // erstes Starten
             hasSeizure.requestFocus();
-            hasSeizure.setChecked(true);
-            selectedSeizure = true;
-            regionSeizureKids.setVisibility(View.VISIBLE);
+            hasSeizure.setChecked(false);
+            selectedSeizure = false;
+            regionSeizureKids.setVisibility(View.INVISIBLE);
+            regionSeizureFree.setVisibility(View.GONE);
             employeeType.setSelection(0);
             state.setSelection(0);
             updateInsuranceBranches();

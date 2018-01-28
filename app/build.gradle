@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     defaultConfig {
-        applicationId "com.profilohn.pfaendung"
+        applicationId "com.profilohn"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 12
