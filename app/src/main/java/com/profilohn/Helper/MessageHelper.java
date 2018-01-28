@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 
 import java.util.Vector;
@@ -44,7 +43,6 @@ public class MessageHelper extends Activity {
                     });
             sb.show();
         } catch (Exception e) {
-            Log.e("Snackbar", "Snackbar position not found.");
         }
 
         return sb;

@@ -1,7 +1,6 @@
 package com.profilohn.Helper;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -163,7 +162,6 @@ public class FileStore {
 
             return true;
         } catch (Exception e) {
-            Log.e("FileStorage", e.getMessage());
         }
 
         return false;

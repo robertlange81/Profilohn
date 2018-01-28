@@ -7,14 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
-import android.util.Log;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URL;
@@ -67,8 +61,6 @@ public class ConnectivityHandler extends BroadcastReceiver {
             hideDialog();
             return;
         }
-
-        Log.w("ConnectivityHandler", "connectivity not ready");
     }
 
 
@@ -82,11 +74,9 @@ public class ConnectivityHandler extends BroadcastReceiver {
                     && cm.getActiveNetworkInfo().isAvailable()
                     && cm.getActiveNetworkInfo().isConnectedOrConnecting();
             if (!ok) {
-                Log.w("ConnectivityHandler", "offline or network error:(");
             }
             return ok;
         } catch (Exception e) {
-            Log.e("ConnectivityHandler", e.getMessage().toString());
             return false;
         }
     }
@@ -100,7 +90,6 @@ public class ConnectivityHandler extends BroadcastReceiver {
             e.printStackTrace();
         }
 
-        Log.w("ConnectivityHandler", "Network not reachable [" + serviceHost + "]");
         return false;
     }
 

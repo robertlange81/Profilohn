@@ -6,7 +6,6 @@ import com.profilohn.Interfaces.ApiInterface;
 import com.profilohn.Interfaces.ApiCallbackListener;
 
 import android.content.Context;
-import android.util.Log;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -84,7 +83,6 @@ public class WebService
 
             @Override
             public void onFailure(Call<Calculation> call, Throwable throwable) {
-                Log.e("WebService", "Failure on calculation. " + throwable.getStackTrace().toString());
                 webserviceListener.responseFailedCalculation(context.getResources().getString(R.string.app_api_error));
             }
         });

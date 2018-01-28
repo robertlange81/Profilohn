@@ -89,7 +89,7 @@
     <string name="label_nursing_insurance_full">Pflegeversicherung</string>
     <string name="label_pension_insurance">Rentenversicherung</string>
     <string name="label_unemployment_insurance">Arbeitsl.-vers.</string>
-    <string name="label_unemployment_insurance_full">Arbeitslosenversg.</string>
+    <string name="label_unemployment_insurance_full">Arbeitslosenversicherung</string>
 
     <string name="wage_default">0,00 €</string>
 

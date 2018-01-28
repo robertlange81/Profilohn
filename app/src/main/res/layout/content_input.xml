@@ -43,7 +43,7 @@
                     android:id="@+id/wage_type_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="bottom|end"
+                    android:gravity="bottom|center_horizontal"
                     android:text="@string/wage_type_label_1"
                     android:textAlignment="center" />
 
@@ -88,7 +88,7 @@
                     android:id="@+id/wage_period_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="bottom|end"
+                    android:gravity="bottom|center_horizontal"
                     android:text="@string/wage_period_year"
                     android:textAlignment="center" />
 
@@ -144,7 +144,7 @@
                     android:id="@+id/wageamount_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="bottom|center_horizontal"
+                    android:gravity="center_horizontal"
                     android:text="@string/wageamount_gross_month" />
 
                 <android.support.v7.widget.AppCompatEditText
@@ -152,6 +152,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="0123456789,."
+                    android:gravity="center"
                     android:hint="@string/wage_default"
                     android:imeOptions="actionDone"
                     android:inputType="numberDecimal"
