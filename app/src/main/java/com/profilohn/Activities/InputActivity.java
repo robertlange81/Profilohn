@@ -165,12 +165,14 @@ public class InputActivity extends AppCompatActivity
         put(2017, new BigDecimal(0.037));
         put(2018, new BigDecimal(0.036));
         put(2019, new BigDecimal(0.036));
+        put(2020, new BigDecimal(0.036));
     }};
     Map<Integer, BigDecimal> min__aufstocker_Minijob_sv = new HashMap<Integer, BigDecimal>() {{
         put(2016, new BigDecimal(6.48));
         put(2017, new BigDecimal(6.48));
         put(2018, new BigDecimal(6.3));
         put(2019, new BigDecimal(6.3));
+        put(2020, new BigDecimal(6.3));
     }};
     BigDecimal percent_pausch_steuer_kurzfristig = new BigDecimal(0.25);
     BigDecimal percent_soli = new BigDecimal(0.055);
@@ -203,25 +205,29 @@ public class InputActivity extends AppCompatActivity
         put(2016, new BigDecimal("0.01175"));
         put(2017, new BigDecimal("0.01275"));
         put(2018, new BigDecimal("0.01275"));
-        put(2019, new BigDecimal("0.01275"));
+        put(2019, new BigDecimal("0.01525"));
+        put(2020, new BigDecimal("0.01525"));
     }};
     Map<Integer, BigDecimal> bbg_kv = new HashMap<Integer, BigDecimal>() {{
         put(2016, new BigDecimal("4237.50"));
         put(2017, new BigDecimal("4350.00"));
         put(2018, new BigDecimal("4425.00"));
-        put(2019, new BigDecimal("4425.00"));
+        put(2019, new BigDecimal("4537.50"));
+        put(2020, new BigDecimal("4537.50"));
     }};
     Map<Integer, BigDecimal> bbg_rv_west = new HashMap<Integer, BigDecimal>() {{
         put(2016, new BigDecimal("6200.00"));
         put(2017, new BigDecimal("6350.00"));
         put(2018, new BigDecimal("6500.00"));
-        put(2019, new BigDecimal("6500.00"));
+        put(2019, new BigDecimal("6700.00"));
+        put(2020, new BigDecimal("6700.00"));
     }};
     Map<Integer, BigDecimal> bbg_rv_ost = new HashMap<Integer, BigDecimal>() {{
         put(2016, new BigDecimal("5400.00"));
         put(2017, new BigDecimal("5700.00"));
         put(2018, new BigDecimal("5800.00"));
-        put(2019, new BigDecimal("5800.00"));
+        put(2019, new BigDecimal("6150.00"));
+        put(2020, new BigDecimal("6150.00"));
     }};
     BigDecimal add_no_kids  = new BigDecimal("0.0025");
     BigDecimal add_saxony   = new BigDecimal("0.005");
@@ -428,6 +434,8 @@ public class InputActivity extends AppCompatActivity
         _seizureKidsAdapter = ArrayAdapter.createFromResource(this,
                 R.array.seizure_kids, R.layout.spinner_left_item);
         seizureKids.setAdapter(_seizureKidsAdapter);
+
+        ArrayList<String> x = new ArrayList<>();
     }
 
     @Override

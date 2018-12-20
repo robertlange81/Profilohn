@@ -1,5 +1,6 @@
 package com.profilohn.Activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
@@ -98,17 +99,21 @@ public class ResultActivity extends AppCompatActivity {
                 case 0:
                     // home fragment
                     fragment = Fragment.instantiate(context, ResultHomeFragment.class.getName());
+                    //getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                     break;
                 case 1:
                     // employee fragment
                     fragment = Fragment.instantiate(context, ResultEmployeeFragment.class.getName());
+                    //getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                     break;
                 case 2:
                     // employer fragment
                     fragment = Fragment.instantiate(context, ResultEmployerFragment.class.getName());
+                    //getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                     break;
                 default:
-                    fragment = Fragment.instantiate(context, ResultEmployeeFragment.class.getName());
+                    fragment = Fragment.instantiate(context, ResultHomeFragment.class.getName());
+                    //getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
             }
 
             return fragment;
