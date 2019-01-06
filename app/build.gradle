@@ -3,11 +3,11 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.profilohn.arbeitgeberrechner"
+        applicationId "com.profilohn.arbeitgeberrechner2019"
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 15
-            versionName '15.0'
+        versionCode 16
+            versionName '16.0'
     }
     buildTypes {
         release {

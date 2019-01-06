@@ -51,6 +51,7 @@ public class WebService
         String credentials = context.getResources().getString(R.string.basic_credentials);
         int timeout = context.getResources().getInteger(R.integer.api_connection_timeout);
 
+        //host = "http://10.59.2.156/abacus/";
         String apiUriBase = host + url;
 
         retrofitClient = new RetrofitRestClient();
