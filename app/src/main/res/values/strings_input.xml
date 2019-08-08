@@ -27,6 +27,7 @@
         <item>Praktikant</item> <!-- Vor- oder Nachpraktikum PersGr 105  -->
         <item>Praktikant, max. 70 Tage</item> <!-- Vor- oder Nachpraktikum PersGr 105  -->
         <item>Praktikant, Zwischenpraktikum</item> <!-- PersGr 190 -->
+        <!-- TODO: Haushaltshilfe -->
     </string-array>
 
     <string-array name="taxclasses">

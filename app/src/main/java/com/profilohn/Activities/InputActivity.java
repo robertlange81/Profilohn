@@ -455,6 +455,7 @@ public class InputActivity extends AppCompatActivity
     private void _initializeListener()
     {
         // TODO: Fehler Ergebnisse AN Sozialabgaben des AG
+        // TODO: Private Haushaltshilfe
         // Art der Abrechnung (Wunsch-Netto oder Brutto)
         calcType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -2334,7 +2335,7 @@ public class InputActivity extends AppCompatActivity
             if(input.Zeitraum.equals("y"))
                 netto = netto.divide(new BigDecimal(12), 4, BigDecimal.ROUND_HALF_DOWN).setScale(2, RoundingMode.HALF_UP);
 
-            BigDecimal seizureAmount = getSeizureFor(netto, input.unterhaltspflPers);
+            BigDecimal seizureAmount = getSeizureFor(netto, input.unterhaltspflPers, input.AbrJahr);
 
             if(input.Zeitraum.equals("y"))
                 seizureAmount = seizureAmount.multiply(new BigDecimal(12)).setScale(2, RoundingMode.HALF_UP);
@@ -2367,44 +2368,44 @@ public class InputActivity extends AppCompatActivity
         return 0;
     }
 
-    private BigDecimal getSeizureFor(BigDecimal netto, Integer unterhaltspflPers) {
+    private BigDecimal getSeizureFor(BigDecimal netto, Integer unterhaltspflPers, int selectedYear) {
         BigDecimal startSeizure, startSeizureAmount, percent;
-        BigDecimal upperThreshold = new BigDecimal(3475.79);
+        BigDecimal upperThreshold = selectedYear < 2019 ? new BigDecimal(3475.79) : new BigDecimal(3475.79);
 
         switch (unterhaltspflPers.toString()) {
             case "0":
-                startSeizure        = new BigDecimal(1140);
-                startSeizureAmount  = new BigDecimal(4.34);
+                startSeizure        = selectedYear < 2019 ? new BigDecimal(1140) : new BigDecimal(1180);
+                startSeizureAmount  = selectedYear < 2019 ? new BigDecimal(4.34) : new BigDecimal(0.99);
                 percent             = new BigDecimal(0.7);
                 break;
             case "1":
-                startSeizure        = new BigDecimal(1570);
-                startSeizureAmount  = new BigDecimal(4.75);
+                startSeizure        = selectedYear < 2019 ? new BigDecimal(1570) : new BigDecimal(1630);
+                startSeizureAmount  = selectedYear < 2019 ? new BigDecimal(4.75) : new BigDecimal(3.92);
                 percent             = new BigDecimal(0.5);
                 break;
             case "2":
-                startSeizure        = new BigDecimal(1810);
-                startSeizureAmount  = new BigDecimal(4.70);
+                startSeizure        = selectedYear < 2019 ? new BigDecimal(1810) : new BigDecimal(1870);
+                startSeizureAmount  = selectedYear < 2019 ? new BigDecimal(4.70) : new BigDecimal(0.29);
                 percent             = new BigDecimal(0.4);
                 break;
             case "3":
-                startSeizure        = new BigDecimal(2040);
-                startSeizureAmount  = new BigDecimal(1.21);
+                startSeizure        = selectedYear < 2019 ? new BigDecimal(2040) : new BigDecimal(2120);
+                startSeizureAmount  = selectedYear < 2019 ? new BigDecimal(1.21) : new BigDecimal(1.08);
                 percent             = new BigDecimal(0.3);
                 break;
             case "4":
-                startSeizure        = new BigDecimal(2280);
-                startSeizureAmount  = new BigDecimal(1.26);
+                startSeizure        = selectedYear < 2019 ? new BigDecimal(2280) : new BigDecimal(2370);
+                startSeizureAmount  = selectedYear < 2019 ? new BigDecimal(1.26) : new BigDecimal(1.30);
                 percent             = new BigDecimal(0.2);
                 break;
             case "5":
-                startSeizure        = new BigDecimal(2520);
-                startSeizureAmount  = new BigDecimal(0.86);
+                startSeizure        = selectedYear < 2019 ? new BigDecimal(2520) : new BigDecimal(2620);
+                startSeizureAmount  = selectedYear < 2019 ? new BigDecimal(0.86) : new BigDecimal(0.94);
                 percent             = new BigDecimal(0.1);
                 break;
             default:
-                startSeizure        = new BigDecimal(1140);
-                startSeizureAmount  = new BigDecimal(4.34);
+                startSeizure        = selectedYear < 2019 ? new BigDecimal(1140) : new BigDecimal(1180);
+                startSeizureAmount  = selectedYear < 2019 ? new BigDecimal(4.34) : new BigDecimal(0.99);
                 percent             = new BigDecimal(0.7);
         }
 
