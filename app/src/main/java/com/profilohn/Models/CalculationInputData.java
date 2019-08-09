@@ -24,6 +24,7 @@ public class CalculationInputData {
     public boolean KindU23 = false;
     public Double StFreibetrag = 0.0;
     public int AbrJahr = Calendar.YEAR;
+    public int Periode = Calendar.YEAR * 12 + Calendar.MONTH - 1;
     public int KV = 1;
     public int RV = 1;
     public int AV = 1;

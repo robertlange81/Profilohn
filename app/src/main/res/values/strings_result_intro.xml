@@ -1,7 +1,7 @@
 <resources>
     <string name="result_intro_text_wage_gross">Brutto</string>
     <string name="result_intro_text_wage_net">Netto</string>
-    <string name="result_intro_title">Berechnung erfolgreich</string>
+    <string name="result_intro_title">Zusammenfassung</string>
     <string name="result_intro_success">Das Brutto-/Nettogehalt wurde erfolgreich berechnet.</string>
 
     <string name="result_intro_intro">Um sich die Ergebnisse anzusehen, klicken Sie auf einen der folgenden Bereiche.</string>

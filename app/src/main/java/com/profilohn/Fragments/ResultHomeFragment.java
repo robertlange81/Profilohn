@@ -184,8 +184,8 @@ public class ResultHomeFragment extends Fragment
     public void setUserVisibleHint(boolean v)
     {
         super.setUserVisibleHint(v);
-        if (v) {
-            // getActivity().setTitle(getResources().getString(R.string.result_intro_title));
+        if (v && getActivity() != null) {
+            getActivity().setTitle(getResources().getString(R.string.result_intro_title));
         }
     }
 

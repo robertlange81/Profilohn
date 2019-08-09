@@ -132,8 +132,8 @@
     <string name="wageamount_net_month">Wunsch-Netto (M)</string>
     <string name="wage_type_label_1">Brutto umrechnen in</string>
     <string name="wage_type_label_2">Netto umrechnen in</string>
-    <string name="year">Jahr</string>
-    <string name="year_full">Rechnungsjahr</string>
+    <string name="year">Mon, Jahr</string>
+    <string name="year_full">Monat, Jahr</string>
     <string name="bg">Baden-Württ.</string>
     <string name="by">Bayern</string>
     <string name="bo">Berlin-Ost</string>
@@ -170,6 +170,34 @@
         <item>@string/sa</item>
         <item>@string/sh</item>
         <item>@string/th</item>
+    </string-array>
+
+    <string name="jan">Jan</string>
+    <string name="feb">Feb</string>
+    <string name="mar">Mär</string>
+    <string name="apr">Apr</string>
+    <string name="may">Mai</string>
+    <string name="jun">Jun</string>
+    <string name="jul">Jul</string>
+    <string name="aug">Aug</string>
+    <string name="sep">Sep</string>
+    <string name="oct">Okt</string>
+    <string name="nov">Nov</string>
+    <string name="dec">Dez</string>
+
+    <string-array name="months">
+        <item>@string/jan</item>
+        <item>@string/feb</item>
+        <item>@string/mar</item>
+        <item>@string/apr</item>
+        <item>@string/may</item>
+        <item>@string/jun</item>
+        <item>@string/jul</item>
+        <item>@string/aug</item>
+        <item>@string/sep</item>
+        <item>@string/oct</item>
+        <item>@string/nov</item>
+        <item>@string/dec</item>
     </string-array>
 
     <string-array name="kv">

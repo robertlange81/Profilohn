@@ -100,7 +100,7 @@ public class ResultEmployerFragment extends Fragment
     public void setUserVisibleHint(boolean v)
     {
         super.setUserVisibleHint(v);
-        if (v) {
+        if (v && getActivity() != null) {
             getActivity().setTitle(getResources().getString(R.string.result_employer_title));
         }
     }

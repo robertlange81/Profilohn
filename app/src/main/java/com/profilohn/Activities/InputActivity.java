@@ -103,6 +103,7 @@ public class InputActivity extends AppCompatActivity
     private int selectedAV = 1;
     private int selectedPV = 1;
     private Integer selectedYear = 1;
+    private Integer selectedPeriod = 1;
     private String  selectedState;
     private Double  selectedChildAmount = 0.0;
     private ArrayAdapter<String> _yearAdapter;
@@ -394,15 +395,12 @@ public class InputActivity extends AppCompatActivity
         taxClass.setSelection(1);
 
         // calc year
-        String[] years = new String[]{
-                (Integer.valueOf(Calendar.getInstance().get(Calendar.YEAR)-1)).toString(),
-                (Integer.valueOf(Calendar.getInstance().get(Calendar.YEAR))).toString(),
-                (Integer.valueOf(Calendar.getInstance().get(Calendar.YEAR)+1)).toString()
-        };
+        String[] years = getPeriods();
+
         final List<String> yearsList = new ArrayList<>(Arrays.asList(years));
         _yearAdapter = new ArrayAdapter<>(this, R.layout.spinner_left_item, yearsList);
         year.setAdapter(_yearAdapter);
-        year.setSelection(1);
+        year.setSelection(Calendar.getInstance().get(Calendar.MONTH) + 12); // add 12 months - 1
 
         // insurance classes
         ArrayAdapter<CharSequence> _kvclassAdapter = ArrayAdapter.createFromResource(this,
@@ -436,6 +434,27 @@ public class InputActivity extends AppCompatActivity
         seizureKids.setAdapter(_seizureKidsAdapter);
 
         ArrayList<String> x = new ArrayList<>();
+    }
+
+    private String[] getPeriods() {
+        String lastYear = Integer.valueOf(Calendar.getInstance().get(Calendar.YEAR)-1).toString();
+        String actualYear = Integer.valueOf(Calendar.getInstance().get(Calendar.YEAR)).toString();
+        String futureYear = Integer.valueOf(Calendar.getInstance().get(Calendar.YEAR)+1).toString();
+
+        String[] months = getResources().getStringArray(R.array.months);
+
+        String[] retval = new String[36];
+        int i = 0;
+        for (String month:months) {
+            retval[i] = month + ", " + lastYear;
+            retval[i+12] = month + ", " + actualYear;
+            retval[i+24] = month + ", " + futureYear;
+            i++;
+            if(i > 11)
+                break;
+        }
+
+        return retval;
     }
 
     @Override
@@ -1064,7 +1083,8 @@ public class InputActivity extends AppCompatActivity
         year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedYear = position;
+                selectedYear = Integer.valueOf(Calendar.getInstance().get(Calendar.YEAR)) -1 + position / 12;
+                selectedPeriod = position;
 
                 if(selectedEmployeeType > 5 ) {
                     if(selectedYear + Calendar.getInstance().get(Calendar.YEAR) - 1 <= 2016) {
@@ -1708,12 +1728,13 @@ public class InputActivity extends AppCompatActivity
                 isShifting.setChecked(selectedShifting);
 
                 // Abrechnungsjahr
-                year.setSelection(
-                        _yearAdapter.getPosition(
-                                String.valueOf(cache.AbrJahr)
-                        )
-                );
-                selectedYear = cache.AbrJahr;
+                if(cache.Periode > 0) {
+                    year.setSelection(
+                        cache.Periode
+                    );
+                    selectedPeriod = cache.Periode;
+                    selectedYear = cache.AbrJahr;
+                }
 
                 // Elterneigenschaft
                 hasChildren.setChecked(cache.KindU23);
@@ -2335,7 +2356,7 @@ public class InputActivity extends AppCompatActivity
             if(input.Zeitraum.equals("y"))
                 netto = netto.divide(new BigDecimal(12), 4, BigDecimal.ROUND_HALF_DOWN).setScale(2, RoundingMode.HALF_UP);
 
-            BigDecimal seizureAmount = getSeizureFor(netto, input.unterhaltspflPers, input.AbrJahr);
+            BigDecimal seizureAmount = getSeizureFor(netto, input.unterhaltspflPers, input.AbrJahr, input.Periode);
 
             if(input.Zeitraum.equals("y"))
                 seizureAmount = seizureAmount.multiply(new BigDecimal(12)).setScale(2, RoundingMode.HALF_UP);
@@ -2368,44 +2389,45 @@ public class InputActivity extends AppCompatActivity
         return 0;
     }
 
-    private BigDecimal getSeizureFor(BigDecimal netto, Integer unterhaltspflPers, int selectedYear) {
+    private BigDecimal getSeizureFor(BigDecimal netto, Integer unterhaltspflPers, int selectedYear, int selectedPeriod) {
+        boolean isOldSeizureTable = selectedYear < 2019 || (selectedYear == 2019 && (selectedPeriod + 1) % 12 < 7);
         BigDecimal startSeizure, startSeizureAmount, percent;
-        BigDecimal upperThreshold = selectedYear < 2019 ? new BigDecimal(3475.79) : new BigDecimal(3475.79);
+        BigDecimal upperThreshold = isOldSeizureTable ? new BigDecimal(3475.79) : new BigDecimal(3618.08);
 
         switch (unterhaltspflPers.toString()) {
             case "0":
-                startSeizure        = selectedYear < 2019 ? new BigDecimal(1140) : new BigDecimal(1180);
-                startSeizureAmount  = selectedYear < 2019 ? new BigDecimal(4.34) : new BigDecimal(0.99);
+                startSeizure        = isOldSeizureTable ? new BigDecimal(1140) : new BigDecimal(1180);
+                startSeizureAmount  = isOldSeizureTable ? new BigDecimal(4.34) : new BigDecimal(0.99);
                 percent             = new BigDecimal(0.7);
                 break;
             case "1":
-                startSeizure        = selectedYear < 2019 ? new BigDecimal(1570) : new BigDecimal(1630);
-                startSeizureAmount  = selectedYear < 2019 ? new BigDecimal(4.75) : new BigDecimal(3.92);
+                startSeizure        = isOldSeizureTable ? new BigDecimal(1570) : new BigDecimal(1630);
+                startSeizureAmount  = isOldSeizureTable ? new BigDecimal(4.75) : new BigDecimal(3.92);
                 percent             = new BigDecimal(0.5);
                 break;
             case "2":
-                startSeizure        = selectedYear < 2019 ? new BigDecimal(1810) : new BigDecimal(1870);
-                startSeizureAmount  = selectedYear < 2019 ? new BigDecimal(4.70) : new BigDecimal(0.29);
+                startSeizure        = isOldSeizureTable ? new BigDecimal(1810) : new BigDecimal(1870);
+                startSeizureAmount  = isOldSeizureTable ? new BigDecimal(4.70) : new BigDecimal(0.29);
                 percent             = new BigDecimal(0.4);
                 break;
             case "3":
-                startSeizure        = selectedYear < 2019 ? new BigDecimal(2040) : new BigDecimal(2120);
-                startSeizureAmount  = selectedYear < 2019 ? new BigDecimal(1.21) : new BigDecimal(1.08);
+                startSeizure        = isOldSeizureTable ? new BigDecimal(2040) : new BigDecimal(2120);
+                startSeizureAmount  = isOldSeizureTable ? new BigDecimal(1.21) : new BigDecimal(1.08);
                 percent             = new BigDecimal(0.3);
                 break;
             case "4":
-                startSeizure        = selectedYear < 2019 ? new BigDecimal(2280) : new BigDecimal(2370);
-                startSeizureAmount  = selectedYear < 2019 ? new BigDecimal(1.26) : new BigDecimal(1.30);
+                startSeizure        = isOldSeizureTable ? new BigDecimal(2280) : new BigDecimal(2370);
+                startSeizureAmount  = isOldSeizureTable ? new BigDecimal(1.26) : new BigDecimal(1.30);
                 percent             = new BigDecimal(0.2);
                 break;
             case "5":
-                startSeizure        = selectedYear < 2019 ? new BigDecimal(2520) : new BigDecimal(2620);
-                startSeizureAmount  = selectedYear < 2019 ? new BigDecimal(0.86) : new BigDecimal(0.94);
+                startSeizure        = isOldSeizureTable ? new BigDecimal(2520) : new BigDecimal(2620);
+                startSeizureAmount  = isOldSeizureTable ? new BigDecimal(0.86) : new BigDecimal(0.94);
                 percent             = new BigDecimal(0.1);
                 break;
             default:
-                startSeizure        = selectedYear < 2019 ? new BigDecimal(1140) : new BigDecimal(1180);
-                startSeizureAmount  = selectedYear < 2019 ? new BigDecimal(4.34) : new BigDecimal(0.99);
+                startSeizure        = isOldSeizureTable ? new BigDecimal(1140) : new BigDecimal(1180);
+                startSeizureAmount  = isOldSeizureTable ? new BigDecimal(4.34) : new BigDecimal(0.99);
                 percent             = new BigDecimal(0.7);
         }
 
@@ -2477,7 +2499,8 @@ public class InputActivity extends AppCompatActivity
         helper.data.PV = selectedPV;
         helper.data.StFreibetrag = selectedTaxFree;
         helper.data.StKl = selectedTaxClass;
-        helper.data.AbrJahr = selectedYear + Calendar.getInstance().get(Calendar.YEAR) - 1;
+        helper.data.AbrJahr = selectedYear;
+        helper.data.Periode = selectedPeriod;
         helper.setBundesland(selectedState);
         GetInsuranceId();
         helper.data.KKBetriebsnummer = selectedInsuranceId;
