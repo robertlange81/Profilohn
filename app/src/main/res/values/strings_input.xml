@@ -16,17 +16,19 @@
     <string name="stkl_prompt">Versteuerung angeben</string>
 
     <string-array name="employeetypes">
-        <item>Standard (volle SV)</item>
-        <item>Minijobber (RV-frei)</item>
-        <item>Minijobber (RV-Aufstocker)</item>
+        <item>Standard, volle SV</item>
+        <item>Minijobber, RV-frei</item>
+        <item>Minijobber, Standard</item>
         <item>Privat Versichert</item>
         <item>Kurzfristig</item>
-        <item>Rentner (RV-frei)</item>
-        <item>Flexi-Rentner (RV-Aufstocker)</item>
+        <item>Rentner, RV-frei</item>
+        <item>Flexi-Rentner</item>
         <item>Werkstudent</item>
         <item>Praktikant</item> <!-- Vor- oder Nachpraktikum PersGr 105  -->
         <item>Praktikant, max. 70 Tage</item> <!-- Vor- oder Nachpraktikum PersGr 105  -->
         <item>Praktikant, Zwischenpraktikum</item> <!-- PersGr 190 -->
+        <item>Haushaltshilfe, RV-frei</item>
+        <item>Haushaltshilfe, Standard</item>
         <!-- TODO: Haushaltshilfe -->
     </string-array>
 

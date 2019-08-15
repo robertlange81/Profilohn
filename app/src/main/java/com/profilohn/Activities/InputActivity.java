@@ -176,6 +176,12 @@ public class InputActivity extends AppCompatActivity
         put(2020, new BigDecimal(6.3));
     }};
     BigDecimal percent_pausch_steuer_kurzfristig = new BigDecimal(0.25);
+    BigDecimal percent_pausch_steuer_hauhaltshilfe = new BigDecimal(0.02);
+    BigDecimal percent_pausch_rv_hauhaltshilfe = new BigDecimal(0.05);
+    BigDecimal percent_pausch_kv_hauhaltshilfe = new BigDecimal(0.05);
+    BigDecimal percent_rv_gesamt_2018 = new BigDecimal(0.187);
+    BigDecimal percent_rv_gesamt_2019 = new BigDecimal(0.186);
+    BigDecimal percent_rv_gesamt_2020 = percent_rv_gesamt_2019;
     BigDecimal percent_soli = new BigDecimal(0.055);
     boolean isFakeBruttolohn = false;
     BigDecimal wunschnetto;
@@ -474,7 +480,6 @@ public class InputActivity extends AppCompatActivity
     private void _initializeListener()
     {
         // TODO: Fehler Ergebnisse AN Sozialabgaben des AG
-        // TODO: Private Haushaltshilfe
         // Art der Abrechnung (Wunsch-Netto oder Brutto)
         calcType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -1348,10 +1353,12 @@ public class InputActivity extends AppCompatActivity
                         data.Berechnungsart = "Bruttolohn";
                         isFakeBruttolohn = true;
                         if(data.abwaelzung_pauschale_steuer) {
+                            // Minijob
                             if (data.Beschaeftigungsart == 1 || data.Beschaeftigungsart == 2) {
                                 perc = perc.add(percent_pausch_steuer_minijob);
                             }
 
+                            // Kurzfristig
                             if (data.Beschaeftigungsart == 4) {
                                 BigDecimal Soli = percent_pausch_steuer_kurzfristig.multiply(percent_soli).setScale(5, RoundingMode.HALF_DOWN);
                                 perc = percent_pausch_steuer_kurzfristig.add(Soli).setScale(5, RoundingMode.HALF_DOWN);
@@ -1359,6 +1366,27 @@ public class InputActivity extends AppCompatActivity
                                 if (data.Kirche)
                                     perc = perc.add(percent_pausch_steuer_kurzfristig.multiply(percentErmaessigteKirchensteuer.get(data.Bundesland))).setScale(5, RoundingMode.HALF_DOWN);
                             }
+                        }
+                    }
+
+                    // Haushalthilfe
+                    if (data.Beschaeftigungsart == 11 || data.Beschaeftigungsart == 12) {
+                        data.Berechnungsart = "Bruttolohn";
+                        if(data.Beschaeftigungsart == 12) {
+                            switch (data.AbrJahr) {
+                                case 2018:
+                                    perc = perc.add(percent_rv_gesamt_2018.subtract(percent_pausch_rv_hauhaltshilfe));
+                                    break;
+                                case 2019:
+                                    perc = perc.add(percent_rv_gesamt_2019.subtract(percent_pausch_rv_hauhaltshilfe));
+                                    break;
+                                default:
+                                    perc = perc.add(percent_rv_gesamt_2020.subtract(percent_pausch_rv_hauhaltshilfe));
+                            }
+                        }
+
+                        if(data.abwaelzung_pauschale_steuer) {
+                            perc = perc.add(percent_pausch_steuer_hauhaltshilfe);
                         }
                     }
 
@@ -1595,6 +1623,30 @@ public class InputActivity extends AppCompatActivity
                 pv.setSelection(0);
                 if(taxClass.getSelectedItemPosition() == 0)
                     taxClass.setSelection(1);
+                break;
+            case 11: // Haushaltshilfe
+                selectedKV = 0;
+                selectedRV = 0;
+                selectedAV = 0;
+                selectedPV = 0;
+                kv.setSelection(0);
+                rv.setSelection(0);
+                av.setSelection(0);
+                pv.setSelection(0);
+                insuranceAc.setText(getResources().getString(R.string.insurance_default_pausch));
+                taxClass.setSelection(0);
+                break;
+            case 12: // Haushaltshilfe mit RV
+                selectedKV = 0;
+                selectedRV = 0;
+                selectedAV = 0;
+                selectedPV = 0;
+                kv.setSelection(0);
+                rv.setSelection(0);
+                av.setSelection(0);
+                pv.setSelection(0);
+                insuranceAc.setText(getResources().getString(R.string.insurance_default_pausch));
+                taxClass.setSelection(0);
                 break;
             default:
                 // volle Versicherung
@@ -1935,6 +1987,17 @@ public class InputActivity extends AppCompatActivity
                     correctPauschaleSteuer_Kurzfristig(calculation);
                 }
             }
+        }
+
+        if(data.Beschaeftigungsart == 11 || data.Beschaeftigungsart == 12) {
+            correct_Haushaltshilfe(
+                    calculation,
+                    data.Beschaeftigungsart == 12,
+                    data.AbrJahr,
+                    true,
+                    data.StKl == 23,
+                    data.abwaelzung_pauschale_steuer
+            );
         }
 
         // !!! noch vor Abzug Firmenwagen oder Zuschlag Altersvorsorge muss Pfändung berechnet werden
@@ -2337,6 +2400,58 @@ public class InputActivity extends AppCompatActivity
 
         } catch (Exception e) {
             isCalculationRunning = false;
+            MessageHelper.snackbar(this, e.getMessage());
+        }
+    }
+
+    public void correct_Haushaltshilfe(Calculation calculation, boolean isRV, int jahr, boolean isKV, boolean isPauschSt, boolean isPauschalAbw) {
+        try {
+            BigDecimal brutto  = getBigDecimal(calculation.data.LohnsteuerPflBrutto);
+            BigDecimal pauchSt = brutto.multiply(percent_pausch_steuer_hauhaltshilfe).setScale(2, RoundingMode.DOWN);
+
+            if(isRV) {
+                BigDecimal pauchRv = brutto.multiply(percent_pausch_rv_hauhaltshilfe).setScale(2, RoundingMode.DOWN);
+                BigDecimal gesRv;
+                switch (jahr) {
+                    case 2018:
+                        gesRv = brutto.multiply(percent_rv_gesamt_2018).setScale(2, RoundingMode.UP);
+                        break;
+                    case 2019:
+                        gesRv = brutto.multiply(percent_rv_gesamt_2019).setScale(2, RoundingMode.UP);
+                        break;
+                    default:
+                        gesRv = brutto.multiply(percent_rv_gesamt_2020).setScale(2, RoundingMode.UP);
+                        break;
+                }
+                BigDecimal rvAN = gesRv.subtract(pauchRv);
+                calculation.data.Rentenversicherung_AN = getDecimalString_Up(rvAN);
+                calculation.data.ANAnteil = calculation.data.Rentenversicherung_AN;
+                calculation.data.Rentenversicherung_AG = getDecimalString_Up(pauchRv);
+
+                BigDecimal an_netto = getBigDecimal(calculation.data.Netto);
+                an_netto = an_netto.subtract(rvAN);
+                calculation.data.Netto = getDecimalString_Up(an_netto);
+                BigDecimal an_auszahlung = getBigDecimal(calculation.data.Auszahlung);
+                an_auszahlung = an_auszahlung.subtract(rvAN);
+                calculation.data.Auszahlung = getDecimalString_Down(an_auszahlung);
+
+                //TODO Unfallversicherung statt Insolvenzgeld, U1 / U2 berichtigen
+            }
+
+            if(isKV) {
+                BigDecimal pauchKv = brutto.multiply(percent_pausch_kv_hauhaltshilfe).setScale(2, RoundingMode.DOWN);
+                calculation.data.Krankenversicherung_AG = getDecimalString_Down(pauchKv);
+            }
+
+            if(isPauschSt) {
+                if(isPauschalAbw) {
+                    calculation.data.Pausch_LohnSteuer_AN = getDecimalString_Down(pauchSt);
+                } else {
+                    calculation.data.Pausch_LohnSteuer_AG = getDecimalString_Down(pauchSt);
+                }
+            }
+
+        } catch (Exception e) {
             MessageHelper.snackbar(this, e.getMessage());
         }
     }
