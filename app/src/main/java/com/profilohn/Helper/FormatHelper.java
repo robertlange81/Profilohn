@@ -17,7 +17,7 @@ public class FormatHelper
         try {
             deDE.setMinimumFractionDigits(2);
             deDE.setMaximumFractionDigits(2);
-            Double d = Double.valueOf(text.replace(".", "").replace(",", "."));
+            Double d = text == null ? new Double(0): Double.valueOf(text.replace(".", "").replace(",", "."));
             return deDE.format(d);
         } catch (Exception e) {
             throw new FormatException();
@@ -37,7 +37,7 @@ public class FormatHelper
 
     public final static Double toDouble(String s)
     {
-        return Double.valueOf(s.replace(".", "").replace(",", "."));
+        return s == null ? new Double(0) : Double.valueOf(s.replace(".", "").replace(",", "."));
     }
 
 

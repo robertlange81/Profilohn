@@ -13,11 +13,13 @@
     <string name="result_employer_insurance_unemployment">Arbeitslosenvers.</string>
     <string name="result_employer_insurance_care">Pflegevers.</string>
     <string name="result_employer_insurance_health">Krankenvers.</string>
+    <string name="result_employer_accident_health">Unfallvers.</string>
 
     <string name="result_employer_insurance_pension_long">Rentenversicherung</string>
     <string name="result_employer_insurance_unemployment_long">Arbeitslosenversicherung</string>
     <string name="result_employer_insurance_care_long">Pflegeversicherung</string>
     <string name="result_employer_insurance_health_long">Krankenversicherung</string>
+    <string name="result_employer_insurance_acident_long">Unfallversicherung</string>
 
     <string name="result_employer_provision">Zuschuss Altersvorsorge</string>
 

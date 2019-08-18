@@ -5,8 +5,6 @@ import android.os.Parcelable;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Locale;
 
 import static com.profilohn.Activities.InputActivity.getBigDecimal;
 import static com.profilohn.Activities.InputActivity.getDecimalString_Up;
@@ -53,6 +51,7 @@ public class CalculationData implements Parcelable {
     public String pauschSt_AN;
     public String Abgaben_AG;
     public String Pfaendung;
+    public String Unfallversicherung_AG;
     //public String brutto_pflichtig_Altersvorsorge;
     //public String brutto_pflichtig_Firmenwagen;
 
@@ -93,6 +92,7 @@ public class CalculationData implements Parcelable {
         Umlagen_AG = in.readString();
         Abgaben_AG = in.readString();
         Pfaendung = in.readString();
+        Unfallversicherung_AG = in.readString();
 
         _summarizeEmployerAndEmployeeCats();
     }
@@ -154,6 +154,7 @@ public class CalculationData implements Parcelable {
         dest.writeString(Umlagen_AG == null ? "0,00" : Umlagen_AG);
         dest.writeString(Abgaben_AG == null ? "0,00" : Abgaben_AG);
         dest.writeString(Pfaendung == null ? "0,00" : Pfaendung);
+        dest.writeString(Unfallversicherung_AG == null ? "0,00" : Unfallversicherung_AG);
     }
 
     private void _summarizeEmployerAndEmployeeCats()
@@ -165,6 +166,7 @@ public class CalculationData implements Parcelable {
         BigDecimal sumrv       = new BigDecimal(0.00);
         BigDecimal sumav       = new BigDecimal(0.00);
         BigDecimal sumpv       = new BigDecimal(0.00);
+        BigDecimal sumbg       = new BigDecimal(0.00);
         BigDecimal sumSocial       = new BigDecimal(0.00);
 
         BigDecimal taxLst          = new BigDecimal(0.00);
@@ -189,7 +191,8 @@ public class CalculationData implements Parcelable {
             sumrv           = getBigDecimal(Rentenversicherung_AG);
             sumav           = getBigDecimal(Arbeitslosenversicherung_AG);
             sumpv           = getBigDecimal(Pflegeversicherung_AG);
-            sumSocial       = sumkv.add(sumrv).add(sumav).add(sumpv);
+            sumbg           = getBigDecimal(Unfallversicherung_AG);
+            sumSocial       = sumkv.add(sumrv).add(sumav).add(sumpv).add(sumbg);
 
             taxLst          = getBigDecimal(Pausch_LohnSteuer_AG);
             taxSoli         = getBigDecimal(Pausch_Soli_AG);

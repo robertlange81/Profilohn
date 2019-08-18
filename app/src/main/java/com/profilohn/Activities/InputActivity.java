@@ -179,6 +179,7 @@ public class InputActivity extends AppCompatActivity
     BigDecimal percent_pausch_steuer_hauhaltshilfe = new BigDecimal(0.02);
     BigDecimal percent_pausch_rv_hauhaltshilfe = new BigDecimal(0.05);
     BigDecimal percent_pausch_kv_hauhaltshilfe = new BigDecimal(0.05);
+    BigDecimal percent_pausch_bg_hauhaltshilfe = new BigDecimal(0.016);
     BigDecimal percent_rv_gesamt_2018 = new BigDecimal(0.187);
     BigDecimal percent_rv_gesamt_2019 = new BigDecimal(0.186);
     BigDecimal percent_rv_gesamt_2020 = percent_rv_gesamt_2019;
@@ -479,7 +480,6 @@ public class InputActivity extends AppCompatActivity
      */
     private void _initializeListener()
     {
-        // TODO: Fehler Ergebnisse AN Sozialabgaben des AG
         // Art der Abrechnung (Wunsch-Netto oder Brutto)
         calcType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -1684,7 +1684,7 @@ public class InputActivity extends AppCompatActivity
         try {
             fileStore.writeInput(data);
         } catch (Exception e) {
-            // todo
+
         }
     }
 
@@ -2197,6 +2197,7 @@ public class InputActivity extends AppCompatActivity
             BigDecimal igum_absolut = new BigDecimal(0.00);
             BigDecimal uml1_absolut = new BigDecimal(0.00);
             BigDecimal uml2_absolut = new BigDecimal(0.00);
+            BigDecimal bgag_absolut = new BigDecimal(0.00);
 
             if(bbg_rv.compareTo(getBigDecimal(calculation.data.SVPflBrutto)) < 0){
                 // falls Brutto schon über RV-BBG: feste Beträge
@@ -2208,6 +2209,7 @@ public class InputActivity extends AppCompatActivity
                 igum_absolut = getBigDecimal(calculation.data.IGU); // unnötig
                 uml1_absolut = getBigDecimal(calculation.data.Umlage1); // unnötig
                 uml2_absolut = getBigDecimal(calculation.data.Umlage2); // unnötig
+                bgag_absolut = getBigDecimal(calculation.data.Unfallversicherung_AG); // unnötig ?
             } else {
                 rvag = getBigDecimal(calculation.data.Rentenversicherung_AG).divide(brutto_alt, 6, BigDecimal.ROUND_HALF_DOWN);
                 rvan = getBigDecimal(calculation.data.Rentenversicherung_AN).divide(brutto_alt, 6, BigDecimal.ROUND_HALF_DOWN);
@@ -2268,7 +2270,7 @@ public class InputActivity extends AppCompatActivity
             }
             BigDecimal ag_anteil = kvag_absolut.add(rvag_absolut).add(avag_absolut).add(pvag_absolut);
             calculation.data.AGAnteil = getDecimalString_Up(ag_anteil);
-            calculation.data.Abgaben_AG = getDecimalString_Up(ag_anteil.add(igum_absolut).add(uml1_absolut).add(uml2_absolut));
+            calculation.data.Abgaben_AG = getDecimalString_Up(ag_anteil.add(igum_absolut).add(uml1_absolut).add(uml2_absolut).add(bgag_absolut));
 
             calculation.data.Kirchensteuer = getDecimalString_Down(fiktivesNeuesBrutto.multiply(kirc));
             BigDecimal lstr_abs = fiktivesNeuesBrutto.multiply(lstr);
@@ -2404,11 +2406,17 @@ public class InputActivity extends AppCompatActivity
         }
     }
 
+    // TODO: Fehler Ergebnisse AN Sozialabgaben des AG, Übersetzungen, Home-Icon
     public void correct_Haushaltshilfe(Calculation calculation, boolean isRV, int jahr, boolean isKV, boolean isPauschSt, boolean isPauschalAbw) {
         try {
             BigDecimal brutto  = getBigDecimal(calculation.data.LohnsteuerPflBrutto);
-            BigDecimal pauchSt = brutto.multiply(percent_pausch_steuer_hauhaltshilfe).setScale(2, RoundingMode.DOWN);
+            calculation.data.Unfallversicherung_AG = getDecimalString_Up(brutto.multiply(percent_pausch_bg_hauhaltshilfe).setScale(2, RoundingMode.DOWN));
 
+            // keine Insolvenz für HHH
+            calculation.data.IGU = getDecimalString_Up(new BigDecimal(0.00));
+
+            BigDecimal an_netto = getBigDecimal(calculation.data.Netto);
+            BigDecimal an_auszahlung = getBigDecimal(calculation.data.Auszahlung);
             if(isRV) {
                 BigDecimal pauchRv = brutto.multiply(percent_pausch_rv_hauhaltshilfe).setScale(2, RoundingMode.DOWN);
                 BigDecimal gesRv;
@@ -2428,14 +2436,8 @@ public class InputActivity extends AppCompatActivity
                 calculation.data.ANAnteil = calculation.data.Rentenversicherung_AN;
                 calculation.data.Rentenversicherung_AG = getDecimalString_Up(pauchRv);
 
-                BigDecimal an_netto = getBigDecimal(calculation.data.Netto);
                 an_netto = an_netto.subtract(rvAN);
-                calculation.data.Netto = getDecimalString_Up(an_netto);
-                BigDecimal an_auszahlung = getBigDecimal(calculation.data.Auszahlung);
                 an_auszahlung = an_auszahlung.subtract(rvAN);
-                calculation.data.Auszahlung = getDecimalString_Down(an_auszahlung);
-
-                //TODO Unfallversicherung statt Insolvenzgeld, U1 / U2 berichtigen
             }
 
             if(isKV) {
@@ -2444,12 +2446,18 @@ public class InputActivity extends AppCompatActivity
             }
 
             if(isPauschSt) {
+                BigDecimal pauchSt = brutto.multiply(percent_pausch_steuer_hauhaltshilfe).setScale(2, RoundingMode.DOWN);
                 if(isPauschalAbw) {
                     calculation.data.Pausch_LohnSteuer_AN = getDecimalString_Down(pauchSt);
+                    an_netto = an_netto.subtract(pauchSt);
+                    an_auszahlung = an_auszahlung.subtract(pauchSt);
                 } else {
                     calculation.data.Pausch_LohnSteuer_AG = getDecimalString_Down(pauchSt);
                 }
             }
+
+            calculation.data.Netto = getDecimalString_Up(an_netto);
+            calculation.data.Auszahlung = getDecimalString_Down(an_auszahlung);
 
         } catch (Exception e) {
             MessageHelper.snackbar(this, e.getMessage());

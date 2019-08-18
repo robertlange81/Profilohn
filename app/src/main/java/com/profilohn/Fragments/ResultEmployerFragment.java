@@ -57,6 +57,8 @@ public class ResultEmployerFragment extends Fragment
     TextView txtCareEmployer_compare;
     TextView txtHealthEmployer;
     TextView txtHealthEmployer_compare;
+    TextView txtAccidentEmployer;
+    TextView txtAccidentEmployer_compare;
 
     TextView txtContribution;
     TextView txtContribution_compare;
@@ -136,6 +138,8 @@ public class ResultEmployerFragment extends Fragment
         txtCareEmployer_compare = (TextView) view.findViewById(R.id.result_employer_insurance_care_compare);
         txtHealthEmployer = (TextView) view.findViewById(R.id.result_employer_insurance_health);
         txtHealthEmployer_compare = (TextView) view.findViewById(R.id.result_employer_insurance_health_compare);
+        txtAccidentEmployer = (TextView) view.findViewById(R.id.result_employer_insurance_accident);
+        txtAccidentEmployer_compare = (TextView) view.findViewById(R.id.result_employer_insurance_accident_compare);
 
         txtTaxEmployerLst = (TextView) view.findViewById(R.id.result_employer_base_tax);
         txtTaxEmployerLst_compare = (TextView) view.findViewById(R.id.result_employer_base_tax_compare);
@@ -207,6 +211,8 @@ public class ResultEmployerFragment extends Fragment
         txtUnemploymentEmployer.setText(_formatCurrency(data.data.Arbeitslosenversicherung_AG));
         txtCareEmployer.setText(_formatCurrency(data.data.Pflegeversicherung_AG));
         txtHealthEmployer.setText(_formatCurrency(data.data.Krankenversicherung_AG));
+        if(txtAccidentEmployer != null)
+            txtAccidentEmployer.setText(_formatCurrency(data.data.Unfallversicherung_AG));
 
         txtContribution.setText(_formatCurrency(data.data.Umlagen_AG));
         txtContribution1.setText(_formatCurrency(data.data.Umlage1));
@@ -366,6 +372,21 @@ public class ResultEmployerFragment extends Fragment
         }
         txtUnemploymentEmployer_compare.setText((diffAv > 0 ? "+" : "") +_formatCurrency(diffAv));
 
+        Double oldPv = FormatHelper.toDouble(dataCompare.data.Pflegeversicherung_AG);
+        Double newPv = FormatHelper.toDouble(data.data.Pflegeversicherung_AG);
+        Double diffPv = newPv - oldPv;
+        if(diffPv >= 0.01) {
+            txtCareEmployer_compare.setVisibility(View.VISIBLE);
+            txtCareEmployer_compare.setTextColor(Color.RED);
+        } else if(diffPv <= -0.01) {
+            txtCareEmployer_compare.setVisibility(View.VISIBLE);
+            txtCareEmployer_compare.setTextColor(green);
+        } else {
+            txtCareEmployer_compare.setVisibility(View.INVISIBLE);
+            txtCareEmployer_compare.setTextColor(Color.WHITE);
+        }
+        txtCareEmployer_compare.setText((diffPv > 0 ? "+" : "") +_formatCurrency(diffPv));
+
         Double oldKv = FormatHelper.toDouble(dataCompare.data.Krankenversicherung_AG);
         Double newKv = FormatHelper.toDouble(data.data.Krankenversicherung_AG);
         Double diffKv = newKv - oldKv;
@@ -381,20 +402,22 @@ public class ResultEmployerFragment extends Fragment
         }
         txtHealthEmployer_compare.setText((diffKv > 0 ? "+" : "") +_formatCurrency(diffKv));
 
-        Double oldPv = FormatHelper.toDouble(dataCompare.data.Pflegeversicherung_AG);
-        Double newPv = FormatHelper.toDouble(data.data.Pflegeversicherung_AG);
-        Double diffPv = newPv - oldPv;
-        if(diffPv >= 0.01) {
-            txtCareEmployer_compare.setVisibility(View.VISIBLE);
-            txtCareEmployer_compare.setTextColor(Color.RED);
-        } else if(diffPv <= -0.01) {
-            txtCareEmployer_compare.setVisibility(View.VISIBLE);
-            txtCareEmployer_compare.setTextColor(green);
-        } else {
-            txtCareEmployer_compare.setVisibility(View.INVISIBLE);
-            txtCareEmployer_compare.setTextColor(Color.WHITE);
+        if(txtAccidentEmployer_compare != null) {
+            Double oldBg = FormatHelper.toDouble(dataCompare.data.Unfallversicherung_AG);
+            Double newBg = FormatHelper.toDouble(data.data.Unfallversicherung_AG);
+            Double diffBg = newBg - oldBg;
+            if(diffBg >= 0.01) {
+                txtAccidentEmployer_compare.setVisibility(View.VISIBLE);
+                txtAccidentEmployer_compare.setTextColor(Color.RED);
+            } else if(diffBg <= -0.01) {
+                txtAccidentEmployer_compare.setVisibility(View.VISIBLE);
+                txtAccidentEmployer_compare.setTextColor(green);
+            } else {
+                txtAccidentEmployer_compare.setVisibility(View.INVISIBLE);
+                txtAccidentEmployer_compare.setTextColor(Color.WHITE);
+            }
+            txtAccidentEmployer_compare.setText((diffBg > 0 ? "+" : "") +_formatCurrency(diffBg));
         }
-        txtCareEmployer_compare.setText((diffPv > 0 ? "+" : "") +_formatCurrency(diffPv));
 
         Double oldU1 = FormatHelper.toDouble(dataCompare.data.Umlage1);
         Double newU1 = FormatHelper.toDouble(data.data.Umlage1);

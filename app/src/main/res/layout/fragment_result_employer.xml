@@ -262,6 +262,31 @@
                     android:layout_toEndOf="@+id/label_health_insurance" />
             </RelativeLayout>
 
+            <!-- accident insurance -->
+            <RelativeLayout style="@style/result_data_row">
+
+                <TextView
+                    android:id="@+id/label_accident_insurance"
+                    style="@style/result_data_label"
+                    android:text="@string/result_employer_accident_health" />
+
+                <TextView
+                    android:id="@+id/result_employer_insurance_accident_compare"
+                    style="@style/result_data_value_compare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/label_accident_insurance"
+                    android:layout_toEndOf="@+id/label_accident_insurance"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp" />
+
+                <TextView
+                    android:id="@+id/result_employer_insurance_accident"
+                    style="@style/result_data_value"
+                    android:layout_alignBaseline="@+id/label_accident_insurance"
+                    android:layout_toEndOf="@+id/label_accident_insurance" />
+            </RelativeLayout>
+
             <View
                 style="@style/hr"
                 android:layout_width="match_parent" />
