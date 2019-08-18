@@ -77,6 +77,10 @@ public class CalculationInputHelper
             throw new ValidationException(message);
         }
 
+        if(data.bgProzent > new Double(10)) {
+            throw new ValidationInsuranceException("Prozentsatz der Unfallversicherung (Beiträge zur Berufsgenossenschaft) zu hoch. Dieser liegt üblicherweise im einstelligen Prozentbereich. Bitte erfragen Sie Ihren Gefahrentarif ggfls. bei Ihrer Berufsgenossenschaft.");
+        }
+
         data.dummyInsurance = false;
         //int aok_bayern = 87540905;
         //int knappschaft = 98000006;

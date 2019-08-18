@@ -39,6 +39,7 @@ public class ResultEmployerFragment extends Fragment
     RelativeLayout regionTaxSoli;
     RelativeLayout regionTaxKist;
     RelativeLayout regionProvision;
+    RelativeLayout regionAccidentInsurance;
 
     TextView txtTaxEmployer;
     TextView txtTaxEmployer_compare;
@@ -157,6 +158,7 @@ public class ResultEmployerFragment extends Fragment
         regionTax = (RelativeLayout) view.findViewById(R.id.result_employer_tax_region);
         hr = view.findViewById(R.id.result_employer_tax_hr);
 
+        regionAccidentInsurance = (RelativeLayout) view.findViewById(R.id.result_employer_accident_insurance_region);
         regionTaxLst = (RelativeLayout) view.findViewById(R.id.result_employer_base_tax_region);
         regionTaxSoli = (RelativeLayout) view.findViewById(R.id.result_employer_soli_tax_region);
         regionTaxKist = (RelativeLayout) view.findViewById(R.id.result_employer_church_tax_region);
@@ -180,6 +182,15 @@ public class ResultEmployerFragment extends Fragment
         txtTitle.setText(_formatCurrency(data.data.Abgaben_AG));
         txtWageGross.setText(_formatCurrency(data.data.LohnsteuerPflBrutto));
         txtCumCat.setText(_formatCurrency(data.data.Abgaben_AG));
+
+        if(
+                (data.data.Unfallversicherung_AG == null || data.data.Unfallversicherung_AG.equals("0,00")
+        && (dataCompare == null || dataCompare.data == null || dataCompare.data.Unfallversicherung_AG == null || dataCompare.data.Unfallversicherung_AG.equals("0,00")))
+        ) {
+            regionAccidentInsurance.setVisibility(View.GONE);
+        } else {
+            regionAccidentInsurance.setVisibility(View.VISIBLE);
+        }
 
         if(data.data.pauschSt_AG.equals("0,00") && data.data.pauschSt_AN.equals("0,00")) {
             regionTax.setVisibility(View.GONE);

@@ -263,7 +263,8 @@
             </RelativeLayout>
 
             <!-- accident insurance -->
-            <RelativeLayout style="@style/result_data_row">
+            <RelativeLayout style="@style/result_data_row"
+                android:id="@+id/result_employer_accident_insurance_region">
 
                 <TextView
                     android:id="@+id/label_accident_insurance"

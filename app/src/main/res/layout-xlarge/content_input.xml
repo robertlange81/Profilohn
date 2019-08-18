@@ -1174,7 +1174,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout5b"
+                android:id="@+id/seizureRegion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"

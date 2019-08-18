@@ -62,6 +62,7 @@ public class InputActivity extends AppCompatActivity
     public EditText              wage;
     public EditText              taxFree;
     public EditText              seizureFree;
+    public EditText              accindentIns;
     public Spinner               taxClass;
     public Spinner               year;
     public Spinner               state;
@@ -78,7 +79,7 @@ public class InputActivity extends AppCompatActivity
     public SwitchCompat          hasChildren;
     public SwitchCompat          churchTax;
     public SwitchCompat          isShifting;
-    public SwitchCompat hasSeizure;
+    public SwitchCompat          hasSeizure;
 
     public SwitchCompat          car;
     public SwitchCompat          provision;
@@ -88,6 +89,7 @@ public class InputActivity extends AppCompatActivity
     private Double  selectedWage = 0.00;
     private Double  selectedTaxFree = 0.00;
     private Double  selectedSeizureFree = 0.00;
+    private Double  selectedAccidentIns = 0.00; // percent
     private String  selectedWageType = CalculationInputHelper.WAGE_TYPE_GROSS;
     private String  selectedWagePeriod = CalculationInputHelper.WAGE_PERIOD_MONTH;
     private Boolean selectedHasChildren = false;
@@ -358,6 +360,8 @@ public class InputActivity extends AppCompatActivity
         av              = (Spinner) findViewById(R.id.av_value);
         pv              = (Spinner) findViewById(R.id.pv_value);
 
+        pv              = (Spinner) findViewById(R.id.pv_value);
+
         insuranceAc     = (AutoCompleteTextView) findViewById(R.id.insuranceAc);
         churchTax       = (SwitchCompat) findViewById(R.id.church);
         hasChildren     = (SwitchCompat) findViewById(R.id.has_children);
@@ -370,7 +374,7 @@ public class InputActivity extends AppCompatActivity
 
         regionShifting  = (LinearLayout) findViewById(R.id.shifting_area);
         regionSeizureKids = (LinearLayout) findViewById(R.id.seizure_kids_region);
-        regionSeizureFree = (LinearLayout) findViewById(R.id.linearLayout5b);
+        regionSeizureFree = (LinearLayout) findViewById(R.id.seizureRegion);
         regionProv      = (LinearLayout) findViewById(R.id.prov_amount_region);
         regionProvGrant = (LinearLayout) findViewById(R.id.prov_grant_region);
         regionCarAmount = (LinearLayout) findViewById(R.id.car_amount_region);
@@ -383,6 +387,7 @@ public class InputActivity extends AppCompatActivity
         hasSeizure = (SwitchCompat) findViewById(R.id.has_seizure);
         seizureKids     = (Spinner) findViewById(R.id.seizure_kids);
         seizureFree     = (EditText) findViewById(R.id.seizure_free);
+        accindentIns    = (EditText) findViewById(R.id.accident_insurance);
 
         provision       = (SwitchCompat) findViewById(R.id.retprov);
         provisionSum    = (EditText) findViewById(R.id.provision_sum);
@@ -619,34 +624,34 @@ public class InputActivity extends AppCompatActivity
 
         // Betrag (Brutto oder Wunsch-Netto)
         seizureFree.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!seizureFree.hasFocus()) {
-                    try {
-                        String cur = seizureFree.getText().toString();
-                        cur = cur.replaceAll("€", "");
-                        cur = cur.replaceAll("\\s+","");
-                        cur = cur.replaceAll("\\.", ",");
-                        cur = cur.replaceAll(",(?=.*?,)", "");
-                        cur = cur.replaceAll(",", ".");
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if(!seizureFree.hasFocus()) {
+                try {
+                    String cur = seizureFree.getText().toString();
+                    cur = cur.replaceAll("€", "");
+                    cur = cur.replaceAll("\\s+","");
+                    cur = cur.replaceAll("\\.", ",");
+                    cur = cur.replaceAll(",(?=.*?,)", "");
+                    cur = cur.replaceAll(",", ".");
 
-                        Double current = 0.00;
-                        if(!cur.equals("")) {
-                            current = Double.valueOf(cur);
-                        }
-                        selectedSeizureFree = current;
-                        numberFormat.setMaximumFractionDigits(2);
-                        numberFormat.setMinimumFractionDigits(2);
-                        String output = numberFormat.format(current);
-
-                        seizureFree.setText(output);
-                    } catch (Exception x) {
-                        selectedSeizureFree = 0.00;
-                        seizureFree.setText(getResources().getString(R.string.taxfree_hint));
+                    Double current = 0.00;
+                    if(!cur.equals("")) {
+                        current = Double.valueOf(cur);
                     }
+                    selectedSeizureFree = current;
+                    numberFormat.setMaximumFractionDigits(2);
+                    numberFormat.setMinimumFractionDigits(2);
+                    String output = numberFormat.format(current);
+
+                    seizureFree.setText(output);
+                } catch (Exception x) {
+                    selectedSeizureFree = 0.00;
+                    seizureFree.setText(getResources().getString(R.string.taxfree_hint));
                 }
             }
-        });
+        }
+    });
 
         seizureFree.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
@@ -664,6 +669,55 @@ public class InputActivity extends AppCompatActivity
                 return false;
             }
         });
+
+        if(accindentIns != null) {
+            accindentIns.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if(!accindentIns.hasFocus()) {
+                        try {
+                            String cur = accindentIns.getText().toString();
+                            cur = cur.replaceAll("%", "");
+                            cur = cur.replaceAll("\\s+","");
+                            cur = cur.replaceAll("\\.", ",");
+                            cur = cur.replaceAll(",(?=.*?,)", "");
+                            cur = cur.replaceAll(",", ".");
+
+                            Double current = 0.00;
+                            if(!cur.equals("")) {
+                                current = Double.valueOf(cur);
+                            }
+                            selectedAccidentIns = current;
+                            numberFormat.setMaximumFractionDigits(2);
+                            numberFormat.setMinimumFractionDigits(2);
+                            String output = numberFormat.format(current);
+
+                            accindentIns.setText(output);
+                        } catch (Exception x) {
+                            selectedAccidentIns = 0.00;
+                            accindentIns.setText(getResources().getString(R.string.percent_default));
+                        }
+                    }
+                }
+            });
+
+            accindentIns.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+                @Override
+                public boolean onEditorAction(TextView v, int actionId,
+                                              KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        eventHandler.hideKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                        calculateButton.setFocusableInTouchMode(true);
+                        calculateButton.requestFocus();
+                        calculateButton.setFocusableInTouchMode(false);
+                        return true;
+
+                    }
+                    return false;
+                }
+            });
+        }
 
         // Altersvorsorge
         provisionSum.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -1092,13 +1146,8 @@ public class InputActivity extends AppCompatActivity
                 selectedPeriod = position;
 
                 if(selectedEmployeeType > 5 ) {
-                    if(selectedYear + Calendar.getInstance().get(Calendar.YEAR) - 1 <= 2016) {
-                        selectedAV = 2;
-                        av.setSelection(2);
-                    } else {
-                        selectedAV = 0;
-                        av.setSelection(0);
-                    }
+                    selectedAV = 0;
+                    av.setSelection(0);
                 }
 
                 calculateButton.setFocusableInTouchMode(true);
@@ -1494,6 +1543,8 @@ public class InputActivity extends AppCompatActivity
                 pv.setSelection(1);
                 if(taxClass.getSelectedItemPosition() == 0)
                     taxClass.setSelection(1);
+                accindentIns.setText(getResources().getString(R.string.percent_default));
+                selectedAccidentIns = new Double(0);
                 break;
             case 1: // Minijobber
                 selectedKV = 6;
@@ -1506,6 +1557,8 @@ public class InputActivity extends AppCompatActivity
                 pv.setSelection(0);
                 insuranceAc.setText(getResources().getString(R.string.insurance_default_pausch));
                 taxClass.setSelection(0);
+                accindentIns.setText(getResources().getString(R.string.percent_default));
+                selectedAccidentIns = new Double(0);
                 break;
             case 2: // Minijobber mit RV
                 selectedKV = 6;
@@ -1518,6 +1571,9 @@ public class InputActivity extends AppCompatActivity
                 pv.setSelection(0);
                 insuranceAc.setText(getResources().getString(R.string.insurance_default_pausch));
                 taxClass.setSelection(0);
+                accindentIns.setText(getResources().getString(R.string.percent_default));
+                selectedAccidentIns = new Double(0);
+
                 break;
             case 3: // privat versichert
                 selectedKV = 0;
@@ -1530,6 +1586,8 @@ public class InputActivity extends AppCompatActivity
                 pv.setSelection(0);
                 if(taxClass.getSelectedItemPosition() == 0)
                     taxClass.setSelection(1);
+                accindentIns.setText(getResources().getString(R.string.percent_default));
+                selectedAccidentIns = new Double(0);
                 break;
             case 4: // kurzfristig beschäftigt
                 selectedKV = 0;
@@ -1541,6 +1599,8 @@ public class InputActivity extends AppCompatActivity
                 av.setSelection(0);
                 pv.setSelection(0);
                 taxClass.setSelection(0);
+                accindentIns.setText(getResources().getString(R.string.percent_default));
+                selectedAccidentIns = new Double(0);
                 break;
             case 5: // Rentner
                 selectedKV = 3;
@@ -1548,16 +1608,13 @@ public class InputActivity extends AppCompatActivity
                 selectedPV = 1;
                 kv.setSelection(2);
                 rv.setSelection(2);
-                if(selectedYear + Calendar.getInstance().get(Calendar.YEAR) - 1 <= 2016) {
-                    selectedAV = 2;
-                    av.setSelection(2);
-                } else {
-                    selectedAV = 0;
-                    av.setSelection(0);
-                }
+                selectedAV = 0;
+                av.setSelection(0);
                 pv.setSelection(1);
                 if(taxClass.getSelectedItemPosition() == 0)
                     taxClass.setSelection(1);
+                accindentIns.setText(getResources().getString(R.string.percent_default));
+                selectedAccidentIns = new Double(0);
                 break;
             case 6: // Flexi-Rentner
                 selectedKV = 3;
@@ -1565,16 +1622,13 @@ public class InputActivity extends AppCompatActivity
                 selectedPV = 1;
                 kv.setSelection(2);
                 rv.setSelection(1);
-                if(selectedYear + Calendar.getInstance().get(Calendar.YEAR) - 1 <= 2016) {
-                    selectedAV = 2;
-                    av.setSelection(2);
-                } else {
-                    selectedAV = 0;
-                    av.setSelection(0);
-                }
+                selectedAV = 0;
+                av.setSelection(0);
                 pv.setSelection(1);
                 if(taxClass.getSelectedItemPosition() == 0)
                     taxClass.setSelection(1);
+                accindentIns.setText(getResources().getString(R.string.percent_default));
+                selectedAccidentIns = new Double(0);
                 break;
             case 7: // Werkstudent (106)
                 selectedKV = 0;
@@ -1587,6 +1641,8 @@ public class InputActivity extends AppCompatActivity
                 pv.setSelection(0);
                 if(taxClass.getSelectedItemPosition() == 0)
                     taxClass.setSelection(1);
+                accindentIns.setText(getResources().getString(R.string.percent_default));
+                selectedAccidentIns = new Double(0);
                 break;
             case 8: // Praktikant 105
                 selectedKV = 1;
@@ -1599,6 +1655,8 @@ public class InputActivity extends AppCompatActivity
                 pv.setSelection(1);
                 if(taxClass.getSelectedItemPosition() == 0)
                     taxClass.setSelection(1);
+                accindentIns.setText(getResources().getString(R.string.percent_default));
+                selectedAccidentIns = new Double(0);
                 break;
             case 9: // Praktikant 105, max 70 Tage
                 selectedKV = 3;
@@ -1611,6 +1669,8 @@ public class InputActivity extends AppCompatActivity
                 pv.setSelection(1);
                 if(taxClass.getSelectedItemPosition() == 0)
                     taxClass.setSelection(1);
+                accindentIns.setText(getResources().getString(R.string.percent_default));
+                selectedAccidentIns = new Double(0);
                 break;
             case 10: // Praktikant 190 im Zwischenpraktikum
                 selectedKV = 0;
@@ -1623,30 +1683,35 @@ public class InputActivity extends AppCompatActivity
                 pv.setSelection(0);
                 if(taxClass.getSelectedItemPosition() == 0)
                     taxClass.setSelection(1);
+                accindentIns.setText(getResources().getString(R.string.percent_default));
+                selectedAccidentIns = new Double(0);
                 break;
             case 11: // Haushaltshilfe
                 selectedKV = 0;
                 selectedRV = 0;
                 selectedAV = 0;
                 selectedPV = 0;
-                kv.setSelection(0);
+                kv.setSelection(3);
                 rv.setSelection(0);
                 av.setSelection(0);
                 pv.setSelection(0);
-                insuranceAc.setText(getResources().getString(R.string.insurance_default_pausch));
                 taxClass.setSelection(0);
-                break;
+                accindentIns.setText(percent_pausch_bg_hauhaltshilfe.multiply(new BigDecimal(100)).toString());
+                selectedAccidentIns = percent_pausch_bg_hauhaltshilfe.doubleValue();
+                insuranceAc.setText(getResources().getString(R.string.insurance_default_pausch));break;
             case 12: // Haushaltshilfe mit RV
                 selectedKV = 0;
                 selectedRV = 0;
                 selectedAV = 0;
                 selectedPV = 0;
-                kv.setSelection(0);
+                kv.setSelection(3);
                 rv.setSelection(0);
                 av.setSelection(0);
                 pv.setSelection(0);
-                insuranceAc.setText(getResources().getString(R.string.insurance_default_pausch));
                 taxClass.setSelection(0);
+                accindentIns.setText(percent_pausch_bg_hauhaltshilfe.multiply(new BigDecimal(100)).toString());
+                selectedAccidentIns = percent_pausch_bg_hauhaltshilfe.doubleValue();
+                insuranceAc.setText(getResources().getString(R.string.insurance_default_pausch));
                 break;
             default:
                 // volle Versicherung
@@ -1660,6 +1725,9 @@ public class InputActivity extends AppCompatActivity
                 pv.setSelection(1);
                 if(taxClass.getSelectedItemPosition() == 0)
                     taxClass.setSelection(1);
+                accindentIns.setText(getResources().getString(R.string.percent_default));
+                selectedAccidentIns = new Double(0);
+                selectedAccidentIns = percent_pausch_bg_hauhaltshilfe.doubleValue();
         }
     }
 
@@ -1834,6 +1902,18 @@ public class InputActivity extends AppCompatActivity
                 selectedSeizureFree = cache.pfaendungsfreierBetrag;
                 seizureFree.clearFocus();
 
+                // Unfallversicherung
+                if(seizureFree != null) {
+                    seizureFree.requestFocus();
+                    if (cache.bgProzent != null) {
+                        accindentIns.setText(cache.bgProzent.toString());
+                    } else {
+                        accindentIns.setText(getResources().getString(R.string.percent_default));
+                    }
+                    selectedAccidentIns = cache.bgProzent;
+                    accindentIns.clearFocus();
+                }
+
                 // Altersvorsorge
                 selectedHasProvision = cache.hatAltersvorsorge;
                 provision.setChecked(cache.hatAltersvorsorge);
@@ -1888,7 +1968,7 @@ public class InputActivity extends AppCompatActivity
                 hasSeizure.requestFocus();
                 hasSeizure.setChecked(false);
                 eventHandler.OnSwitchSeizure(false);
-                regionSeizureKids.setVisibility(View.INVISIBLE);
+                regionSeizureKids.setVisibility(View.GONE);
                 regionSeizureFree.setVisibility(View.GONE);
                 employeeType.setSelection(0);
                 state.setSelection(0);
@@ -1996,8 +2076,15 @@ public class InputActivity extends AppCompatActivity
                     data.AbrJahr,
                     true,
                     data.StKl == 23,
-                    data.abwaelzung_pauschale_steuer
+                    data.abwaelzung_pauschale_steuer,
+                    data.bgProzent != null && data.bgProzent > new Double(0.01) ? BigDecimal.valueOf(data.bgProzent).divide(new BigDecimal(100)) : percent_pausch_bg_hauhaltshilfe
             );
+        } else {
+            if(data.bgProzent != null && data.bgProzent > new Double(0.01)) {
+                BigDecimal Brutto = getBigDecimal(calculation.data.LohnsteuerPflBrutto);
+                BigDecimal BG = Brutto.multiply(BigDecimal.valueOf(data.bgProzent).divide(new BigDecimal(100)));
+                calculation.data.Unfallversicherung_AG = getDecimalString_Down(BG);
+            }
         }
 
         // !!! noch vor Abzug Firmenwagen oder Zuschlag Altersvorsorge muss Pfändung berechnet werden
@@ -2407,10 +2494,10 @@ public class InputActivity extends AppCompatActivity
     }
 
     // TODO: Fehler Ergebnisse AN Sozialabgaben des AG, Übersetzungen, Home-Icon
-    public void correct_Haushaltshilfe(Calculation calculation, boolean isRV, int jahr, boolean isKV, boolean isPauschSt, boolean isPauschalAbw) {
+    public void correct_Haushaltshilfe(Calculation calculation, boolean isRV, int jahr, boolean isKV, boolean isPauschSt, boolean isPauschalAbw, BigDecimal bgPercent) {
         try {
             BigDecimal brutto  = getBigDecimal(calculation.data.LohnsteuerPflBrutto);
-            calculation.data.Unfallversicherung_AG = getDecimalString_Up(brutto.multiply(percent_pausch_bg_hauhaltshilfe).setScale(2, RoundingMode.DOWN));
+            calculation.data.Unfallversicherung_AG = getDecimalString_Up(brutto.multiply(bgPercent).setScale(2, RoundingMode.DOWN));
 
             // keine Insolvenz für HHH
             calculation.data.IGU = getDecimalString_Up(new BigDecimal(0.00));
@@ -2641,6 +2728,7 @@ public class InputActivity extends AppCompatActivity
         helper.data.hatPfaendung = selectedSeizure;
         helper.data.unterhaltspflPers = selectedSeizureKids;
         helper.data.pfaendungsfreierBetrag = selectedSeizureFree;
+        helper.data.bgProzent = selectedAccidentIns;
 
         String message;
 

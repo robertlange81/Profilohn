@@ -45,4 +45,5 @@ public class CalculationInputData {
     public boolean hatPfaendung = false;
     public Integer unterhaltspflPers;
     public Double pfaendungsfreierBetrag = 0.0;
+    public Double bgProzent = 0.0;
 }

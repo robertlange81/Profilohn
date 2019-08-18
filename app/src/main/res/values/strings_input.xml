@@ -93,8 +93,10 @@
     <string name="label_pension_insurance">Rentenversicherung</string>
     <string name="label_unemployment_insurance">Arbeitsl.-vers.</string>
     <string name="label_unemployment_insurance_full">Arbeitslosenversicherung</string>
+    <string name="label_accident_insurance">Unfallvers. in %</string>
 
     <string name="wage_default">0,00 €</string>
+    <string name="percent_default">0,00 %</string>
 
     <string name="calculate">Berechnung starten</string>
     <string name="car">Firmenwagen</string>
