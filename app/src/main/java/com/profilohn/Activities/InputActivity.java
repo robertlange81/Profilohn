@@ -1261,7 +1261,7 @@ public class InputActivity extends AppCompatActivity
                     regionSeizureKids.setVisibility(View.VISIBLE);
                     regionSeizureFree.setVisibility(View.VISIBLE);
                 } else {
-                    regionSeizureKids.setVisibility(View.INVISIBLE);
+                    regionSeizureKids.setVisibility(View.GONE);
                     regionSeizureFree.setVisibility(View.GONE);
                 }
             }
@@ -1697,8 +1697,9 @@ public class InputActivity extends AppCompatActivity
                 pv.setSelection(0);
                 taxClass.setSelection(0);
                 accindentIns.setText(percent_pausch_bg_hauhaltshilfe.multiply(new BigDecimal(100)).toString());
-                selectedAccidentIns = percent_pausch_bg_hauhaltshilfe.doubleValue();
-                insuranceAc.setText(getResources().getString(R.string.insurance_default_pausch));break;
+                selectedAccidentIns = percent_pausch_bg_hauhaltshilfe.multiply(new BigDecimal(100)).doubleValue();
+                insuranceAc.setText(getResources().getString(R.string.insurance_default_pausch));
+                break;
             case 12: // Haushaltshilfe mit RV
                 selectedKV = 0;
                 selectedRV = 0;
@@ -1710,7 +1711,7 @@ public class InputActivity extends AppCompatActivity
                 pv.setSelection(0);
                 taxClass.setSelection(0);
                 accindentIns.setText(percent_pausch_bg_hauhaltshilfe.multiply(new BigDecimal(100)).toString());
-                selectedAccidentIns = percent_pausch_bg_hauhaltshilfe.doubleValue();
+                selectedAccidentIns = percent_pausch_bg_hauhaltshilfe.multiply(new BigDecimal(100)).doubleValue();
                 insuranceAc.setText(getResources().getString(R.string.insurance_default_pausch));
                 break;
             default:
@@ -1906,11 +1907,11 @@ public class InputActivity extends AppCompatActivity
                 if(seizureFree != null) {
                     seizureFree.requestFocus();
                     if (cache.bgProzent != null) {
-                        accindentIns.setText(cache.bgProzent.toString());
+                        accindentIns.setText(cache.bgProzent.toString().replace('.', ','));
+                        selectedAccidentIns = cache.bgProzent;
                     } else {
                         accindentIns.setText(getResources().getString(R.string.percent_default));
                     }
-                    selectedAccidentIns = cache.bgProzent;
                     accindentIns.clearFocus();
                 }
 
@@ -1980,7 +1981,7 @@ public class InputActivity extends AppCompatActivity
             hasSeizure.requestFocus();
             hasSeizure.setChecked(false);
             selectedSeizure = false;
-            regionSeizureKids.setVisibility(View.INVISIBLE);
+            regionSeizureKids.setVisibility(View.GONE);
             regionSeizureFree.setVisibility(View.GONE);
             employeeType.setSelection(0);
             state.setSelection(0);
@@ -2077,7 +2078,7 @@ public class InputActivity extends AppCompatActivity
                     true,
                     data.StKl == 23,
                     data.abwaelzung_pauschale_steuer,
-                    data.bgProzent != null && data.bgProzent > new Double(0.01) ? BigDecimal.valueOf(data.bgProzent).divide(new BigDecimal(100)) : percent_pausch_bg_hauhaltshilfe
+                    data.bgProzent != null ? BigDecimal.valueOf(data.bgProzent).divide(new BigDecimal(100)) : percent_pausch_bg_hauhaltshilfe
             );
         } else {
             if(data.bgProzent != null && data.bgProzent > new Double(0.01)) {
@@ -2493,11 +2494,17 @@ public class InputActivity extends AppCompatActivity
         }
     }
 
-    // TODO: Fehler Ergebnisse AN Sozialabgaben des AG, Übersetzungen, Home-Icon
+    // TODO: Fehler Ergebnisse AN Sozialabgaben des AG
+    // TODO: Übersetzungen
+    // TODO: Home-Icon rund
     public void correct_Haushaltshilfe(Calculation calculation, boolean isRV, int jahr, boolean isKV, boolean isPauschSt, boolean isPauschalAbw, BigDecimal bgPercent) {
         try {
             BigDecimal brutto  = getBigDecimal(calculation.data.LohnsteuerPflBrutto);
-            calculation.data.Unfallversicherung_AG = getDecimalString_Up(brutto.multiply(bgPercent).setScale(2, RoundingMode.DOWN));
+            BigDecimal bg = brutto.multiply(bgPercent).setScale(2, RoundingMode.DOWN);
+            calculation.data.Unfallversicherung_AG = getDecimalString_Up(bg);
+
+            BigDecimal umlagen_ag  = getBigDecimal(calculation.data.Umlagen_AG);
+            calculation.data.Umlagen_AG = getDecimalString_Up(umlagen_ag.subtract(getBigDecimal(calculation.data.IGU)));
 
             // keine Insolvenz für HHH
             calculation.data.IGU = getDecimalString_Up(new BigDecimal(0.00));

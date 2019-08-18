@@ -245,6 +245,7 @@
     </string-array>
 
     <string name="validation_error_insurance">Bitte Krankenkasse wählen.</string>
+    <string name="validation_error_accident_insurance">Prozentsatz der Unfallversicherung (BG) zu hoch. Dieser liegt üblicherweise im einstelligen Prozentbereich. Bitte erfragen Sie Ihren Gefahrentarif ggfls. bei Ihrer Berufsgenossenschaft.</string>
     <string name="validation_error_wage">Bitte Lohn/Gehalt angeben.</string>
     <string name="validation_error_provision_grant">Altersvorsorge: Gesamtsumme darf nicht kleiner als Zuschuss sein.</string>
     <string name="format_error">Allgemeiner Formatierungsfehler.</string>

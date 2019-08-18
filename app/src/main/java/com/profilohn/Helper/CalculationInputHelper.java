@@ -77,8 +77,8 @@ public class CalculationInputHelper
             throw new ValidationException(message);
         }
 
-        if(data.bgProzent > new Double(10)) {
-            throw new ValidationInsuranceException("Prozentsatz der Unfallversicherung (Beiträge zur Berufsgenossenschaft) zu hoch. Dieser liegt üblicherweise im einstelligen Prozentbereich. Bitte erfragen Sie Ihren Gefahrentarif ggfls. bei Ihrer Berufsgenossenschaft.");
+        if(data.bgProzent > new Double(12)) {
+            throw new ValidationInsuranceException(a.getResources().getString(R.string.validation_error_accident_insurance));
         }
 
         data.dummyInsurance = false;
