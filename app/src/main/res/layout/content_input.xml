@@ -570,7 +570,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/seizure_free_label"
+                    android:id="@+id/accident_insurance_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"

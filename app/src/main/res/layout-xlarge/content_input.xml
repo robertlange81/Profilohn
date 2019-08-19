@@ -1214,6 +1214,77 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/linearLayout13"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_below="@+id/linearLayout12"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginTop="40dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/accident_insurance_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:paddingEnd="0dp"
+                        android:paddingStart="@dimen/padding_label_left"
+                        android:textAlignment="viewStart"
+                        android:textSize="18sp"
+                        android:text="@string/label_accident_insurance_full" />
+
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/accident_insurance"
+                        android:maxLines="1"
+                        android:hint="@string/percent_default"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="0dp"
+                        android:layout_marginStart="10dp"
+                        android:digits="0123456789,.-"
+                        android:gravity="start"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberDecimal"
+                        android:maxLength="4"
+                        android:selectAllOnFocus="true"
+                        android:textAlignment="viewStart"
+                        />
+
+                </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+            </LinearLayout>
+
+        </LinearLayout>
+
     </RelativeLayout>
 
 

@@ -94,6 +94,7 @@
     <string name="label_unemployment_insurance">Arbeitsl.-vers.</string>
     <string name="label_unemployment_insurance_full">Arbeitslosenversicherung</string>
     <string name="label_accident_insurance">Unfallvers. in %</string>
+    <string name="label_accident_insurance_full">Unfallversicherung in %</string>
 
     <string name="wage_default">0,00 €</string>
     <string name="percent_default">0,00 %</string>
