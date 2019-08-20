@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello_welcome_head">Gross / net wage calculation</string>
+    <string name="hello_welcome_sub">
+        Click on the + in the lower screen to start a new calculation.
+    </string>
+
+    <string name="hello_into_ad_head">Accounting and payroll easy and online!</string>
+    <string name="hello_intro_ad_content">
+        Payroll and bids and invoices easy and online to do it yourself.
+    </string>
+    <string name="hello_intro_ad_link">
+        <u>Online accounting and payroll</u>
+    </string>
+
+    <string name="hello_intro_ad_sage">\u00A9 ProfiLOHN YYYY</string>
+
+    <string name="menu_netwage">New net payroll calculation</string>
+    <string name="menu_grosswage">New gross salary calculation</string>
+
+    <string name="menu_employee">I am employee</string>
+    <string name="menu_employer">I am employer</string>
+
+    <string name="btn_calc_gross"><b>Gross</b>wage simulate\n(Net to Gross)</string>
+    <string name="btn_calc_net">calc <b>Netto</b>wage \n(Gross to Net)</string>
+    <string name="btn_calc"><b>START CALCULATION</b></string>
+
+    <string name="hello_cache_cleared"><b>App-Cache</b> was successfully emptied.\n\nThis also happens with every restart of the app.</string>
+    <string name="preparation_dialog">Application is prepared ..</string>
+</resources>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="title_activity_result_employee">Payments/Deductions for employee</string>
+    <string name="title_activity_result_employer">Expenses for employer</string>
+    <string name="title_activity_result_sage">ProfiLohn AG</string>
+
+    <string name="result_menu_action_employee">Employee</string>
+    <string name="result_menu_action_employer">Employer</string>
+</resources>

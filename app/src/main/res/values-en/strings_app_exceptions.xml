@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_api_error">Communication error.  Please check internet connection.</string>
+    <string name="app_connection_not_available"><b>No Internet connection</b>\n\nWaiting for a valid connection ..</string>
+
+    <string name="exception_status_code">Communication error. Please try again later.</string>
+    <string name="exception_socket_timeout">The remote site for the calculation is currently not available.  Please try again later.</string>
+    <string name="exception_http_auth">Authentication could not be performed.  Please update Your application.</string>
+
+    <string name="exception_format">Unexpected formatting error.</string>
+</resources>

@@ -29,7 +29,6 @@
         <item>Praktikant, Zwischenpraktikum</item> <!-- PersGr 190 -->
         <item>Haushaltshilfe, RV-frei</item>
         <item>Haushaltshilfe, Standard</item>
-        <!-- TODO: Haushaltshilfe -->
     </string-array>
 
     <string-array name="taxclasses">
@@ -81,7 +80,7 @@
 
     <!-- Service labels -->
     <string name="service_no_network">Keine Internetverbindung</string>
-    <string name="empty">Not defined</string>
+    <string name="empty">Nicht definiert</string>
 
     <!-- input labels -->
     <string name="label_yes">Ja</string>
@@ -245,11 +244,11 @@
         <item>halb</item>
     </string-array>
 
-    <string name="validation_error_insurance">Bitte Krankenkasse wählen.</string>
-    <string name="validation_error_accident_insurance_too_high">Prozentsatz der Unfallversicherung (BG) zu hoch. Dieser liegt üblicherweise im einstelligen Prozentbereich. Bitte erfragen Sie Ihren Gefahrentarif ggfls. bei Ihrer Berufsgenossenschaft.</string>
-    <string name="validation_error_accident_insurance_too_low">Prozentsatz der Unfallversicherung (BG) zu niedrig. Dieser liegt üblicherweise im einstelligen Prozentbereich. Bitte erfragen Sie Ihren Gefahrentarif ggfls. bei Ihrer Berufsgenossenschaft.</string>
-    <string name="validation_error_wage">Bitte Lohn/Gehalt angeben.</string>
-    <string name="validation_error_provision_grant">Altersvorsorge: Gesamtsumme darf nicht kleiner als Zuschuss sein.</string>
+    <string name="validation_error_insurance">Bitte Krankenkasse wählen</string>
+    <string name="validation_error_accident_insurance_too_high">Prozentsatz der Unfallversicherung (BG) zu hoch. Dieser liegt üblicherweise im einstelligen Prozentbereich. Bitte erfragen Sie Ihren Gefahrentarif ggfls. bei Ihrer Berufsgenossenschaft</string>
+    <string name="validation_error_accident_insurance_too_low">Prozentsatz der Unfallversicherung (BG) zu niedrig. Dieser liegt üblicherweise im einstelligen Prozentbereich. Bitte erfragen Sie Ihren Gefahrentarif ggfls. bei Ihrer Berufsgenossenschaft</string>
+    <string name="validation_error_wage">Bitte Lohn/Gehalt angeben</string>
+    <string name="validation_error_provision_grant">Altersvorsorge: Gesamtsumme darf nicht kleiner als Zuschuss sein</string>
     <string name="format_error">Allgemeiner Formatierungsfehler.</string>
     <string name="calculation_started">Die Berechnung wird durchgeführt. Bitte warten ..</string>
     <string name="seizure_and_pension_provision">Arbeitnehmer-Beiträge und Arbeitgeber-Zuschüsse zur Altersvorsorge sind in der Regel pfändungsfrei. Sollte die Altersvorsorge jedoch NACH Pfändungsbeschluss abgeschlossen worden sein, ist sie pfändungspflichtig und muss von dem Betrag im Feld "unpfändbarer Betrag" abgezogen werden. Negative Summen sind in diesem Feld daher auch erlaubt.</string>

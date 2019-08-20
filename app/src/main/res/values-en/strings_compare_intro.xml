@@ -1,0 +1,12 @@
+<resources>
+    <string name="compare_intro_text_wage_gross">Last calculation</string>
+    <string name="compare_intro_text_wage_net">Last calculation</string>
+    <string name="compare_intro_title">Calculation successfully</string>
+    <string name="compare_intro_success">The gross / net payroll has been successfully completed.</string>
+
+    <string name="compare_intro_intro">You can compare the results by clicking on one of the following areas.</string>
+    <string name="compare_intro_btn_employee">Results for employee</string>
+    <string name="compare_intro_btn_employee_desc">Gross, Net, Taxes &amp; social security contribution</string>
+    <string name="compare_intro_btn_employer">Results for employer</string>
+    <string name="compare_intro_btn_employer_desc">Gross, social security, levies &amp; total load</string>
+</resources>

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ProfiLOHN</string>
+    <string name="snackbar_label">Start new calculation ..</string>
+    <string name="snackbar_action_netto">Net Wage</string>
+    <string name="snackbar_action_brutto">Gross Wage</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_ok">OK</string>
+    <string name="action_close">Close</string>
+
+    <string name="format_string">dd. MMMM</string>
+    <string name="interval">%1$s bis %2$s</string>
+
+    <!-- prompts -->
+    <string name="stkl_prompt">Choose Tax Class</string>
+
+    <string-array name="employeetypes">
+        <item>Standard</item>
+        <item>Minijobber, no pension ins.</item>
+        <item>Minijobber, Default</item>
+        <item>Privately insured</item>
+        <item>short-term</item>
+        <item>Pensioner, no pension ins.</item>
+        <item>Flex-Pensioner</item>
+        <item>Working Student</item>
+        <item>Intern</item> <!-- Vor- oder Nachpraktikum PersGr 105  -->
+        <item>Intern, max. 70 days</item> <!-- Vor- oder Nachpraktikum PersGr 105  -->
+        <item>Intern, between Internship</item> <!-- PersGr 190 -->
+        <item>Home Help, no pension ins.</item>
+        <item>Home Help, Default</item>
+    </string-array>
+
+    <string-array name="taxclasses">
+        <item>Flat tax</item>
+        <item>One - I</item>
+        <item>Two - II</item>
+        <item>Three - III</item>
+        <item>Four - IV</item>
+        <item>Five - V</item>
+        <item>Six - VI</item>
+    </string-array>
+
+    <string-array name="childfree">
+        <item>0.0</item>
+        <item>0.5</item>
+        <item>1.0</item>
+        <item>1.5</item>
+        <item>2.0</item>
+        <item>2.5</item>
+        <item>3.0</item>
+        <item>3.5</item>
+        <item>4.0</item>
+        <item>4.5</item>
+        <item>5.0</item>
+        <item>5.5</item>
+        <item>6.0</item>
+        <item>6.5</item>
+        <item>7.0</item>
+    </string-array>
+
+    <string-array name="seizure_kids">
+        <item>0 Persons</item>
+        <item>1 Person</item>
+        <item>2 Persons</item>
+        <item>3 Persons</item>
+        <item>4 Persons</item>
+        <item>5 Persons</item>
+    </string-array>
+
+    <string name="kist_prompt">church rate</string>
+    <string name="kinder_prompt">child tax allowance</string>
+    <string name="krankenkassen_prompt">Choose health insurance</string>
+    <string name="bundesland_prompt">Choose state</string>
+
+    <string name="health_insurance_prompt">Contribution health insurance</string>
+    <string name="nursing_insurance_prompt">Contribution nursing insurance</string>
+    <string name="pension_insurance_prompt">Contribution pension insurance</string>
+    <string name="unemployment_insurance_prompt">Contribution unemployment insurance</string>
+
+    <!-- Service labels -->
+    <string name="service_no_network">No Internet connection</string>
+    <string name="empty">Not defined</string>
+
+    <!-- input labels -->
+    <string name="label_yes">Yes</string>
+    <string name="label_no">No</string>
+    <string name="label_currency">in €</string>
+    <string name="label_health_insurance">Health Insurance</string>
+    <string name="label_nursing_insurance">Nursing Ins.</string>
+    <string name="label_nursing_insurance_full">Nursing Insurance</string>
+    <string name="label_pension_insurance">Pension Insurance</string>
+    <string name="label_unemployment_insurance">Arbeitsl.-vers.</string>
+    <string name="label_unemployment_insurance_full">Unemployment Insurance</string>
+    <string name="label_accident_insurance">Accident Ins. in %</string>
+    <string name="label_accident_insurance_full">Accident Insurance in %</string>
+
+    <string name="wage_default">0,00 €</string>
+    <string name="percent_default">0,00 %</string>
+
+    <string name="calculate">Start Calculation</string>
+    <string name="car">Company Car</string>
+    <string name="car_amount">Car List Price</string>
+    <string name="car_amount_hint">0 €</string>
+    <string name="car_distance">Daily Drive to Work</string>
+    <string name="car_distance_hint">0 km</string>
+    <string name="children">Child Tax Credit</string>
+    <string name="church">Church Tax</string>
+    <string name="employee_type">Emloyee Type</string>
+    <string name="grosswage">Gross</string>
+    <string name="has_children">Kids / age under 23</string>
+    <string name="has_children_long">Kids or age under 23</string>
+    <string name="has_shifting">Tax Passing employee</string>
+    <string name="insurance">Health Insuranse</string>
+    <string name="insurance_hint">Name of  Health Insurance ..</string>
+    <string name="insurance_default_pausch">Knappschaft geringf. Beschäftigte</string>
+    <string name="insurance_init_value">List is being updated ..</string>
+    <string name="netwage">Net Wage</string>
+    <string name="provision">Retirement Plan</string>
+    <string name="provision_sum_year">Total Amount (Y)</string>
+    <string name="provision_sum_month">Total Amount (M)</string>
+    <string name="provision_grant_year">Company Subsidy (Y)</string>
+    <string name="provision_grant_month">Company Subsidy (M)</string>
+    <string name="seizure">Seizure</string>
+    <string name="seizure_kids">maintenance obligation for</string>
+    <string name="seizure_free">Unseizable Amount</string>
+    <string name="state">State</string>
+    <string name="taxclass">tax (class)</string>
+    <string name="taxfree_year">Tax Allowance (Y)</string>
+    <string name="taxfree_month">Tax Allowance (M)</string>
+    <string name="taxfree_hint">0,00 €</string>
+    <string name="wage_period_year">Annual Amount</string>
+    <string name="wageamount_gross_year">Gross (Y)</string>
+    <string name="wageamount_gross_month">Gross (M)</string>
+    <string name="wageamount_net_year">Desired Net (Y)</string>
+    <string name="wageamount_net_month">Desired Net (M)</string>
+    <string name="wage_type_label_1">Calc Gross into</string>
+    <string name="wage_type_label_2">Calc Net into</string>
+    <string name="year">Mon, Year</string>
+    <string name="year_full">Month, Year</string>
+    <string name="bg">Baden-Württ.</string>
+    <string name="by">Bayern</string>
+    <string name="bo">Berlin-Ost</string>
+    <string name="bw">Berlin-West</string>
+    <string name="bb">Brandenburg</string>
+    <string name="bn">Bremen</string>
+    <string name="hh">Hamburg</string>
+    <string name="he">Hessen</string>
+    <string name="mv">Meck.-Vorp.</string>
+    <string name="ns">Niedersachsen</string>
+    <string name="nw">Nordrh.-Westf.</string>
+    <string name="rp">Rheinland-Pfalz</string>
+    <string name="sl">Saarland</string>
+    <string name="sn">Sachsen</string>
+    <string name="sa">Sachsen-Anhalt</string>
+    <string name="sh">Schlesw.-Holst.</string>
+    <string name="th">Thüringen</string>
+
+    <string-array name="states">
+        <item>@string/bg</item>
+        <item>@string/by</item>
+        <item>@string/bo</item>
+        <item>@string/bw</item>
+        <item>@string/bb</item>
+        <item>@string/bn</item>
+        <item>@string/hh</item>
+        <item>@string/he</item>
+        <item>@string/mv</item>
+        <item>@string/ns</item>
+        <item>@string/nw</item>
+        <item>@string/rp</item>
+        <item>@string/sl</item>
+        <item>@string/sn</item>
+        <item>@string/sa</item>
+        <item>@string/sh</item>
+        <item>@string/th</item>
+    </string-array>
+
+    <string name="jan">Jan</string>
+    <string name="feb">Feb</string>
+    <string name="mar">Mar</string>
+    <string name="apr">Apr</string>
+    <string name="may">May</string>
+    <string name="jun">Jun</string>
+    <string name="jul">Jul</string>
+    <string name="aug">Aug</string>
+    <string name="sep">Sep</string>
+    <string name="oct">Oct</string>
+    <string name="nov">Nov</string>
+    <string name="dec">Dec</string>
+
+    <string-array name="months">
+        <item>@string/jan</item>
+        <item>@string/feb</item>
+        <item>@string/mar</item>
+        <item>@string/apr</item>
+        <item>@string/may</item>
+        <item>@string/jun</item>
+        <item>@string/jul</item>
+        <item>@string/aug</item>
+        <item>@string/sep</item>
+        <item>@string/oct</item>
+        <item>@string/nov</item>
+        <item>@string/dec</item>
+    </string-array>
+
+    <string-array name="kv">
+        <!--item>0 - kein Beitrag</item>
+        <item>1 - allgemeiner Beitrag</item>
+        <item>3 - ermäßigter Beitrag</item>
+        <item>6 - Pauschalbeitrag</item-->
+        <item>none</item>
+        <item>full</item>
+        <item>reduced</item>
+        <item>flat rate</item>
+    </string-array>
+
+    <string-array name="rv">
+        <!--item>0 - kein Beitrag</item>
+        <item>1 - voller Beitrag</item>
+        <item>3 - halber Beitrag</item>
+        <item>5 - Pauschalbeitrag</item-->
+        <item>none</item>
+        <item>full</item>
+        <item>half</item>
+        <item>flat rate</item>
+    </string-array>
+
+    <string-array name="av">
+        <!--item>0 - kein Beitrag</item>
+        <item>1 - voller Beitrag</item>
+        <item>2 - halber Beitrag</item-->
+        <item>none</item>
+        <item>full</item>
+        <item>half</item>
+    </string-array>
+
+    <string-array name="pv">
+        <!--item>0 - kein Beitrag</item>
+        <item>1 - voller Beitrag</item>
+        <item>2 - halber Beitrag</item-->
+        <item>none</item>
+        <item>full</item>
+        <item>half</item>
+    </string-array>
+
+    <string name="validation_error_insurance">Please choose health insurance</string>
+    <string name="validation_error_accident_insurance_too_high">Percentage of accident insurance (BG) too high. This is usually in the single-digit percentage range. Please ask for your risk tariff if necessary at your professional association</string>
+    <string name="validation_error_accident_insurance_too_low">Percentage of accident insurance (BG) too low. This is usually in the single-digit percentage range. Please ask for your risk tariff if necessary at your professional association</string>
+    <string name="validation_error_wage">Please specify salary / wage</string>
+    <string name="validation_error_provision_grant">Pensions: Total can not be less than grant</string>
+    <string name="format_error">General formatting error</string>
+    <string name="calculation_started">The calculation is performed. Please wait ..</string>
+    <string name="seizure_and_pension_provision">Employee contributions and employer grants for pensions are generally pledged.  However, if the pension has been completed AFTER the attachment order, it is liable to be garnished and has to be deducted from the amount in the field "ungrafted amount".  Negative sums are therefore also allowed in this field.</string>
+    <string name="seizure_and_company_car">Monetary advantage from the private use of a company car is also liable to garnishment as well as tax and social security contributions.  If you bill your company car individually (no 1% rule), you must subtract or add the difference amount under "seizure-free amounts" manually.</string>
+
+</resources>

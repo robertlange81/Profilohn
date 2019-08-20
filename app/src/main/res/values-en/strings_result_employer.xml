@@ -1,0 +1,32 @@
+<resources>
+    <string name="result_employer_title">Employer ER)</string>
+    <string name="result_employer_cum_cat">Costs</string>
+    <string name="result_employer_wage_gross">Gross</string>
+
+    <string name="result_employer_tax">Flate Rate Tax</string>
+    <string name="result_employee_tax_p">Flate Rate Tax</string>
+    <string name="result_employer_base_tax">Income Tax</string>
+    <string name="result_employer_soli_tax">Solidarity Surcharge</string>
+    <string name="result_employer_church_tax">Church Tax</string>
+    <string name="result_employer_social_contribution">Social Sec. Contr.</string>
+    <string name="result_employer_insurance_pension">Pension Ins.</string>
+    <string name="result_employer_insurance_unemployment">Unempl. Ins.</string>
+    <string name="result_employer_insurance_care">Nursing Ins.</string>
+    <string name="result_employer_insurance_health">Krankenvers.</string>
+    <string name="result_employer_accident_health">Health Ins.</string>
+
+    <string name="result_employer_insurance_pension_long">Pension Insurance</string>
+    <string name="result_employer_insurance_unemployment_long">Unemployment Insurance</string>
+    <string name="result_employer_insurance_care_long">Nursing Insurance</string>
+    <string name="result_employer_insurance_health_long">Health Insurance</string>
+    <string name="result_employer_insurance_acident_long">Accident Insurance</string>
+
+    <string name="result_employer_provision">Company Pension Subsidy</string>
+
+    <string name="result_employer_contribution">Contributions</string>
+    <string name="result_employer_contribution1">U1 (Illness)</string>
+    <string name="result_employer_contribution2">U2 (Maternity Protection)</string>
+    <string name="result_employer_insolvency_contribution">IGU (Insolvency Benefit)</string>
+
+
+</resources>

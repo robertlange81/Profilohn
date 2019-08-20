@@ -1,0 +1,29 @@
+<resources>
+    <string name="result_employee_title">Employee (EE)</string>
+
+    <string name="result_employee_wage_label">Employee-Net</string>
+    <string name="result_employee_btn_again">Once again</string>
+    <string name="result_employee_wage_net">Net</string>
+    <string name="result_employee_wage_gross">Gross</string>
+    <string name="result_employee_cash_net">Pay Out</string>
+    <string name="result_employee_seizure">seizure</string>
+
+    <string name="result_employee_tax">Taxes</string>
+    <string name="result_employee_wagetax">Income Tax</string>
+    <string name="result_employee_solidarity">Solidarity Surcharge</string>
+    <string name="result_employee_churchtax">Church Tax</string>
+
+    <string name="result_employee_provision">Private Pension Insurance</string>
+
+    <string name="result_employee_social_contribution">Social Sec. Contr.</string>
+    <string name="result_employee_insurance_pension">Pension Insurance</string>
+    <string name="result_employee_insurance_unemployment">Unempl. Ins.</string>
+    <string name="result_employee_insurance_care">Nursing Ins.</string>
+    <string name="result_employee_insurance_health">Health Ins.</string>
+
+    <string name="result_employee_insurance_pension_long">Pension Insurance</string>
+    <string name="result_employee_insurance_unemployment_long">Unemployment Insurance</string>
+    <string name="result_employee_insurance_care_long">Nursing Insurance</string>
+    <string name="result_employee_insurance_health_long">Health Insurance</string>
+
+</resources>
