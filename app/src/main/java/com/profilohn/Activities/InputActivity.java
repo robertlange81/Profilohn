@@ -39,8 +39,11 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import com.profilohn.Exceptions.ValidationAccidentInsuranceException;
+import com.profilohn.Exceptions.ValidationBruttoException;
 import com.profilohn.Exceptions.ValidationException;
 import com.profilohn.Exceptions.ValidationInsuranceException;
+import com.profilohn.Exceptions.ValidationProvisionGrantException;
 import com.profilohn.Helper.CalculationInputHelper;
 import com.profilohn.Helper.EventHandler;
 import com.profilohn.Helper.MessageHelper;
@@ -2737,35 +2740,32 @@ public class InputActivity extends AppCompatActivity
         helper.data.pfaendungsfreierBetrag = selectedSeizureFree;
         helper.data.bgProzent = selectedAccidentIns;
 
-        String message;
-
         try {
             return helper.validate();
+        } catch (ValidationAccidentInsuranceException e) {
+            ShowUserError(e, accindentIns);
+        } catch (ValidationBruttoException e) {
+            ShowUserError(e, wage);
         } catch (ValidationInsuranceException e) {
-            message = e.getMessage() + "!";
+            ShowUserError(e, insuranceAc);
+        } catch (ValidationProvisionGrantException e) {
+            ShowUserError(e, provisionGrant);
         } catch (ValidationException e) {
-            message = e.getMessage();
+            ShowUserError(e, null);
         }
 
-        if(message != null) {
-            if(message.contains("Lohn/Gehalt")) {
-                wage.requestFocus();
-                eventHandler.showKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
-            }
-
-            if(message.contains("Zuschuss")) {
-                provisionGrant.requestFocus();
-                eventHandler.showKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
-            }
-
-            if(message.contains("Krankenkasse")) {
-                insuranceAc.requestFocus();
-                eventHandler.showKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
-            }
-        }
-
-        MessageHelper.snackbar(this, message);
         return false;
+    }
+
+    private void ShowUserError(ValidationException e, View v) {
+        if(v != null) {
+            v.requestFocus();
+            eventHandler.showKeyboardInput((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+        }
+
+        if(e.getMessage() != null) {
+            MessageHelper.snackbar(this, e.getMessage() + "!");
+        }
     }
 
     /**

@@ -4,8 +4,11 @@ import android.app.Activity;
 
 import java.util.HashMap;
 
+import com.profilohn.Exceptions.ValidationAccidentInsuranceException;
+import com.profilohn.Exceptions.ValidationBruttoException;
 import com.profilohn.Exceptions.ValidationException;
 import com.profilohn.Exceptions.ValidationInsuranceException;
+import com.profilohn.Exceptions.ValidationProvisionGrantException;
 import com.profilohn.Models.CalculationInputData;
 import com.profilohn.R;
 
@@ -69,16 +72,20 @@ public class CalculationInputHelper
     {
         if (_nullOrEmpty(data.Brutto)) {
             String message = a.getResources().getString(R.string.validation_error_wage);
-            throw new ValidationException(message);
+            throw new ValidationBruttoException(message);
         }
 
         if(data.Altersvorsorge_zuschuss > data.Altersvorsorge_summe) {
             String message = a.getResources().getString(R.string.validation_error_provision_grant);
-            throw new ValidationException(message);
+            throw new ValidationProvisionGrantException(message);
+        }
+
+        if(data.bgProzent < new Double(0)) {
+            throw new ValidationAccidentInsuranceException(a.getResources().getString(R.string.validation_error_accident_insurance_too_low));
         }
 
         if(data.bgProzent > new Double(12)) {
-            throw new ValidationInsuranceException(a.getResources().getString(R.string.validation_error_accident_insurance));
+            throw new ValidationAccidentInsuranceException(a.getResources().getString(R.string.validation_error_accident_insurance_too_high));
         }
 
         data.dummyInsurance = false;
