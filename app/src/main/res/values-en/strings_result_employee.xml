@@ -15,7 +15,7 @@
 
     <string name="result_employee_provision">Private Pension Insurance</string>
 
-    <string name="result_employee_social_contribution">Social Sec. Contr.</string>
+    <string name="result_employee_social_contribution">Social Contribution</string>
     <string name="result_employee_insurance_pension">Pension Insurance</string>
     <string name="result_employee_insurance_unemployment">Unempl. Ins.</string>
     <string name="result_employee_insurance_care">Nursing Ins.</string>

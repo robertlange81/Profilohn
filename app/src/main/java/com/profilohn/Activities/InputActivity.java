@@ -452,18 +452,18 @@ public class InputActivity extends AppCompatActivity
     }
 
     private String[] getPeriods() {
-        String lastYear = Integer.valueOf(Calendar.getInstance().get(Calendar.YEAR)-1).toString();
-        String actualYear = Integer.valueOf(Calendar.getInstance().get(Calendar.YEAR)).toString();
-        String futureYear = Integer.valueOf(Calendar.getInstance().get(Calendar.YEAR)+1).toString();
+        String lastYear = Integer.valueOf(Calendar.getInstance().get(Calendar.YEAR)-2001).toString();
+        String actualYear = Integer.valueOf(Calendar.getInstance().get(Calendar.YEAR)-2000).toString();
+        String futureYear = Integer.valueOf(Calendar.getInstance().get(Calendar.YEAR)+1999).toString();
 
         String[] months = getResources().getStringArray(R.array.months);
 
         String[] retval = new String[36];
         int i = 0;
         for (String month:months) {
-            retval[i] = month + ", " + lastYear;
-            retval[i+12] = month + ", " + actualYear;
-            retval[i+24] = month + ", " + futureYear;
+            retval[i] = month + " " + lastYear;
+            retval[i+12] = month + " " + actualYear;
+            retval[i+24] = month + " " + futureYear;
             i++;
             if(i > 11)
                 break;

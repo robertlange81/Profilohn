@@ -63,7 +63,7 @@
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="@string/netwage"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <RadioButton
                         android:id="@+id/type_gross"
@@ -71,7 +71,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="@string/grosswage"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                 </RadioGroup>
 

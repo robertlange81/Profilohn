@@ -22,7 +22,7 @@
     <string name="menu_employer">I am employer</string>
 
     <string name="btn_calc_gross"><b>Gross</b>wage simulate\n(Net to Gross)</string>
-    <string name="btn_calc_net">calc <b>Netto</b>wage \n(Gross to Net)</string>
+    <string name="btn_calc_net">calc <b>Net</b>wage \n(Gross to Net)</string>
     <string name="btn_calc"><b>START CALCULATION</b></string>
 
     <string name="hello_cache_cleared"><b>App-Cache</b> was successfully emptied.\n\nThis also happens with every restart of the app.</string>

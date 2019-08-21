@@ -1,0 +1,14 @@
+<resources>
+    <!-- menu actions -->
+    <string name="action_about">Tips and Tricks</string>
+    <string name="action_check">Check Again</string>
+    <string name="action_quit">Close Application</string>
+    <string name="action_cache">Reset app</string>
+
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_calculation">CalculationActivity</string>
+    <string name="currency_null">0,00 €</string>
+    <string name="abbrechen">Abort</string>
+    <string name="_0_00">0.00€</string>
+    <string name="sie_bezahlen">Employer costs</string>
+</resources>

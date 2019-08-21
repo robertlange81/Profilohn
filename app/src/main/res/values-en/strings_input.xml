@@ -2,8 +2,8 @@
 <resources>
     <string name="app_name">ProfiLOHN</string>
     <string name="snackbar_label">Start new calculation ..</string>
-    <string name="snackbar_action_netto">Net Wage</string>
-    <string name="snackbar_action_brutto">Gross Wage</string>
+    <string name="snackbar_action_netto">Net</string>
+    <string name="snackbar_action_brutto">Gross</string>
 
     <string name="action_settings">Settings</string>
     <string name="action_ok">OK</string>
@@ -90,7 +90,7 @@
     <string name="label_nursing_insurance">Nursing Ins.</string>
     <string name="label_nursing_insurance_full">Nursing Insurance</string>
     <string name="label_pension_insurance">Pension Insurance</string>
-    <string name="label_unemployment_insurance">Arbeitsl.-vers.</string>
+    <string name="label_unemployment_insurance">Unempl. Ins.</string>
     <string name="label_unemployment_insurance_full">Unemployment Insurance</string>
     <string name="label_accident_insurance">Accident Ins. in %</string>
     <string name="label_accident_insurance_full">Accident Insurance in %</string>
@@ -108,14 +108,14 @@
     <string name="church">Church Tax</string>
     <string name="employee_type">Emloyee Type</string>
     <string name="grosswage">Gross</string>
-    <string name="has_children">Kids / age under 23</string>
-    <string name="has_children_long">Kids or age under 23</string>
+    <string name="has_children">has Kids / is u23</string>
+    <string name="has_children_long">has Kids or is under 23</string>
     <string name="has_shifting">Tax Passing employee</string>
     <string name="insurance">Health Insuranse</string>
     <string name="insurance_hint">Name of  Health Insurance ..</string>
     <string name="insurance_default_pausch">Knappschaft geringf. Beschäftigte</string>
     <string name="insurance_init_value">List is being updated ..</string>
-    <string name="netwage">Net Wage</string>
+    <string name="netwage">Net</string>
     <string name="provision">Retirement Plan</string>
     <string name="provision_sum_year">Total Amount (Y)</string>
     <string name="provision_sum_month">Total Amount (M)</string>
