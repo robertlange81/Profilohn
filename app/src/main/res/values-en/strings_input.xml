@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ProfiLOHN</string>
+    <string name="app_name">SEIZURE</string>
     <string name="snackbar_label">Start new calculation ..</string>
     <string name="snackbar_action_netto">Net</string>
     <string name="snackbar_action_brutto">Gross</string>
@@ -32,7 +32,7 @@
     </string-array>
 
     <string-array name="taxclasses">
-        <item>Flat tax</item>
+        <item>Flat Tax</item>
         <item>One - I</item>
         <item>Two - II</item>
         <item>Three - III</item>
