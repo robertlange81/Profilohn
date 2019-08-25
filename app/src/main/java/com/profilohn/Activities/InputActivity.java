@@ -454,7 +454,7 @@ public class InputActivity extends AppCompatActivity
     private String[] getPeriods() {
         String lastYear = Integer.valueOf(Calendar.getInstance().get(Calendar.YEAR)-2001).toString();
         String actualYear = Integer.valueOf(Calendar.getInstance().get(Calendar.YEAR)-2000).toString();
-        String futureYear = Integer.valueOf(Calendar.getInstance().get(Calendar.YEAR)+1999).toString();
+        String futureYear = Integer.valueOf(Calendar.getInstance().get(Calendar.YEAR) - 1999).toString();
 
         String[] months = getResources().getStringArray(R.array.months);
 
