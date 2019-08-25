@@ -1970,10 +1970,10 @@ public class InputActivity extends AppCompatActivity
             } else {
                 // erstes Starten
                 hasSeizure.requestFocus();
-                hasSeizure.setChecked(false);
-                eventHandler.OnSwitchSeizure(false);
-                regionSeizureKids.setVisibility(View.GONE);
-                regionSeizureFree.setVisibility(View.GONE);
+                hasSeizure.setChecked(true);
+                eventHandler.OnSwitchSeizure(true);
+                regionSeizureKids.setVisibility(View.VISIBLE);
+                regionSeizureFree.setVisibility(View.VISIBLE);
                 employeeType.setSelection(0);
                 state.setSelection(0);
                 updateInsuranceBranches();
