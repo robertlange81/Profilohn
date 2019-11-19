@@ -25,6 +25,26 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.profilohn.Exceptions.ValidationAccidentInsuranceException;
+import com.profilohn.Exceptions.ValidationBruttoException;
+import com.profilohn.Exceptions.ValidationException;
+import com.profilohn.Exceptions.ValidationInsuranceException;
+import com.profilohn.Exceptions.ValidationProvisionGrantException;
+import com.profilohn.Helper.CalculationInputHelper;
+import com.profilohn.Helper.EventHandler;
+import com.profilohn.Helper.FileStore;
+import com.profilohn.Helper.MessageHelper;
+import com.profilohn.Helper.SpinnerInteractionListener;
+import com.profilohn.Interfaces.ApiCallbackListener;
+import com.profilohn.Models.AppRater;
+import com.profilohn.Models.Calculation;
+import com.profilohn.Models.CalculationInput;
+import com.profilohn.Models.CalculationInputData;
+import com.profilohn.Models.Insurances;
+import com.profilohn.Models.WebService;
+import com.profilohn.R;
+
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -38,24 +58,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
-import com.profilohn.Exceptions.ValidationAccidentInsuranceException;
-import com.profilohn.Exceptions.ValidationBruttoException;
-import com.profilohn.Exceptions.ValidationException;
-import com.profilohn.Exceptions.ValidationInsuranceException;
-import com.profilohn.Exceptions.ValidationProvisionGrantException;
-import com.profilohn.Helper.CalculationInputHelper;
-import com.profilohn.Helper.EventHandler;
-import com.profilohn.Helper.MessageHelper;
-import com.profilohn.Helper.SpinnerInteractionListener;
-import com.profilohn.Interfaces.ApiCallbackListener;
-import com.profilohn.Models.Calculation;
-import com.profilohn.Models.CalculationInput;
-import com.profilohn.Models.CalculationInputData;
-import com.profilohn.Helper.FileStore;
-import com.profilohn.Models.Insurances;
-import com.profilohn.R;
-import com.profilohn.Models.WebService;
 
 
 public class InputActivity extends AppCompatActivity
@@ -312,6 +314,16 @@ public class InputActivity extends AppCompatActivity
         super.onResume();
         dismissCalculationOverlay();
         isCalculationRunning = false;
+
+        try {
+            AppRater.app_launched(
+                    InputActivity.this,
+                    InputActivity.this.getPackageName(),
+                    getResources().getString(R.string.app_name)
+            );
+        } catch (Exception x) {
+            // Log.w("cache", "Wo ist der Debugger?");
+        }
     }
 
     @Override

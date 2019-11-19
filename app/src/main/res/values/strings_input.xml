@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PFÄNDUNG</string>
+    <string name="app_name">PFÄNDUNGSRECHNER</string>
     <string name="snackbar_label">Neue Berechnung starten ..</string>
     <string name="snackbar_action_netto">Nettolohn</string>
     <string name="snackbar_action_brutto">Bruttolohn</string>
