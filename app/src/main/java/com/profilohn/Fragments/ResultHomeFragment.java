@@ -1,11 +1,13 @@
 package com.profilohn.Fragments;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.AppCompatButton;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -140,7 +142,7 @@ public class ResultHomeFragment extends Fragment
 
     private void _initListener(View view)
     {
-        // listen on the button clicks
+        // Arbeitnehmer-Daten laden
         AppCompatButton btnEmployee = (AppCompatButton) view.findViewById(R.id.result_intro_btn_employee);
         if(btnEmployee != null) {
             btnEmployee.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +162,7 @@ public class ResultHomeFragment extends Fragment
             });
         }
 
-
+        // Arbeitgeber-Daten laden
         AppCompatButton btnEmployer = (AppCompatButton) view.findViewById(R.id.result_intro_btn_employer);
         if(btnEmployer != null) {
             btnEmployer.setOnClickListener(new View.OnClickListener() {
@@ -176,6 +178,22 @@ public class ResultHomeFragment extends Fragment
                         }
 
                     }, getResources().getInteger(R.integer.calculation_timeout));
+                }
+            });
+        }
+
+        // Amazon-Link
+        AppCompatButton btnAmazonAd = (AppCompatButton) view.findViewById(R.id.result_amazon_ads_btn);
+        if(btnAmazonAd != null) {
+            btnAmazonAd.setOnClickListener(new View.OnClickListener() {
+                String urlOfItemOnAmazonSite = "https://www.amazon.de/gp/product/B07L1167KG/ref=as_li_tl?ie=UTF8&camp=1638&creative=6742&creativeASIN=B07L1167KG&linkCode=as2&tag=robroyrich-21&linkId=37d32e0aa58fbb9fcc50564ff25695e9";
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                    intent.setData(Uri.parse(urlOfItemOnAmazonSite));
+                    startActivity(intent);
                 }
             });
         }

@@ -6,12 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import androidx.core.content.ContextCompat;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.profilohn.Activities.ResultActivity;
 import com.profilohn.R;
 
 public class AppRater {
@@ -50,7 +51,7 @@ public class AppRater {
 
   public static void showRateDialog(final Context mContext, final SharedPreferences.Editor editor, final String APP_PNAME, final String APP_TITLE) {
     final Dialog dialog = new Dialog(mContext);
-    dialog.setTitle(mContext.getResources().getString(R.string.Rate_App));
+    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
     LinearLayout ll = new LinearLayout(mContext);
     ll.setOrientation(LinearLayout.VERTICAL);
@@ -73,6 +74,7 @@ public class AppRater {
         dialog.dismiss();
       }
     });
+    b1.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorTitle));
     ll.addView(b1);
 
     Button b2 = new Button(mContext);

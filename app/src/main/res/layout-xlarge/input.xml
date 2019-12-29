@@ -24,7 +24,7 @@
 
     </ScrollView>
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/calculate_general"
         style="@style/calculate"
         android:layout_width="match_parent"
