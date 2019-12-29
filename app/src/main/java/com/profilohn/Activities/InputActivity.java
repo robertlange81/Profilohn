@@ -174,7 +174,6 @@ public class InputActivity extends AppCompatActivity
         put(2018, new BigDecimal(0.036));
         put(2019, new BigDecimal(0.036));
         put(2020, new BigDecimal(0.036));
-        put(2021, new BigDecimal(0.036));
     }};
     Map<Integer, BigDecimal> min__aufstocker_Minijob_sv = new HashMap<Integer, BigDecimal>() {{
         put(2016, new BigDecimal(6.48));
@@ -182,7 +181,6 @@ public class InputActivity extends AppCompatActivity
         put(2018, new BigDecimal(6.3));
         put(2019, new BigDecimal(6.3));
         put(2020, new BigDecimal(6.3));
-        put(2021, new BigDecimal(6.3));
     }};
     BigDecimal percent_pausch_steuer_kurzfristig = new BigDecimal(0.25);
     BigDecimal percent_pausch_steuer_hauhaltshilfe = new BigDecimal(0.02);
@@ -191,8 +189,7 @@ public class InputActivity extends AppCompatActivity
     BigDecimal percent_pausch_bg_hauhaltshilfe = new BigDecimal(0.016);
     BigDecimal percent_rv_gesamt_2018 = new BigDecimal(0.187);
     BigDecimal percent_rv_gesamt_2019 = new BigDecimal(0.186);
-    BigDecimal percent_rv_gesamt_2020 = new BigDecimal(0.186);
-    BigDecimal percent_rv_gesamt_2021 = new BigDecimal(0.186);
+    BigDecimal percent_rv_gesamt_2020 = percent_rv_gesamt_2019;
     BigDecimal percent_soli = new BigDecimal(0.055);
     boolean isFakeBruttolohn = false;
     BigDecimal wunschnetto;
@@ -225,31 +222,27 @@ public class InputActivity extends AppCompatActivity
         put(2018, new BigDecimal("0.01275"));
         put(2019, new BigDecimal("0.01525"));
         put(2020, new BigDecimal("0.01525"));
-        put(2021, new BigDecimal("0.01525"));
     }};
     Map<Integer, BigDecimal> bbg_kv = new HashMap<Integer, BigDecimal>() {{
         put(2016, new BigDecimal("4237.50"));
         put(2017, new BigDecimal("4350.00"));
         put(2018, new BigDecimal("4425.00"));
         put(2019, new BigDecimal("4537.50"));
-        put(2020, new BigDecimal("4687.50"));
-        put(2021, new BigDecimal("4687.50"));
+        put(2020, new BigDecimal("4537.50"));
     }};
     Map<Integer, BigDecimal> bbg_rv_west = new HashMap<Integer, BigDecimal>() {{
         put(2016, new BigDecimal("6200.00"));
         put(2017, new BigDecimal("6350.00"));
         put(2018, new BigDecimal("6500.00"));
         put(2019, new BigDecimal("6700.00"));
-        put(2020, new BigDecimal("6900.00"));
-        put(2021, new BigDecimal("6900.00"));
+        put(2020, new BigDecimal("6700.00"));
     }};
     Map<Integer, BigDecimal> bbg_rv_ost = new HashMap<Integer, BigDecimal>() {{
         put(2016, new BigDecimal("5400.00"));
         put(2017, new BigDecimal("5700.00"));
         put(2018, new BigDecimal("5800.00"));
         put(2019, new BigDecimal("6150.00"));
-        put(2020, new BigDecimal("6450.00"));
-        put(2021, new BigDecimal("6450.00"));
+        put(2020, new BigDecimal("6150.00"));
     }};
     BigDecimal add_no_kids  = new BigDecimal("0.0025");
     BigDecimal add_saxony   = new BigDecimal("0.005");
@@ -1450,12 +1443,6 @@ public class InputActivity extends AppCompatActivity
                                     break;
                                 case 2019:
                                     perc = perc.add(percent_rv_gesamt_2019.subtract(percent_pausch_rv_hauhaltshilfe));
-                                    break;
-                                case 2020:
-                                    perc = perc.add(percent_rv_gesamt_2020.subtract(percent_pausch_rv_hauhaltshilfe));
-                                    break;
-                                case 2021:
-                                    perc = perc.add(percent_rv_gesamt_2021.subtract(percent_pausch_rv_hauhaltshilfe));
                                     break;
                                 default:
                                     perc = perc.add(percent_rv_gesamt_2020.subtract(percent_pausch_rv_hauhaltshilfe));

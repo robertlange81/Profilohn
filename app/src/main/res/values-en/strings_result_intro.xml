@@ -4,8 +4,7 @@
     <string name="result_intro_title">Summary</string>
     <string name="result_intro_success">The gross / net salary was calculated successfully.</string>
 
-    <string name="result_add_text">recommended specialist literature</string>
-    <string name="result_add_text_long">Recommended specialist literature for calculation</string>
+    <string name="result_intro_intro">You can compare the results by clicking on one of the following areas.</string>
     <string name="result_intro_btn_employee">Results for employee</string>
     <string name="result_intro_btn_employee_desc">Gross, Net, Taxes &amp; social security contribution</string>
     <string name="result_intro_btn_employer">Results for employer</string>

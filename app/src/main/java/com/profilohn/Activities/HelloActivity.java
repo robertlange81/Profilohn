@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,16 +14,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Calendar;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.RequestConfiguration;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.profilohn.BuildConfig;
 import com.profilohn.Helper.ConnectivityHandler;
 import com.profilohn.Helper.MessageHelper;
 import com.profilohn.Helper.SystemHelper;
@@ -54,27 +44,6 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hello);
         _registerConnectivityReceiver();
-
-        if (BuildConfig.DEBUG) {
-            String android_id = Settings.Secure.getString(this.getContentResolver(),
-                    Settings.Secure.ANDROID_ID);
-
-            RequestConfiguration configuration =
-                    new RequestConfiguration.Builder()
-                            .setTestDeviceIds(Arrays.asList(android_id)).build();
-            MobileAds.setRequestConfiguration(configuration);
-            Log.d("Android","Android ID : "+android_id);
-        }
-
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
-
-        AdView mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
 
         Button startCalcNet = (Button) findViewById(R.id.hello_start_calculation_net);
         Button startCalcGross = (Button) findViewById(R.id.hello_start_calculation_gross);

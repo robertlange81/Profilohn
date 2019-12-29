@@ -4,8 +4,7 @@
     <string name="result_intro_title">Zusammenfassung</string>
     <string name="result_intro_success">Das Brutto-/Nettogehalt wurde erfolgreich berechnet.</string>
 
-    <string name="result_add_text">empfohlene Fachliteratur</string>
-    <string name="result_add_text_long">empfohlene Fachliteratur zum Nachvollziehen der Berechnung</string>
+    <string name="result_intro_intro">Um sich die Ergebnisse anzusehen, klicken Sie auf einen der folgenden Bereiche.</string>
     <string name="result_intro_btn_employee">Ergebnisse Arbeitnehmer</string>
     <string name="result_intro_btn_employee_desc">Brutto, Netto, Steuern &amp; Sozialabgaben</string>
     <string name="result_intro_btn_employer">Ergebnisse Arbeitgeber</string>
