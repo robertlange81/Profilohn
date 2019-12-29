@@ -48,7 +48,7 @@
             android:textColor="@color/text_white"
             android:textSize="24sp" />
 
-        <android.support.v7.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/result_employee_btn_again"
             style="@style/result_btn_again"
             android:layout_alignParentTop="true"
@@ -66,7 +66,7 @@
         android:paddingTop="0dp">
 
 
-        <android.support.v7.widget.LinearLayoutCompat
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryLight"
@@ -570,7 +570,7 @@
                     android:layout_toEndOf="@+id/result_employee_cash_label" />
             </RelativeLayout>
 
-        </android.support.v7.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </ScrollView>
 

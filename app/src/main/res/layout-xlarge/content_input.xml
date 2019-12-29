@@ -50,7 +50,7 @@
                     android:textAlignment="viewStart"
                     android:textSize="18sp" />
 
-                <android.support.v7.widget.AppCompatSpinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/year"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -94,7 +94,7 @@
                     android:paddingTop="5dp">
 
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/wage_period"
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
@@ -132,7 +132,7 @@
                     android:text="@string/wageamount_gross_month"
                     android:textSize="18sp" />
 
-                <android.support.v7.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/wage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -243,7 +243,7 @@
                     android:textSize="18sp" />
 
 
-                <android.support.v7.widget.AppCompatSpinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/employee_type"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -313,7 +313,7 @@
                     android:textAlignment="textStart"
                     android:textSize="18sp" />
 
-                <android.support.v7.widget.AppCompatSpinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/state"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -350,7 +350,7 @@
                     android:textAlignment="viewStart"
                     android:textSize="18sp" />
 
-                <android.support.v7.widget.AppCompatAutoCompleteTextView
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/insuranceAc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -405,7 +405,7 @@
                     android:text="@string/children"
                     android:textSize="18sp" />
 
-                <android.support.v7.widget.AppCompatSpinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/children"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -439,7 +439,7 @@
                     android:textAlignment="viewStart"
                     android:textSize="18sp" />
 
-                <android.support.v7.widget.AppCompatSpinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/tax_class"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -482,7 +482,7 @@
                     android:paddingTop="5dp">
 
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/has_shifting"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -524,7 +524,7 @@
                     android:textAlignment="viewStart"
                     android:textSize="18sp" />
 
-                <android.support.v7.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/tax_free"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -581,7 +581,7 @@
                     android:paddingTop="5dp">
 
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/has_children"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -629,7 +629,7 @@
                     android:paddingStart="@dimen/padding_label_left"
                     android:paddingTop="5dp">
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/church"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -666,7 +666,7 @@
                     android:textAlignment="viewStart"
                     android:textSize="18sp" />
 
-                <android.support.v7.widget.AppCompatSpinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/kv_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -713,7 +713,7 @@
                     android:textAlignment="viewStart"
                     android:textSize="18sp" />
 
-                <android.support.v7.widget.AppCompatSpinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/pv_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -746,7 +746,7 @@
                     android:textAlignment="viewStart"
                     android:textSize="18sp" />
 
-                <android.support.v7.widget.AppCompatSpinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/rv_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -781,7 +781,7 @@
                     android:textAlignment="textStart"
                     android:textSize="18sp" />
 
-                <android.support.v7.widget.AppCompatSpinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/av_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -840,7 +840,7 @@
                     android:paddingTop="5dp">
 
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/retprov"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -881,7 +881,7 @@
                     android:textAlignment="viewStart"
                     android:textSize="18sp" />
 
-                <android.support.v7.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/provision_sum"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -921,7 +921,7 @@
                     android:textAlignment="viewStart"
                     android:textSize="18sp" />
 
-                <android.support.v7.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/provision_grant"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -981,7 +981,7 @@
                     android:paddingTop="5dp">
 
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/car"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -1022,7 +1022,7 @@
                     android:textAlignment="viewStart"
                     android:textSize="18sp" />
 
-                <android.support.v7.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/car_sum"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1060,7 +1060,7 @@
                     android:textAlignment="viewStart"
                     android:textSize="18sp" />
 
-                <android.support.v7.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/car_distance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1120,7 +1120,7 @@
                     android:paddingTop="5dp">
 
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/has_seizure"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -1159,7 +1159,7 @@
                     android:textAlignment="viewStart"
                     android:textSize="18sp" />
 
-                <android.support.v7.widget.AppCompatSpinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/seizure_kids"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -1192,7 +1192,7 @@
                     android:textAlignment="viewStart"
                     android:textSize="18sp" />
 
-                <android.support.v7.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/seizure_free"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -1245,7 +1245,7 @@
                         android:text="@string/label_accident_insurance_full" />
 
 
-                    <android.support.v7.widget.AppCompatEditText
+                    <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/accident_insurance"
                         android:maxLines="1"
                         android:hint="@string/percent_default"
