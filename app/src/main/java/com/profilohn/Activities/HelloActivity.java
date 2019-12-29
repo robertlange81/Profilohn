@@ -16,19 +16,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Calendar;
-
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.RequestConfiguration;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.profilohn.BuildConfig;
 import com.profilohn.Helper.ConnectivityHandler;
-import com.profilohn.Helper.MessageHelper;
 import com.profilohn.Helper.SystemHelper;
 import com.profilohn.Helper.FileStore;
 import com.profilohn.Interfaces.ApiCallbackListener;
@@ -187,7 +179,7 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
     {
         dismissDialog();
         fileStore.writeInsurancesResult(i);
-        MessageHelper.snackbar(this, "Krankenkassendaten wurden aktualisiert");
+        com.profilohn.Helper.MessageHelper.snackbar(this, "Krankenkassendaten wurden aktualisiert");
     }
 
     @Override
@@ -195,7 +187,7 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
     {
         dismissDialog();
         // dialog(message, false);
-        MessageHelper.snackbar(this, "Fehler beim Aktualisieren der Krankenkassen: " + message);
+        com.profilohn.Helper.MessageHelper.snackbar(this, "Fehler beim Aktualisieren der Krankenkassen: " + message);
     }
 
     @Override
@@ -211,7 +203,7 @@ public class HelloActivity extends AppCompatActivity implements ApiCallbackListe
 
     private void dialog(String message, boolean modal)
     {
-        Dialog d = MessageHelper.dialog(this, modal, message);
+        Dialog d = com.profilohn.Helper.MessageHelper.dialog(this, modal, message);
         d.setCancelable(false);
         d.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override

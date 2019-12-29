@@ -1,5 +1,6 @@
 package com.profilohn.Helper;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -13,6 +14,7 @@ import com.profilohn.R;
 /**
  * Created by profilohn on 08.02.2016.
  */
+@SuppressLint("Registered")
 public class MessageHelper extends Activity {
 
     public static final int DIALOG_TYPE_ALERT = 0;
