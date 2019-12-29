@@ -40,6 +40,17 @@
             android:text="@string/btn_calc_net"
             android:theme="@style/StartCalculation1" />
 
+        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-4833378974569102/7683904315">
+        </com.google.android.gms.ads.AdView>
+
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/hello_start_calculation_gross"
             android:theme="@style/StartCalculation1"

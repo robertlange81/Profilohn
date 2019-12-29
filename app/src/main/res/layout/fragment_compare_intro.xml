@@ -168,10 +168,18 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.7">
 
-        <TextView
-            android:text="@string/result_intro_intro"
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/result_amazon_ads_btn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_marginStart="14dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_default_margin"
+            android:background="@color/colorTitle"
+            android:drawableLeft="@drawable/ic_shopping_cart_black_24dp"
+            android:text="@string/result_add_text" />
 
         <LinearLayout
             android:orientation="vertical"
