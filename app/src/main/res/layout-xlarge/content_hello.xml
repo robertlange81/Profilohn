@@ -42,7 +42,7 @@
             android:theme="@style/StartCalculation1" />
 
 
-        <com.google.android.gms.ads.AdView
+        <!-- com.google.android.gms.ads.AdView
             xmlns:ads="http://schemas.android.com/apk/res-auto"
             android:id="@+id/adView"
             android:layout_width="match_parent"
@@ -50,8 +50,8 @@
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-4833378974569102/1910216345">
-        </com.google.android.gms.ads.AdView>
+            ads:adUnitId="ca-app-pub-4833378974569102/9784770693">
+        </com.google.android.gms.ads.AdView-->
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/hello_start_calculation_gross"
