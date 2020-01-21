@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.profilohn.Activities.ResultActivity;
+import com.profilohn.Helper.ConnectivityHandler;
 import com.profilohn.Helper.FormatHelper;
 import com.profilohn.Models.Calculation;
 import com.profilohn.Helper.FileStore;
@@ -186,9 +187,13 @@ public class ResultHomeFragment extends Fragment
         AppCompatButton btnAmazonAd = (AppCompatButton) view.findViewById(R.id.result_amazon_ads_btn);
         if(btnAmazonAd != null) {
             btnAmazonAd.setOnClickListener(new View.OnClickListener() {
-                String urlOfItemOnAmazonSite = "https://www.amazon.de/gp/product/B07L1167KG/ref=as_li_tl?ie=UTF8&camp=1638&creative=6742&creativeASIN=B07L1167KG&linkCode=as2&tag=robroyrich-21&linkId=37d32e0aa58fbb9fcc50564ff25695e9";
+                String urlOfItemOnAmazonSite = ConnectivityHandler.getAmazon();
                 @Override
                 public void onClick(View view) {
+
+                    if (urlOfItemOnAmazonSite.isEmpty())
+                        return;
+
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.addCategory(Intent.CATEGORY_BROWSABLE);
