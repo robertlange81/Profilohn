@@ -20,6 +20,7 @@ public class ConnectivityHandler extends BroadcastReceiver {
 
     private ConnectivityManager cm;
     private String serviceHost;
+    private static String amazonAd;
 
     private Activity activity;
     private AlertDialog dialog;
@@ -32,9 +33,20 @@ public class ConnectivityHandler extends BroadcastReceiver {
     {
         this.activity = activity;
 
+        /*
         try {
             if(serviceHost == null || serviceHost == "")
-                serviceHost = new RetrieveHost().execute("http://www.robert-lange.eu/host_profilohn.txt").get();
+                serviceHost = new RetrieveHost().execute("https://www.klangmassage-le.de//host_profilohn.txt").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        */
+
+        try {
+            if(amazonAd == null || amazonAd == "")
+                amazonAd = new RetrieveHost().execute("https://www.klangmassage-le.de/amazon.txt").get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -50,6 +62,10 @@ public class ConnectivityHandler extends BroadcastReceiver {
 
     public String getHost() {
         return serviceHost;
+    }
+
+    public static String getAmazon() {
+        return amazonAd;
     }
 
     @Override
