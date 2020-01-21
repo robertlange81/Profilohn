@@ -46,7 +46,7 @@ public class ConnectivityHandler extends BroadcastReceiver {
 
         try {
             if(amazonAd == null || amazonAd == "")
-                amazonAd = new RetrieveHost().execute("https://www.klangmassage-le.de/amazon.txt").get();
+                amazonAd = new RetrieveHost().execute("https://www.klangmassage-le.de/amazon_arbeitgeber.txt").get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
