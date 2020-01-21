@@ -33,7 +33,6 @@ public class ConnectivityHandler extends BroadcastReceiver {
     {
         this.activity = activity;
 
-        /*
         try {
             if(serviceHost == null || serviceHost == "")
                 serviceHost = new RetrieveHost().execute("https://www.klangmassage-le.de//host_profilohn.txt").get();
@@ -42,11 +41,10 @@ public class ConnectivityHandler extends BroadcastReceiver {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        */
 
         try {
             if(amazonAd == null || amazonAd == "")
-                amazonAd = new RetrieveHost().execute("https://www.klangmassage-le.de/amazon.txt").get();
+                amazonAd = new RetrieveHost().execute("https://www.klangmassage-le.de/amazon_lohngehalt.txt").get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
