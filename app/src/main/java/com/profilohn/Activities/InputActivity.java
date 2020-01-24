@@ -100,7 +100,7 @@ public class InputActivity extends AppCompatActivity
     private Boolean selectedHasChildren = false;
     private Boolean selectedChurchTax = false;
     private Boolean selectedShifting = false;
-    private Boolean selectedSeizure = true;
+    private Boolean selectedSeizure = false;
     private Boolean selectedHasCar = false;
     private Boolean selectedHasProvision = false;
     private Integer selectedTaxClass = 0;
@@ -1995,8 +1995,8 @@ public class InputActivity extends AppCompatActivity
             } else {
                 // erstes Starten
                 hasSeizure.requestFocus();
-                hasSeizure.setChecked(true);
-                eventHandler.OnSwitchSeizure(true);
+                hasSeizure.setChecked(false);
+                eventHandler.OnSwitchSeizure(false);
                 regionSeizureKids.setVisibility(View.VISIBLE);
                 regionSeizureFree.setVisibility(View.VISIBLE);
                 employeeType.setSelection(0);
